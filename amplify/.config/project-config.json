@@ -1,0 +1,15 @@
+{
+  "projectName": "frontendtechlist",
+  "version": "1.0",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "react",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "public",
+      "BuildCommand": "yarn build",
+      "StartCommand": "npm run-script start"
+    }
+  },
+  "providers": ["awscloudformation"]
+}
