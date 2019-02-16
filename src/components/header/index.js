@@ -30,25 +30,25 @@ export class Header extends React.Component {
   }
 
   render() {
-    const { siteTitle, classes } = this.props
+    const { siteTitle, classes, shouldShowSecondaryHeader = true } = this.props
     const { isMenuOpen, isUserAuthenticated } = this.state
     return (
       <React.Fragment>
-        <div className={classes.layout}>
-          <AppBar color="primary" position="absolute">
-            <Toolbar className={classes.toolbarMain} color="primary">
-              <HeaderLeft sections={mocks.headerLeftSectionMocks} />
-              <HeaderCenter siteTitle={siteTitle} />
-              <HeaderRight
-                handleUserAuthenticationAction={
-                  this.handleUserAuthenticationAction
-                }
-                isUserAuthenticated={isUserAuthenticated}
-              />
-            </Toolbar>
+        <AppBar color="primary" position="relative">
+          <Toolbar className={classes.toolbarMain} color="primary">
+            <HeaderLeft sections={mocks.headerLeftSectionMocks} />
+            <HeaderCenter siteTitle={siteTitle} />
+            <HeaderRight
+              handleUserAuthenticationAction={
+                this.handleUserAuthenticationAction
+              }
+              isUserAuthenticated={isUserAuthenticated}
+            />
+          </Toolbar>
+          {shouldShowSecondaryHeader && (
             <SecondaryHeader sections={mocks.headerSecondaryMocks} />
-          </AppBar>
-        </div>
+          )}
+        </AppBar>
       </React.Fragment>
     )
   }
@@ -57,11 +57,12 @@ export class Header extends React.Component {
 const styles = theme => ({
   layout: {
     width: 'auto',
+    display: 'flex',
+    justifyContent: 'space-between',
     // color: theme.palette.common.white,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      width: 1100,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -70,6 +71,7 @@ const styles = theme => ({
     borderBottom: `1px solid ${theme.palette.grey[300]}`,
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 })
 

@@ -6,11 +6,11 @@
 
 // You can delete this file if you're not using it
 
-const path = require("path");
-const slugify = require("slugify");
-const crypto = require("crypto");
+const path = require('path')
+const slugify = require('slugify')
+const crypto = require('crypto')
 
-const replacePath = path => (path === "/" ? path : path.replace(/\/$/, ""));
+const replacePath = path => (path === '/' ? path : path.replace(/\/$/, ''))
 
 // const { createApolloFetch } = require("apollo-fetch");
 
@@ -19,15 +19,15 @@ const replacePath = path => (path === "/" ? path : path.replace(/\/$/, ""));
 // });
 
 exports.onCreateNode = ({ node, actions }) => {
-  const { createNode, createNodeField } = actions;
+  const { createNode, createNodeField } = actions
   // Transform the new node here and create a new node or
   // create a new node field.
 
-  console.log(node.internal);
-  if (node.internal.typeName === "TechList") {
-    console.log(node);
+  console.log(node.internal)
+  if (node.internal.typeName === 'TechList') {
+    console.log(node)
   }
-};
+}
 
 // exports.sourceNodes = async ({
 //   actions,
@@ -70,8 +70,8 @@ exports.onCreateNode = ({ node, actions }) => {
 // };
 
 exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions;
-  const companyTemplate = path.resolve("src/templates/company.js");
+  const { createPage } = actions
+  const companyTemplate = path.resolve('src/templates/company.js')
 
   return new Promise((resolve, reject) => {
     graphql(`
@@ -95,24 +95,24 @@ exports.createPages = ({ graphql, actions }) => {
       }
     `).then(result => {
       if (result.errors) {
-        reject(result.errors);
+        reject(result.errors)
       }
 
       result.data.allTechList.companies.forEach(node => {
         createPage({
-          path: `/co/${slugify(node.name)}`,
+          path: `/companies/${slugify(node.name)}`,
           component: companyTemplate,
           context: {
             slug: slugify(node.name),
             id: node.id,
-            name: node.name
-          }
-        });
-      });
-      resolve();
-    });
-  });
-};
+            name: node.name,
+          },
+        })
+      })
+      resolve()
+    })
+  })
+}
 
 // exports.createPages = ({ actions, graphql }) =>
 //   graphql(`

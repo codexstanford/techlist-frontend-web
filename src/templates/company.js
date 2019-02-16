@@ -1,28 +1,234 @@
-import React from "react";
-import Layout from "../components/layout";
-import { graphql } from "gatsby";
+import React from 'react'
+import Layout from '../components/layout'
+import classNames from 'classnames'
+import { withStyles } from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import Badge from '@material-ui/core/Badge'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 
-export default props => {
-  const { company } = props.data.allTechList;
+import Card from '@material-ui/core/Card'
 
-  return (
-    <Layout>
-      <div>
-        <h1>{company.name}</h1>
-        <p>{unescape(company.description)}</p>
-        {company.twitter && <a href={`${company.twitter}`}>Twitter</a>}
-      </div>
-    </Layout>
-  );
-};
+import CardContent from '@material-ui/core/CardContent'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+
+import TableRow from '@material-ui/core/TableRow'
+
+import { mainListItems, secondaryListItems } from './__mocks__/listitems'
+import { styles } from './__mocks__/styles'
+import { graphql } from 'gatsby'
+
+class CompanyTemplate extends React.Component {
+  state = {
+    open: true,
+  }
+
+  handleDrawerOpen = () => {
+    this.setState({ open: true })
+  }
+
+  handleDrawerClose = () => {
+    this.setState({ open: false })
+  }
+  render() {
+    const {
+      classes,
+      data: { allTechList },
+    } = this.props
+    const { company } = allTechList
+
+    return (
+      <Layout shouldShowSecondaryHeader={false}>
+        <div className={classes.root}>
+          <AppBar
+            position="absolute"
+            className={classNames(
+              classes.appBar,
+              this.state.open && classes.appBarShift
+            )}
+          >
+            <Toolbar
+              disableGutters={!this.state.open}
+              className={classes.toolbar}
+            >
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(
+                  classes.menuButton,
+                  this.state.open && classes.menuButtonHidden
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                {company.name}
+              </Typography>
+              <IconButton color="inherit">
+                <Badge badgeContent={0} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="persistent"
+            classes={{
+              paper: classNames(
+                classes.drawerPaper,
+                !this.state.open && classes.drawerPaperClose
+              ),
+            }}
+            open={this.state.open}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={this.handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Divider />
+            <List>{mainListItems}</List>
+            <Divider />
+            <List>{secondaryListItems}</List>
+          </Drawer>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Company Description:
+                </Typography>
+                <Typography variant="h6" gutterBottom component="h2">
+                  <p>{unescape(company.description)}</p>
+                </Typography>
+              </CardContent>
+            </Card>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Business Intelligence:
+                </Typography>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        Year Founded:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.yearFounded}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        Operating Models:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.operatingModels}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        Target Markets:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.targetMarkets}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Contact Information:
+                </Typography>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        Web:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.url}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        Twitter:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.twitter}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        Crunchbase:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.crunchbase}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell component="th" scope="row" color="inherit">
+                        AngelList:
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.angellist}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </main>
+        </div>
+      </Layout>
+    )
+  }
+}
+
+export default withStyles(styles)(CompanyTemplate)
 
 export const pageQuery = graphql`
   query Company($id: ID) {
     allTechList {
       company(where: { id: $id }) {
         name
+        operatingModels
+        yearFounded
         description
-        location
+        visible
+        targetMarkets
+        cats
         url
         twitter
         crunchbase
@@ -30,4 +236,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`

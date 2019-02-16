@@ -84,7 +84,7 @@ const styles = theme => ({
   mainFeaturedPost: {
     backgroundColor: '#544948',
     color: theme.palette.common.white,
-    marginTop: theme.spacing.unit * 15,
+    marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4,
   },
   mainFeaturedPostContent: {
