@@ -1,22 +1,34 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "techindex-frontend-web",
   "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "version": "0.0.1",
+  "author": "Michael Edelman <michael@edel.mn>",
   "dependencies": {
-    "gatsby": "^2.0.118",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "apollo-fetch": "^0.7.0",
+    "babel-plugin-styled-components": "^1.10.0",
+    "gatsby": "^2.1.2",
     "gatsby-image": "^2.0.29",
     "gatsby-plugin-manifest": "^2.0.17",
+    "gatsby-plugin-material-ui": "^1.2.4",
     "gatsby-plugin-offline": "^2.0.23",
     "gatsby-plugin-react-helmet": "^3.0.6",
     "gatsby-plugin-sharp": "^2.0.20",
+    "gatsby-plugin-styled-components": "^3.0.5",
+    "gatsby-plugin-typography": "^2.2.7",
     "gatsby-source-filesystem": "^2.0.20",
     "gatsby-transformer-sharp": "^2.1.13",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-helmet": "^5.2.0"
+    "react-helmet": "^5.2.0",
+    "react-typography": "^0.16.18",
+    "styled-components": "^4.1.3",
+    "styled-components-modifiers": "^1.1.0",
+    "typography": "^0.16.18"
   },
   "keywords": [
     "gatsby"
@@ -37,7 +49,12 @@
     "url": "https://github.com/gatsbyjs/gatsby/issues"
   },
   "devDependencies": {
+    "crypto": "^1.0.1",
+    "eslint": "^5.13.0",
+    "eslint-loader": "^2.1.2",
+    "gatsby-plugin-eslint": "^2.0.4",
     "gatsby-source-graphql": "^2.0.10",
+    "prettier": "^1.16.4",
     "slugify": "^1.3.4"
   }
 }

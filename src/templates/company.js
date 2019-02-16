@@ -3,7 +3,7 @@ import Layout from "../components/layout";
 import { graphql } from "gatsby";
 
 export default props => {
-  const { company } = props.data.techlist;
+  const { company } = props.data.allTechList;
 
   return (
     <Layout>
@@ -18,7 +18,7 @@ export default props => {
 
 export const pageQuery = graphql`
   query Company($id: ID) {
-    techlist {
+    allTechList {
       company(where: { id: $id }) {
         name
         description
