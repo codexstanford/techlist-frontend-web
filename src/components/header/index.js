@@ -6,23 +6,8 @@ import HeaderCenter from './header.center';
 import HeaderRight from './header.right';
 import SecondaryHeader from './header.secondary';
 import { withStyles } from '@material-ui/core/styles';
-import posed from 'react-pose';
-import mocks from './__mocks__';
 
-const AnimatedContainer = posed.div({
-  enter: {
-    y: 0,
-    transition: {
-      ease: 'easeInOut',
-    },
-  },
-  exit: {
-    y: '-100%',
-    transition: {
-      ease: 'easeInOut',
-    },
-  },
-});
+import mocks from './__mocks__';
 
 export class Header extends React.Component {
   state = {
@@ -49,23 +34,21 @@ export class Header extends React.Component {
     const { isUserAuthenticated } = this.state;
     return (
       <React.Fragment>
-        <AnimatedContainer>
-          <AppBar color="primary" position="relative">
-            <Toolbar className={classes.toolbarMain} color="primary">
-              <HeaderLeft sections={mocks.headerLeftSectionMocks} />
-              <HeaderCenter siteTitle={siteTitle} />
-              <HeaderRight
-                handleUserAuthenticationAction={
-                  this.handleUserAuthenticationAction
-                }
-                isUserAuthenticated={isUserAuthenticated}
-              />
-            </Toolbar>
-            {shouldShowSecondaryHeader && (
-              <SecondaryHeader sections={mocks.headerSecondaryMocks} />
-            )}
-          </AppBar>
-        </AnimatedContainer>
+        <AppBar color="primary" position="relative">
+          <Toolbar className={classes.toolbarMain} color="primary">
+            <HeaderLeft sections={mocks.headerLeftSectionMocks} />
+            <HeaderCenter siteTitle={siteTitle} />
+            <HeaderRight
+              handleUserAuthenticationAction={
+                this.handleUserAuthenticationAction
+              }
+              isUserAuthenticated={isUserAuthenticated}
+            />
+          </Toolbar>
+          {shouldShowSecondaryHeader && (
+            <SecondaryHeader sections={mocks.headerSecondaryMocks} />
+          )}
+        </AppBar>
       </React.Fragment>
     );
   }

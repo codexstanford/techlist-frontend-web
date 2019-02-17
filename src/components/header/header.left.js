@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
+import { Link as GatsbyLink } from 'gatsby';
+import Link from '@material-ui/core/Link';
+
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -17,7 +19,9 @@ export function HeaderLeft(props) {
                 key={section.title}
                 color="inherit"
                 size="small"
-                component={Link}
+                component={props => (
+                  <Link to={section.to} component={GatsbyLink} {...props} />
+                )}
               >
                 {section.title}
               </Button>

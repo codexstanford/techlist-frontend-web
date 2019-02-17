@@ -14,7 +14,7 @@ const IndexPage = props => (
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <div className={props.classes.root}>
       <List component="nav">
-        {props.data.allSitePage.edges.map((edge, index) => {
+        {props.data.allSitePage.edges.slice(0, 10).map((edge, index) => {
           return (
             <ListItem
               button
