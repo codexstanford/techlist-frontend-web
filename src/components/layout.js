@@ -23,7 +23,9 @@ const Layout = ({ children, ...rest }) => (
         <AppWrapper>
           <Header siteTitle={data.site.siteMetadata.title} {...rest} />
 
-          <main>{children}</main>
+          <main style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
+            {children}
+          </main>
           <footer />
         </AppWrapper>
       )}

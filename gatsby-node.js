@@ -9,6 +9,7 @@
 const path = require('path')
 const slugify = require('slugify')
 const crypto = require('crypto')
+const fetch = require('node-fetch')
 
 const replacePath = path => (path === '/' ? path : path.replace(/\/$/, ''))
 
@@ -23,10 +24,10 @@ exports.onCreateNode = ({ node, actions }) => {
   // Transform the new node here and create a new node or
   // create a new node field.
 
-  console.log(node.internal)
-  if (node.internal.typeName === 'TechList') {
-    console.log(node)
-  }
+  // console.log(node.internal)
+  // if (node.internal.typeName === 'TechList') {
+  //   console.log(node)
+  // }
 }
 
 // exports.sourceNodes = async ({
@@ -111,6 +112,47 @@ exports.createPages = ({ graphql, actions }) => {
       })
       resolve()
     })
+  })
+}
+
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const { createNode } = actions
+  return new Promise((resolve, rej) => {
+    fetch(
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&apiKey=a51190f100bc46a4aba4495c562b1cf9'
+    )
+      .then(res => res.json())
+      .then(json => {
+        json.articles.forEach((item, index) => {
+          const newsNode = {
+            id: createNodeId(`news-${index}`),
+            parent: null,
+            children: [],
+            internal: {
+              type: 'News',
+              contentDigest: createContentDigest(item),
+              content: JSON.stringify(item),
+            },
+            slug: slugify(item.title),
+            author: item.author,
+            sourceId: item.source.id,
+            sourceName: item.source.name,
+            imageUrl: item.urlToImage,
+            content: item.content,
+            title: item.title,
+            description: item.description,
+            pubDate: item.publishedAt,
+            webMaster: item.webMaster,
+            link: item.url,
+          }
+          createNode(newsNode)
+        })
+        resolve()
+      })
   })
 }
 

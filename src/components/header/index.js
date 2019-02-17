@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import HeaderLeft from './header.left'
@@ -31,7 +30,7 @@ export class Header extends React.Component {
 
   render() {
     const { siteTitle, classes, shouldShowSecondaryHeader = true } = this.props
-    const { isMenuOpen, isUserAuthenticated } = this.state
+    const { isUserAuthenticated } = this.state
     return (
       <React.Fragment>
         <AppBar color="primary" position="relative">

@@ -21,6 +21,7 @@
     "gatsby-plugin-typography": "^2.2.7",
     "gatsby-source-filesystem": "^2.0.20",
     "gatsby-transformer-sharp": "^2.1.13",
+    "node-fetch": "^2.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",

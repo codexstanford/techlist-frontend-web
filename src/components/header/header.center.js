@@ -31,8 +31,6 @@ HeaderCenter.propTypes = {
   siteTitle: PropTypes.string.isRequired,
 }
 
-export default withStyles(styles)(HeaderCenter)
-
 const styles = theme => ({
   wrapper: {
     display: 'flex',
@@ -46,3 +44,5 @@ const styles = theme => ({
     },
   },
 })
+
+export default withStyles(styles)(HeaderCenter)

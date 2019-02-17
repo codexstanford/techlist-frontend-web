@@ -36,11 +36,23 @@ module.exports = {
           },
           typography: {
             useNextVariants: true,
+            fontFamily: [
+              'Source Sans Pro',
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"Segoe UI"',
+              'Roboto',
+              '"Helvetica Neue"',
+              'Arial',
+              'sans-serif',
+              '"Apple Color Emoji"',
+              '"Segoe UI Emoji"',
+              '"Segoe UI Symbol"',
+            ].join(','),
           },
           palette: {
             primary: {
               main: '#b1040e',
-              contrastText: '#fff',
             },
             secondary: {
               main: '#04b1a8',
@@ -50,12 +62,12 @@ module.exports = {
         },
       },
     },
-    {
-      resolve: `gatsby-plugin-typography`,
-      options: {
-        pathToConfigModule: `config/typography`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-typography`,
+    //   options: {
+    //     pathToConfigModule: `config/typography`,
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
