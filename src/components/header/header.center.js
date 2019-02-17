@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 export function HeaderCenter(props) {
-  const { siteTitle, classes } = props
+  const { siteTitle, classes } = props;
 
   return (
     <div className={classes.wrapper}>
@@ -24,12 +24,12 @@ export function HeaderCenter(props) {
         </Typography>
       )}
     </div>
-  )
+  );
 }
 
 HeaderCenter.propTypes = {
   siteTitle: PropTypes.string.isRequired,
-}
+};
 
 const styles = theme => ({
   wrapper: {
@@ -43,6 +43,6 @@ const styles = theme => ({
       display: 'block',
     },
   },
-})
+});
 
-export default withStyles(styles)(HeaderCenter)
+export default withStyles(styles)(HeaderCenter);

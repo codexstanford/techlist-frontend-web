@@ -1,16 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import SearchIcon from '@material-ui/icons/Search'
-import InputBase from '@material-ui/core/InputBase'
-import { fade } from '@material-ui/core/styles/colorManipulator'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
+import React from 'react';
+import PropTypes from 'prop-types';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
 export function HeaderRight(props) {
-  const { classes, isUserAuthenticated, handleUserAuthenticationAction } = props
+  const {
+    classes,
+    isUserAuthenticated,
+    handleUserAuthenticationAction,
+  } = props;
 
   return (
     <div className={classes.wrapper}>
@@ -54,13 +58,13 @@ export function HeaderRight(props) {
         </React.Fragment>
       )}
     </div>
-  )
+  );
 }
 
 HeaderRight.propTypes = {
   handleUserAuthenticationaction: PropTypes.func,
   isUserAuthenticated: PropTypes.bool,
-}
+};
 
 const styles = theme => ({
   inputRoot: {
@@ -120,6 +124,6 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-})
+});
 
-export default withStyles(styles)(HeaderRight)
+export default withStyles(styles)(HeaderRight);

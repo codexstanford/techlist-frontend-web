@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import Layout from "../components/layout";
+import Layout from '../components/layout';
 
 const Dashboard = props => (
   <Layout {...props} title="Gatsby Starter Blog">

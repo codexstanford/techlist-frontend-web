@@ -1,4 +1,4 @@
-const drawerWidth = 240
+const drawerWidth = 240;
 
 export const styles = theme => ({
   root: {
@@ -94,4 +94,4 @@ export const styles = theme => ({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-})
+});

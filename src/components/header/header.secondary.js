@@ -1,11 +1,11 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 export function SecondaryHeader(props) {
-  const { sections, classes } = props
+  const { sections, classes } = props;
   return (
     <div className={classes.sectionDesktop}>
       <Toolbar variant="dense" className={classes.toolbarSecondary}>
@@ -23,7 +23,7 @@ export function SecondaryHeader(props) {
           ))}
       </Toolbar>
     </div>
-  )
+  );
 }
 
 const styles = theme => ({
@@ -37,6 +37,6 @@ const styles = theme => ({
       justifyContent: 'center',
     },
   },
-})
+});
 
-export default withStyles(styles)(SecondaryHeader)
+export default withStyles(styles)(SecondaryHeader);

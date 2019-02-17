@@ -1,50 +1,50 @@
-import React from 'react'
-import Layout from '../components/layout'
-import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import Badge from '@material-ui/core/Badge'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
+import React from 'react';
+import Layout from '../components/layout';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
-import Card from '@material-ui/core/Card'
+import Card from '@material-ui/core/Card';
 
-import CardContent from '@material-ui/core/CardContent'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
+import CardContent from '@material-ui/core/CardContent';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
 
-import TableRow from '@material-ui/core/TableRow'
+import TableRow from '@material-ui/core/TableRow';
 
-import { mainListItems, secondaryListItems } from './__mocks__/listitems'
-import { styles } from './__mocks__/styles'
-import { graphql } from 'gatsby'
+import { mainListItems, secondaryListItems } from './__mocks__/listitems';
+import { styles } from './__mocks__/styles';
+import { graphql } from 'gatsby';
 
 class CompanyTemplate extends React.Component {
   state = {
     open: true,
-  }
+  };
 
   handleDrawerOpen = () => {
-    this.setState({ open: true })
-  }
+    this.setState({ open: true });
+  };
 
   handleDrawerClose = () => {
-    this.setState({ open: false })
-  }
+    this.setState({ open: false });
+  };
   render() {
     const {
       classes,
       data: { allTechList },
-    } = this.props
-    const { company } = allTechList
+    } = this.props;
+    const { company } = allTechList;
 
     return (
       <Layout shouldShowSecondaryHeader={false}>
@@ -212,11 +212,11 @@ class CompanyTemplate extends React.Component {
           </main>
         </div>
       </Layout>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(CompanyTemplate)
+export default withStyles(styles)(CompanyTemplate);
 
 export const pageQuery = graphql`
   query Company($id: ID) {
@@ -236,4 +236,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

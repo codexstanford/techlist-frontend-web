@@ -1,13 +1,13 @@
-import React from 'react'
-import { Link as GatsbyLink, graphql } from 'gatsby'
-import Link from '@material-ui/core/Link'
+import React from 'react';
+import { Link as GatsbyLink, graphql } from 'gatsby';
+import Link from '@material-ui/core/Link';
 
-import Layout from '../../components/layout'
-import List from '@material-ui/core/List'
-import { withStyles } from '@material-ui/core/styles'
-import ListItem from '@material-ui/core/ListItem'
-import SEO from '../../components/seo'
-import ListItemText from '@material-ui/core/ListItemText'
+import Layout from '../../components/layout';
+import List from '@material-ui/core/List';
+import { withStyles } from '@material-ui/core/styles';
+import ListItem from '@material-ui/core/ListItem';
+import SEO from '../../components/seo';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const IndexPage = props => (
   <Layout>
@@ -33,7 +33,7 @@ const IndexPage = props => (
                 />
               </Link>
             </ListItem>
-          )
+          );
         })}
       </List>
     </div>
@@ -50,7 +50,7 @@ const IndexPage = props => (
 
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }} />
   </Layout>
-)
+);
 
 export default withStyles(theme => ({
   root: {
@@ -58,7 +58,7 @@ export default withStyles(theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-}))(IndexPage)
+}))(IndexPage);
 
 export const pageQuery = graphql`
   query IndexPageQuery {
@@ -75,4 +75,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

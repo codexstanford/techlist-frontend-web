@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { StaticQuery, graphql } from 'gatsby'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import styled from 'styled-components'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { StaticQuery, graphql } from 'gatsby';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import styled from 'styled-components';
 
-import Header from './header/index'
+import Header from './header/index';
 
 const Layout = ({ children, ...rest }) => (
   <React.Fragment>
@@ -31,14 +31,14 @@ const Layout = ({ children, ...rest }) => (
       )}
     />
   </React.Fragment>
-)
+);
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
-export default Layout
+export default Layout;
 
 const AppWrapper = styled.div`
   color: white;
-`
+`;

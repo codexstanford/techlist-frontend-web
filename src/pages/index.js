@@ -1,39 +1,39 @@
-import React from 'react'
-import { graphql } from 'gatsby'
+import React from 'react';
+import { graphql } from 'gatsby';
 
-import Layout from '../components/layout'
-import SEO from '../components/seo'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Divider from '@material-ui/core/Divider'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
-import { withStyles } from '@material-ui/core/styles'
-import Hidden from '@material-ui/core/Hidden'
+import { withStyles } from '@material-ui/core/styles';
+import Hidden from '@material-ui/core/Hidden';
 
-import mocks from '../components/header/__mocks__'
+import mocks from '../components/header/__mocks__';
 
 function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />
+  return <ListItem button component="a" {...props} />;
 }
 
 const IndexPage = props => {
-  const { classes } = props
-  const { allNews } = props.data
+  const { classes } = props;
+  const { allNews } = props.data;
 
   const [
     firstArticle,
     secondArticle,
     thirdArticle,
     ...otherArticles
-  ] = allNews.edges
+  ] = allNews.edges;
   return (
     <Layout>
       <SEO title="Home" keywords={[`CodeX`, `LegalTech`, `Index`]} />
@@ -107,7 +107,7 @@ const IndexPage = props => {
                           secondary={node.content}
                         />
                       </ListItem>
-                    )
+                    );
                   })}
               </List>
             </Paper>
@@ -122,8 +122,8 @@ const IndexPage = props => {
         </Grid>
       </main>
     </Layout>
-  )
-}
+  );
+};
 
 const styles = theme => ({
   mainFeaturedPost: {
@@ -156,9 +156,9 @@ const styles = theme => ({
       paddingRight: 0,
     },
   },
-})
+});
 
-export default withStyles(styles)(IndexPage)
+export default withStyles(styles)(IndexPage);
 
 export const pageQuery = graphql`
   query HomePageQuery {
@@ -191,4 +191,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

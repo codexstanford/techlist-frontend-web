@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { applyStyleModifiers } from "styled-components-modifiers";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { applyStyleModifiers } from 'styled-components-modifiers';
 
 /* eslint no-magic-numbers: off */
 
@@ -13,7 +13,7 @@ Label.propTypes = {
   labelSpacing: PropTypes.number,
   modifiers: PropTypes.array,
   move: PropTypes.bool,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 export default Label;
@@ -42,7 +42,7 @@ const StyledLabel = styled.label.attrs(props => ({}))`
 const LABEL_MODIFIERS = {
   odd: () => `
   background: rgb(243,244,245);
-  `
+  `,
 };
 
 const StyledLabelWrap = styled.div`

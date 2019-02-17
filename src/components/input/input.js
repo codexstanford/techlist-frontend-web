@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Field from "./field";
-import Label from "./label";
-import styled from "styled-components";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Field from './field';
+import Label from './label';
+import styled from 'styled-components';
 
 TextInput.propTypes = {
   children: PropTypes.node,
@@ -10,7 +10,7 @@ TextInput.propTypes = {
   label: PropTypes.string,
   labelModifiers: PropTypes.array,
   onChange: PropTypes.func,
-  width: PropTypes.number
+  width: PropTypes.number,
 };
 
 function TextInput({ label, id, onChange, width, labelModifiers, ...props }) {
