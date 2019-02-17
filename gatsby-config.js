@@ -1,8 +1,10 @@
+const config = require('./config/site');
+
 module.exports = {
   siteMetadata: {
-    title: `CodeX LegalTech Index`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@Edelman215`,
+    title: config.siteMetadata.title,
+    description: config.siteMetadata.description,
+    author: config.siteMetadata.author || '@edelman215',
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -10,64 +12,17 @@ module.exports = {
     {
       resolve: 'gatsby-source-graphql',
       options: {
-        // This type will contain remote schema Query type
-        typeName: 'TechList',
-        // This is field under which it's accessible
-        fieldName: 'allTechList',
-        // Url to query from
-        url: 'http://graphql.law.kitchen',
-
-        // createSchema: async () => {
-        //   const json = await JSON.parse(
-        //     fs.readFileSync(`${__dirname}/schema.json`),
-        //   )
-        //   return buildClientSchema(json)
-        // },
+        typeName: config.api.graphql.typeName,
+        fieldName: config.api.graphql.fieldName,
+        url: config.api.graphql.endpoint,
       },
     },
     {
       resolve: `gatsby-plugin-material-ui`,
       options: {
-        theme: {
-          colors: {
-            primary: '#b1040e',
-            link: '#006CB8',
-            hover: '#00548f',
-          },
-          typography: {
-            useNextVariants: true,
-            fontFamily: [
-              'Source Sans Pro',
-              '-apple-system',
-              'BlinkMacSystemFont',
-              '"Segoe UI"',
-              'Roboto',
-              '"Helvetica Neue"',
-              'Arial',
-              'sans-serif',
-              '"Apple Color Emoji"',
-              '"Segoe UI Emoji"',
-              '"Segoe UI Symbol"',
-            ].join(','),
-          },
-          palette: {
-            primary: {
-              main: '#b1040e',
-            },
-            secondary: {
-              main: '#04b1a8',
-              contrastText: '#fff',
-            },
-          },
-        },
+        ...config.theme,
       },
     },
-    // {
-    //   resolve: `gatsby-plugin-typography`,
-    //   options: {
-    //     pathToConfigModule: `config/typography`,
-    //   },
-    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -80,17 +35,29 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `codex-legaltech-index`,
+        short_name: `techlist`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/gatsby-icon.png`,
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.app/offline
-    // 'gatsby-plugin-offline',
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: config.siteMetadata.url,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-s3`,
+      options: {
+        bucketName: 'my-example-bucket',
+        protocol: config.siteMetadata.protocol,
+        hostname: config.siteMetadata.hostname,
+      },
+    },
+    'gatsby-plugin-offline',
   ],
-}
+};

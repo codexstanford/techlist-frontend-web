@@ -1,6 +1,7 @@
 export default {
   headerLeftSectionMocks: [
-    { title: 'Home' },
+    { title: 'Home', to: '/' },
+    { title: 'Index', to: '/companies' },
     { title: 'About' },
     { title: 'Statistics' },
     { title: 'Get Listed' },
@@ -30,4 +31,4 @@ export default {
         'Chic brunch, waistcoat freegan craft beer echo park cronut.',
     },
   ],
-}
+};

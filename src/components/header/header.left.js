@@ -1,10 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'gatsby';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 export function HeaderLeft(props) {
-  const { sections, classes } = props
+  const { sections, classes } = props;
 
   return (
     <React.Fragment>
@@ -12,14 +13,19 @@ export function HeaderLeft(props) {
         {sections &&
           sections.map(section => {
             return (
-              <Button key={section.title} color="inherit" size="small">
+              <Button
+                key={section.title}
+                color="inherit"
+                size="small"
+                component={Link}
+              >
                 {section.title}
               </Button>
-            )
+            );
           })}
       </div>
     </React.Fragment>
-  )
+  );
 }
 
 HeaderLeft.propTypes = {
@@ -28,11 +34,11 @@ HeaderLeft.propTypes = {
       title: PropTypes.string.isRequired,
     })
   ),
-}
+};
 
 HeaderLeft.defaultProps = {
   sections: [],
-}
+};
 
 const styles = theme => ({
   sectionDesktop: {
@@ -42,6 +48,6 @@ const styles = theme => ({
     },
   },
   sectionMobile: {},
-})
+});
 
-export default withStyles(styles)(HeaderLeft)
+export default withStyles(styles)(HeaderLeft);

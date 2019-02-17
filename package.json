@@ -12,10 +12,13 @@
     "babel-plugin-styled-components": "^1.10.0",
     "gatsby": "^2.1.2",
     "gatsby-image": "^2.0.29",
+    "gatsby-plugin-canonical-urls": "^2.0.10",
+    "gatsby-plugin-google-fonts": "^0.0.4",
     "gatsby-plugin-manifest": "^2.0.17",
     "gatsby-plugin-material-ui": "^1.2.4",
     "gatsby-plugin-offline": "^2.0.23",
     "gatsby-plugin-react-helmet": "^3.0.6",
+    "gatsby-plugin-s3": "^0.2.4",
     "gatsby-plugin-sharp": "^2.0.20",
     "gatsby-plugin-styled-components": "^3.0.5",
     "gatsby-plugin-typography": "^2.2.7",
@@ -26,6 +29,7 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-helmet": "^5.2.0",
+    "react-pose": "^4.0.7",
     "react-typography": "^0.16.18",
     "styled-components": "^4.1.3",
     "styled-components-modifiers": "^1.1.0",
@@ -36,11 +40,14 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
+    "build": "rm -rf public && rm -rf .cache && gatsby build",
+    "build:serve": "yarn build && npx ws -d ./public -o -p 3000 --hostname localhost",
     "develop": "gatsby develop",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
+    "lint": "./node_modules/.bin/eslint --ext .js,.jsx --ignore-pattern public .",
+    "format": "prettier --write '{gatsby-*.js,src/**/*.{js,jsx,json,css}}'"
   },
   "repository": {
     "type": "git",
@@ -50,12 +57,31 @@
     "url": "https://github.com/gatsbyjs/gatsby/issues"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "babel-preset-gatsby": "^0.1.7",
     "crypto": "^1.0.1",
     "eslint": "^5.13.0",
+    "eslint-config-prettier": "^4.0.0",
     "eslint-loader": "^2.1.2",
+    "eslint-plugin-react": "^7.12.4",
     "gatsby-plugin-eslint": "^2.0.4",
     "gatsby-source-graphql": "^2.0.10",
+    "husky": "^1.3.1",
+    "lighthouse": "^4.1.0",
+    "lint-staged": "^8.1.4",
+    "local-web-server": "^2.6.1",
     "prettier": "^1.16.4",
     "slugify": "^1.3.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{gatsby-*.js,src/**/*.{js,jsx,json,css}}": [
+      "yarn format",
+      "git add"
+    ]
   }
 }

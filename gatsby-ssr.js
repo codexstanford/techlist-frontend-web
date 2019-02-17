@@ -1,20 +1,24 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/ssr-apis/
- */
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
+import AppProvider from 'store/provider';
+import wrapPageElementWithTransition from 'helpers/wrapPageElement';
 
-// You can delete this file if you're not using it
+export const replaceRenderer = ({
+  bodyComponent,
+  replaceBodyHTMLString,
+  setHeadComponents,
+}) => {
+  // React Context in SSR/build
+  const ConnectedBody = () => <AppProvider>{bodyComponent}</AppProvider>;
+  replaceBodyHTMLString(renderToString(<ConnectedBody />));
 
-exports.onPreRenderHTML = ({ getHeadComponents, replaceHeadComponents }) => {
-  const headComponents = getHeadComponents();
-  headComponents.sort((x, y) => {
-    if (x.key === "TypographyStyle") {
-      return -1;
-    } else if (y.key === "TypographyStyle") {
-      return 1;
-    }
-    return 0;
-  });
-  replaceHeadComponents(headComponents);
+  // Add styled-components in SSR/build
+  const sheet = new ServerStyleSheet();
+  const bodyHTML = renderToString(sheet.collectStyles(<ConnectedBody />));
+  const styleElement = sheet.getStyleElement();
+  setHeadComponents(styleElement);
 };
+
+// Page Transitions
+export const wrapPageElement = wrapPageElementWithTransition;

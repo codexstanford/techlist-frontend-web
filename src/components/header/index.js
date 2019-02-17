@@ -1,22 +1,38 @@
-import React from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import HeaderLeft from './header.left'
-import HeaderCenter from './header.center'
-import HeaderRight from './header.right'
-import SecondaryHeader from './header.secondary'
-import { withStyles } from '@material-ui/core/styles'
-import mocks from './__mocks__'
+import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import HeaderLeft from './header.left';
+import HeaderCenter from './header.center';
+import HeaderRight from './header.right';
+import SecondaryHeader from './header.secondary';
+import { withStyles } from '@material-ui/core/styles';
+import posed from 'react-pose';
+import mocks from './__mocks__';
+
+const AnimatedContainer = posed.div({
+  enter: {
+    y: 0,
+    transition: {
+      ease: 'easeInOut',
+    },
+  },
+  exit: {
+    y: '-100%',
+    transition: {
+      ease: 'easeInOut',
+    },
+  },
+});
 
 export class Header extends React.Component {
   state = {
     isMenuOpen: false,
     isUserAuthenticated: false,
-  }
+  };
 
   toggleMenu = () => {
-    this.setState(prev => ({ ...prev, isMenuOpen: !prev.isMenuOpen }))
-  }
+    this.setState(prev => ({ ...prev, isMenuOpen: !prev.isMenuOpen }));
+  };
 
   handleUserAuthenticationAction = async () => {
     setTimeout(
@@ -25,31 +41,33 @@ export class Header extends React.Component {
         isUserAuthenticated: !prev.isUserAuthenticated,
       })),
       300
-    )
-  }
+    );
+  };
 
   render() {
-    const { siteTitle, classes, shouldShowSecondaryHeader = true } = this.props
-    const { isUserAuthenticated } = this.state
+    const { siteTitle, classes, shouldShowSecondaryHeader = true } = this.props;
+    const { isUserAuthenticated } = this.state;
     return (
       <React.Fragment>
-        <AppBar color="primary" position="relative">
-          <Toolbar className={classes.toolbarMain} color="primary">
-            <HeaderLeft sections={mocks.headerLeftSectionMocks} />
-            <HeaderCenter siteTitle={siteTitle} />
-            <HeaderRight
-              handleUserAuthenticationAction={
-                this.handleUserAuthenticationAction
-              }
-              isUserAuthenticated={isUserAuthenticated}
-            />
-          </Toolbar>
-          {shouldShowSecondaryHeader && (
-            <SecondaryHeader sections={mocks.headerSecondaryMocks} />
-          )}
-        </AppBar>
+        <AnimatedContainer>
+          <AppBar color="primary" position="relative">
+            <Toolbar className={classes.toolbarMain} color="primary">
+              <HeaderLeft sections={mocks.headerLeftSectionMocks} />
+              <HeaderCenter siteTitle={siteTitle} />
+              <HeaderRight
+                handleUserAuthenticationAction={
+                  this.handleUserAuthenticationAction
+                }
+                isUserAuthenticated={isUserAuthenticated}
+              />
+            </Toolbar>
+            {shouldShowSecondaryHeader && (
+              <SecondaryHeader sections={mocks.headerSecondaryMocks} />
+            )}
+          </AppBar>
+        </AnimatedContainer>
       </React.Fragment>
-    )
+    );
   }
 }
 
@@ -72,6 +90,6 @@ const styles = theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-})
+});
 
-export default withStyles(styles)(Header)
+export default withStyles(styles)(Header);
