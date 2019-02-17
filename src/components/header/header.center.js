@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Link as GatsbyLink } from 'gatsby';
+import Link from '@material-ui/core/Link';
+
 export function HeaderCenter(props) {
   const { siteTitle, classes } = props;
 
@@ -10,13 +13,13 @@ export function HeaderCenter(props) {
     <div className={classes.wrapper}>
       {siteTitle && (
         <Typography
-          component="h1"
-          variant="h6"
-          color="inherit"
-          className={classes.title}
+          component={props => <Link to="/" component={GatsbyLink} {...props} />}
+          variant="h5"
+          color="primary"
           style={{
             fontWeight: '700',
             letterSpacing: '-.5px',
+            textDecoration: 'none',
           }}
           noWrap
         >
@@ -34,8 +37,7 @@ HeaderCenter.propTypes = {
 const styles = theme => ({
   wrapper: {
     display: 'flex',
-    justifyContent: 'center',
-    flexGrow: 2,
+    justifyContent: 'flex-start',
   },
   title: {
     display: 'none',

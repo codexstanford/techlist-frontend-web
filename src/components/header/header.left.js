@@ -2,12 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
-
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 export function HeaderLeft(props) {
-  const { sections, classes } = props;
+  const {
+    sections,
+    classes,
+    isUserAuthenticated,
+    handleUserAuthenticationAction,
+  } = props;
 
   return (
     <React.Fragment>
@@ -17,8 +23,7 @@ export function HeaderLeft(props) {
             return (
               <Button
                 key={section.title}
-                color="inherit"
-                size="small"
+                color="primary"
                 component={props => (
                   <Link to={section.to} component={GatsbyLink} {...props} />
                 )}
@@ -27,6 +32,31 @@ export function HeaderLeft(props) {
               </Button>
             );
           })}
+        {isUserAuthenticated ? (
+          <React.Fragment>
+            <IconButton
+              aria-haspopup="true"
+              onClick={handleUserAuthenticationAction}
+              color="primary"
+            >
+              <AccountCircle />
+            </IconButton>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Button
+              color="primary"
+              variant="outlined"
+              size="small"
+              onClick={handleUserAuthenticationAction}
+              style={{
+                marginLeft: '10px',
+              }}
+            >
+              Login
+            </Button>
+          </React.Fragment>
+        )}
       </div>
     </React.Fragment>
   );

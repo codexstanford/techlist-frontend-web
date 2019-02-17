@@ -30,19 +30,38 @@ export class Header extends React.Component {
   };
 
   render() {
-    const { siteTitle, classes, shouldShowSecondaryHeader = true } = this.props;
+    const {
+      siteTitle,
+      classes,
+      shouldShowSecondaryHeader = true,
+      fullScreen,
+    } = this.props;
     const { isUserAuthenticated } = this.state;
     return (
       <React.Fragment>
-        <AppBar color="primary" position="relative">
-          <Toolbar className={classes.toolbarMain} color="primary">
-            <HeaderLeft sections={mocks.headerLeftSectionMocks} />
+        <AppBar
+          position="relative"
+          color="white"
+          style={{
+            display: 'flex',
+            alignItems: fullScreen ? 'space-between' : 'center',
+            flexDirection: 'column',
+          }}
+        >
+          <Toolbar className={classes.toolbarMain}>
             <HeaderCenter siteTitle={siteTitle} />
             <HeaderRight
               handleUserAuthenticationAction={
                 this.handleUserAuthenticationAction
               }
               isUserAuthenticated={isUserAuthenticated}
+            />
+            <HeaderLeft
+              handleUserAuthenticationAction={
+                this.handleUserAuthenticationAction
+              }
+              isUserAuthenticated={isUserAuthenticated}
+              sections={mocks.headerLeftSectionMocks}
             />
           </Toolbar>
           {shouldShowSecondaryHeader && (
@@ -56,7 +75,6 @@ export class Header extends React.Component {
 
 const styles = theme => ({
   layout: {
-    width: 'auto',
     display: 'flex',
     justifyContent: 'space-between',
     // color: theme.palette.common.white,
@@ -69,9 +87,9 @@ const styles = theme => ({
   },
   toolbarMain: {
     borderBottom: `1px solid ${theme.palette.grey[300]}`,
+    flexGrow: 1,
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
 });
 

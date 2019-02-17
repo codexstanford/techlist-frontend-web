@@ -22,6 +22,9 @@ module.exports = {
       ].join(','),
     },
     palette: {
+      white: {
+        main: '#ffffff',
+      },
       primary: {
         main: '#b1040e',
       },

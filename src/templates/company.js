@@ -47,7 +47,7 @@ class CompanyTemplate extends React.Component {
     const { company } = allTechList;
 
     return (
-      <Layout shouldShowSecondaryHeader={false}>
+      <Layout shouldShowSecondaryHeader={false} fullScreen={true}>
         <div className={classes.root}>
           <AppBar
             position="absolute"

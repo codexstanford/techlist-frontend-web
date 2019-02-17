@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import Header from './header/index';
 
-const Layout = ({ children, ...rest }) => (
+const Layout = ({ children, fullScreen = false, ...rest }) => (
   <React.Fragment>
     <CssBaseline />
     <StaticQuery
@@ -21,11 +21,20 @@ const Layout = ({ children, ...rest }) => (
       `}
       render={data => (
         <AppWrapper>
-          <Header siteTitle={data.site.siteMetadata.title} {...rest} />
+          <Header
+            siteTitle={data.site.siteMetadata.title}
+            fullScreen={fullScreen}
+            {...rest}
+          />
 
-          <main style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
-            {children}
-          </main>
+          {fullScreen ? (
+            <FSMainWrapper>{children}</FSMainWrapper>
+          ) : (
+            <MainWrapper style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
+              {children}
+            </MainWrapper>
+          )}
+
           <footer />
         </AppWrapper>
       )}
@@ -42,3 +51,8 @@ export default Layout;
 const AppWrapper = styled.div`
   color: white;
 `;
+const MainWrapper = styled.main`
+  max-width: 1250px;
+  margin: 0 auto;
+`;
+const FSMainWrapper = styled.main``;

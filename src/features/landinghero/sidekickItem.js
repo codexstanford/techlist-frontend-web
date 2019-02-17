@@ -22,7 +22,10 @@ export function SidekickItem(props) {
 
       <CardContent>
         <Typography component="h2" variant="subtitle2">
-          {title}
+          {title
+            .split(' ')
+            .slice(0, 6)
+            .join(' ')}
         </Typography>
 
         <Typography variant="body2">

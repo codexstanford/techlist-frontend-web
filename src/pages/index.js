@@ -38,8 +38,8 @@ const IndexPage = props => {
         <Grid container spacing={40} className={classes.mainGrid}>
           <Grid item md={8}>
             <Paper className={classes.newsList}>
-              <Typography component="h2" variant="h4" gutterBottom>
-                News
+              <Typography component="h2" variant="h6" gutterBottom>
+                Breaking
               </Typography>
               <Divider />
               <List>
@@ -59,9 +59,10 @@ const IndexPage = props => {
           </Grid>
           <Grid item md={4}>
             <Paper className={classes.newsList}>
-              <Typography component="h2" variant="h4" gutterBottom>
+              <Typography component="h2" variant="h6" gutterBottom>
                 Trending
               </Typography>
+              <Divider />
             </Paper>
           </Grid>
         </Grid>
@@ -84,7 +85,7 @@ const styles = theme => ({
     },
   },
   mainGrid: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 2,
   },
   card: {
     display: 'flex',
