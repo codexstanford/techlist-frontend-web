@@ -74,3 +74,5 @@ amplify/.config/local-*
 amplify/backend/amplify-meta.json
 aws-exports.js
 awsconfiguration.json
+
+.env

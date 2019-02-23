@@ -1,10 +1,13 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import HeaderLeft from './header.left';
-import HeaderCenter from './header.center';
-import HeaderRight from './header.right';
+import HeaderThree from './header.three';
+import HeaderOne from './header.one';
+import HeaderTwo from './header.two';
 import SecondaryHeader from './header.secondary';
+import Hidden from '@material-ui/core/Hidden';
+import MobileNav from './header.mobile';
+import { styles } from './header.styles';
 import { withStyles } from '@material-ui/core/styles';
 
 import mocks from './__mocks__';
@@ -34,35 +37,42 @@ export class Header extends React.Component {
       siteTitle,
       classes,
       shouldShowSecondaryHeader = true,
-      fullScreen,
+      allSitePage,
     } = this.props;
     const { isUserAuthenticated } = this.state;
+
     return (
       <React.Fragment>
         <AppBar
           position="relative"
-          color="white"
-          style={{
-            display: 'flex',
-            alignItems: fullScreen ? 'space-between' : 'center',
-            flexDirection: 'column',
-          }}
+          color="inherit"
+          className={classes.headerAppBar}
         >
           <Toolbar className={classes.toolbarMain}>
-            <HeaderCenter siteTitle={siteTitle} />
-            <HeaderRight
-              handleUserAuthenticationAction={
-                this.handleUserAuthenticationAction
-              }
-              isUserAuthenticated={isUserAuthenticated}
-            />
-            <HeaderLeft
-              handleUserAuthenticationAction={
-                this.handleUserAuthenticationAction
-              }
-              isUserAuthenticated={isUserAuthenticated}
-              sections={mocks.headerLeftSectionMocks}
-            />
+            <Hidden smDown>
+              <HeaderOne siteTitle={siteTitle} classes={classes} />
+              <HeaderTwo allSitePages={allSitePage} classes={classes} />
+              <HeaderThree
+                handleUserAuthenticationAction={
+                  this.handleUserAuthenticationAction
+                }
+                isUserAuthenticated={isUserAuthenticated}
+                sections={mocks.headerLeftSectionMocks}
+                classes={classes}
+              />
+            </Hidden>
+            <Hidden mdUp>
+              <MobileNav
+                allSitePages={allSitePage}
+                siteTitle={siteTitle}
+                handleUserAuthenticationAction={
+                  this.handleUserAuthenticationAction
+                }
+                isUserAuthenticated={isUserAuthenticated}
+                sections={mocks.headerLeftSectionMocks}
+                classes={classes}
+              />
+            </Hidden>
           </Toolbar>
           {shouldShowSecondaryHeader && (
             <SecondaryHeader sections={mocks.headerSecondaryMocks} />
@@ -72,25 +82,5 @@ export class Header extends React.Component {
     );
   }
 }
-
-const styles = theme => ({
-  layout: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    // color: theme.palette.common.white,
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  toolbarMain: {
-    borderBottom: `1px solid ${theme.palette.grey[300]}`,
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-});
 
 export default withStyles(styles)(Header);

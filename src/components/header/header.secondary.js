@@ -18,6 +18,7 @@ export function SecondaryHeader(props) {
               key={section.title}
               color="primary"
               size="small"
+              aria-label={section.title}
               className={classes.button}
               component={props => (
                 <Link to={section.to} component={GatsbyLink} {...props} />

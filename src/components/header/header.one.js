@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
+import MobileNav from './header.mobile';
 
 export function HeaderCenter(props) {
   const { siteTitle, classes } = props;
@@ -34,17 +35,17 @@ HeaderCenter.propTypes = {
   siteTitle: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
-  wrapper: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
-});
+// const styles = theme => ({
+//   wrapper: {
+//     display: 'flex',
+//     justifyContent: 'flex-start',
+//   },
+//   title: {
+//     display: 'none',
+//     [theme.breakpoints.up('sm')]: {
+//       display: 'block',
+//     },
+//   },
+// });
 
-export default withStyles(styles)(HeaderCenter);
+export default HeaderCenter;

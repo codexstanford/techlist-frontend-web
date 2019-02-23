@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
 export function SidekickItem(props) {
   const { classes, title, date, content, imageUrl, id } = props;
@@ -15,6 +16,10 @@ export function SidekickItem(props) {
         <CardMedia
           component="img"
           className={classes.cardMedia}
+          alt={title
+            .split(' ')
+            .slice(0, 5)
+            .join(' ')}
           height="140"
           image={imageUrl}
         />
@@ -38,8 +43,13 @@ export function SidekickItem(props) {
       </CardContent>
       <CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Learn More
+          <Button
+            size="small"
+            color="primary"
+            aria-label="Read Full Story"
+            href={props.link}
+          >
+            Read Full Story
           </Button>
         </CardActions>
       </CardActionArea>

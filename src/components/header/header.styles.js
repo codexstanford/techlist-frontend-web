@@ -1,47 +1,45 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
-import { withStyles } from '@material-ui/core/styles';
-
-export function HeaderRight(props) {
-  const {
-    classes,
-    isUserAuthenticated,
-    handleUserAuthenticationAction,
-  } = props;
-
-  return (
-    <div className={classes.wrapper}>
-      <div className={classes.sectionDesktop}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-HeaderRight.propTypes = {
-  handleUserAuthenticationaction: PropTypes.func,
-  isUserAuthenticated: PropTypes.bool,
-};
-
-const styles = theme => ({
+export const styles = theme => ({
+  layout: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    // color: theme.palette.common.white,
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  headerAppBar: {
+    display: 'flex',
+    alignItems: 'space-between',
+    flexDirection: 'column',
+  },
+  toolbarMain: {
+    borderBottom: `1px solid ${theme.palette.grey[300]}`,
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   inputRoot: {
     color: 'primary',
     width: '100%',
+  },
+  container: {
+    flexGrow: 1,
+    position: 'relative',
+  },
+  paper: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  chip: {
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
   },
   wrapper: {
     display: 'flex',
@@ -56,9 +54,9 @@ const styles = theme => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: 250,
+      width: 400,
       '&:focus': {
-        width: 300,
+        width: 500,
       },
     },
   },
@@ -98,5 +96,3 @@ const styles = theme => ({
     justifyContent: 'center',
   },
 });
-
-export default withStyles(styles)(HeaderRight);

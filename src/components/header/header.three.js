@@ -7,6 +7,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+// This component actually appears in the 'header right' position.
+
 export function HeaderLeft(props) {
   const {
     sections,
@@ -23,6 +25,7 @@ export function HeaderLeft(props) {
             return (
               <Button
                 key={section.title}
+                aria-label={section.title}
                 color="primary"
                 component={props => (
                   <Link to={section.to} component={GatsbyLink} {...props} />
@@ -32,7 +35,21 @@ export function HeaderLeft(props) {
               </Button>
             );
           })}
-        {isUserAuthenticated ? (
+        <React.Fragment>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            aria-label="Get Listed"
+            onClick={handleUserAuthenticationAction}
+            style={{
+              marginLeft: '10px',
+            }}
+          >
+            Get Listed
+          </Button>
+        </React.Fragment>
+        {/* {isUserAuthenticated ? (
           <React.Fragment>
             <IconButton
               aria-haspopup="true"
@@ -56,7 +73,7 @@ export function HeaderLeft(props) {
               Login
             </Button>
           </React.Fragment>
-        )}
+        )} */}
       </div>
     </React.Fragment>
   );
@@ -74,14 +91,4 @@ HeaderLeft.defaultProps = {
   sections: [],
 };
 
-const styles = theme => ({
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {},
-});
-
-export default withStyles(styles)(HeaderLeft);
+export default HeaderLeft;
