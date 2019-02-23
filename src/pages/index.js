@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Link from '@material-ui/core/Link';
 
 import ListItemText from '@material-ui/core/ListItemText';
 import LandingHero from '../features/landinghero';
@@ -48,7 +49,7 @@ const IndexPage = props => {
                     return (
                       <ListItem>
                         <ListItemText
-                          primary={node.title}
+                          primary={<Link href={node.link}>{node.title}</Link>}
                           secondary={node.content}
                         />
                       </ListItem>

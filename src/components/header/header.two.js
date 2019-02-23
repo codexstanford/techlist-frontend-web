@@ -1,47 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import { withStyles } from '@material-ui/core/styles';
+import MainSearch from '../search';
 
 export function HeaderRight(props) {
-  const {
-    classes,
-    isUserAuthenticated,
-    handleUserAuthenticationAction,
-  } = props;
+  const { classes, allSitePages } = props;
 
   return (
     <div className={classes.wrapper}>
-      <div className={classes.sectionDesktop}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-          />
-        </div>
-      </div>
+      <MainSearch
+        placeholder="Search…"
+        suggestions={allSitePages ? allSitePages.edges : []}
+        classes={classes}
+      />
     </div>
   );
 }
 
 HeaderRight.propTypes = {
-  handleUserAuthenticationaction: PropTypes.func,
-  isUserAuthenticated: PropTypes.bool,
+  classes: PropTypes.array,
+  allSitePages: PropTypes.any,
 };
 
 const styles = theme => ({
   inputRoot: {
     color: 'primary',
     width: '100%',
+  },
+  container: {
+    flexGrow: 1,
+    position: 'relative',
+  },
+  paper: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  chip: {
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
   },
   wrapper: {
     display: 'flex',
@@ -56,9 +56,9 @@ const styles = theme => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: 250,
+      width: 400,
       '&:focus': {
-        width: 300,
+        width: 500,
       },
     },
   },

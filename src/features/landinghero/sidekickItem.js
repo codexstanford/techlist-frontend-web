@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
 export function SidekickItem(props) {
   const { classes, title, date, content, imageUrl, id } = props;
@@ -38,7 +39,7 @@ export function SidekickItem(props) {
       </CardContent>
       <CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" href={props.link}>
             Learn More
           </Button>
         </CardActions>

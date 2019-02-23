@@ -5,8 +5,14 @@ module.exports = {
     title: config.siteMetadata.title,
     description: config.siteMetadata.description,
     author: config.siteMetadata.author || '@edelman215',
+    siteUrl: config.siteMetadata.url,
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {},
+    },
+    `gatsby-plugin-sitemap`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {

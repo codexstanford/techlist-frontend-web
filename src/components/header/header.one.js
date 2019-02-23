@@ -5,12 +5,14 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
+import MobileNav from './header.mobile';
 
 export function HeaderCenter(props) {
   const { siteTitle, classes } = props;
 
   return (
     <div className={classes.wrapper}>
+      <MobileNav />
       {siteTitle && (
         <Typography
           component={props => <Link to="/" component={GatsbyLink} {...props} />}

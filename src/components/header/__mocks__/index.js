@@ -1,10 +1,7 @@
 export default {
   headerLeftSectionMocks: [
-    { title: 'Home', to: '/' },
     { title: 'Index', to: '/companies' },
     { title: 'About' },
-    { title: 'Statistics' },
-    { title: 'Get Listed' },
   ],
   headerSecondaryMocks: [
     { title: 'Marketplace', path: '' },

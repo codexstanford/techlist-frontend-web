@@ -7,6 +7,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+// This component actually appears in the 'header right' position.
+
 export function HeaderLeft(props) {
   const {
     sections,
@@ -32,7 +34,20 @@ export function HeaderLeft(props) {
               </Button>
             );
           })}
-        {isUserAuthenticated ? (
+        <React.Fragment>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={handleUserAuthenticationAction}
+            style={{
+              marginLeft: '10px',
+            }}
+          >
+            Get Listed
+          </Button>
+        </React.Fragment>
+        {/* {isUserAuthenticated ? (
           <React.Fragment>
             <IconButton
               aria-haspopup="true"
@@ -56,7 +71,7 @@ export function HeaderLeft(props) {
               Login
             </Button>
           </React.Fragment>
-        )}
+        )} */}
       </div>
     </React.Fragment>
   );

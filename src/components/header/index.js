@@ -1,10 +1,12 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import HeaderLeft from './header.left';
-import HeaderCenter from './header.center';
-import HeaderRight from './header.right';
+import HeaderThree from './header.three';
+import HeaderOne from './header.one';
+import HeaderTwo from './header.two';
 import SecondaryHeader from './header.secondary';
+import { StaticQuery, graphql } from 'gatsby';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import mocks from './__mocks__';
@@ -35,28 +37,26 @@ export class Header extends React.Component {
       classes,
       shouldShowSecondaryHeader = true,
       fullScreen,
+      data,
     } = this.props;
     const { isUserAuthenticated } = this.state;
+    const { allSitePage } = data;
+    console.log(this.props);
     return (
       <React.Fragment>
         <AppBar
           position="relative"
-          color="white"
+          color="inherit"
           style={{
             display: 'flex',
-            alignItems: fullScreen ? 'space-between' : 'center',
+            alignItems: 'space-between',
             flexDirection: 'column',
           }}
         >
           <Toolbar className={classes.toolbarMain}>
-            <HeaderCenter siteTitle={siteTitle} />
-            <HeaderRight
-              handleUserAuthenticationAction={
-                this.handleUserAuthenticationAction
-              }
-              isUserAuthenticated={isUserAuthenticated}
-            />
-            <HeaderLeft
+            <HeaderOne siteTitle={siteTitle} />
+            <HeaderTwo allSitePages={allSitePage} />
+            <HeaderThree
               handleUserAuthenticationAction={
                 this.handleUserAuthenticationAction
               }
@@ -93,4 +93,25 @@ const styles = theme => ({
   },
 });
 
-export default withStyles(styles)(Header);
+const EnhancedHeader = withStyles(styles)(Header);
+
+export default props => (
+  <StaticQuery
+    query={graphql`
+      query {
+        allSitePage {
+          edges {
+            node {
+              context {
+                slug
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    `}
+    render={data => <EnhancedHeader data={data} {...props} />}
+  />
+);
