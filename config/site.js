@@ -1,14 +1,14 @@
-const url = require('url')
-const mURL = new URL('https://law.haus')
-const theme = require('./theme')
+const url = require('url');
+const mURL = new URL('https://law.haus');
+const theme = require('./theme');
 
 module.exports = {
   social: {
     twitter: 'https://twitter.com/codexstanford',
   },
   siteMetadata: {
-    title: 'Codex LegalTech Index',
-    shortTitle: '',
+    title: 'CodeX LegalTech Index',
+    shortTitle: 'LegalTech Index',
     description: '',
     hostname: mURL.hostname,
     protocol: mURL.protocol.slice(0, -1),
@@ -22,4 +22,4 @@ module.exports = {
     },
   },
   theme,
-}
+};

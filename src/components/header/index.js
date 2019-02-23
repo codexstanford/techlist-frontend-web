@@ -6,6 +6,9 @@ import HeaderOne from './header.one';
 import HeaderTwo from './header.two';
 import SecondaryHeader from './header.secondary';
 import { StaticQuery, graphql } from 'gatsby';
+import Hidden from '@material-ui/core/Hidden';
+import MobileNav from './header.mobile';
+import { styles } from './header.styles';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -54,15 +57,30 @@ export class Header extends React.Component {
           }}
         >
           <Toolbar className={classes.toolbarMain}>
-            <HeaderOne siteTitle={siteTitle} />
-            <HeaderTwo allSitePages={allSitePage} />
-            <HeaderThree
-              handleUserAuthenticationAction={
-                this.handleUserAuthenticationAction
-              }
-              isUserAuthenticated={isUserAuthenticated}
-              sections={mocks.headerLeftSectionMocks}
-            />
+            <Hidden smDown>
+              <HeaderOne siteTitle={siteTitle} classes={classes} />
+              <HeaderTwo allSitePages={allSitePage} classes={classes} />
+              <HeaderThree
+                handleUserAuthenticationAction={
+                  this.handleUserAuthenticationAction
+                }
+                isUserAuthenticated={isUserAuthenticated}
+                sections={mocks.headerLeftSectionMocks}
+                classes={classes}
+              />
+            </Hidden>
+            <Hidden mdUp>
+              <MobileNav
+                allSitePages={allSitePage}
+                siteTitle={siteTitle}
+                handleUserAuthenticationAction={
+                  this.handleUserAuthenticationAction
+                }
+                isUserAuthenticated={isUserAuthenticated}
+                sections={mocks.headerLeftSectionMocks}
+                classes={classes}
+              />
+            </Hidden>
           </Toolbar>
           {shouldShowSecondaryHeader && (
             <SecondaryHeader sections={mocks.headerSecondaryMocks} />
@@ -72,26 +90,6 @@ export class Header extends React.Component {
     );
   }
 }
-
-const styles = theme => ({
-  layout: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    // color: theme.palette.common.white,
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  toolbarMain: {
-    borderBottom: `1px solid ${theme.palette.grey[300]}`,
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-});
 
 const EnhancedHeader = withStyles(styles)(Header);
 

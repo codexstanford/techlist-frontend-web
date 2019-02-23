@@ -12,7 +12,6 @@ export function HeaderCenter(props) {
 
   return (
     <div className={classes.wrapper}>
-      <MobileNav />
       {siteTitle && (
         <Typography
           component={props => <Link to="/" component={GatsbyLink} {...props} />}

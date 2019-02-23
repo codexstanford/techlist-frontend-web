@@ -4,7 +4,6 @@ export function getSuggestions({ value, data }) {
   const inputValue = deburr(value.trim()).toLowerCase();
   const inputLength = inputValue.length;
   let count = 0;
-  console.log(data);
 
   return inputLength === 0
     ? []

@@ -11,8 +11,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Link as GatsbyLink, graphql } from 'gatsby';
+import MenuIcon from '@material-ui/icons/Menu';
+import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
+import MainSearch from '../search';
 
 class MobileNav extends React.Component {
   state = {
@@ -25,9 +27,38 @@ class MobileNav extends React.Component {
 
   render() {
     return (
-      <div>
-        {/* <Button onClick={this.toggleDrawer}>Open Left</Button> */}
+      <React.Fragment>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignContent: 'center',
+            flexGrow: 1,
+          }}
+        >
+          <Typography
+            color="primary"
+            variant="h6"
+            underline="none"
+            noWrap
+            style={{
+              fontWeight: '700',
+              letterSpacing: '-.5px',
+              textDecoration: 'none',
+            }}
+            component={props => (
+              <Link to="/" component={GatsbyLink} {...props} />
+            )}
+          >
+            {this.props.siteTitle}
+          </Typography>
+          <Button onClick={this.toggleDrawer} color="primary">
+            <MenuIcon />
+          </Button>
+        </div>
+
         <SwipeableDrawer
+          anchor="top"
           open={this.state.isDrawerOpen}
           onClose={this.toggleDrawer}
           onOpen={this.toggleDrawer}
@@ -35,49 +66,50 @@ class MobileNav extends React.Component {
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer}
-            onKeyDown={this.toggleDrawer}
+            // onClick={this.toggleDrawer}
+            // onKeyDown={this.toggleDrawer}
           >
             <SideLeft {...this.props} />
           </div>
         </SwipeableDrawer>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const SideLeft = props => {
-  const { classes } = props;
+  const { classes, allSitePages } = props;
   return (
-    <div className={classes.list}>
+    <div style={{ minHeight: '50vh' }}>
       <List>
-        {['Index'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItem
-              button
-              component={props => (
-                <Link to="/companies" component={GatsbyLink} {...props} />
-              )}
-              primary={text}
-            >
-              {text}
-            </ListItem>
-          </ListItem>
-        ))}
+        <ListItem>
+          <MainSearch
+            placeholder="Search…"
+            suggestions={allSitePages ? allSitePages.edges : []}
+            classes={classes}
+          />
+        </ListItem>
       </List>
       <Divider />
       <List>
-        {['News', 'Trending', 'Other'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <MailIcon />
+          </ListItemIcon>
+          <ListItemText primary="About" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <MailIcon />
+          </ListItemIcon>
+          <ListItemText primary="Get Listed" />
+        </ListItem>
       </List>
     </div>
   );
@@ -85,7 +117,7 @@ const SideLeft = props => {
 
 export default withStyles(theme => ({
   list: {
-    width: 250,
+    width: 'auto',
   },
   fullList: {
     width: 'auto',

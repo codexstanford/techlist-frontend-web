@@ -13,7 +13,12 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Hidden from '@material-ui/core/Hidden';
+import ListItem from '@material-ui/core/ListItem';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 
 import CardContent from '@material-ui/core/CardContent';
@@ -29,7 +34,7 @@ import { graphql } from 'gatsby';
 
 class CompanyTemplate extends React.Component {
   state = {
-    open: true,
+    open: false,
   };
 
   handleDrawerOpen = () => {
@@ -87,26 +92,61 @@ class CompanyTemplate extends React.Component {
               </IconButton>
             </Toolbar>
           </AppBar>
-          <Drawer
-            variant="persistent"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !this.state.open && classes.drawerPaperClose
-              ),
-            }}
-            open={this.state.open}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-          </Drawer>
+          <Hidden smUp>
+            <Drawer
+              variant="temporary"
+              classes={{
+                paper: classNames(
+                  classes.drawerPaper,
+                  !this.state.open && classes.drawerPaperClose
+                ),
+              }}
+              open={this.state.open}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={this.handleDrawerClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </div>
+              <Divider />
+              <List>{mainListItems}</List>
+              <Divider />
+              <List>{secondaryListItems}</List>
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown>
+            <Drawer
+              variant="permanent"
+              classes={{
+                paper: classNames(
+                  classes.drawerPaper,
+                  !this.state.open && classes.drawerPaperClose
+                ),
+              }}
+              open={this.state.open}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={this.handleDrawerClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </div>
+              <Divider />
+              <List>
+                <ListItem button>
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Dashboard"
+                    onClick={this.handleDrawerClose}
+                  />
+                </ListItem>
+              </List>
+              <Divider />
+              <List>{secondaryListItems}</List>
+            </Drawer>
+          </Hidden>
+
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Card className={classes.card}>
