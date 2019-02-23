@@ -10,9 +10,8 @@ export function getSuggestions({ value, data }) {
     : data.filter(suggestion => {
         const keep =
           count < 5 &&
-          suggestion.node.context.name &&
-          suggestion.node.context.name.slice(0, inputLength).toLowerCase() ===
-            inputValue;
+          suggestion.name &&
+          suggestion.name.slice(0, inputLength).toLowerCase() === inputValue;
 
         if (keep) {
           count += 1;

@@ -16,6 +16,10 @@ export function SidekickItem(props) {
         <CardMedia
           component="img"
           className={classes.cardMedia}
+          alt={title
+            .split(' ')
+            .slice(0, 5)
+            .join(' ')}
           height="140"
           image={imageUrl}
         />
@@ -39,8 +43,13 @@ export function SidekickItem(props) {
       </CardContent>
       <CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" href={props.link}>
-            Learn More
+          <Button
+            size="small"
+            color="primary"
+            aria-label="Read Full Story"
+            href={props.link}
+          >
+            Read Full Story
           </Button>
         </CardActions>
       </CardActionArea>

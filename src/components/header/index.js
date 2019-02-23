@@ -5,11 +5,9 @@ import HeaderThree from './header.three';
 import HeaderOne from './header.one';
 import HeaderTwo from './header.two';
 import SecondaryHeader from './header.secondary';
-import { StaticQuery, graphql } from 'gatsby';
 import Hidden from '@material-ui/core/Hidden';
 import MobileNav from './header.mobile';
 import { styles } from './header.styles';
-
 import { withStyles } from '@material-ui/core/styles';
 
 import mocks from './__mocks__';
@@ -39,22 +37,16 @@ export class Header extends React.Component {
       siteTitle,
       classes,
       shouldShowSecondaryHeader = true,
-      fullScreen,
-      data,
+      allSitePage,
     } = this.props;
     const { isUserAuthenticated } = this.state;
-    const { allSitePage } = data;
-    console.log(this.props);
+
     return (
       <React.Fragment>
         <AppBar
           position="relative"
           color="inherit"
-          style={{
-            display: 'flex',
-            alignItems: 'space-between',
-            flexDirection: 'column',
-          }}
+          className={classes.headerAppBar}
         >
           <Toolbar className={classes.toolbarMain}>
             <Hidden smDown>
@@ -91,25 +83,4 @@ export class Header extends React.Component {
   }
 }
 
-const EnhancedHeader = withStyles(styles)(Header);
-
-export default props => (
-  <StaticQuery
-    query={graphql`
-      query {
-        allSitePage {
-          edges {
-            node {
-              context {
-                slug
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    `}
-    render={data => <EnhancedHeader data={data} {...props} />}
-  />
-);
+export default withStyles(styles)(Header);

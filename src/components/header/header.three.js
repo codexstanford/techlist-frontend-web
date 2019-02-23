@@ -25,6 +25,7 @@ export function HeaderLeft(props) {
             return (
               <Button
                 key={section.title}
+                aria-label={section.title}
                 color="primary"
                 component={props => (
                   <Link to={section.to} component={GatsbyLink} {...props} />
@@ -39,6 +40,7 @@ export function HeaderLeft(props) {
             color="primary"
             variant="outlined"
             size="small"
+            aria-label="Get Listed"
             onClick={handleUserAuthenticationAction}
             style={{
               marginLeft: '10px',
@@ -89,14 +91,4 @@ HeaderLeft.defaultProps = {
   sections: [],
 };
 
-const styles = theme => ({
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {},
-});
-
-export default withStyles(styles)(HeaderLeft);
+export default HeaderLeft;

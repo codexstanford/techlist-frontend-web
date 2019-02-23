@@ -4,7 +4,8 @@ import Chip from '@material-ui/core/Chip';
 import { navigate } from 'gatsby';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
-
+import { StaticQuery, graphql } from 'gatsby';
+import slugify from 'slugify';
 import { renderInput, renderSuggestion, getSuggestions } from './helpers';
 
 class MainSearch extends React.Component {
@@ -32,18 +33,17 @@ class MainSearch extends React.Component {
 
   handleChange = item => {
     let { selectedItem } = this.state;
-    console.log(item);
 
-    if (selectedItem.indexOf(item) === -1) {
-      selectedItem = [...selectedItem, item.name];
-    }
+    // if (selectedItem.indexOf(item) === -1) {
+    //   selectedItem = [...selectedItem, item.name];
+    // }
 
     this.setState(
       {
         inputValue: '',
-        selectedItem,
+        // selectedItem,
       },
-      navigate(`/companies/${item.slug}`)
+      navigate(`/companies/${slugify(item)}`)
     );
   };
 
@@ -56,7 +56,10 @@ class MainSearch extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, data } = this.props;
+    const {
+      allTechList: { companies },
+    } = data;
     const { selectedItem, inputValue } = this.state;
     return (
       <Downshift
@@ -82,15 +85,6 @@ class MainSearch extends React.Component {
                 fullWidth: true,
                 classes,
                 InputProps: getInputProps({
-                  startAdornment: selectedItem.map(item => (
-                    <Chip
-                      key={item}
-                      tabIndex={-1}
-                      label={item}
-                      className={classes.chip}
-                      onDelete={this.handleDelete(item)}
-                    />
-                  )),
                   onChange: this.handleInputChange,
                   onKeyDown: this.handleKeyDown,
                   placeholder: 'Search',
@@ -100,13 +94,13 @@ class MainSearch extends React.Component {
                 <Paper className={classes.paper} square>
                   {getSuggestions({
                     value: inputValue2,
-                    data: this.props.suggestions,
+                    data: companies,
                   }).map((suggestion, index) =>
                     renderSuggestion({
                       suggestion,
                       index,
                       itemProps: getItemProps({
-                        item: suggestion.node.context,
+                        item: suggestion.name,
                       }),
                       highlightedIndex,
                       selectedItem: selectedItem2,
@@ -122,4 +116,18 @@ class MainSearch extends React.Component {
   }
 }
 
-export default MainSearch;
+export default props => (
+  <StaticQuery
+    query={graphql`
+      query SearchListQuery {
+        allTechList {
+          companies {
+            name
+            id
+          }
+        }
+      }
+    `}
+    render={data => <MainSearch data={data} {...props} />}
+  />
+);

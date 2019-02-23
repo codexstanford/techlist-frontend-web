@@ -35,17 +35,17 @@ HeaderCenter.propTypes = {
   siteTitle: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
-  wrapper: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
-});
+// const styles = theme => ({
+//   wrapper: {
+//     display: 'flex',
+//     justifyContent: 'flex-start',
+//   },
+//   title: {
+//     display: 'none',
+//     [theme.breakpoints.up('sm')]: {
+//       display: 'block',
+//     },
+//   },
+// });
 
-export default withStyles(styles)(HeaderCenter);
+export default HeaderCenter;

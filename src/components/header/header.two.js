@@ -19,7 +19,7 @@ export function HeaderRight(props) {
 }
 
 HeaderRight.propTypes = {
-  classes: PropTypes.array,
+  classes: PropTypes.object,
   allSitePages: PropTypes.any,
 };
 

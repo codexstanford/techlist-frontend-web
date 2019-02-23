@@ -131,7 +131,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   return new Promise((resolve, rej) => {
     fetch(
-      'https://newsapi.org/v2/everything?q=LegalTech&language=en&apiKey=a51190f100bc46a4aba4495c562b1cf9'
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-02-08&apiKey=a51190f100bc46a4aba4495c562b1cf9'
     )
       .then(res => res.json())
       .then(json => {
@@ -163,72 +163,3 @@ exports.sourceNodes = async ({
       });
   });
 };
-
-// exports.createPages = ({ actions, graphql }) =>
-//   graphql(`
-//     query {
-
-//     }
-//   `).then(({ data, errors }) => {
-//     if (errors) {
-//       return Promise.reject(errors);
-//     }
-//     data.allTechList.companies.forEach((company, index) => {
-//       const companyNode = {
-//         id: createNodeId(`company-${company.id}`),
-//         parent: null,
-//         children: [],
-//         internal: {
-//           type: "TechListCompany",
-//           contentDigest: createContentDigest(company),
-//           content: JSON.stringify(company)
-//         },
-//         slug: slugify(company.name),
-//         ...company
-//       };
-//       createPage(companyNode);
-//     });
-//   });
-
-// exports.onCreatePage = async ({ page, actions }) => {
-//   const { createPage } = actions;
-//   if (page.path.match(/^\/dashboard/)) {
-//     page.matchPath = "/dashboard/*";
-//     createPage(page);
-//   }
-// };
-
-// exports.createPages = ({ graphql, actions }) => {
-//   const { createPage } = actions;
-//   const companyTemplate = path.resolve("src/templates/company.js");
-
-//   return new Promise((resolve, reject) => {
-//     resolve(
-//       graphql(`
-//         {
-//           allCompany {
-//             edges {
-//               node {
-//                 slug
-//               }
-//             }
-//           }
-//         }
-//       `)
-//     );
-//   }).then(result => {
-//     if (result.errors) {
-//       console.log(result.errors);
-//     }
-
-//     result.data.allCompany.edges.forEach(({ node }) => {
-//       createPage({
-//         path: `/company/${node.slug}`,
-//         component: companyTemplate,
-//         context: {
-//           slug: `${node.slug}`
-//         }
-//       });
-//     });
-//   });
-// };

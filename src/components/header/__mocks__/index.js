@@ -1,18 +1,18 @@
 export default {
   headerLeftSectionMocks: [
     { title: 'Index', to: '/companies' },
-    { title: 'About' },
+    { title: 'About', to: '/' },
   ],
   headerSecondaryMocks: [
-    { title: 'Marketplace', path: '' },
-    { title: 'Document Automation', path: '' },
-    { title: 'Practice Management', path: '' },
-    { title: 'Research', path: '' },
-    { title: 'Education', path: '' },
-    { title: 'Dispute Resolution', path: '' },
-    { title: 'Discovery', path: '' },
-    { title: 'Analytics', path: '' },
-    { title: 'Compliance', path: '' },
+    { title: 'Marketplace', to: '/' },
+    { title: 'Document Automation', to: '/' },
+    { title: 'Practice Management', to: '/' },
+    { title: 'Research', to: '/' },
+    { title: 'Education', to: '/' },
+    { title: 'Dispute Resolution', to: '/' },
+    { title: 'Discovery', to: '/' },
+    { title: 'Analytics', to: '/' },
+    { title: 'Compliance', to: '/' },
   ],
   featurePostMocks: [
     {

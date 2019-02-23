@@ -37,6 +37,8 @@ module.exports = {
       },
     },
     `gatsby-transformer-sharp`,
+    `gatsby-plugin-catch-links`,
+    `gatsby-plugin-lodash`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
@@ -64,6 +66,15 @@ module.exports = {
         hostname: config.siteMetadata.hostname,
       },
     },
-    'gatsby-plugin-offline',
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        modifyUrlPrefix: {
+          // If `pathPrefix` is configured by user, we should replace
+          // the default prefix with `pathPrefix`.
+          'http://': `https://`,
+        },
+      },
+    },
   ],
 };

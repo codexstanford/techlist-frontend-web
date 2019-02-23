@@ -22,7 +22,7 @@ function ListItemLink(props) {
 
 const IndexPage = props => {
   const { classes } = props;
-  const { allNews } = props.data;
+  const { allNews, allSitePage } = props.data;
 
   const [
     firstArticle,
@@ -30,8 +30,9 @@ const IndexPage = props => {
     thirdArticle,
     ...otherArticles
   ] = allNews.edges;
+
   return (
-    <Layout>
+    <Layout allSitePage={allSitePage}>
       <SEO title="Home" keywords={[`CodeX`, `LegalTech`, `Index`]} />
       <main>
         <LandingHero data={props.data} />
@@ -45,9 +46,9 @@ const IndexPage = props => {
               <Divider />
               <List>
                 {otherArticles &&
-                  otherArticles.map(({ node }) => {
+                  otherArticles.map(({ node }, index) => {
                     return (
-                      <ListItem>
+                      <ListItem key={`listitem-${index}`}>
                         <ListItemText
                           primary={<Link href={node.link}>{node.title}</Link>}
                           secondary={node.content}

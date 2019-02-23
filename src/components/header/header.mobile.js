@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link as GatsbyLink } from 'gatsby';
+import { Link as GatsbyLink, StaticQuery, graphql } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import MainSearch from '../search';
 
@@ -52,7 +52,11 @@ class MobileNav extends React.Component {
           >
             {this.props.siteTitle}
           </Typography>
-          <Button onClick={this.toggleDrawer} color="primary">
+          <Button
+            onClick={this.toggleDrawer}
+            color="primary"
+            aria-label="Toggle Menu"
+          >
             <MenuIcon />
           </Button>
         </div>

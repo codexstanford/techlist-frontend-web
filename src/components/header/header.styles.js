@@ -12,6 +12,11 @@ export const styles = theme => ({
       marginRight: 'auto',
     },
   },
+  headerAppBar: {
+    display: 'flex',
+    alignItems: 'space-between',
+    flexDirection: 'column',
+  },
   toolbarMain: {
     borderBottom: `1px solid ${theme.palette.grey[300]}`,
     flexGrow: 1,

@@ -8,7 +8,7 @@ export function renderInput(inputProps) {
     <TextField
       InputProps={{
         inputRef: ref,
-        fullwidth: true,
+        fullwidth: 'true',
         classes: {
           root: classes.inputRoot,
           input: classes.inputInput,

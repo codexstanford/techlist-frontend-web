@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 
 export function Hero(props) {
   const { classes, data } = props;
-  const { title, description } = data;
+  const { title, description, content } = data;
   return (
     <React.Fragment>
       <Paper className={classes.mainFeaturedPost}>

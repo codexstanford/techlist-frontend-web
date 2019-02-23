@@ -13,14 +13,14 @@ export function renderSuggestion({
   return (
     <MenuItem
       {...itemProps}
-      key={suggestion.label}
+      key={suggestion.name}
       selected={isHighlighted}
       component="div"
       style={{
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.node.context.name}
+      {suggestion.name}
     </MenuItem>
   );
 }
