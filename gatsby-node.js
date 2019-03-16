@@ -10,14 +10,9 @@ const path = require('path');
 const slugify = require('slugify');
 const crypto = require('crypto');
 const fetch = require('node-fetch');
+const _ = require('lodash');
 
 const replacePath = path => (path === '/' ? path : path.replace(/\/$/, ''));
-
-// const { createApolloFetch } = require("apollo-fetch");
-
-// const fetch = createApolloFetch({
-//   uri: "http://graphql.law.kitchen"
-// });
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
   actions.setWebpackConfig({
@@ -27,60 +22,12 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
   });
 };
 
-exports.onCreateNode = ({ node, actions }) => {
-  const { createNode, createNodeField } = actions;
-  // Transform the new node here and create a new node or
-  // create a new node field.
-
-  // console.log(node.internal)
-  // if (node.internal.typeName === 'TechList') {
-  //   console.log(node)
-  // }
-};
-
-// exports.sourceNodes = async ({
-//   actions,
-//   graphql,
-//   createNodeId,
-//   createContentDigest
-// }) => {
-//   console.log(graphql);
-//   const { createNode } = actions;
-//   return new Promise((resolve, reject) => {
-//     fetch({
-//       query: `
-
-//         `
-//     })
-//       .then(res => {
-//         const { data } = res;
-//         data.companies.forEach((company, index) => {
-//           const companyNode = {
-//             id: createNodeId(company.id),
-//             parent: null,
-//             children: [],
-//             internal: {
-//               type: "Company",
-//               contentDigest: createContentDigest(company),
-//               content: JSON.stringify(company),
-//               description: "Data from Stanford's Legal Tech Index"
-//             },
-//             slug: slugify(company.name),
-//             ...company
-//           };
-//           createNode(companyNode);
-//         });
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//     resolve();
-//   });
-// };
+exports.onCreateNode = ({ node, actions }) => {};
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
   const companyTemplate = path.resolve('src/templates/company.js');
+  const tagTemplate = path.resolve('src/templates/tags.js');
 
   return new Promise((resolve, reject) => {
     graphql(`
@@ -89,16 +36,35 @@ exports.createPages = ({ graphql, actions }) => {
           companies {
             id
             name
-            operatingModels
+            location {
+              formatted_address
+              googleId
+              id
+              photos
+            }
+            operatingModels {
+              name
+              id
+            }
             yearFounded
             description
             visible
-            targetMarkets
-            cats
+            targetMarkets {
+              name
+              id
+            }
+            cats {
+              name
+              id
+            }
             url
             twitter
             crunchbase
             angellist
+          }
+          companyCategories {
+            id
+            name
           }
         }
       }
@@ -106,6 +72,8 @@ exports.createPages = ({ graphql, actions }) => {
       if (result.errors) {
         reject(result.errors);
       }
+
+      const tags = result.data.allTechList.companyCategories;
 
       result.data.allTechList.companies.forEach(node => {
         createPage({
@@ -115,9 +83,28 @@ exports.createPages = ({ graphql, actions }) => {
             slug: slugify(node.name),
             id: node.id,
             name: node.name,
+            url: node.url,
+            twitter: node.twitter,
+            data: JSON.stringify({ ...node }),
           },
         });
       });
+
+      tags.forEach(tag => {
+        console.log(tag);
+        if (tag.name === '_-' || tag.name === '----') {
+          return;
+        }
+        createPage({
+          path: `/tags/${_.kebabCase(tag.name)}/`,
+          component: tagTemplate,
+          context: {
+            tag: tag.name,
+            id: tag.id,
+          },
+        });
+      });
+
       resolve();
     });
   });
@@ -131,10 +118,14 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   return new Promise((resolve, rej) => {
     fetch(
-      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-02-08&apiKey=a51190f100bc46a4aba4495c562b1cf9'
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-02-19&apiKey=a51190f100bc46a4aba4495c562b1cf9'
     )
       .then(res => res.json())
       .then(json => {
+        if (!json.articles) {
+          throw new Error('SOMETHING IS WRONG WITH NEWS API: ', json);
+          rej();
+        }
         json.articles.forEach((item, index) => {
           const newsNode = {
             id: createNodeId(`news-${index}`),
@@ -163,3 +154,16 @@ exports.sourceNodes = async ({
       });
   });
 };
+
+// exports.onCreatePage = async ({ page, actions }) => {
+//   const { createPage } = actions;
+
+//   // page.matchPath is a special key that's used for matching pages
+//   // only on the client.
+//   if (page.path.match(/^\/app/)) {
+//     page.matchPath = `/app/*`;
+
+//     // Update the page.
+//     createPage(page);
+//   }
+// };

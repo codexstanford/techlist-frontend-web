@@ -13,11 +13,12 @@ export function LandingHero(props) {
   } = props;
 
   const [heroData, ...sidekickData] = data.map(item => item.node);
+  console.log(sidekickData);
 
   return (
     <React.Fragment>
       <Hero data={heroData} classes={props.classes} />
-      <Sidekick data={sidekickData.slice(0, 3)} classes={props.classes} />
+      <Sidekick data={sidekickData} classes={props.classes} />
     </React.Fragment>
   );
 }

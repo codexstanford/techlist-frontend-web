@@ -6,7 +6,13 @@ import styled from 'styled-components';
 
 import Header from './header/index';
 
-const Layout = ({ children, allSitePage, fullScreen = false, ...rest }) => (
+const Layout = ({
+  children,
+  allSitePage,
+  user,
+  fullScreen = false,
+  ...rest
+}) => (
   <React.Fragment>
     <CssBaseline />
     <StaticQuery
@@ -25,6 +31,7 @@ const Layout = ({ children, allSitePage, fullScreen = false, ...rest }) => (
             allSitePage={allSitePage}
             siteTitle={data.site.siteMetadata.title}
             fullScreen={fullScreen}
+            user={user}
             {...rest}
           />
 

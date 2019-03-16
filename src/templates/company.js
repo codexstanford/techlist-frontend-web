@@ -187,7 +187,9 @@ class CompanyTemplate extends React.Component {
                         Operating Models:
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {company.operatingModels}
+                        {company.operatingModels
+                          .map(i => i.name.replace('_', ' '))
+                          .join(',')}
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -195,7 +197,9 @@ class CompanyTemplate extends React.Component {
                         Target Markets:
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {company.targetMarkets}
+                        {company.targetMarkets
+                          .map(i => i.name.replace('_', ' '))
+                          .join(',')}
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -263,12 +267,27 @@ export const pageQuery = graphql`
     allTechList {
       company(where: { id: $id }) {
         name
-        operatingModels
+        operatingModels {
+          name
+          id
+        }
         yearFounded
         description
         visible
-        targetMarkets
-        cats
+        targetMarkets {
+          name
+          id
+        }
+        cats {
+          name
+          id
+        }
+        location {
+          formatted_address
+          googleId
+          id
+          photos
+        }
         url
         twitter
         crunchbase

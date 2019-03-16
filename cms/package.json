@@ -1,9 +1,0 @@
-{
-  "name": "cms",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@gqlify/server": "^3.1.0"
-  }
-}

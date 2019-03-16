@@ -17,7 +17,8 @@ module.exports = {
   },
   api: {
     graphql: {
-      endpoint: 'http://graphql.law.kitchen',
+      endpoint:
+        'http://a8293f4b6428611e991a6062672a2ea4-1472358435.us-west-2.elb.amazonaws.com',
       typeName: 'TechList',
       fieldName: 'allTechList',
     },

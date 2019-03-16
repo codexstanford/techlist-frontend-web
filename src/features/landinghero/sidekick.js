@@ -7,13 +7,18 @@ export function Sidekick(props) {
   return (
     <React.Fragment>
       <Grid container spacing={40} className={classes.cardGrid}>
-        {data.map(item => {
-          return (
-            <Grid key={item.id} item xs={12} md={4}>
-              <SidekickItem {...item} classes={classes} />
-            </Grid>
-          );
-        })}
+        {data
+          .filter(item => {
+            return item.content && item.imageUrl;
+          })
+          .slice(0, 3)
+          .map(item => {
+            return (
+              <Grid key={item.id} item xs={12} md={4}>
+                <SidekickItem {...item} classes={classes} />
+              </Grid>
+            );
+          })}
       </Grid>
     </React.Fragment>
   );

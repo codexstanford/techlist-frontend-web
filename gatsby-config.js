@@ -12,6 +12,10 @@ module.exports = {
       resolve: 'gatsby-plugin-robots-txt',
       options: {},
     },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/app/*`] },
+    },
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,

@@ -34,11 +34,12 @@ export function SidekickItem(props) {
         </Typography>
 
         <Typography variant="body2">
-          {content
-            .replace(/<[^>]*>/, ' ')
-            .split(' ')
-            .slice(0, 50)
-            .join(' ')}
+          {content &&
+            content
+              .replace(/<[^>]*>/, ' ')
+              .split(' ')
+              .slice(0, 50)
+              .join(' ')}
         </Typography>
       </CardContent>
       <CardActionArea>

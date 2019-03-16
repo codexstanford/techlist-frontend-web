@@ -38,6 +38,7 @@ export class Header extends React.Component {
       classes,
       shouldShowSecondaryHeader = true,
       allSitePage,
+      user,
     } = this.props;
     const { isUserAuthenticated } = this.state;
 
@@ -56,7 +57,8 @@ export class Header extends React.Component {
                 handleUserAuthenticationAction={
                   this.handleUserAuthenticationAction
                 }
-                isUserAuthenticated={isUserAuthenticated}
+                isUserAuthenticated={!!user}
+                user={user}
                 sections={mocks.headerLeftSectionMocks}
                 classes={classes}
               />
@@ -65,10 +67,11 @@ export class Header extends React.Component {
               <MobileNav
                 allSitePages={allSitePage}
                 siteTitle={siteTitle}
+                isUserAuthenticated={!!user}
+                user={user}
                 handleUserAuthenticationAction={
                   this.handleUserAuthenticationAction
                 }
-                isUserAuthenticated={isUserAuthenticated}
                 sections={mocks.headerLeftSectionMocks}
                 classes={classes}
               />

@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { Auth } from 'aws-amplify';
 
 // This component actually appears in the 'header right' position.
 
@@ -41,7 +42,9 @@ export function HeaderLeft(props) {
             variant="outlined"
             size="small"
             aria-label="Get Listed"
-            onClick={handleUserAuthenticationAction}
+            component={props => (
+              <Link to="/app/profile/" component={GatsbyLink} {...props} />
+            )}
             style={{
               marginLeft: '10px',
             }}
@@ -49,11 +52,12 @@ export function HeaderLeft(props) {
             Get Listed
           </Button>
         </React.Fragment>
-        {/* {isUserAuthenticated ? (
+
+        {isUserAuthenticated ? (
           <React.Fragment>
             <IconButton
               aria-haspopup="true"
-              onClick={handleUserAuthenticationAction}
+              onClick={Auth.signOut()}
               color="primary"
             >
               <AccountCircle />
@@ -63,9 +67,10 @@ export function HeaderLeft(props) {
           <React.Fragment>
             <Button
               color="primary"
-              variant="outlined"
               size="small"
-              onClick={handleUserAuthenticationAction}
+              component={props => (
+                <Link to="/app/login/" component={GatsbyLink} {...props} />
+              )}
               style={{
                 marginLeft: '10px',
               }}
@@ -73,7 +78,7 @@ export function HeaderLeft(props) {
               Login
             </Button>
           </React.Fragment>
-        )} */}
+        )}
       </div>
     </React.Fragment>
   );

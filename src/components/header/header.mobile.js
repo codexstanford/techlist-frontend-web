@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link as GatsbyLink, StaticQuery, graphql } from 'gatsby';
+import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import MainSearch from '../search';
 
@@ -26,6 +26,9 @@ class MobileNav extends React.Component {
   };
 
   render() {
+    const { isDrawerOpen } = this.state;
+    const { siteTitle } = this.props;
+
     return (
       <React.Fragment>
         <div
@@ -50,7 +53,7 @@ class MobileNav extends React.Component {
               <Link to="/" component={GatsbyLink} {...props} />
             )}
           >
-            {this.props.siteTitle}
+            {siteTitle}
           </Typography>
           <Button
             onClick={this.toggleDrawer}
@@ -63,7 +66,7 @@ class MobileNav extends React.Component {
 
         <SwipeableDrawer
           anchor="top"
-          open={this.state.isDrawerOpen}
+          open={isDrawerOpen}
           onClose={this.toggleDrawer}
           onOpen={this.toggleDrawer}
         >
@@ -96,23 +99,35 @@ const SideLeft = props => {
       </List>
       <Divider />
       <List>
-        <ListItem button>
+        <ListItem button component={GatsbyLink} to="/">
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
-        <ListItem button>
+        <ListItem button button component={GatsbyLink} to="/companies/">
           <ListItemIcon>
             <MailIcon />
           </ListItemIcon>
-          <ListItemText primary="About" />
+          <ListItemText primary="Index" />
         </ListItem>
-        <ListItem button>
+        <ListItem button button component={GatsbyLink} to="/tags/">
+          <ListItemIcon>
+            <MailIcon />
+          </ListItemIcon>
+          <ListItemText primary="Categories" />
+        </ListItem>
+        <ListItem button button component={GatsbyLink} to="/app/profile/">
           <ListItemIcon>
             <MailIcon />
           </ListItemIcon>
           <ListItemText primary="Get Listed" />
+        </ListItem>
+        <ListItem button button component={GatsbyLink} to="/app/login/">
+          <ListItemIcon>
+            <MailIcon />
+          </ListItemIcon>
+          <ListItemText primary="Login" />
         </ListItem>
       </List>
     </div>
