@@ -1,6 +1,11 @@
+require('dotenv').config();
 const url = require('url');
 const mURL = new URL('https://law.haus');
 const theme = require('./theme');
+
+const jwt = process.env.JWT;
+
+console.log(jwt);
 
 module.exports = {
   social: {
@@ -21,6 +26,7 @@ module.exports = {
         'http://a8293f4b6428611e991a6062672a2ea4-1472358435.us-west-2.elb.amazonaws.com',
       typeName: 'TechList',
       fieldName: 'allTechList',
+      jwt,
     },
   },
   theme,

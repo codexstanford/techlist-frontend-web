@@ -25,6 +25,9 @@ module.exports = {
         typeName: config.api.graphql.typeName,
         fieldName: config.api.graphql.fieldName,
         url: config.api.graphql.endpoint,
+        headers: {
+          authorization: `Bearer ${config.api.graphql.jwt}`,
+        },
       },
     },
     {

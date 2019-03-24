@@ -13,13 +13,13 @@ import { Auth } from 'aws-amplify';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import { navigate } from '@reach/router';
+import { setUser, isLoggedIn } from '../../../../services/auth';
 
 function CreateAccount({ classes, ...props }) {
   const [shouldShowConfirm, setShowConfirm] = useState(false);
   const [cognitoData, setCognitoData] = useState({});
 
   const { setStep, activeStep: step } = props;
-  console.log(step);
 
   const handleSubmitRequest = (
     values,
@@ -64,21 +64,29 @@ function CreateAccount({ classes, ...props }) {
     }
   };
 
-  const handleConfirmRequest = (values, { setSubmitting }) => {
+  const handleConfirmRequest = async (values, { setSubmitting }) => {
     setSubmitting(true);
-    const { username, code } = values;
+    const { username, code, password } = values;
     try {
-      Auth.confirmSignUp(username, code, {}).then(data => {
-        console.log(data);
+      const result = await Auth.confirmSignUp(username, code, {}).catch(err =>
+        console.log(err)
+      );
+      if (result === 'SUCCESS') {
+        const user = await Auth.signIn(username, password).catch(err =>
+          console.log(err)
+        );
+        console.log(user);
         setSubmitting(false);
-        setCognitoData({ ...data, username });
         setShowConfirm(false);
-        navigate('/app/profile/');
-      });
+      }
     } catch (err) {
       console.log(err);
     }
   };
+
+  if (isLoggedIn()) {
+    setStep(1);
+  }
 
   return (
     <Formik
@@ -90,10 +98,15 @@ function CreateAccount({ classes, ...props }) {
         return (
           <Container className={classes.main}>
             <HeaderWrapper>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
+              <Typography
+                variant="h5"
+                color="primary"
+                style={{
+                  fontWeight: '700',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
                 Create CodeX Account
               </Typography>
             </HeaderWrapper>
@@ -162,12 +175,6 @@ function CreateAccount({ classes, ...props }) {
                 />
               )}
             </Form>
-            <Typography component="p" variant="subtitle1" align="center">
-              Already have an account?{' '}
-              <Link component={GatsbyLink} to="/app/login/">
-                Sign in!
-              </Link>
-            </Typography>
           </Container>
         );
       }}
@@ -182,6 +189,7 @@ const HeaderWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2rem 0;
 `;
 
 const ButtonWrapper = styled.div`
@@ -192,7 +200,6 @@ const Container = styled.div`
   display: flex;
 
   flex-direction: column;
-  height: 80vh;
-  align-content: center;
+
   justify-content: center;
 `;

@@ -14,18 +14,38 @@ export const styles = theme => ({
       marginRight: 'auto',
     },
   },
+  card: {
+    display: 'flex',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cover: {
+    objectFit: 'cover',
+  },
   container: {
     display: 'grid',
     gridTemplateColumns: 'repeat(12, 1fr)',
     gridGap: `${theme.spacing.unit * 3}px`,
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: 10,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`,
+    [theme.breakpoints.up(450 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 8,
+    },
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: theme.spacing.unit / 4,
   },
   avatar: {
     margin: theme.spacing.unit,
@@ -38,8 +58,10 @@ export const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
   },
+
   root: {
     width: '90%',
+    alignSelf: 'center',
   },
   button: {
     marginRight: theme.spacing.unit,

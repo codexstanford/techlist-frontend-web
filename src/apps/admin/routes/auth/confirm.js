@@ -8,7 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-// import CircularProgress from "@material-ui/core/CircularProgress";
 import { Auth } from 'aws-amplify';
 
 function Transition(props) {
@@ -38,7 +37,11 @@ class AlertDialogSlide extends React.Component {
     return (
       <Formik
         onSubmit={this.props.handleConfirm}
-        initialValues={{ username: this.props.data.email, code: '' }}
+        initialValues={{
+          username: this.props.data.email,
+          code: '',
+          password: this.props.data.password,
+        }}
       >
         {({
           submitForm,

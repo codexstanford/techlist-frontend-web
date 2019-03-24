@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
-import MobileNav from './header.mobile';
 
-export function HeaderCenter(props) {
-  const { siteTitle, classes } = props;
-
+export function HeaderCenter({ siteTitle, classes, ...props }) {
   return (
     <div className={classes.wrapper}>
       {siteTitle && (
@@ -34,18 +29,5 @@ export function HeaderCenter(props) {
 HeaderCenter.propTypes = {
   siteTitle: PropTypes.string.isRequired,
 };
-
-// const styles = theme => ({
-//   wrapper: {
-//     display: 'flex',
-//     justifyContent: 'flex-start',
-//   },
-//   title: {
-//     display: 'none',
-//     [theme.breakpoints.up('sm')]: {
-//       display: 'block',
-//     },
-//   },
-// });
 
 export default HeaderCenter;

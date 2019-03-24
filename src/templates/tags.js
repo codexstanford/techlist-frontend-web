@@ -1,24 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
-
-const slugify = require('slugify');
-import ReactTable, { useReactTable } from 'react-table';
-// Components
+import ReactTable from 'react-table';
 import { Link as GatsbyLink, graphql } from 'gatsby';
-import Link from '@material-ui/core/Link';
+const slugify = require('slugify');
 
 const Tags = ({ pageContext, data, classes, ...rest }) => {
-  console.log(pageContext, data, rest);
   const { companies } = data.allTechList.companyCategory;
-
   return (
     <Layout shouldShowSecondaryHeader={false} fullScreen={false}>
       <SEO
@@ -38,7 +29,6 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
                     button
                     component={GatsbyLink}
                     to={`/companies/${slugify(props.value)}/`}
-                    {...props}
                   >
                     <ListItemText primary={props.value} />
                   </ListItem>

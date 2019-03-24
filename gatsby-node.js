@@ -68,45 +68,47 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       }
-    `).then(result => {
-      if (result.errors) {
-        reject(result.errors);
-      }
-
-      const tags = result.data.allTechList.companyCategories;
-
-      result.data.allTechList.companies.forEach(node => {
-        createPage({
-          path: `/companies/${slugify(node.name)}/`,
-          component: companyTemplate,
-          context: {
-            slug: slugify(node.name),
-            id: node.id,
-            name: node.name,
-            url: node.url,
-            twitter: node.twitter,
-            data: JSON.stringify({ ...node }),
-          },
-        });
-      });
-
-      tags.forEach(tag => {
-        console.log(tag);
-        if (tag.name === '_-' || tag.name === '----') {
-          return;
+    `)
+      .then(result => {
+        if (result.errors) {
+          reject(result.errors);
         }
-        createPage({
-          path: `/tags/${_.kebabCase(tag.name)}/`,
-          component: tagTemplate,
-          context: {
-            tag: tag.name,
-            id: tag.id,
-          },
-        });
-      });
 
-      resolve();
-    });
+        const tags = result.data.allTechList.companyCategories;
+
+        result.data.allTechList.companies.forEach(node => {
+          createPage({
+            path: `/companies/${slugify(node.name)}/`,
+            component: companyTemplate,
+            context: {
+              slug: slugify(node.name),
+              id: node.id,
+              name: node.name,
+              url: node.url,
+              twitter: node.twitter,
+              data: JSON.stringify({ ...node }),
+            },
+          });
+        });
+
+        tags.forEach(tag => {
+          console.log(tag);
+          if (tag.name === '_-' || tag.name === '----') {
+            return;
+          }
+          createPage({
+            path: `/tags/${_.kebabCase(tag.name)}/`,
+            component: tagTemplate,
+            context: {
+              tag: tag.name,
+              id: tag.id,
+            },
+          });
+        });
+
+        resolve();
+      })
+      .catch(err => console.log(err));
   });
 };
 
@@ -118,7 +120,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   return new Promise((resolve, rej) => {
     fetch(
-      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-02-19&apiKey=a51190f100bc46a4aba4495c562b1cf9'
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-02-25&apiKey=a51190f100bc46a4aba4495c562b1cf9'
     )
       .then(res => res.json())
       .then(json => {

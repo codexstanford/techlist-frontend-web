@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import styled from 'styled-components';
-
 import Header from './header/index';
 
 const Layout = ({

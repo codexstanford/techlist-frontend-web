@@ -1,15 +1,15 @@
 export default {
   headerLeftSectionMocks: [
     { title: 'Index', to: '/companies' },
-    { title: 'About', to: '/' },
+    { title: 'About', to: '/about' },
   ],
   headerSecondaryMocks: [
     { title: 'Marketplace', to: '/tags/marketplace/' },
     { title: 'Document Automation', to: '/tags/document-automation' },
     { title: 'Practice Management', to: '/tags/practice-management' },
-    { title: 'Research', to: '/tags/research' },
-    { title: 'Education', to: '/tags/education' },
-    { title: 'Dispute Resolution', to: '/tags/dispute-resolution' },
+    { title: 'Research', to: '/tags/legal-research' },
+    { title: 'Education', to: '/tags/legal-education' },
+    { title: 'Dispute Resolution', to: '/tags/online-dispute-resolution' },
     { title: 'Discovery', to: '/tags/discovery' },
     { title: 'Analytics', to: '/tags/analytics' },
     { title: 'Compliance', to: '/tags/compliance' },

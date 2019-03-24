@@ -1,24 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { graphql } from 'gatsby';
-
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Link from '@material-ui/core/Link';
-
 import ListItemText from '@material-ui/core/ListItemText';
 import LandingHero from '../features/landinghero';
 import { withStyles } from '@material-ui/core/styles';
-
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
 
 const IndexPage = props => {
   const { classes } = props;

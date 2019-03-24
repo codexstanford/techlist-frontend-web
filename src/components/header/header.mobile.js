@@ -134,11 +134,13 @@ const SideLeft = props => {
   );
 };
 
-export default withStyles(theme => ({
-  list: {
-    width: 'auto',
-  },
-  fullList: {
-    width: 'auto',
-  },
-}))(MobileNav);
+export default MobileNav;
+
+// export default withStyles(theme => ({
+//   list: {
+//     width: 'auto',
+//   },
+//   fullList: {
+//     width: 'auto',
+//   },
+// }))(MobileNav);
