@@ -9,7 +9,7 @@ export function CompanyLocationMap(props) {
   }
   const { location } = props.location.geometry.set;
   return (
-    <Container style={{ height: '150px' }}>
+    <Container style={{ height: '350px' }}>
       <GoogleMapReact id="test" defaultZoom={8} defaultCenter={location}>
         <Marker {...location} />
       </GoogleMapReact>

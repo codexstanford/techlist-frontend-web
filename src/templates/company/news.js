@@ -7,14 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Link from '@material-ui/core/Link';
 import _ from 'lodash';
 
-import Chip from '@material-ui/core/Chip';
-
-import {
-  formatCompanyFoundedDate,
-  formatCompanyOperatingModels,
-  formatCompanyTargetMarkets,
-  formatBingNewsPublishedDate,
-} from './helpers';
+import { formatBingNewsPublishedDate } from './helpers';
 
 export function CompanyNews({ classes, company, ...props }) {
   const [news, setNews] = useState(null);
@@ -34,8 +27,6 @@ export function CompanyNews({ classes, company, ...props }) {
       .catch(err => console.log(err));
   }, [company.name]);
 
-  console.log(news);
-
   if (!news) {
     return null;
   }
@@ -54,7 +45,7 @@ export function CompanyNews({ classes, company, ...props }) {
 
 function renderNewsItems(news) {
   return _.reverse(_.sortBy(news, 'datePublished'))
-    .slice(0, 10)
+    .slice(0, 5)
     .map((item, index) => {
       if (!item.name) {
         return null;

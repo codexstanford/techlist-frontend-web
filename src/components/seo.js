@@ -91,6 +91,9 @@ const detailsQuery = graphql`
         description
         author
       }
+      social {
+        twitter
+      }
     }
   }
 `;

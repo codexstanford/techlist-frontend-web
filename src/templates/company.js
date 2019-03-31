@@ -17,19 +17,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import Grid from '@material-ui/core/Grid';
-
-import TableRow from '@material-ui/core/TableRow';
+import { formatCompanyCategories } from './company/helpers';
 
 import { mainListItems, secondaryListItems } from './__mocks__/listitems';
 import { styles } from './__mocks__/styles';
@@ -39,6 +34,7 @@ import {
   CompanyLocationMap,
   CompanyIntelligence,
   CompanyNews,
+  CompanyContact,
 } from './company/index';
 import CardHeader from '@material-ui/core/CardHeader';
 
@@ -180,6 +176,11 @@ class CompanyTemplate extends React.Component {
                     <Typography variant="body1" gutterBottom component="h2">
                       <p>{unescape(company.description)}</p>
                     </Typography>
+                    {company.cats && company.cats.length > 0 && (
+                      <Typography variant="overline" color="textSecondary">
+                        {formatCompanyCategories(company.cats)}
+                      </Typography>
+                    )}
                   </CardContent>
                 </Card>
                 <Card className={classes.card}>
@@ -210,59 +211,12 @@ class CompanyTemplate extends React.Component {
                   )}
                 </Card>
                 <CompanyIntelligence classes={classes} company={company} />
+                <CompanyContact classes={classes} company={company} />
               </Grid>
               <Grid item md={4}>
                 <CompanyNews classes={classes} company={company} />
               </Grid>
             </Grid>
-
-            {/* <Card className={classes.card}>
-              <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Contact Information:
-                </Typography>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Web:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.url}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Twitter:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.twitter}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Crunchbase:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.crunchbase}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        AngelList:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.angellist}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card> */}
           </main>
         </div>
       </Layout>
@@ -277,6 +231,7 @@ export const pageQuery = graphql`
     allTechList {
       company(where: { id: $id }) {
         name
+        id
         operatingModels {
           name
           id
@@ -300,6 +255,23 @@ export const pageQuery = graphql`
           photos
           geometry
         }
+        contact {
+          id
+          urlTwitter
+          urlCrunchbase
+          urlAngellist
+          urlWebsite
+        }
+        affiliations {
+          id
+          profile {
+            firstName
+            lastName
+            avatar
+            title
+          }
+        }
+
         url
         twitter
         crunchbase

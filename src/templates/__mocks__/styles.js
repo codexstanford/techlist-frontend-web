@@ -93,8 +93,7 @@ export const styles = theme => ({
   card: {
     marginBottom: theme.spacing.unit * 2,
     color: 'black',
-    minWidth: 350,
-    maxWidth: 700,
+    minWidth: 300,
   },
   bullet: {
     display: 'inline-block',
