@@ -133,6 +133,16 @@ class AppProvider extends Component {
     hideModal: () => this.setState({ open: false }),
   };
 
+  componentDidCatch(error, errorInfo) {
+    this.setState({ error });
+    Sentry.configureScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key]);
+      });
+    });
+    Sentry.captureException(error);
+  }
+
   render() {
     return (
       <Provider value={this.state}>

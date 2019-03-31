@@ -85,6 +85,7 @@ exports.createPages = ({ graphql, actions }) => {
               id: node.id,
               name: node.name,
               url: node.url,
+              description: node.description,
               twitter: node.twitter,
               data: JSON.stringify({ ...node }),
             },
@@ -120,7 +121,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   return new Promise((resolve, rej) => {
     fetch(
-      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-02-25&apiKey=a51190f100bc46a4aba4495c562b1cf9'
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-03-01&apiKey=a51190f100bc46a4aba4495c562b1cf9'
     )
       .then(res => res.json())
       .then(json => {

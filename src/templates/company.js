@@ -1,6 +1,8 @@
 import React from 'react';
 import Layout from '../components/layout';
 import classNames from 'classnames';
+import { DateTime } from 'luxon';
+
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -16,11 +18,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
-
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -31,6 +34,17 @@ import TableRow from '@material-ui/core/TableRow';
 import { mainListItems, secondaryListItems } from './__mocks__/listitems';
 import { styles } from './__mocks__/styles';
 import { graphql } from 'gatsby';
+
+import CompanyLocationMap from './company/locationmap';
+import { CardHeader } from '@material-ui/core';
+
+const formatCompanyFoundedDate = date => {
+  if (date === undefined) {
+    return;
+  }
+  const result = DateTime.fromISO(date).year;
+  return result;
+};
 
 class CompanyTemplate extends React.Component {
   state = {
@@ -50,6 +64,10 @@ class CompanyTemplate extends React.Component {
       data: { allTechList },
     } = this.props;
     const { company } = allTechList;
+
+    if (company === null) {
+      return null;
+    }
 
     return (
       <Layout shouldShowSecondaryHeader={false} fullScreen={true}>
@@ -150,20 +168,31 @@ class CompanyTemplate extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Card className={classes.card}>
+              {company && company.logo ? (
+                <CardMedia
+                  className={classes.media}
+                  image={company.logo}
+                  title={`${company.name} logo`}
+                />
+              ) : null}
               <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Company Description:
+                <Typography variant="h6" color="textSecondary">
+                  {company.name}
                 </Typography>
-                <Typography variant="h6" gutterBottom component="h2">
+                <Typography variant="body1" gutterBottom component="h2">
                   <p>{unescape(company.description)}</p>
                 </Typography>
               </CardContent>
             </Card>
+
             <Card className={classes.card}>
+              {company.location && (
+                <CardHeader
+                  component={() => (
+                    <CompanyLocationMap location={company.location} />
+                  )}
+                />
+              )}
               <CardContent>
                 <Typography
                   className={classes.title}
@@ -179,7 +208,7 @@ class CompanyTemplate extends React.Component {
                         Year Founded:
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {company.yearFounded}
+                        {formatCompanyFoundedDate(company.yearFounded)}
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -271,6 +300,7 @@ export const pageQuery = graphql`
           name
           id
         }
+        logo
         yearFounded
         description
         visible
@@ -287,6 +317,7 @@ export const pageQuery = graphql`
           googleId
           id
           photos
+          geometry
         }
         url
         twitter

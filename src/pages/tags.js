@@ -7,7 +7,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { Link as GatsbyLink, graphql } from 'gatsby';
 import _ from 'lodash';
+import Typography from '@material-ui/core/Typography';
+
 const slugify = require('slugify');
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
 
 const Tags = ({ pageContext, data, classes, ...rest }) => {
   const { companyCategories } = data.allTechList;
@@ -19,9 +27,28 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
       />
       <div className={classes.root}>
         <ReactTable
+          className="-striped -highlight"
+          resolveData={data => {
+            return data
+              .filter(item => item.name !== '----' && item.name !== '_-')
+              .map(item => {
+                const { name, id } = item;
+                const formattedName = toTitleCase(name.split('_').join(' '));
+                return {
+                  id,
+                  name: formattedName,
+                };
+              });
+          }}
+          defaultSorted={[
+            {
+              id: 'Categories',
+              desc: false,
+            },
+          ]}
           columns={[
             {
-              Header: 'Company Categories',
+              Header: () => <Typography variant="h6">Categories</Typography>,
               accessor: edge => edge.name,
               id: edge => edge.id,
               Cell: props => {
@@ -31,7 +58,13 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
                     component={GatsbyLink}
                     to={`/tags/${slugify(_.kebabCase(props.value))}/`}
                   >
-                    <ListItemText primary={props.value} />
+                    <ListItemText
+                      primary={
+                        <Typography variant="subtitle1">
+                          {props.value ? props.value : ''}
+                        </Typography>
+                      }
+                    />
                   </ListItem>
                 );
               },

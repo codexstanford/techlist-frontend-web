@@ -36,6 +36,10 @@ export const styles = theme => ({
     marginLeft: 12,
     marginRight: 36,
   },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
   menuButtonHidden: {
     display: 'none',
   },

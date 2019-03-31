@@ -18,6 +18,7 @@ export function Hero(props) {
                 color="inherit"
                 underline="none"
                 variant="h3"
+                target="_blank"
               >
                 {title}
               </Link>
