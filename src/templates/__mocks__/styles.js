@@ -69,8 +69,10 @@ export const styles = theme => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
+
     padding: theme.spacing.unit * 3,
     height: '100vh',
+
     overflow: 'auto',
   },
   chartContainer: {
@@ -89,9 +91,9 @@ export const styles = theme => ({
     marginBottom: theme.spacing.unit * 2,
   },
   card: {
-    minWidth: 275,
     marginBottom: theme.spacing.unit * 2,
     color: 'black',
+    minWidth: 300,
   },
   bullet: {
     display: 'inline-block',

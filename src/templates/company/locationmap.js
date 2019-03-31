@@ -3,23 +3,19 @@ import GoogleMapReact from 'google-map-react';
 
 import { Container } from '../../atoms';
 
-function CompanyLocationMap(props) {
-  console.log(props);
+export function CompanyLocationMap(props) {
   if (!props.location.geometry || !props.location.geometry.set) {
     return null;
   }
   const { location } = props.location.geometry.set;
-
   return (
-    <Container style={{ height: '150px' }}>
+    <Container style={{ height: '350px' }}>
       <GoogleMapReact id="test" defaultZoom={8} defaultCenter={location}>
         <Marker {...location} />
       </GoogleMapReact>
     </Container>
   );
 }
-
-export default CompanyLocationMap;
 
 import styled from 'styled-components';
 

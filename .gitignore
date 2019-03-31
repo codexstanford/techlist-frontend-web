@@ -76,3 +76,4 @@ aws-exports.js
 awsconfiguration.json
 
 .env
+.env.*

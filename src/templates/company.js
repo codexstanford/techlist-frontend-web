@@ -1,7 +1,6 @@
 import React from 'react';
 import Layout from '../components/layout';
 import classNames from 'classnames';
-import { DateTime } from 'luxon';
 
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,33 +17,26 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-
+import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-
-import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid';
+import { formatCompanyCategories } from './company/helpers';
 
 import { mainListItems, secondaryListItems } from './__mocks__/listitems';
 import { styles } from './__mocks__/styles';
 import { graphql } from 'gatsby';
 
-import CompanyLocationMap from './company/locationmap';
-import { CardHeader } from '@material-ui/core';
-
-const formatCompanyFoundedDate = date => {
-  if (date === undefined) {
-    return;
-  }
-  const result = DateTime.fromISO(date).year;
-  return result;
-};
+import {
+  CompanyLocationMap,
+  CompanyIntelligence,
+  CompanyNews,
+  CompanyContact,
+} from './company/index';
+import CardHeader from '@material-ui/core/CardHeader';
 
 class CompanyTemplate extends React.Component {
   state = {
@@ -167,121 +159,64 @@ class CompanyTemplate extends React.Component {
 
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Card className={classes.card}>
-              {company && company.logo ? (
-                <CardMedia
-                  className={classes.media}
-                  image={company.logo}
-                  title={`${company.name} logo`}
-                />
-              ) : null}
-              <CardContent>
-                <Typography variant="h6" color="textSecondary">
-                  {company.name}
-                </Typography>
-                <Typography variant="body1" gutterBottom component="h2">
-                  <p>{unescape(company.description)}</p>
-                </Typography>
-              </CardContent>
-            </Card>
+            <Grid container spacing={16} className={classes.mainGrid}>
+              <Grid item md={8} sm={12}>
+                <Card className={classes.card}>
+                  {company && company.logo ? (
+                    <CardMedia
+                      className={classes.media}
+                      image={company.logo}
+                      title={`${company.name} logo`}
+                    />
+                  ) : null}
+                  <CardContent>
+                    <Typography variant="h6" color="textSecondary">
+                      {company.name}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom component="h2">
+                      <p>{unescape(company.description)}</p>
+                    </Typography>
+                    {company.cats && company.cats.length > 0 && (
+                      <Typography variant="overline" color="textSecondary">
+                        {formatCompanyCategories(company.cats)}
+                      </Typography>
+                    )}
+                  </CardContent>
+                </Card>
+                <Card className={classes.card}>
+                  {company.location && (
+                    <>
+                      <CardHeader
+                        component={() => (
+                          <CompanyLocationMap location={company.location} />
+                        )}
+                      />
+                      <CardContent>
+                        <Typography component="h3" variant="h6">
+                          Location
+                        </Typography>
+                        <List dense>
+                          <ListItem>
+                            <ListItemIcon>
+                              <BusinessIcon />
+                            </ListItemIcon>
 
-            <Card className={classes.card}>
-              {company.location && (
-                <CardHeader
-                  component={() => (
-                    <CompanyLocationMap location={company.location} />
+                            <ListItemText
+                              primary={company.location.formatted_address || ''}
+                            />
+                          </ListItem>
+                        </List>
+                      </CardContent>
+                    </>
                   )}
-                />
-              )}
-              <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Business Intelligence:
-                </Typography>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Year Founded:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {formatCompanyFoundedDate(company.yearFounded)}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Operating Models:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.operatingModels
-                          .map(i => i.name.replace('_', ' '))
-                          .join(',')}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Target Markets:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.targetMarkets
-                          .map(i => i.name.replace('_', ' '))
-                          .join(',')}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Contact Information:
-                </Typography>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Web:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.url}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Twitter:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.twitter}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        Crunchbase:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.crunchbase}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell component="th" scope="row" color="inherit">
-                        AngelList:
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {company.angellist}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+                </Card>
+                <CompanyIntelligence classes={classes} company={company} />
+                <CompanyContact classes={classes} company={company} />
+              </Grid>
+              <Grid item md={4}>
+                <CompanyNews classes={classes} company={company} />
+              </Grid>
+            </Grid>
           </main>
         </div>
       </Layout>
@@ -296,6 +231,7 @@ export const pageQuery = graphql`
     allTechList {
       company(where: { id: $id }) {
         name
+        id
         operatingModels {
           name
           id
@@ -319,6 +255,23 @@ export const pageQuery = graphql`
           photos
           geometry
         }
+        contact {
+          id
+          urlTwitter
+          urlCrunchbase
+          urlAngellist
+          urlWebsite
+        }
+        affiliations {
+          id
+          profile {
+            firstName
+            lastName
+            avatar
+            title
+          }
+        }
+
         url
         twitter
         crunchbase

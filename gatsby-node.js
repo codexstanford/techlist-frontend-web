@@ -14,15 +14,15 @@ const _ = require('lodash');
 
 const replacePath = path => (path === '/' ? path : path.replace(/\/$/, ''));
 
-exports.onCreateWebpackConfig = ({ stage, actions }) => {
+exports.onCreateWebpackConfig = ({ stage, actions, loaders, getConfig }) => {
+  const config = getConfig();
+
   actions.setWebpackConfig({
     resolve: {
       modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     },
   });
 };
-
-exports.onCreateNode = ({ node, actions }) => {};
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
@@ -121,7 +121,7 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   return new Promise((resolve, rej) => {
     fetch(
-      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-03-01&apiKey=a51190f100bc46a4aba4495c562b1cf9'
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-03-15&apiKey=a51190f100bc46a4aba4495c562b1cf9'
     )
       .then(res => res.json())
       .then(json => {
