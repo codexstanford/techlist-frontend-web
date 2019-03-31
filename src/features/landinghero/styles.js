@@ -14,11 +14,15 @@ export default theme => ({
   mainGrid: {
     marginTop: theme.spacing.unit * 3,
   },
-  card: {},
+  card: {
+    alignSelf: 'stretch',
+    flex: 1,
+  },
   cardDetails: {
     flex: 1,
   },
   cardMedia: {
     objectFit: 'cover',
+    alignItems: 'stetch',
   },
 });

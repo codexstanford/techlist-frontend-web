@@ -5,17 +5,14 @@ import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { Auth } from 'aws-amplify';
+import { isLoggedIn, logout } from '../../services/auth';
+import Avatar from '@material-ui/core/Avatar';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
-// This component actually appears in the 'header right' position.
-
-export function HeaderLeft(props) {
-  const {
-    sections,
-    classes,
-    isUserAuthenticated,
-    handleUserAuthenticationAction,
-  } = props;
+export function HeaderLeft({ sections, classes, ...props }) {
+  const isUserLoggedIn = isLoggedIn();
 
   return (
     <React.Fragment>
@@ -41,7 +38,9 @@ export function HeaderLeft(props) {
             variant="outlined"
             size="small"
             aria-label="Get Listed"
-            onClick={handleUserAuthenticationAction}
+            component={props => (
+              <Link to="/app/profile/" component={GatsbyLink} {...props} />
+            )}
             style={{
               marginLeft: '10px',
             }}
@@ -49,23 +48,39 @@ export function HeaderLeft(props) {
             Get Listed
           </Button>
         </React.Fragment>
-        {/* {isUserAuthenticated ? (
+
+        {isUserLoggedIn ? (
           <React.Fragment>
-            <IconButton
-              aria-haspopup="true"
-              onClick={handleUserAuthenticationAction}
-              color="primary"
-            >
-              <AccountCircle />
-            </IconButton>
+            <Query query={GET_CURRENT_USER_QUERY}>
+              {({ loading, data, error }) => {
+                if (loading) {
+                  return null;
+                }
+                if (error) {
+                  logout();
+                }
+                return (
+                  <Link to="/app/profile/" component={GatsbyLink} {...props}>
+                    <Avatar
+                      src={data.me.person.profile.avatar}
+                      style={{ marginLeft: 10 }}
+                      imgProps={{
+                        style: { maxWidth: '100%', maxHeight: '100%' },
+                      }}
+                    />
+                  </Link>
+                );
+              }}
+            </Query>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <Button
               color="primary"
-              variant="outlined"
               size="small"
-              onClick={handleUserAuthenticationAction}
+              component={props => (
+                <Link to="/app/login/" component={GatsbyLink} {...props} />
+              )}
               style={{
                 marginLeft: '10px',
               }}
@@ -73,7 +88,7 @@ export function HeaderLeft(props) {
               Login
             </Button>
           </React.Fragment>
-        )} */}
+        )}
       </div>
     </React.Fragment>
   );
@@ -92,3 +107,38 @@ HeaderLeft.defaultProps = {
 };
 
 export default HeaderLeft;
+
+const GET_CURRENT_USER_QUERY = gql`
+  query GetMe {
+    me {
+      id
+      cognitoId
+      handle
+      person {
+        id
+        affiliations {
+          id
+          role
+          startDate
+          company {
+            id
+            name
+            yearFounded
+            description
+          }
+        }
+        profile {
+          id
+          avatar
+          firstName
+          lastName
+          links {
+            id
+            type
+            url
+          }
+        }
+      }
+    }
+  }
+`;

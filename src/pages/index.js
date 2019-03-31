@@ -1,24 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { graphql } from 'gatsby';
-
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Link from '@material-ui/core/Link';
-
 import ListItemText from '@material-ui/core/ListItemText';
 import LandingHero from '../features/landinghero';
 import { withStyles } from '@material-ui/core/styles';
-
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
 
 const IndexPage = props => {
   const { classes } = props;
@@ -38,7 +31,7 @@ const IndexPage = props => {
         <LandingHero data={props.data} />
 
         <Grid container spacing={40} className={classes.mainGrid}>
-          <Grid item md={8}>
+          <Grid item md={12}>
             <Paper className={classes.newsList}>
               <Typography component="h2" variant="h6" gutterBottom>
                 Breaking
@@ -50,8 +43,11 @@ const IndexPage = props => {
                     return (
                       <ListItem key={`listitem-${index}`}>
                         <ListItemText
-                          primary={<Link href={node.link}>{node.title}</Link>}
-                          secondary={node.content}
+                          primary={
+                            <Link href={node.link} target="_blank">
+                              {node.title}
+                            </Link>
+                          }
                         />
                       </ListItem>
                     );
@@ -59,14 +55,14 @@ const IndexPage = props => {
               </List>
             </Paper>
           </Grid>
-          <Grid item md={4}>
+          {/* <Grid item md={4}>
             <Paper className={classes.newsList}>
               <Typography component="h2" variant="h6" gutterBottom>
                 Trending
               </Typography>
               <Divider />
             </Paper>
-          </Grid>
+          </Grid> */}
         </Grid>
       </main>
     </Layout>

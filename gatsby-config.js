@@ -1,4 +1,9 @@
-const config = require('./config/site');
+const Config = require('./config/site');
+const config = Config();
+global.fetch = require('node-fetch');
+const { createHttpLink } = require('apollo-link-http');
+const getTemporaryAuthCreds = require('./config/buildAuth');
+const jwt = getTemporaryAuthCreds();
 
 module.exports = {
   siteMetadata: {
@@ -12,6 +17,21 @@ module.exports = {
       resolve: 'gatsby-plugin-robots-txt',
       options: {},
     },
+    {
+      resolve: 'gatsby-plugin-sentry',
+      options: {
+        dsn: 'https://013f689a9da7432abe19e566a90d3bfc@sentry.io/1427690',
+        // Optional settings, see https://docs.sentry.io/clients/node/config/#optional-settings
+        environment: process.env.NODE_ENV,
+        enabled: (() =>
+          ['production', 'stage'].indexOf(process.env.NODE_ENV) !== -1)(),
+      },
+    },
+
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/app/*`] },
+    },
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
@@ -20,7 +40,19 @@ module.exports = {
       options: {
         typeName: config.api.graphql.typeName,
         fieldName: config.api.graphql.fieldName,
-        url: config.api.graphql.endpoint,
+        createLink: pluginOptions => {
+          return new Promise((res, rej) => {
+            jwt.then(token => {
+              const client = createHttpLink({
+                uri: config.api.graphql.endpoint,
+                headers: {
+                  authorization: `Bearer ${token.jwt}`,
+                },
+              });
+              res(client);
+            });
+          });
+        },
       },
     },
     {

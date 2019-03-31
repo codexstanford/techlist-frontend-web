@@ -12,18 +12,16 @@ export function SidekickItem(props) {
   const { classes, title, date, content, imageUrl, id } = props;
   return (
     <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          className={classes.cardMedia}
-          alt={title
-            .split(' ')
-            .slice(0, 5)
-            .join(' ')}
-          height="140"
-          image={imageUrl}
-        />
-      </CardActionArea>
+      <CardMedia
+        component="img"
+        className={classes.cardMedia}
+        alt={title
+          .split(' ')
+          .slice(0, 5)
+          .join(' ')}
+        height="140"
+        image={imageUrl}
+      />
 
       <CardContent>
         <Typography component="h2" variant="subtitle2">
@@ -34,11 +32,12 @@ export function SidekickItem(props) {
         </Typography>
 
         <Typography variant="body2">
-          {content
-            .replace(/<[^>]*>/, ' ')
-            .split(' ')
-            .slice(0, 50)
-            .join(' ')}
+          {content &&
+            content
+              .replace(/<[^>]*>/, ' ')
+              .split(' ')
+              .slice(0, 25)
+              .join(' ') + '...'}
         </Typography>
       </CardContent>
       <CardActionArea>
@@ -48,6 +47,7 @@ export function SidekickItem(props) {
             color="primary"
             aria-label="Read Full Story"
             href={props.link}
+            target="_blank"
           >
             Read Full Story
           </Button>

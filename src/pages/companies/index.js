@@ -1,62 +1,134 @@
 import React from 'react';
 import { Link as GatsbyLink, graphql } from 'gatsby';
-import Link from '@material-ui/core/Link';
-
+import Typography from '@material-ui/core/Typography';
 import Layout from '../../components/layout';
-import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import SEO from '../../components/seo';
 import ListItemText from '@material-ui/core/ListItemText';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 
-const IndexPage = props => (
-  <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <div className={props.classes.root}>
-      <List component="nav">
-        {props.data.allSitePage.edges.slice(0, 10).map((edge, index) => {
-          return (
-            <ListItem
-              button
-              key={edge.node.path}
-              style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}
-            >
-              <Link
-                component={GatsbyLink}
-                to={edge.node.path}
-                style={{
-                  textDecoration: `none`,
-                }}
-              >
-                <ListItemText
-                  primary={edge.node.context ? edge.node.context.name : ''}
-                />
-              </Link>
-            </ListItem>
-          );
-        })}
-      </List>
-    </div>
+const IndexPage = props => {
+  const { classes } = props;
+  const { root } = classes;
+  return (
+    <Layout>
+      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <div className={root}>
+        <ReactTable
+          className="-striped -highlight"
+          resolveData={data => {
+            return data
+              .filter(
+                item => item.node.context && item.node.context.name !== null
+              )
+              .map(item => ({
+                name: item.node.context.name,
+                id: item.node.context.id,
+                slug: item.node.context.slug,
+                description: item.node.context.description,
+              }));
+          }}
+          defaultSorted={[
+            {
+              id: 'name',
+              desc: false,
+            },
+          ]}
+          filterable
+          defaultFilterMethod={(filter, row) => {
+            if (
+              row[filter.id].name === undefined ||
+              row[filter.id].name === null
+            ) {
+              return false;
+            }
+            return row[filter.id].name.split(' ').includes(filter.value);
+          }}
+          columns={[
+            {
+              Header: () => <Typography variant="h6">Companies</Typography>,
+              accessor: edge => edge,
+              id: edge => edge.id,
 
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '90vh',
-      }}
-    />
-
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }} />
-  </Layout>
-);
+              Cell: props => {
+                return (
+                  <ListItem
+                    button
+                    component={GatsbyLink}
+                    to={`/companies/${
+                      props.value && props.value.slug ? props.value.slug : ''
+                    }`}
+                  >
+                    <ListItemText
+                      primary={
+                        <Typography variant="subtitle1">
+                          {props.value && props.value.name
+                            ? props.value.name
+                            : ''}
+                        </Typography>
+                      }
+                      secondary={
+                        props.value && props.value.description ? (
+                          <>
+                            <Typography
+                              component="span"
+                              variant="caption"
+                              className={classes.inline}
+                            >
+                              {props.value.description.split(' ').length <= 7
+                                ? props.value.description
+                                : props.value.description
+                                    .split(' ')
+                                    .slice(0, 7)
+                                    .join(' ') + ' ...'}
+                            </Typography>
+                          </>
+                        ) : (
+                          ''
+                        )
+                      }
+                    />
+                  </ListItem>
+                );
+              },
+            },
+          ]}
+          getTdProps={() => {
+            return {
+              style: {
+                color: '#333',
+              },
+            };
+          }}
+          getTrProps={() => {
+            return {
+              style: {
+                width: '100%',
+              },
+            };
+          }}
+          data={props.data.allSitePage.edges}
+        />
+      </div>
+      <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }} />
+    </Layout>
+  );
+};
 
 export default withStyles(theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+    marginTop: '1rem',
+    color: '#333',
+  },
+  row: {
+    width: '100%',
+  },
+  inline: {
+    display: 'inline',
   },
 }))(IndexPage);
 
@@ -70,6 +142,11 @@ export const pageQuery = graphql`
           context {
             id
             name
+            slug
+            url
+            twitter
+            description
+            data
           }
         }
       }
