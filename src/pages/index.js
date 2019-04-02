@@ -114,10 +114,7 @@ export const pageQuery = graphql`
           description
           title
           pubDate
-          author
-          sourceName
           link
-          imageUrl
           content
         }
       }
