@@ -11,6 +11,13 @@ import { faGlobe, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter, faAngellist } from '@fortawesome/free-brands-svg-icons';
 import _ from 'lodash';
 
+export function validateCompanyWebsiteUrl(url) {
+  if (!url.startsWith('http')) {
+    return `http://${url}`;
+  }
+  return url;
+}
+
 export function CompanyContact({ classes, company, ...rest }) {
   const {
     urlAngellist,
@@ -30,7 +37,10 @@ export function CompanyContact({ classes, company, ...rest }) {
             <ListItemText
               style={{ marginBottom: 10 }}
               primary={
-                <Link href={urlWebsite} target="_blank">
+                <Link
+                  href={validateCompanyWebsiteUrl(urlWebsite)}
+                  target="_blank"
+                >
                   <FontAwesomeIcon
                     size="lg"
                     icon={faGlobe}

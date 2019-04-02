@@ -32,23 +32,23 @@ const httpLink = process.browser
 const asyncAuthLink = setContext(
   (_, { headers }) =>
     new Promise((success, fail) => {
-      const user = getCurrentUser();
-      console.log(user);
-      if (user) {
-        success({
-          headers: {
-            ...headers,
-            authorization:
-              user &&
-              user.signInUserSession &&
-              user.signInUserSession.accessToken
-                ? `Bearer ${user.signInUserSession.idToken.jwtToken}`
-                : '',
-          },
+      const user = getCurrentUser()
+        .then(user => {
+          success({
+            headers: {
+              ...headers,
+              authorization:
+                user &&
+                user.signInUserSession &&
+                user.signInUserSession.accessToken
+                  ? `Bearer ${user.signInUserSession.idToken.jwtToken}`
+                  : '',
+            },
+          });
+        })
+        .catch(err => {
+          fail(err);
         });
-      } else {
-        success({});
-      }
     })
 );
 

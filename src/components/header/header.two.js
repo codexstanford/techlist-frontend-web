@@ -5,7 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import MainSearch from '../search';
 
 export function HeaderRight(props) {
-  const { classes, allSitePages } = props;
+  const { classes, allSitePages, shouldShowSearch = true } = props;
+
+  if (shouldShowSearch === false) {
+    return null;
+  }
 
   return (
     <div className={classes.wrapper}>

@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { Link as GatsbyLink, graphql } from 'gatsby';
 import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
+import 'react-table/react-table.css';
 
 const slugify = require('slugify');
 

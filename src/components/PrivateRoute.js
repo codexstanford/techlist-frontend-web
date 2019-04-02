@@ -6,7 +6,7 @@ import { Query } from 'react-apollo';
 import { GET_CURRENT_USER_QUERY } from '../graphql';
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
-  if (!isLoggedIn() && location.pathname !== `/app/login`) {
+  if (!isLoggedIn() && location.pathname !== `/app/login/`) {
     navigate(`/app/login/`, {
       state: {
         from: location,
