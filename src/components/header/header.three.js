@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
@@ -12,7 +12,17 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export function HeaderLeft({ sections, classes, ...props }) {
-  const isUserLoggedIn = isLoggedIn();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+      .then(data => {
+        if (data && data !== 'not authenticated') {
+          setUser(data);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <React.Fragment>
@@ -49,7 +59,7 @@ export function HeaderLeft({ sections, classes, ...props }) {
           </Button>
         </React.Fragment>
 
-        {isUserLoggedIn ? (
+        {user ? (
           <React.Fragment>
             <Query query={GET_CURRENT_USER_QUERY}>
               {({ loading, data, error }) => {

@@ -18,8 +18,8 @@ import { isLoggedIn } from '../../../../services/auth';
 import { Container, SectionWrapper } from '../../../../atoms';
 
 function Login({ classes, user, locaiton, ...props }) {
-  if (isLoggedIn()) {
-    const { from } = location.state || { from: { pathname: '/app/profile' } };
+  if (user !== null) {
+    const { from } = location.state || { from: { pathname: '/app/profile/' } };
     navigate(from.pathname);
   }
 
@@ -107,9 +107,17 @@ export async function handleLoginRequest(values, { setSubmitting }) {
   const { email, password } = values;
   const username = email;
   try {
-    const user = await Auth.signIn(username, password).catch(err =>
-      console.log(err)
-    );
+    const user = await Auth.signIn(username, password)
+      .data(user => {
+        console.log(user);
+        return Auth.currentUserPoolUser()
+          .then(session => {
+            console.log(session);
+            return session;
+          })
+          .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
     setSubmitting(false);
   } catch (error) {
     console.log(error);

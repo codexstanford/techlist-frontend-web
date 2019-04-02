@@ -72,6 +72,7 @@ module.exports = {
     `gatsby-plugin-catch-links`,
     `gatsby-plugin-lodash`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-force-trailing-slashes`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
