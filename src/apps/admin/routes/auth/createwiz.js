@@ -77,6 +77,7 @@ function getSteps() {
 }
 
 function getStepContent({ step, props }) {
+  console.log('STEP', step);
   switch (step) {
     case 0:
       return (
