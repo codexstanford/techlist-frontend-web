@@ -19,6 +19,8 @@ function CreateAccount({ classes, ...props }) {
   const [shouldShowConfirm, setShowConfirm] = useState(false);
   const [cognitoData, setCognitoData] = useState({});
 
+  console.log('Props', this.props);
+
   const { setStep, activeStep: step } = props;
 
   const handleSubmitRequest = (
@@ -84,9 +86,9 @@ function CreateAccount({ classes, ...props }) {
     }
   };
 
-  if (isLoggedIn()) {
-    setStep(1);
-  }
+  // if (!isLoggedIn()) {
+  //   setStep(1);
+  // }
 
   return (
     <Formik
