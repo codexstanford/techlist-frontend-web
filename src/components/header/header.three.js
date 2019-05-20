@@ -69,10 +69,12 @@ export function HeaderLeft({ sections, classes, ...props }) {
                 if (error) {
                   logout();
                 }
+                const { profile } = data.me.person;
+
                 return (
                   <Link to="/app/profile/" component={GatsbyLink} {...props}>
                     <Avatar
-                      src={data.me.person.profile.avatar}
+                      src={profile ? data.me.person.profile.avatar : null}
                       style={{ marginLeft: 10 }}
                       imgProps={{
                         style: { maxWidth: '100%', maxHeight: '100%' },

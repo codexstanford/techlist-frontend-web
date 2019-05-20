@@ -22,10 +22,11 @@ export function TermsAndConditions({ classes, theme, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-
   const { id: userId } = props.user.me;
   const { id: personId } = props.user.me.person;
   const { setStep, activeStep: step } = props;
+
+  console.log('PROPS ON TNC', props);
 
   const handleSubmitRequest = async (
     values,
@@ -79,7 +80,7 @@ export function TermsAndConditions({ classes, theme, ...props }) {
         <Card className={classes.card}>
           <Avatar
             style={{ width: 100, height: 100, margin: 10 }}
-            src={props.user.me.person.profile.avatar}
+            src={data.me.person.profile.avatar}
             imgProps={{
               style: { maxWidth: '100%', maxHeight: '100%' },
             }}

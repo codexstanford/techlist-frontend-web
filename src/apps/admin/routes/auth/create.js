@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
+import { steps } from '../../../../helpers/enums';
 import { TextField } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ConfirmPhone from './confirm';
@@ -19,10 +20,9 @@ function CreateAccount({ classes, ...props }) {
   const [shouldShowConfirm, setShowConfirm] = useState(false);
   const [cognitoData, setCognitoData] = useState({});
 
-  console.log('Props', this.props);
-
   const { setStep, activeStep: step } = props;
 
+  // STEP 2 OF WORKFLOW
   const handleSubmitRequest = (
     values,
     { setSubmitting, setErrors, setFieldError }
@@ -68,6 +68,7 @@ function CreateAccount({ classes, ...props }) {
 
   const handleConfirmRequest = async (values, { setSubmitting }) => {
     setSubmitting(true);
+
     const { username, code, password } = values;
     try {
       const result = await Auth.confirmSignUp(username, code, {}).catch(err =>
@@ -80,15 +81,12 @@ function CreateAccount({ classes, ...props }) {
         console.log(user);
         setSubmitting(false);
         setShowConfirm(false);
+        setStep(steps.PROFILE);
       }
     } catch (err) {
       console.log(err);
     }
   };
-
-  // if (!isLoggedIn()) {
-  //   setStep(1);
-  // }
 
   return (
     <Formik
@@ -141,6 +139,7 @@ function CreateAccount({ classes, ...props }) {
                   component={TextField}
                 />
               </div>
+              <div>Pass1234!</div>
               <div>
                 <Field
                   name="confirm"

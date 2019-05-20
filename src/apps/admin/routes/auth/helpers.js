@@ -79,7 +79,7 @@ export const handleCompanySubmitRequest = ({
     });
 
     setSubmitting(false);
-    setStep(3);
+    setStep(2);
   } catch (err) {
     console.log(err);
   }

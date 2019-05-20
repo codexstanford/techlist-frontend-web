@@ -18,13 +18,15 @@ const clientCache = new InMemoryCache({
 const httpLink = process.browser
   ? createPersistedQueryLink().concat(
       new BatchHttpLink({
-        uri: 'https://apollo.k8s.law.kitchen',
+        //uri: 'https://apollo.k8s.law.kitchen',
+        uri: 'http://localhost:4000',
         fetch: fetch,
       })
     )
   : createPersistedQueryLink().concat(
       new BatchHttpLink({
-        uri: 'https://apollo.k8s.law.kitchen',
+        //uri: 'https://apollo.k8s.law.kitchen',
+        uri: 'http://localhost:4000',
         fetch: fetch,
       })
     );
