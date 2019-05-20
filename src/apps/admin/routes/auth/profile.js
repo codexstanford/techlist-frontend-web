@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
+import { steps } from '../../../../helpers/enums';
 import { TextField, Select } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { MenuItem } from '@material-ui/core';
@@ -43,13 +44,12 @@ function CreateAccount({ classes, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-
   const { id: userId } = props.user.me;
   const { person } = props.user.me;
   const { profile, id: personId } = person;
 
-  if (profile) {
-    props.setStep(2);
+  if (profile !== null) {
+    props.setStep(steps.COMPANY);
   }
 
   const { setStep, activeStep: step } = props;
@@ -91,8 +91,9 @@ function CreateAccount({ classes, ...props }) {
           },
         },
       });
+      console.log('PROFILE', profile);
       setSubmitting(false);
-      setStep(2);
+      setStep(steps.COMPANY);
     } catch (err) {
       console.log(err);
     }

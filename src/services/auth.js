@@ -59,4 +59,5 @@ export const getCurrentUser = () => isBrowser && getUser();
 export const logout = callback => {
   if (!isBrowser) return;
   Auth.signOut();
+  window.localStorage.clear();
 };

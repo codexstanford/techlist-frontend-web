@@ -24,6 +24,7 @@ export class App extends React.Component {
     }
   }
 
+  // STEP 1 OF WORKFLOW
   onAuthEvent(payload) {
     const { event, data } = payload;
     if (event === 'signIn') {
@@ -35,6 +36,8 @@ export class App extends React.Component {
     }
   }
 
+  // This is mounted when the login screen
+  // is rendered.
   async componentDidMount() {
     await Auth.currentAuthenticatedUser()
       .then(data => {
