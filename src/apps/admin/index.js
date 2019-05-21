@@ -51,6 +51,8 @@ export class App extends React.Component {
 
   render() {
     const { user } = this.state;
+    console.log('ADMIN INDEX USER:', user);
+    console.log('ADMIN INDEX PROPS:', this.props);
     return (
       <Layout
         {...this.props}

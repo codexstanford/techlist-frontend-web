@@ -49,6 +49,8 @@ function CreateAccount({ classes, ...props }) {
   const { person } = props.user.me;
   const { profile, id: personId } = person;
 
+  console.log('PROFILE === NULL? :', profile === null);
+
   if (profile) {
     console.log('GOT THERE!!!!');
     props.setStep(steps.COMPANY);
@@ -120,6 +122,7 @@ function CreateAccount({ classes, ...props }) {
         lastName: '',
         title: '',
         location: '',
+        handle: '',
         avatar: image,
         links: [],
         skills: [],
@@ -223,8 +226,8 @@ function CreateAccount({ classes, ...props }) {
                     fullWidth
                     component={TextField}
                   />
-                  {errors.firstName && touched.firstName ? (
-                    <div>{errors.firstName}</div>
+                  {errors.handle && touched.handle ? (
+                    <div>{errors.handle}</div>
                   ) : null}
                 </div>
                 <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
