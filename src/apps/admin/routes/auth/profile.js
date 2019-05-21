@@ -49,8 +49,12 @@ function CreateAccount({ classes, ...props }) {
   const { person } = props.user.me;
   const { profile, id: personId } = person;
 
-  if (profile !== null) {
+  if (profile) {
+    console.log('GOT THERE!!!!');
     props.setStep(steps.COMPANY);
+  } else {
+    console.log('PROPS on PROFILE', props);
+    console.log(image);
   }
 
   const { setStep, activeStep: step } = props;

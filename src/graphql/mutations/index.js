@@ -37,6 +37,15 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
   ) {
     updateUser(where: $where, data: $data) {
       id
+      person {
+        id
+        profile {
+          id
+          firstName
+          lastName
+          avatar
+        }
+      }
     }
   }
 `;

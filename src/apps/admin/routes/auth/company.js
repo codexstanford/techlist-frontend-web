@@ -26,7 +26,7 @@ export function CreateCompany({ classes, ...props }) {
   ) {
     setStep(steps.COMPANY);
   }
-
+  debugger;
   const timeStamp = Date.now().toString();
 
   return (

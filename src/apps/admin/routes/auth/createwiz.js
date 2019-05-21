@@ -77,6 +77,8 @@ function getSteps() {
 }
 
 function getStepContent({ step, props }) {
+  console.log('STEP', step);
+  console.log('PROPS', props);
   switch (step) {
     case 0:
       return (
@@ -93,6 +95,12 @@ function getStepContent({ step, props }) {
             if (loading) {
               return null;
             }
+            if (error) {
+              console.log('Error Case 1', error);
+              return null;
+            }
+            console.log('PROPS Case 1', props);
+            console.log('DATA Case 1', data);
             return (
               <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
                 {mutation => {
@@ -116,6 +124,12 @@ function getStepContent({ step, props }) {
             if (loading) {
               return null;
             }
+            if (error) {
+              console.log('Error Case 2', error);
+              return null;
+            }
+            console.log('PROPS Case 2', props);
+            console.log('DATA Case 2', data);
             return (
               <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
                 {mutation => {
