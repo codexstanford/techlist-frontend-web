@@ -39,7 +39,6 @@ exports.createPages = ({ graphql, actions }) => {
             location {
               formatted_address
               googleId
-              id
               photos
             }
             operatingModels {
