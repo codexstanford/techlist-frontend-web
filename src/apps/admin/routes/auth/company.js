@@ -19,19 +19,24 @@ export function CreateCompany({ classes, ...props }) {
   const { id: userId } = props.user.me;
   const { id: personId } = props.user.me.person;
   const { setStep, activeStep: step, createCompany } = props;
+
   if (
     props.user.me.person.affiliations &&
     props.user.me.person.affiliations.length > 0
   ) {
     setStep(steps.COMPANY);
-  } else {
-    setStep(steps.TERMS);
   }
+
   const timeStamp = Date.now().toString();
 
   return (
     <Formik
-      onSubmit={handleCompanySubmitRequest({ userId, personId, createCompany })}
+      onSubmit={handleCompanySubmitRequest({
+        userId,
+        personId,
+        createCompany,
+        setStep,
+      })}
       initialValues={{
         name: '',
         dateFounded: timeStamp,

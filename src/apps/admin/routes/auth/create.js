@@ -139,7 +139,6 @@ function CreateAccount({ classes, ...props }) {
                   component={TextField}
                 />
               </div>
-              <div>Pass1234!</div>
               <div>
                 <Field
                   name="confirm"

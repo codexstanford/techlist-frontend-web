@@ -44,6 +44,7 @@ function CreateAccount({ classes, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
+
   const { id: userId } = props.user.me;
   const { person } = props.user.me;
   const { profile, id: personId } = person;
@@ -305,18 +306,7 @@ function CreateAccount({ classes, ...props }) {
                               );
                             })
                           ) : (
-                            <Button
-                              type="button"
-                              onClick={() =>
-                                arrayHelpers.push({
-                                  type: '',
-                                  url: '',
-                                  isPublic: true,
-                                })
-                              }
-                            >
-                              Add
-                            </Button>
+                            <React.Fragment />
                           )}
                         </div>
                       );

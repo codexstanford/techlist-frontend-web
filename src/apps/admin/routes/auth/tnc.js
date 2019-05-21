@@ -26,8 +26,6 @@ export function TermsAndConditions({ classes, theme, ...props }) {
   const { id: personId } = props.user.me.person;
   const { setStep, activeStep: step } = props;
 
-  console.log('PROPS ON TNC', props);
-
   const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
