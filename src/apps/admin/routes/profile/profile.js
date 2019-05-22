@@ -22,135 +22,130 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 import { GET_PERSON_QUERY } from '../../../../graphql';
-import { mainListItems, secondaryListItems } from './listitems';
-import { logout } from '../../../../services/auth';
+import { MainListItems, secondaryListItems } from './listitems';
+import { useUser } from '../../../../store/user-context';
 
-export class UserProfile extends React.PureComponent {
-  state = {
-    isOpen: false,
-  };
+export function UserProfile({ classes, ...props }) {
+  const [isOpen, toggleDrawerVisibility] = React.useState(false);
 
-  toggleDrawerVisibility = () => {
-    this.setState(prev => ({ ...prev, isOpen: !prev.isOpen }));
-  };
+  const { logout } = useUser();
 
-  render() {
-    const { classes } = this.props;
-    const { isOpen } = this.state;
-
-    return (
-      <div className={classes.root}>
-        <AppBar
-          position="absolute"
-          className={classNames(classes.appBar, isOpen && classes.appBarShift)}
+  return (
+    <div className={classes.root}>
+      <AppBar
+        position="absolute"
+        className={classNames(classes.appBar, isOpen && classes.appBarShift)}
+      >
+        <Toolbar disableGutters={!isOpen} className={classes.toolbar}>
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={toggleDrawerVisibility}
+            className={classNames(
+              classes.menuButton,
+              isOpen && classes.menuButtonHidden
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            {props.data.user.person.profile
+              ? props.data.user.person.profile.firstName
+              : ''}{' '}
+            {props.data.user.person.profile
+              ? props.data.user.person.profile.lastName
+              : ''}{' '}
+          </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Hidden smUp>
+        <Drawer
+          variant="temporary"
+          classes={{
+            paper: classNames(
+              classes.drawerPaper,
+              !isOpen && classes.drawerPaperClose
+            ),
+          }}
+          open={isOpen}
         >
-          <Toolbar disableGutters={!isOpen} className={classes.toolbar}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.toggleDrawerVisibility}
-              className={classNames(
-                classes.menuButton,
-                isOpen && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={toggleDrawerVisibility}>
+              <ChevronLeftIcon />
             </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              {this.props.data.person.profile.firstName}{' '}
-              {this.props.data.person.profile.lastName}
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={0} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+          </div>
+          <Divider />
+          <List>{MainListItems}</List>
+          <Divider />
+          <List>{secondaryListItems}</List>
+        </Drawer>
+      </Hidden>
+      <Hidden xsDown>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: classNames(
+              classes.drawerPaper,
+              !isOpen && classes.drawerPaperClose
+            ),
+          }}
+          open={isOpen}
+        >
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={toggleDrawerVisibility}>
+              <ChevronLeftIcon />
             </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Hidden smUp>
-          <Drawer
-            variant="temporary"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !isOpen && classes.drawerPaperClose
-              ),
-            }}
-            open={isOpen}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.toggleDrawerVisibility}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown>
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !isOpen && classes.drawerPaperClose
-              ),
-            }}
-            open={isOpen}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.toggleDrawerVisibility}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Dashboard"
-                  onClick={this.handleDrawerClose}
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" onClick={() => logout()} />
-              </ListItem>
-            </List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-          </Drawer>
-        </Hidden>
+          </div>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Dashboard"
+                onClick={toggleDrawerVisibility}
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" onClick={() => logout()} />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>{secondaryListItems}</List>
+        </Drawer>
+      </Hidden>
 
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography
-                className={classes.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                Coming soon!
-              </Typography>
-            </CardContent>
-          </Card>
-        </main>
-      </div>
-    );
-  }
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              Coming soon!
+            </Typography>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
 }
 
 export default UserProfile;

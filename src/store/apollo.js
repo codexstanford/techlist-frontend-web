@@ -7,7 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { setContext } from 'apollo-link-context';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { getCurrentUser, isLoggedIn } from '../services/auth';
+import { getUser } from './utils/auth-client';
 
 const clientCache = new InMemoryCache({
   dataIdFromObject: object => object.id || null,
@@ -18,13 +18,15 @@ const clientCache = new InMemoryCache({
 const httpLink = process.browser
   ? createPersistedQueryLink().concat(
       new BatchHttpLink({
-        uri: 'https://apollo.k8s.law.kitchen',
+        //uri: 'https://apollo.k8s.law.kitchen',
+        uri: 'http://localhost:4000',
         fetch: fetch,
       })
     )
   : createPersistedQueryLink().concat(
       new BatchHttpLink({
-        uri: 'https://apollo.k8s.law.kitchen',
+        //uri: 'https://apollo.k8s.law.kitchen',
+        uri: 'http://localhost:4000',
         fetch: fetch,
       })
     );
@@ -32,7 +34,7 @@ const httpLink = process.browser
 const asyncAuthLink = setContext(
   (_, { headers }) =>
     new Promise((success, fail) => {
-      const user = getCurrentUser()
+      const user = getUser()
         .then(user => {
           success({
             headers: {
@@ -72,5 +74,6 @@ export function configureApolloClient() {
     link: ApolloLink.from([apolloLogger, asyncAuthLink, errorLink, httpLink]),
     cache: clientCache,
     connectToDevTools: true,
+    ssrMode: true,
   });
 }

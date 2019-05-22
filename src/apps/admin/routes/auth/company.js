@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
+import { steps } from '../../../../helpers/enums';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,6 @@ export function CreateCompany({ classes, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-
   const { id: userId } = props.user.me;
   const { id: personId } = props.user.me.person;
   const { setStep, activeStep: step, createCompany } = props;
@@ -24,14 +24,19 @@ export function CreateCompany({ classes, ...props }) {
     props.user.me.person.affiliations &&
     props.user.me.person.affiliations.length > 0
   ) {
-    setStep(3);
+    setStep(steps.COMPANY);
   }
-
+  debugger;
   const timeStamp = Date.now().toString();
 
   return (
     <Formik
-      onSubmit={handleCompanySubmitRequest({ userId, personId, createCompany })}
+      onSubmit={handleCompanySubmitRequest({
+        userId,
+        personId,
+        createCompany,
+        setStep,
+      })}
       initialValues={{
         name: '',
         dateFounded: timeStamp,
