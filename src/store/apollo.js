@@ -7,7 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { setContext } from 'apollo-link-context';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { getUser } from './auth-context';
+import { getUser } from './utils/auth-client';
 
 const clientCache = new InMemoryCache({
   dataIdFromObject: object => object.id || null,

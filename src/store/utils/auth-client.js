@@ -71,11 +71,11 @@ function register({ email, password, phone: phone_number, username }) {
       email,
       phone_number: `+1${phone_number}`,
     },
-  }).then(handleUserResponse);
+  });
 }
 
 function confirm({ username, code }) {
-  return Auth.confirmSignUp(username, code, {}).then(handleUserResponse);
+  return Auth.confirmSignUp(username, code, {});
 }
 
 export { login, logout, getToken, register, getUser, confirm };

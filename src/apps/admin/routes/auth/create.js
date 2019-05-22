@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -10,15 +9,13 @@ import { steps } from '../../../../helpers/enums';
 import { TextField } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ConfirmPhone from './confirm';
-import { Auth } from 'aws-amplify';
-import { Link as GatsbyLink } from 'gatsby';
-import Link from '@material-ui/core/Link';
+
 import { navigate } from '@reach/router';
 
 import { useUser } from '../../../../store/user-context';
 
 function CreateAccount({ classes, ...props }) {
-  const { data, register } = useUser();
+  const { data, register, confirm } = useUser();
   const [shouldShowConfirm, setShowConfirm] = useState(false);
 
   const { setStep, activeStep: step } = props;
@@ -42,14 +39,14 @@ function CreateAccount({ classes, ...props }) {
       setSubmitting(false);
       setShowConfirm(true);
     } catch (error) {
-      console.log(err);
-      if (err.code === 'UsernameExistsException') {
+      console.log(error);
+      if (error.code === 'UsernameExistsException') {
         setFieldError(
           'email',
           'An account with the given email already exists.'
         );
       }
-      if (err.code === 'InvalidPasswordException') {
+      if (error.code === 'InvalidPasswordException') {
         setFieldError(
           'password',
           'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
@@ -64,20 +61,17 @@ function CreateAccount({ classes, ...props }) {
 
     const { username, code, password } = values;
     try {
-      const result = await Auth.confirmSignUp(username, code, {}).catch(err =>
+      const result = await confirm({ username, code }).catch(err =>
         console.log(err)
       );
-      if (result === 'SUCCESS') {
-        const user = await Auth.signIn(username, password)
-          .catch(err => console.log(err))
-          .then(() => {
-            setStep(steps.PROFILE);
-          });
-        console.log(user);
-
-        setSubmitting(false);
-        setShowConfirm(false);
-      }
+      setSubmitting(false);
+      setShowConfirm(false);
+      navigate('/app/login');
+      // if (result === 'SUCCESS') {
+      //   setSubmitting(false);
+      //   setShowConfirm(false);
+      //   navigate('/app/login');
+      // }
     } catch (err) {
       console.log(err);
     }
