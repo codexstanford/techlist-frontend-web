@@ -20,79 +20,65 @@ import BuildIcon from '@material-ui/icons/Build';
 import Link from '@material-ui/core/Link';
 
 import MainSearch from '../search';
-import { isLoggedIn, logout } from '../../services/auth';
 
-class MobileNav extends React.Component {
-  state = {
-    isDrawerOpen: false,
-  };
+import { useUser } from '../../store/user-context';
 
-  toggleDrawer = () => {
-    this.setState(prev => ({ ...prev, isDrawerOpen: !prev.isDrawerOpen }));
-  };
+export function MobileNav({ classes, siteTitle, ...props }) {
+  const [isDrawerOpen, toggleDrawer] = React.useState(false);
 
-  render() {
-    const { isDrawerOpen } = this.state;
-    const { siteTitle } = this.props;
-
-    return (
-      <React.Fragment>
-        <div
+  return (
+    <React.Fragment>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignContent: 'center',
+          flexGrow: 1,
+        }}
+      >
+        <Typography
+          color="primary"
+          variant="h6"
+          underline="none"
+          noWrap
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignContent: 'center',
-            flexGrow: 1,
+            fontWeight: '700',
+            letterSpacing: '-.5px',
+            textDecoration: 'none',
           }}
+          component={props => <Link to="/" component={GatsbyLink} {...props} />}
         >
-          <Typography
-            color="primary"
-            variant="h6"
-            underline="none"
-            noWrap
-            style={{
-              fontWeight: '700',
-              letterSpacing: '-.5px',
-              textDecoration: 'none',
-            }}
-            component={props => (
-              <Link to="/" component={GatsbyLink} {...props} />
-            )}
-          >
-            {siteTitle}
-          </Typography>
-          <Button
-            onClick={this.toggleDrawer}
-            color="primary"
-            aria-label="Toggle Menu"
-          >
-            <MenuIcon />
-          </Button>
-        </div>
+          {siteTitle}
+        </Typography>
+        <Button onClick={toggleDrawer} color="primary" aria-label="Toggle Menu">
+          <MenuIcon />
+        </Button>
+      </div>
 
-        <SwipeableDrawer
-          anchor="top"
-          open={isDrawerOpen}
-          onClose={this.toggleDrawer}
-          onOpen={this.toggleDrawer}
+      <SwipeableDrawer
+        anchor="top"
+        open={isDrawerOpen}
+        onClose={toggleDrawer}
+        onOpen={toggleDrawer}
+      >
+        <div
+          tabIndex={0}
+          role="button"
+          // onClick={this.toggleDrawer}
+          // onKeyDown={this.toggleDrawer}
         >
-          <div
-            tabIndex={0}
-            role="button"
-            // onClick={this.toggleDrawer}
-            // onKeyDown={this.toggleDrawer}
-          >
-            <SideLeft {...this.props} />
-          </div>
-        </SwipeableDrawer>
-      </React.Fragment>
-    );
-  }
+          <SideLeft {...props} />
+        </div>
+      </SwipeableDrawer>
+    </React.Fragment>
+  );
 }
 
 const SideLeft = props => {
-  const isUserLoggedIn = isLoggedIn();
+  const { data, logout } = useUser();
+  console.log('DATA IN MOBILE HEADER', data);
   const { classes, allSitePages } = props;
+  const isUserLoggedIn = data ? true : false;
   return (
     <div style={{ minHeight: '50vh' }}>
       <List>

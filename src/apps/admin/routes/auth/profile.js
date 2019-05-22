@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
+import { steps } from '../../../../helpers/enums';
 import { TextField, Select } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { MenuItem } from '@material-ui/core';
@@ -48,8 +49,14 @@ function CreateAccount({ classes, ...props }) {
   const { person } = props.user.me;
   const { profile, id: personId } = person;
 
+  console.log('PROFILE === NULL? :', profile === null);
+
   if (profile) {
-    props.setStep(2);
+    console.log('GOT THERE!!!!');
+    props.setStep(steps.COMPANY);
+  } else {
+    console.log('PROPS on PROFILE', props);
+    console.log(image);
   }
 
   const { setStep, activeStep: step } = props;
@@ -61,38 +68,46 @@ function CreateAccount({ classes, ...props }) {
     setSubmitting(true);
     const { firstName, lastName, avatar, title, handle } = values;
     try {
-      const profile = await props.createProfile({
-        variables: {
-          where: {
-            id: userId,
+      const profile = await props
+        .createProfile({
+          update: (cache, { data: { updateUser } }) => {
+            console.log('UPDATE USER IN COMPANY', updateUser);
           },
-          data: {
-            handle: handle,
-            person: {
-              update: {
-                profile: {
-                  upsert: {
-                    create: {
-                      firstName,
-                      lastName,
-                      avatar,
-                      title,
-                    },
-                    update: {
-                      firstName,
-                      lastName,
-                      avatar,
-                      title,
+          variables: {
+            where: {
+              id: userId,
+            },
+            data: {
+              handle: handle,
+              person: {
+                update: {
+                  profile: {
+                    upsert: {
+                      create: {
+                        firstName,
+                        lastName,
+                        avatar,
+                        title,
+                      },
+                      update: {
+                        firstName,
+                        lastName,
+                        avatar,
+                        title,
+                      },
                     },
                   },
                 },
               },
             },
           },
-        },
-      });
-      setSubmitting(false);
-      setStep(2);
+        })
+        .then(data => {
+          console.log('DATA IN PROMISE', data);
+
+          debugger;
+          setStep(steps.COMPANY);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -114,6 +129,7 @@ function CreateAccount({ classes, ...props }) {
         lastName: '',
         title: '',
         location: '',
+        handle: '',
         avatar: image,
         links: [],
         skills: [],
@@ -217,8 +233,8 @@ function CreateAccount({ classes, ...props }) {
                     fullWidth
                     component={TextField}
                   />
-                  {errors.firstName && touched.firstName ? (
-                    <div>{errors.firstName}</div>
+                  {errors.handle && touched.handle ? (
+                    <div>{errors.handle}</div>
                   ) : null}
                 </div>
                 <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
@@ -304,18 +320,7 @@ function CreateAccount({ classes, ...props }) {
                               );
                             })
                           ) : (
-                            <Button
-                              type="button"
-                              onClick={() =>
-                                arrayHelpers.push({
-                                  type: '',
-                                  url: '',
-                                  isPublic: true,
-                                })
-                              }
-                            >
-                              Add
-                            </Button>
+                            <React.Fragment />
                           )}
                         </div>
                       );

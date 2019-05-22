@@ -10,24 +10,29 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { navigate } from '@reach/router';
-import { logout } from '../../../../services/auth';
+import { useUser } from '../../../../store/user-context';
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" onClick={() => navigate('/')} />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Logout" onClick={() => logout()} />
-    </ListItem>
-  </div>
-);
+export function MainListItems(props) {
+  const { logout } = useUser();
+  return (
+    <div>
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" onClick={() => navigate('/')} />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Logout" onClick={() => logout()} />
+      </ListItem>
+    </div>
+  );
+}
+
+export default MainListItems;
 
 export const secondaryListItems = (
   <div>

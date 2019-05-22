@@ -6,23 +6,45 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import { Auth } from 'aws-amplify';
-import { isLoggedIn, logout } from '../../services/auth';
+// import { isLoggedIn, logout } from '../../services/auth';
 import Avatar from '@material-ui/core/Avatar';
 import { Query } from 'react-apollo';
+import { useUser } from '../../store/user-context';
 import gql from 'graphql-tag';
 
 export function HeaderLeft({ sections, classes, ...props }) {
-  const [user, setUser] = useState(null);
+  const { data, logout } = useUser();
+  console.log('DATA IN HEADER THREE:', data);
+  const { user } = data;
 
-  useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(data => {
-        if (data && data !== 'not authenticated') {
-          setUser(data);
-        }
-      })
-      .catch(err => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   Auth.currentAuthenticatedUser()
+  //     .then(data => {
+  //       if (data && data !== 'not authenticated') {
+  //         setUser(data);
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  // }, []);
+
+  function getAvatar(user) {
+    const { person } = user;
+    if (!person) {
+      return 'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg';
+    }
+
+    const { profile } = person;
+    if (!profile) {
+      return 'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg';
+    }
+
+    const { avatar } = profile;
+    if (!avatar) {
+      return 'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg';
+    }
+
+    return avatar;
+  }
 
   return (
     <React.Fragment>
@@ -60,29 +82,15 @@ export function HeaderLeft({ sections, classes, ...props }) {
         </React.Fragment>
 
         {user ? (
-          <React.Fragment>
-            <Query query={GET_CURRENT_USER_QUERY}>
-              {({ loading, data, error }) => {
-                if (loading) {
-                  return null;
-                }
-                if (error) {
-                  logout();
-                }
-                return (
-                  <Link to="/app/profile/" component={GatsbyLink} {...props}>
-                    <Avatar
-                      src={data.me.person.profile.avatar}
-                      style={{ marginLeft: 10 }}
-                      imgProps={{
-                        style: { maxWidth: '100%', maxHeight: '100%' },
-                      }}
-                    />
-                  </Link>
-                );
+          <Link to="/app/profile/" component={GatsbyLink} {...props}>
+            <Avatar
+              src={getAvatar(user)}
+              style={{ marginLeft: 10 }}
+              imgProps={{
+                style: { maxWidth: '100%', maxHeight: '100%' },
               }}
-            </Query>
-          </React.Fragment>
+            />
+          </Link>
         ) : (
           <React.Fragment>
             <Button

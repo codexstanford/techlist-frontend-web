@@ -1,92 +1,81 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
+import { steps } from '../../../../helpers/enums';
 import { TextField } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ConfirmPhone from './confirm';
-import { Auth } from 'aws-amplify';
-import { Link as GatsbyLink } from 'gatsby';
-import Link from '@material-ui/core/Link';
+
 import { navigate } from '@reach/router';
-import { setUser, isLoggedIn } from '../../../../services/auth';
+
+import { useUser } from '../../../../store/user-context';
 
 function CreateAccount({ classes, ...props }) {
+  const { data, register, confirm } = useUser();
   const [shouldShowConfirm, setShowConfirm] = useState(false);
-  const [cognitoData, setCognitoData] = useState({});
 
   const { setStep, activeStep: step } = props;
 
-  const handleSubmitRequest = (
+  // STEP 2 OF WORKFLOW
+  const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
     setSubmitting(true);
-    const { email, password, phone: phone_number } = values;
+    const { email, password, phone } = values;
     const username = email;
     try {
-      Auth.signUp({
-        username,
+      const result = await register({
+        email,
         password,
-        attributes: {
-          email,
-          phone_number: `+1${phone_number}`,
-        },
-      })
-        .then(data => {
-          console.log(data);
-          setSubmitting(false);
-          setCognitoData({ ...data, username });
-          setShowConfirm(true);
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.code === 'UsernameExistsException') {
-            setFieldError(
-              'email',
-              'An account with the given email already exists.'
-            );
-          }
-          if (err.code === 'InvalidPasswordException') {
-            setFieldError(
-              'password',
-              'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
-            );
-          }
-          setSubmitting(false);
-        });
-    } catch (err) {
-      console.log(err);
+        phone,
+        username,
+      });
+      console.log('REGISTER RESULT:', result);
+      setSubmitting(false);
+      setShowConfirm(true);
+    } catch (error) {
+      console.log(error);
+      if (error.code === 'UsernameExistsException') {
+        setFieldError(
+          'email',
+          'An account with the given email already exists.'
+        );
+      }
+      if (error.code === 'InvalidPasswordException') {
+        setFieldError(
+          'password',
+          'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
+        );
+      }
+      setSubmitting(false);
     }
   };
 
   const handleConfirmRequest = async (values, { setSubmitting }) => {
     setSubmitting(true);
+
     const { username, code, password } = values;
     try {
-      const result = await Auth.confirmSignUp(username, code, {}).catch(err =>
+      const result = await confirm({ username, code }).catch(err =>
         console.log(err)
       );
-      if (result === 'SUCCESS') {
-        const user = await Auth.signIn(username, password).catch(err =>
-          console.log(err)
-        );
-        console.log(user);
-        setSubmitting(false);
-        setShowConfirm(false);
-      }
+      setSubmitting(false);
+      setShowConfirm(false);
+      navigate('/app/login');
+      // if (result === 'SUCCESS') {
+      //   setSubmitting(false);
+      //   setShowConfirm(false);
+      //   navigate('/app/login');
+      // }
     } catch (err) {
       console.log(err);
     }
   };
-
-  if (isLoggedIn()) {
-    setStep(1);
-  }
 
   return (
     <Formik
