@@ -4,6 +4,8 @@ import { TextField } from 'formik-material-ui';
 import { Link as GatsbyLink } from 'gatsby';
 import { Auth } from 'aws-amplify';
 import { navigate } from '@reach/router';
+import { useAuth } from '../../../../store/auth-context';
+import useCallbackStatus from '../../../../store/utils/useCallbackStatus';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,18 +16,23 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import { validateSignInForm } from '../../helpers';
-import { isLoggedIn } from '../../../../services/auth';
+
 import { Container, SectionWrapper } from '../../../../atoms';
 
 function Login({ classes, user, locaiton, ...props }) {
-  if (user !== null) {
-    const { from } = location.state || { from: { pathname: '/app/profile/' } };
-    navigate(from.pathname);
+  const { isPending, isRejected, error, run } = useCallbackStatus();
+  const { login } = useAuth();
+
+  function handleLoginSubmit(values, { setSubmitting }) {
+    const { email: username, password } = values;
+    setSubmitting(true);
+    run(login({ username, password }));
+    setSubmitting(false);
   }
 
   return (
     <Formik
-      onSubmit={handleLoginRequest}
+      onSubmit={handleLoginSubmit}
       initialValues={{ email: '', password: '' }}
       validate={validateSignInForm}
     >

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from './createContext';
 import { configureApolloClient } from './apollo';
+import { AuthProvider } from './auth-context';
+import { UserProvider } from './user-context';
 
 const client = configureApolloClient();
 
@@ -25,9 +27,15 @@ class AppProvider extends Component {
 
   render() {
     return (
-      <Provider value={this.state}>
-        <ApolloProvider client={client}>{this.props.children}</ApolloProvider>
-      </Provider>
+      <AuthProvider>
+        <UserProvider>
+          <Provider value={this.state}>
+            <ApolloProvider client={client}>
+              {this.props.children}
+            </ApolloProvider>
+          </Provider>
+        </UserProvider>
+      </AuthProvider>
     );
   }
 }

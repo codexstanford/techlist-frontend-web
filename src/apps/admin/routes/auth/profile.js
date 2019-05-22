@@ -68,39 +68,46 @@ function CreateAccount({ classes, ...props }) {
     setSubmitting(true);
     const { firstName, lastName, avatar, title, handle } = values;
     try {
-      const profile = await props.createProfile({
-        variables: {
-          where: {
-            id: userId,
+      const profile = await props
+        .createProfile({
+          update: (cache, { data: { updateUser } }) => {
+            console.log('UPDATE USER IN COMPANY', updateUser);
           },
-          data: {
-            handle: handle,
-            person: {
-              update: {
-                profile: {
-                  upsert: {
-                    create: {
-                      firstName,
-                      lastName,
-                      avatar,
-                      title,
-                    },
-                    update: {
-                      firstName,
-                      lastName,
-                      avatar,
-                      title,
+          variables: {
+            where: {
+              id: userId,
+            },
+            data: {
+              handle: handle,
+              person: {
+                update: {
+                  profile: {
+                    upsert: {
+                      create: {
+                        firstName,
+                        lastName,
+                        avatar,
+                        title,
+                      },
+                      update: {
+                        firstName,
+                        lastName,
+                        avatar,
+                        title,
+                      },
                     },
                   },
                 },
               },
             },
           },
-        },
-      });
-      console.log('PROFILE', profile);
-      setSubmitting(false);
-      setStep(steps.COMPANY);
+        })
+        .then(data => {
+          console.log('DATA IN PROMISE', data);
+
+          debugger;
+          setStep(steps.COMPANY);
+        });
     } catch (err) {
       console.log(err);
     }

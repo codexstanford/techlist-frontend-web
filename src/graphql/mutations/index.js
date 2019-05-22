@@ -39,6 +39,12 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
       id
       person {
         id
+        affiliations {
+          id
+          company {
+            id
+          }
+        }
         profile {
           id
           firstName

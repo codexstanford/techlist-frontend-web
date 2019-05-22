@@ -78,7 +78,7 @@ export function TermsAndConditions({ classes, theme, ...props }) {
         <Card className={classes.card}>
           <Avatar
             style={{ width: 100, height: 100, margin: 10 }}
-            src={data.me.person.profile.avatar}
+            src={props.user.me.person.profile.avatar}
             imgProps={{
               style: { maxWidth: '100%', maxHeight: '100%' },
             }}

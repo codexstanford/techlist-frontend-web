@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-console.log('GET_CURRENT_USER_QUERY', GET_CURRENT_USER_QUERY);
+
 export const GET_CURRENT_USER_QUERY = gql`
   query GetMe {
     me {

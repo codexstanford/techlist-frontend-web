@@ -1,42 +1,16 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
 import { styles } from './styles';
-import { GET_PERSON_QUERY } from '../../../../graphql';
 import UserProfile from './profile';
+import { useUser } from '../../../../store/user-context';
 
 export const UserProfileWithGraphQL = props => {
-  return (
-    <Query
-      query={GET_PERSON_QUERY}
-      variables={{
-        where: {
-          id:
-            props.data && props.data.personId
-              ? props.data.personId
-              : props.user.me.person.id,
-        },
-      }}
-    >
-      {({ data, loading, error }) => {
-        if (loading) {
-          return null;
-        }
-        if (error) {
-          return (
-            <Typography color="textSecondary" gutterBottom>
-              {JSON.stringify(error)}
-            </Typography>
-          );
-        }
-        console.log('DATA', data);
-        return <UserProfile data={data} {...props} />;
-      }}
-    </Query>
-  );
+  const { data } = useUser();
+  console.log('DATA IN USER PROFILE CONTROLLER:', data);
+  const { person } = data.user;
+  console.log('PERSON IN PROFILE CONTROLLER', person);
+
+  return <UserProfile data={data} {...props} />;
 };
 
 export default withStyles(styles)(UserProfileWithGraphQL);

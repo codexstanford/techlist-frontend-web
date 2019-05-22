@@ -7,7 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { setContext } from 'apollo-link-context';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { getCurrentUser, isLoggedIn } from '../services/auth';
+import { getUser } from './auth-context';
 
 const clientCache = new InMemoryCache({
   dataIdFromObject: object => object.id || null,
@@ -34,7 +34,7 @@ const httpLink = process.browser
 const asyncAuthLink = setContext(
   (_, { headers }) =>
     new Promise((success, fail) => {
-      const user = getCurrentUser()
+      const user = getUser()
         .then(user => {
           success({
             headers: {
@@ -74,5 +74,6 @@ export function configureApolloClient() {
     link: ApolloLink.from([apolloLogger, asyncAuthLink, errorLink, httpLink]),
     cache: clientCache,
     connectToDevTools: true,
+    ssrMode: true,
   });
 }

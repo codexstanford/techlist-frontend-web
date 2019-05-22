@@ -14,55 +14,48 @@ import { Auth } from 'aws-amplify';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import { navigate } from '@reach/router';
-import { setUser, isLoggedIn } from '../../../../services/auth';
+
+import { useUser } from '../../../../store/user-context';
 
 function CreateAccount({ classes, ...props }) {
+  const { data, register } = useUser();
   const [shouldShowConfirm, setShowConfirm] = useState(false);
-  const [cognitoData, setCognitoData] = useState({});
 
   const { setStep, activeStep: step } = props;
 
   // STEP 2 OF WORKFLOW
-  const handleSubmitRequest = (
+  const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
     setSubmitting(true);
-    const { email, password, phone: phone_number } = values;
+    const { email, password, phone } = values;
     const username = email;
     try {
-      Auth.signUp({
-        username,
+      const result = await register({
+        email,
         password,
-        attributes: {
-          email,
-          phone_number: `+1${phone_number}`,
-        },
-      })
-        .then(data => {
-          console.log(data);
-          setSubmitting(false);
-          setCognitoData({ ...data, username });
-          setShowConfirm(true);
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.code === 'UsernameExistsException') {
-            setFieldError(
-              'email',
-              'An account with the given email already exists.'
-            );
-          }
-          if (err.code === 'InvalidPasswordException') {
-            setFieldError(
-              'password',
-              'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
-            );
-          }
-          setSubmitting(false);
-        });
-    } catch (err) {
+        phone,
+        username,
+      });
+      console.log('REGISTER RESULT:', result);
+      setSubmitting(false);
+      setShowConfirm(true);
+    } catch (error) {
       console.log(err);
+      if (err.code === 'UsernameExistsException') {
+        setFieldError(
+          'email',
+          'An account with the given email already exists.'
+        );
+      }
+      if (err.code === 'InvalidPasswordException') {
+        setFieldError(
+          'password',
+          'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
+        );
+      }
+      setSubmitting(false);
     }
   };
 
@@ -75,13 +68,15 @@ function CreateAccount({ classes, ...props }) {
         console.log(err)
       );
       if (result === 'SUCCESS') {
-        const user = await Auth.signIn(username, password).catch(err =>
-          console.log(err)
-        );
+        const user = await Auth.signIn(username, password)
+          .catch(err => console.log(err))
+          .then(() => {
+            setStep(steps.PROFILE);
+          });
         console.log(user);
+
         setSubmitting(false);
         setShowConfirm(false);
-        setStep(steps.PROFILE);
       }
     } catch (err) {
       console.log(err);

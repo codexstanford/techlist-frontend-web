@@ -79,10 +79,9 @@ export const handleCompanySubmitRequest = ({
           },
         },
       },
+    }).then(data => {
+      setStep(steps.TERMS);
     });
-
-    setSubmitting(false);
-    setStep(steps.TERMS);
   } catch (err) {
     console.log(err);
   }

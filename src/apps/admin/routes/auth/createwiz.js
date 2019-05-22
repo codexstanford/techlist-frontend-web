@@ -29,13 +29,25 @@ function SignUpWizard({ initialStep = 0, classes, ...rest }) {
   return (
     <Container>
       <Paper className={classes.paper}>
-        <div>
-          {getStepContent({
-            step: activeStep,
-            props: { activeStep, setStep, classes },
-          })}
-        </div>
-
+        <Query query={GET_CURRENT_USER_QUERY} skip={activeStep === 0}>
+          {({ data, loading, error }) => {
+            if (loading) {
+              return null;
+            }
+            if (error) {
+              console.log(error);
+            }
+            console.log('DATA IN HOISTED QUERY', data);
+            return (
+              <div>
+                {getStepContent({
+                  step: activeStep,
+                  props: { activeStep, setStep, classes, hoist: data },
+                })}
+              </div>
+            );
+          }}
+        </Query>
         <Divider className={classes.divider} />
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
@@ -76,7 +88,7 @@ function getSteps() {
   ];
 }
 
-function getStepContent({ step, props }) {
+function getStepContent({ step, props, hoist }) {
   console.log('STEP', step);
   console.log('PROPS', props);
   switch (step) {
@@ -84,7 +96,13 @@ function getStepContent({ step, props }) {
       return (
         <Mutation mutation={CREATE_USER_MUTATION}>
           {mutation => {
-            return <CreateAccount createAccount={mutation} {...props} />;
+            return (
+              <CreateAccount
+                createAccount={mutation}
+                activeStep={step}
+                {...props}
+              />
+            );
           }}
         </Mutation>
       );
@@ -107,8 +125,9 @@ function getStepContent({ step, props }) {
                   return (
                     <CreateProfile
                       createProfile={mutation}
-                      user={data}
+                      user={data || hoist}
                       {...props}
+                      hoist={hoist}
                     />
                   );
                 }}
@@ -122,8 +141,10 @@ function getStepContent({ step, props }) {
         <Query query={GET_CURRENT_USER_QUERY}>
           {({ data, loading, error }) => {
             if (loading) {
+              conosle.log('LOADING IN CASE 2');
               return null;
             }
+
             if (error) {
               console.log('Error Case 2', error);
               return null;
@@ -136,8 +157,9 @@ function getStepContent({ step, props }) {
                   return (
                     <CreateCompany
                       createCompany={mutation}
-                      user={data}
+                      user={data || hoist}
                       {...props}
+                      hoist={hoist}
                     />
                   );
                 }}
@@ -151,16 +173,25 @@ function getStepContent({ step, props }) {
         <Query query={GET_CURRENT_USER_QUERY}>
           {({ data, loading, error }) => {
             if (loading) {
+              conosle.log('LOADING IN CASE 3');
               return null;
             }
+
+            if (error) {
+              console.log('Error Case 3', error);
+              return null;
+            }
+            console.log('PROPS Case 3', props);
+            console.log('DATA Case 3', data);
             return (
               <Mutation mutation={UPDATE_COMPANY_MUTATION}>
                 {mutation => {
                   return (
                     <TermsAndConditions
                       updateCompany={mutation}
-                      user={data}
+                      user={data || hoist}
                       {...props}
+                      hoist={hoist}
                     />
                   );
                 }}
