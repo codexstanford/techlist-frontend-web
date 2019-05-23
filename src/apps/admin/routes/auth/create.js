@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import Avatar from '@material-ui/core/Avatar';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -9,8 +10,13 @@ import { steps } from '../../../../helpers/enums';
 import { TextField } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ConfirmPhone from './confirm';
-
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { Auth } from 'aws-amplify';
 import { navigate } from '@reach/router';
+
+import { SectionWrapper } from '../../../../atoms';
 
 import { useUser } from '../../../../store/user-context';
 
@@ -20,7 +26,6 @@ function CreateAccount({ classes, ...props }) {
 
   const { setStep, activeStep: step } = props;
 
-  // STEP 2 OF WORKFLOW
   const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
@@ -58,7 +63,6 @@ function CreateAccount({ classes, ...props }) {
 
   const handleConfirmRequest = async (values, { setSubmitting }) => {
     setSubmitting(true);
-
     const { username, code, password } = values;
     try {
       const result = await confirm({ username, code }).catch(err =>
@@ -67,11 +71,6 @@ function CreateAccount({ classes, ...props }) {
       setSubmitting(false);
       setShowConfirm(false);
       navigate('/app/login');
-      // if (result === 'SUCCESS') {
-      //   setSubmitting(false);
-      //   setShowConfirm(false);
-      //   navigate('/app/login');
-      // }
     } catch (err) {
       console.log(err);
     }
@@ -80,7 +79,13 @@ function CreateAccount({ classes, ...props }) {
   return (
     <Formik
       onSubmit={handleSubmitRequest}
-      initialValues={{ email: '', phone: '', password: '', confirm: '' }}
+      initialValues={{
+        terms: false,
+        email: '',
+        phone: '',
+        password: '',
+        confirm: '',
+      }}
       validate={validateCreateAccountForm}
     >
       {({ submitForm, isSubmitting, values, setFieldValue, isValid }) => {
@@ -137,10 +142,34 @@ function CreateAccount({ classes, ...props }) {
                   component={TextField}
                 />
               </div>
+              <FormControlLabel
+                control={
+                  <Field
+                    name="terms"
+                    label="Company Description"
+                    component={props => (
+                      <Checkbox
+                        onChange={() => {
+                          setFieldValue('terms', !values.terms);
+                        }}
+                        checked={values.terms}
+                      />
+                    )}
+                  />
+                }
+                label={
+                  <>
+                    <span>I accept the </span>
+                    <StyledATag href="https://www.google.com/search?q=terms+and+conditions&oq=Terms+and+Conditions&aqs=chrome.0.0l6.9044j0j8&sourceid=chrome&ie=UTF-8">
+                      Terms of Service
+                    </StyledATag>
+                  </>
+                }
+              />
               <ButtonWrapper>
                 <Button
                   type="submit"
-                  disabled={!isValid}
+                  disabled={!(isValid && values.terms)}
                   fullWidth
                   variant="contained"
                   color="primary"
@@ -187,8 +216,11 @@ const ButtonWrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
+`;
+
+const StyledATag = styled.a`
+  text-decoration: none;
+  color: red;
 `;

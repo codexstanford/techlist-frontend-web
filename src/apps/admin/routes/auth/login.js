@@ -17,17 +17,28 @@ import Typography from '@material-ui/core/Typography';
 
 import { validateSignInForm } from '../../helpers';
 
+import { useUser } from '../../../../store/user-context';
+
 import { Container, SectionWrapper } from '../../../../atoms';
 
 function Login({ classes, user, locaiton, ...props }) {
+  const { data } = useUser();
   const { isPending, isRejected, error, run } = useCallbackStatus();
   const { login } = useAuth();
 
   function handleLoginSubmit(values, { setSubmitting }) {
     const { email: username, password } = values;
+
+    console.log('DATA IN LOGIN FUNCTION', data);
+
     setSubmitting(true);
     run(login({ username, password }));
     setSubmitting(false);
+    // if (data.user.person.profile === null) {
+    //   navigate('/app/profile');
+    // } else {
+    //   navigate('app/dashboard');
+    // }
   }
 
   return (
