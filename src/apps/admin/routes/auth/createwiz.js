@@ -49,7 +49,7 @@ function SignUpWizard({ initialStep = 0, classes, ...rest }) {
           }}
         </Query>
         <Divider className={classes.divider} />
-        <Stepper activeStep={activeStep} alternativeLabel>
+        {/* <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
             const props = {};
             const labelProps = {};
@@ -60,7 +60,7 @@ function SignUpWizard({ initialStep = 0, classes, ...rest }) {
               </Step>
             );
           })}
-        </Stepper>
+        </Stepper> */}
         <Typography component="p" variant="subtitle1" align="center">
           Already have an account?{' '}
           <Link component={GatsbyLink} to="/app/login/">
