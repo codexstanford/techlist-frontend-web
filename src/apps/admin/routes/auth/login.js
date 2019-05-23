@@ -21,24 +21,24 @@ import { useUser } from '../../../../store/user-context';
 
 import { Container, SectionWrapper } from '../../../../atoms';
 
-function Login({ classes, user, locaiton, ...props }) {
+function Login({ classes, location, ...props }) {
   const { data } = useUser();
   const { isPending, isRejected, error, run } = useCallbackStatus();
   const { login } = useAuth();
+  const { user } = data;
+
+  if (user && user.person && user.person.profile === null) {
+    navigate('/app/profile');
+  }
 
   function handleLoginSubmit(values, { setSubmitting }) {
     const { email: username, password } = values;
 
-    console.log('DATA IN LOGIN FUNCTION', data);
+    console.log('USER IN LOGIN FUNCTION', user);
 
     setSubmitting(true);
     run(login({ username, password }));
     setSubmitting(false);
-    // if (data.user.person.profile === null) {
-    //   navigate('/app/profile');
-    // } else {
-    //   navigate('app/dashboard');
-    // }
   }
 
   return (
@@ -120,25 +120,25 @@ function Login({ classes, user, locaiton, ...props }) {
 
 export default Login;
 
-export async function handleLoginRequest(values, { setSubmitting }) {
-  setSubmitting(true);
-  const { email, password } = values;
-  const username = email;
-  try {
-    const user = await Auth.signIn(username, password)
-      .data(user => {
-        console.log(user);
-        return Auth.currentUserPoolUser()
-          .then(session => {
-            console.log(session);
-            return session;
-          })
-          .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
-    setSubmitting(false);
-  } catch (error) {
-    console.log(error);
-    setSubmitting(false);
-  }
-}
+// export async function handleLoginRequest(values, { setSubmitting }) {
+//   setSubmitting(true);
+//   const { email, password } = values;
+//   const username = email;
+//   try {
+//     const user = await Auth.signIn(username, password)
+//       .data(user => {
+//         console.log(user);
+//         return Auth.currentUserPoolUser()
+//           .then(session => {
+//             console.log(session);
+//             return session;
+//           })
+//           .catch(err => console.log(err));
+//       })
+//       .catch(err => console.log(err));
+//     setSubmitting(false);
+//   } catch (error) {
+//     console.log(error);
+//     setSubmitting(false);
+//   }
+// }
