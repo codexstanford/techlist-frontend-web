@@ -28,7 +28,9 @@ import { useUser } from '../../../../store/user-context';
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState(false);
 
-  const { logout } = useUser();
+  const { data, logout } = useUser();
+
+  const { user } = data;
 
   return (
     <div className={classes.root}>
@@ -55,12 +57,8 @@ export function UserProfile({ classes, ...props }) {
             noWrap
             className={classes.title}
           >
-            {props.data.user.person.profile
-              ? props.data.user.person.profile.firstName
-              : ''}{' '}
-            {props.data.user.person.profile
-              ? props.data.user.person.profile.lastName
-              : ''}{' '}
+            {user.person.profile ? user.person.profile.firstName : ''}{' '}
+            {user.person.profile ? user.person.profile.lastName : ''}{' '}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={0} color="secondary">
