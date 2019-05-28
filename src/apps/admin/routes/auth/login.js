@@ -119,26 +119,3 @@ function Login({ classes, location, ...props }) {
 }
 
 export default Login;
-
-// export async function handleLoginRequest(values, { setSubmitting }) {
-//   setSubmitting(true);
-//   const { email, password } = values;
-//   const username = email;
-//   try {
-//     const user = await Auth.signIn(username, password)
-//       .data(user => {
-//         console.log(user);
-//         return Auth.currentUserPoolUser()
-//           .then(session => {
-//             console.log(session);
-//             return session;
-//           })
-//           .catch(err => console.log(err));
-//       })
-//       .catch(err => console.log(err));
-//     setSubmitting(false);
-//   } catch (error) {
-//     console.log(error);
-//     setSubmitting(false);
-//   }
-// }

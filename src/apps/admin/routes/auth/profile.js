@@ -15,6 +15,7 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { schema } from './index';
+import { navigate } from '@reach/router';
 
 const opts = [
   { value: 'Attorney', label: 'Attorney' },
@@ -36,9 +37,8 @@ function CreateProfile({ classes, ...props }) {
   );
 
   console.log('PROPS ON PROFILE', props);
-  const { id: userId } = props.user.id;
   const { person } = props.user;
-  // const { profile, id: personId } = person;
+  const { id: userId } = props.user;
 
   const { setStep, activeStep: step } = props;
 
@@ -85,11 +85,13 @@ function CreateProfile({ classes, ...props }) {
         })
         .then(data => {
           console.log('DATA IN PROMISE', data);
-          setStep(steps.COMPANY);
+          navigate('/app/profile');
         });
+      navigate('/app/profile');
     } catch (err) {
       console.log(err);
     }
+    navigate('/app/profile');
   };
 
   const handleConfirmRequest = (values, { setSubmitting }) => {
