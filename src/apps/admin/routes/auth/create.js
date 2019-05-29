@@ -68,9 +68,13 @@ function CreateAccount({ classes, ...props }) {
       const result = await confirm({ username, code }).catch(err =>
         console.log(err)
       );
-      setSubmitting(false);
-      setShowConfirm(false);
-      navigate('/app/login');
+      if (result === 'SUCCESS') {
+        setSubmitting(false);
+        setShowConfirm(false);
+        navigate('/app/login');
+      } else {
+        setFieldError('code', 'Invalid Code Entered');
+      }
     } catch (err) {
       console.log(err);
     }

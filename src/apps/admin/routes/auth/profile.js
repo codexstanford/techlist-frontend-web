@@ -37,10 +37,7 @@ function CreateProfile({ classes, ...props }) {
   );
 
   console.log('PROPS ON PROFILE', props);
-  const { person } = props.user;
   const { id: userId } = props.user;
-
-  const { setStep, activeStep: step } = props;
 
   const handleSubmitRequest = async (
     values,
@@ -85,18 +82,10 @@ function CreateProfile({ classes, ...props }) {
         })
         .then(data => {
           console.log('DATA IN PROMISE', data);
-          navigate('/app/profile');
+          setSubmitting(false);
+          props.user.person.profile = profile;
+          navigate('/app/profile/index.js');
         });
-      navigate('/app/profile');
-    } catch (err) {
-      console.log(err);
-    }
-    navigate('/app/profile');
-  };
-
-  const handleConfirmRequest = (values, { setSubmitting }) => {
-    setSubmitting(true);
-    try {
     } catch (err) {
       console.log(err);
     }

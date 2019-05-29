@@ -28,7 +28,12 @@ function Login({ classes, location, ...props }) {
   const { user } = data;
 
   if (user && user.person && user.person.profile === null) {
-    navigate('/app/profile');
+    navigate('/app/profile/');
+  } else if (user && user.person && user.person.profile !== null) {
+    navigate('/app/profile/', { state: { data } });
+  } else {
+    console.log('ELSE CLAUSE HIT!');
+    // navigate('/app/profile');
   }
 
   function handleLoginSubmit(values, { setSubmitting }) {

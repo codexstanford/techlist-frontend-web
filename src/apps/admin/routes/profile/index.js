@@ -25,9 +25,11 @@ export const UserProfileWithGraphQL = props => {
         }}
       </Mutation>
     );
-  } else {
+  } else if (person.profile !== null) {
     console.log('***USER PROFILE***');
     return <UserProfile data={data} {...props} />;
+  } else {
+    console.log('ELSE CLAUSE HIT!');
   }
 };
 

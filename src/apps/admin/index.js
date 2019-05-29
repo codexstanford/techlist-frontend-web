@@ -32,7 +32,6 @@ function App(props) {
           logout={logout}
           {...props}
         />
-
         <Create
           path="/app/create/"
           classes={props.classes}
