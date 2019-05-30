@@ -40,11 +40,12 @@ function CreateAccount({ classes, ...props }) {
         phone,
         username,
       });
+
       console.log('REGISTER RESULT:', result);
       setSubmitting(false);
       setShowConfirm(true);
     } catch (error) {
-      console.log(error);
+      console.log('****ERROR INSIDE CREATE HERE******', error);
       if (error.code === 'UsernameExistsException') {
         setFieldError(
           'email',
@@ -61,22 +62,22 @@ function CreateAccount({ classes, ...props }) {
     }
   };
 
-  const handleConfirmRequest = async (values, { setSubmitting }) => {
+  const handleConfirmRequest = async (
+    values,
+    { setSubmitting, setFieldError }
+  ) => {
     setSubmitting(true);
     const { username, code, password } = values;
     try {
-      const result = await confirm({ username, code }).catch(err =>
-        console.log(err)
-      );
-      if (result === 'SUCCESS') {
-        setSubmitting(false);
-        setShowConfirm(false);
-        navigate('/app/login');
-      } else {
-        setFieldError('code', 'Invalid Code Entered');
-      }
+      const result = await confirm({ username, code });
+      setSubmitting(false);
+      setShowConfirm(false);
+      navigate('/app/login');
     } catch (err) {
-      console.log(err);
+      if (err.code === 'CodeMismatchException') {
+        setFieldError('code', err.message);
+        setSubmitting(false);
+      }
     }
   };
 
