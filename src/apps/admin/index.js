@@ -20,7 +20,7 @@ function App(props) {
     <Layout
       {...props}
       classes={{}}
-      title="Gatsby Starter Blog"
+      title="CodeX LegalTech Index"
       shouldShowSecondaryHeader={false}
       fullScreen={true}
     >
@@ -32,7 +32,6 @@ function App(props) {
           logout={logout}
           {...props}
         />
-
         <Create
           path="/app/create/"
           classes={props.classes}
