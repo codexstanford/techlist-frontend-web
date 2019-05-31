@@ -60,7 +60,7 @@ export const styles = theme => ({
   },
 
   root: {
-    width: '90%',
+    width: '100%',
     alignSelf: 'center',
   },
   button: {
