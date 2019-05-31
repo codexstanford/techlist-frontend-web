@@ -32,8 +32,7 @@ function Login({ classes, location, ...props }) {
   } else if (user && user.person && user.person.profile !== null) {
     navigate('/app/profile/', { state: { data } });
   } else {
-    console.log('ELSE CLAUSE HIT!');
-    // navigate('/app/profile');
+    // navigate('/app/profile'); 
   }
 
   function handleLoginSubmit(values, { setSubmitting }) {
@@ -122,5 +121,3 @@ function Login({ classes, location, ...props }) {
     </Formik>
   );
 }
-
-export default Login;
