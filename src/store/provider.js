@@ -5,6 +5,7 @@ import { Provider } from './createContext';
 import { configureApolloClient } from './apollo';
 import { AuthProvider } from './auth-context';
 import { UserProvider } from './user-context';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
 const client = configureApolloClient();
 
@@ -31,6 +32,7 @@ class AppProvider extends Component {
         <UserProvider>
           <Provider value={this.state}>
             <ApolloProvider client={client}>
+              <ApolloHooksProvider client={client} />
               {this.props.children}
             </ApolloProvider>
           </Provider>

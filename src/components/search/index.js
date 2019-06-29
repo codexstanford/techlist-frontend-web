@@ -121,8 +121,11 @@ export default props => (
     query={graphql`
       query SearchListQuery {
         allTechList {
-          companies {
-            name
+          organizations {
+            name {
+              id
+              payload
+            }
             id
           }
         }
