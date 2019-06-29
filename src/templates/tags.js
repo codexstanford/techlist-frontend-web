@@ -17,11 +17,11 @@ function toTitleCase(str) {
 }
 
 const Tags = ({ pageContext, data, classes, ...rest }) => {
-  const { companies } = data.allTechList.companyCategory;
+  const { organizations } = data.allTechList.organizationCategory;
   return (
     <Layout shouldShowSecondaryHeader={false} fullScreen={false}>
       <SEO
-        title={`Category | ${data.allTechList.companyCategory.name}`}
+        title={`Category | ${data.allTechList.organizationCategory.payload}`}
         keywords={[`gatsby`, `application`, `react`]}
       />
       <div className={classes.root}>
@@ -36,16 +36,18 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
           filterable
           defaultFilterMethod={(filter, row) => {
             if (
-              row[filter.id].name === undefined ||
-              row[filter.id].name === null
+              row[filter.id].name.payload === undefined ||
+              row[filter.id].name.payload === null
             ) {
               return false;
             }
-            return row[filter.id].name.split(' ').includes(filter.value);
+            return row[filter.id].name.payload
+              .split(' ')
+              .includes(filter.value);
           }}
           resolveData={data => {
             return data
-              .filter(item => item.name !== null)
+              .filter(item => item.name.payload !== null)
               .map(item => ({
                 name: item.name,
                 id: item.id,
@@ -62,7 +64,9 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
               Header: () => (
                 <Typography variant="h6">
                   {toTitleCase(
-                    data.allTechList.companyCategory.name.split('_').join(' ')
+                    data.allTechList.organizationCategory.payload
+                      .split('_')
+                      .join(' ')
                   )}
                 </Typography>
               ),
@@ -73,13 +77,13 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
                   <ListItem
                     button
                     component={GatsbyLink}
-                    to={`/companies/${slugify(props.value.name)}/`}
+                    to={`/companies/${slugify(props.value.name[0].payload)}/`}
                   >
                     <ListItemText
                       primary={
                         <Typography variant="subtitle1">
-                          {props.value && props.value.name
-                            ? props.value.name
+                          {props.value && props.value.name[0].payload
+                            ? props.value.name[0].payload
                             : ''}
                         </Typography>
                       }
@@ -109,7 +113,7 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
               },
             },
           ]}
-          data={companies}
+          data={organizations}
         />
       </div>
     </Layout>
@@ -131,24 +135,20 @@ export default withStyles(theme => ({
 export const pageQuery = graphql`
   query CompanyCategory($tag: String) {
     allTechList {
-      companyCategory(where: { name: $tag }) {
+      organizationCategory(where: { payload: $tag }) {
         id
-        name
-        companies {
+        payload
+        organizations {
           id
-          name
           description
-
+          name {
+            payload
+          }
           location {
             formatted_address
             googleId
-            id
             photos
           }
-          url
-          twitter
-          crunchbase
-          angellist
         }
       }
     }

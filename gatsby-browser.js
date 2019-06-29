@@ -3,6 +3,7 @@ import AppProvider from 'store/provider';
 import { AuthProvider } from './src/store/auth-context';
 import { UserProvider } from './src/store/user-context';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { configureApolloClient } from './src/store/apollo';
 import wrapPageElementWithTransition from 'helpers/wrapPageElement';
 
@@ -41,7 +42,9 @@ export const wrapRootElement = ({ element }) => {
   return (
     <AuthProvider>
       <UserProvider>
-        <ApolloProvider client={client}>{element}</ApolloProvider>
+        <ApolloProvider client={client}>
+          <ApolloHooksProvider client={client}>{element}</ApolloHooksProvider>
+        </ApolloProvider>
       </UserProvider>
     </AuthProvider>
   );
