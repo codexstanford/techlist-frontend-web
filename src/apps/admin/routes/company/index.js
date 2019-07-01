@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Downshift from 'downshift';
 
 import { Formik, Field, Form } from 'formik';
@@ -17,6 +17,23 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiTextField from '@material-ui/core/TextField';
+import Avatar from '@material-ui/core/Avatar';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import styled from 'styled-components';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 import { CREATE_COMPANY_MUTATION } from './company.graphql';
 
@@ -97,17 +114,22 @@ export default function CreateCompanyScreen({
   console.log(rest);
   return (
     <Container className={classes.main}>
-      <Paper className={classes.paper}>
-        <CreateCompanyForm
-          handleSubmit={handleCreateCompany}
-          classes={classes}
-        />
-      </Paper>
+      <Dialog open={true} TransitionComponent={Transition} fullWidth={true}>
+        <DialogContent>
+          <CreateCompanyForm
+            handleSubmit={handleCreateCompany}
+            classes={classes}
+          />
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }
 
 function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
+  const [image, setImage] = useState(
+    'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
+  );
   return (
     <Formik onSubmit={handleSubmit} initialValues={{}}>
       {({
@@ -125,18 +147,60 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
           <>
             <FormHeader companyName={name} />
             <Form className={classes.form}>
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <StyledInput
+                    onChange={e => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      console.log(e.target.files);
+
+                      const fileReader = new FileReader();
+                      fileReader.onloadend = e => {
+                        const content = fileReader.result;
+                        setFieldValue('avatar', content);
+                        setImage(content);
+                      };
+                      if (e.target.files.length > 0) {
+                        fileReader.readAsDataURL(e.target.files[0]);
+                      }
+                    }}
+                  />
+                  <label htmlFor="avatar">
+                    <Fab
+                      style={{
+                        margin: 10,
+                        width: 120,
+                        height: 120,
+                      }}
+                    >
+                      <label htmlFor="avatar">
+                        <Avatar
+                          style={{ width: 120, height: 120 }}
+                          src={values.avatar}
+                          imgProps={{
+                            style: { maxWidth: '100%', maxHeight: '100%' },
+                          }}
+                        />
+                      </label>
+                    </Fab>
+                  </label>
+                </div>
+              </div>
+
               <CodeXTextField
                 name="name"
                 type="text"
                 errors={errors}
                 touched={touched}
                 label="Company Name"
+                fullWidth={true}
               />
 
               <CodeXTextField
                 type="text"
                 name="description"
-                multiline
+                multiline={true}
                 margin="normal"
                 errors={errors}
                 touched={touched}
@@ -192,7 +256,7 @@ function CodeXTextField({
         type={type}
         label={label || name}
         component={component}
-        fullWidth
+        fullWidth={true}
         InputLabelProps={{}}
         {...rest}
       />
@@ -216,3 +280,16 @@ function FormHeader({ companyName = 'Company' }) {
     </Typography>
   );
 }
+
+const StyledInput = styled.input.attrs({
+  type: 'file',
+  id: 'avatar',
+  accept: 'image/*',
+})`
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+`;
