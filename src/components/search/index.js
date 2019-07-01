@@ -58,8 +58,9 @@ class MainSearch extends React.Component {
   render() {
     const { classes, data } = this.props;
     const {
-      allTechList: { companies },
+      allTechList: { organizations: companies },
     } = data;
+    console.log('COMPANIES:', companies);
     const { selectedItem, inputValue } = this.state;
     return (
       <Downshift
@@ -100,7 +101,7 @@ class MainSearch extends React.Component {
                       suggestion,
                       index,
                       itemProps: getItemProps({
-                        item: suggestion.name,
+                        item: suggestion.name[0].payload,
                       }),
                       highlightedIndex,
                       selectedItem: selectedItem2,

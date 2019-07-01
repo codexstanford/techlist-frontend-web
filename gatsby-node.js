@@ -36,7 +36,7 @@ exports.createPages = ({ graphql, actions }) => {
             id
             payload
           }
-          organizations {
+          organizations(first: 300) {
             id
             name {
               payload

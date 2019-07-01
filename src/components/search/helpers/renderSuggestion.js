@@ -20,7 +20,7 @@ export function renderSuggestion({
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.name}
+      {suggestion.name[0].payload}
     </MenuItem>
   );
 }
