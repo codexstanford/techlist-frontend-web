@@ -35,14 +35,21 @@ function Login({ classes, location, ...props }) {
     // navigate('/app/profile');
   }
 
-  function handleLoginSubmit(values, { setSubmitting }) {
+  function handleLoginSubmit(values, { setSubmitting, setErrors }) {
     const { email: username, password } = values;
 
     console.log('USER IN LOGIN FUNCTION', user);
 
     setSubmitting(true);
-    run(login({ username, password }));
-    setSubmitting(false);
+    const result = run(login({ username, password }));
+    result
+      .catch(errors => {
+        console.log('Settings Errors', errors);
+        setErrors(errors);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   }
 
   return (
@@ -51,7 +58,7 @@ function Login({ classes, location, ...props }) {
       initialValues={{ email: '', password: '' }}
       validate={validateSignInForm}
     >
-      {({ isSubmitting, isValid }) => {
+      {({ isSubmitting, isValid, errors, touched }) => {
         return (
           <Container className={classes.main}>
             <Paper className={classes.paper}>
@@ -69,7 +76,6 @@ function Login({ classes, location, ...props }) {
                   Please login below.
                 </Typography>
               </SectionWrapper>
-
               <Form className={classes.form}>
                 <div>
                   <Field
@@ -88,6 +94,14 @@ function Login({ classes, location, ...props }) {
                     fullWidth
                     component={TextField}
                   />
+                  <Typography
+                    component="p"
+                    variant="subtitle1"
+                    align="center"
+                    color="error"
+                  >
+                    {errors.message}
+                  </Typography>
                 </div>
                 <SectionWrapper>
                   <Button
