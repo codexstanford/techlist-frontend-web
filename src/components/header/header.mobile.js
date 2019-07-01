@@ -67,7 +67,7 @@ export function MobileNav({ classes, siteTitle, ...props }) {
           // onClick={this.toggleDrawer}
           // onKeyDown={this.toggleDrawer}
         >
-          <SideLeft {...props} />
+          <SideLeft classes={classes} {...props} />
         </div>
       </SwipeableDrawer>
     </React.Fragment>
