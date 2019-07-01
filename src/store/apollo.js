@@ -7,7 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { setContext } from 'apollo-link-context';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { getUser } from './utils/auth-client';
+import { getUser, getToken } from './utils/auth-client';
 
 const clientCache = new InMemoryCache({
   dataIdFromObject: object => object.id || null,
@@ -36,15 +36,13 @@ const asyncAuthLink = setContext(
     new Promise((success, fail) => {
       const user = getUser()
         .then(user => {
+          console.log('USER IN SET CONTEXT', user);
+          const token = getToken();
+          console.log('token', token);
           success({
             headers: {
               ...headers,
-              authorization:
-                user &&
-                user.signInUserSession &&
-                user.signInUserSession.accessToken
-                  ? `Bearer ${user.signInUserSession.idToken.jwtToken}`
-                  : '',
+              authorization: `Bearer ${token}`,
             },
           });
         })

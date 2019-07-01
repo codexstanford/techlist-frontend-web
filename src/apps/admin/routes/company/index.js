@@ -46,15 +46,40 @@ export default function CreateCompanyScreen({
     });
   }
 
-  const handleCreateCompany = async ({ name }, { setSubmitting }) => {
+  const handleCreateCompany = async (
+    { name, description, location, locationjson },
+    { setSubmitting }
+  ) => {
     console.log('got called');
+    console.log('locationjson', locationjson);
+    const { formatted_address, geometry, place_id } = locationjson;
     try {
       const result = await createCompany({
         variables: {
           data: {
-            name,
-            contact: {
-              create: {},
+            name: {
+              create: {
+                payload: name,
+                fromDate: new Date(),
+              },
+            },
+            description,
+            location: {
+              create: {
+                formatted_address,
+                geometry,
+                placeId: place_id,
+              },
+            },
+            affiliation: {
+              create: {
+                fromDate: new Date(),
+                person: {
+                  connect: {
+                    id: user.person.id,
+                  },
+                },
+              },
             },
             metadata: {
               create: defaultCreateCompanyMetadata,
@@ -63,6 +88,7 @@ export default function CreateCompanyScreen({
         },
       });
       setSubmitting(false);
+      navigate('/app/profile/');
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +110,15 @@ export default function CreateCompanyScreen({
 function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
   return (
     <Formik onSubmit={handleSubmit} initialValues={{}}>
-      {({ isSubmitting, values, setFieldValue, isValid, errors, touched }) => {
+      {({
+        isSubmitting,
+        values,
+        setFieldValue,
+        setValues,
+        isValid,
+        errors,
+        touched,
+      }) => {
         const { name } = values;
 
         return (
@@ -108,7 +142,11 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 touched={touched}
                 label="Company Description"
               />
-              <AddressField classes={classes} />
+              <AddressField
+                classes={classes}
+                setFieldValue={setFieldValue}
+                setValues={setValues}
+              />
 
               <SectionWrapper>
                 <Button

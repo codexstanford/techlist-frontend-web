@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function GoogleEnhancedAutocomplete({ classes }) {
+function GoogleEnhancedAutocomplete({ classes, ...props }) {
   const [suggestions, setSuggestions] = React.useState([]);
   const [query, setQuery] = React.useState('');
 
@@ -63,7 +63,7 @@ function GoogleEnhancedAutocomplete({ classes }) {
     <Downshift
       id="downshift-simple"
       itemToString={itemToString}
-      onChange={selection => console.log('SELECTED:', selection)}
+      onChange={selection => props.setValues({ locationjson: selection })}
     >
       {({
         getInputProps,

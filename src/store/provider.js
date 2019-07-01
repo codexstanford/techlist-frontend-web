@@ -7,7 +7,7 @@ import { AuthProvider } from './auth-context';
 import { UserProvider } from './user-context';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
-const client = configureApolloClient();
+export const client = configureApolloClient();
 
 class AppProvider extends Component {
   state = {
