@@ -3,31 +3,59 @@ import gql from 'graphql-tag';
 export const GET_CURRENT_USER_QUERY = gql`
   query GetMe {
     me {
+      __typename
       id
-      cognitoId
-      handle
+      createdAt
+      name
+      email
+      phone
+      phone_number_verified
+      email_verified
       person {
         id
-        affiliations {
+        name {
           id
-          role
-          startDate
-          company {
-            id
-            name
-            yearFounded
-            description
-          }
-        }
-        profile {
-          id
-          avatar
           firstName
           lastName
-          links {
+          middleInitial
+          suffix
+          fromDate
+          throughDate
+        }
+        email {
+          id
+          payload
+          fromDate
+          throughDate
+        }
+        avatar {
+          id
+          payload
+          fromDate
+          throughDate
+        }
+        metadata {
+          isDraft
+          isPublic
+          isRejected
+          isApproved
+          isPendingReview
+        }
+        affiliation {
+          id
+          fromDate
+          throughDate
+          title
+          role
+          description
+          organization {
             id
-            type
-            url
+            name {
+              payload
+            }
+            logo {
+              payload
+            }
           }
         }
       }
@@ -37,7 +65,7 @@ export const GET_CURRENT_USER_QUERY = gql`
 
 export const GET_USER_QUERY = gql`
   query GetUserQuery($where: UserWhereUniqueInput!) {
-    user(where: $where) {
+    partyAccount(where: $where) {
       id
       cognitoId
     }

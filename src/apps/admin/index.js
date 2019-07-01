@@ -13,7 +13,7 @@ import { styles } from './config/styles';
 import { useUser, UserProvider } from '../../store/user-context';
 
 function App(props) {
-  const { login, data, logout, register } = useUser();
+  const { login, data, logout, register, getUser } = useUser();
 
   console.log('ADMIN INDEX USER:', data);
   console.log('ADMIN INDEX PROPS:', props);
@@ -40,7 +40,7 @@ function App(props) {
           register={register}
         />
         <CreateCompanyScreen
-          path="/app/company/:step"
+          path="/app/company/"
           classes={props.classes}
           user={data.user}
         />

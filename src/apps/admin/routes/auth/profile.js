@@ -48,31 +48,32 @@ function CreateProfile({ classes, ...props }) {
     try {
       const profile = await props
         .createProfile({
-          update: (cache, { data: { updateUser } }) => {
-            console.log('UPDATE USER IN COMPANY', updateUser);
+          update: (cache, { data: { updatePartyAccount } }) => {
+            // console.log('UPDATE USER IN COMPANY', updatePartyAccount);
           },
           variables: {
             where: {
               id: userId,
             },
             data: {
-              handle: handle,
               person: {
                 update: {
-                  profile: {
-                    upsert: {
-                      create: {
-                        firstName,
-                        lastName,
-                        avatar,
-                        title,
-                      },
-                      update: {
-                        firstName,
-                        lastName,
-                        avatar,
-                        title,
-                      },
+                  metadata: {
+                    update: {
+                      isDraft: false,
+                    },
+                  },
+                  avatar: {
+                    create: {
+                      payload: avatar,
+                      fromDate: new Date(),
+                    },
+                  },
+                  name: {
+                    create: {
+                      firstName,
+                      lastName,
+                      fromDate: new Date(),
                     },
                   },
                 },
@@ -83,7 +84,7 @@ function CreateProfile({ classes, ...props }) {
         .then(data => {
           console.log('DATA IN PROMISE', data);
           setSubmitting(false);
-          props.user.person.profile = profile;
+          // props.user.person.profile = profile;
           navigate('/app/profile/index.js');
         });
     } catch (err) {

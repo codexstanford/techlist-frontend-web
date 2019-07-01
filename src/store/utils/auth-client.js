@@ -2,6 +2,10 @@ import Amplify, { Auth } from 'aws-amplify';
 import { GraphQLClient } from 'graphql-request';
 import { LOCAL_STORAGE_KEY, GET_USER_QUERY } from './const';
 
+import { client } from '../apollo';
+
+console.log('CLIENT', client);
+
 Amplify.configure({
   Auth: {
     // identityPoolId: 'us-west-2:0de73b6e-0624-4f46-9e56-14e51ecf282a',
