@@ -42,11 +42,14 @@ function Login({ classes, location, ...props }) {
 
     setSubmitting(true);
     const result = run(login({ username, password }));
-    result.catch(errors => {
-      console.log('Settings Errors', errors);
-      setErrors(errors);
-    });
-    setSubmitting(false);
+    result
+      .catch(errors => {
+        console.log('Settings Errors', errors);
+        setErrors(errors);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   }
 
   return (
@@ -73,7 +76,6 @@ function Login({ classes, location, ...props }) {
                   Please login below.
                 </Typography>
               </SectionWrapper>
-
               <Form className={classes.form}>
                 <div>
                   <Field
@@ -92,8 +94,15 @@ function Login({ classes, location, ...props }) {
                     fullWidth
                     component={TextField}
                   />
+                  <Typography
+                    component="p"
+                    variant="subtitle1"
+                    align="center"
+                    color="error"
+                  >
+                    {errors.message}
+                  </Typography>
                 </div>
-                {errors.message}
                 <SectionWrapper>
                   <Button
                     type="submit"
