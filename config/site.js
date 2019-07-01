@@ -16,7 +16,7 @@ module.exports = () => ({
   },
   api: {
     graphql: {
-      endpoint: 'http://localhost:4000',
+      endpoint: 'http://35.239.56.1/apollo',
       typeName: 'TechList',
       fieldName: 'allTechList',
     },

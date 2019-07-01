@@ -19,14 +19,14 @@ const httpLink = process.browser
   ? createPersistedQueryLink().concat(
       new BatchHttpLink({
         //uri: 'https://apollo.k8s.law.kitchen',
-        uri: 'http://localhost:4000',
+        uri: 'http://35.239.56.1/apollo',
         fetch: fetch,
       })
     )
   : createPersistedQueryLink().concat(
       new BatchHttpLink({
         //uri: 'https://apollo.k8s.law.kitchen',
-        uri: 'http://localhost:4000',
+        uri: 'http://35.239.56.1/apollo',
         fetch: fetch,
       })
     );
