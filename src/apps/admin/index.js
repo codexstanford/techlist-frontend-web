@@ -4,6 +4,7 @@ import { Router, navigate } from '@reach/router';
 import Login from './routes/auth/login';
 import Create from './routes/auth/createwiz';
 import Profile from './routes/profile/';
+import CreateCompanyScreen from './routes/company';
 import Layout from '../../components/layout';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -12,7 +13,7 @@ import { styles } from './config/styles';
 import { useUser, UserProvider } from '../../store/user-context';
 
 function App(props) {
-  const { login, data, logout, register } = useUser();
+  const { login, data, logout, register, getUser } = useUser();
 
   console.log('ADMIN INDEX USER:', data);
   console.log('ADMIN INDEX PROPS:', props);
@@ -37,6 +38,11 @@ function App(props) {
           classes={props.classes}
           logout={logout}
           register={register}
+        />
+        <CreateCompanyScreen
+          path="/app/company/"
+          classes={props.classes}
+          user={data.user}
         />
       </Router>
     </Layout>

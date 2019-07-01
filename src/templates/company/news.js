@@ -11,9 +11,10 @@ import { formatBingNewsPublishedDate } from './helpers';
 
 export function CompanyNews({ classes, company, ...props }) {
   const [news, setNews] = useState(null);
+  const qstring = company.name[0].payload;
 
   useEffect(() => {
-    fetch(`${process.env.BING_SEARCH_NEWS_API}?q=${encodeURI(company.name)}`, {
+    fetch(`${process.env.BING_SEARCH_NEWS_API}?q=${encodeURI(qstring)}`, {
       headers: {
         'Ocp-Apim-Subscription-Key': process.env.BING_API_KEY,
       },
@@ -23,9 +24,10 @@ export function CompanyNews({ classes, company, ...props }) {
         if (data && data.value && data.value.length > 0) {
           setNews(data.value);
         }
+        console.log('NO DATA?', data);
       })
       .catch(err => console.log(err));
-  }, [company.name]);
+  }, [company.name[0].payload]);
 
   if (!news) {
     return null;

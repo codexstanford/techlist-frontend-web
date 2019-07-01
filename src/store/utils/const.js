@@ -2,29 +2,67 @@ export const LOCAL_STORAGE_KEY = '__LEGAL_TECH__';
 
 export const GET_USER_QUERY = `{
     me {
+        __typename
         id
+        createdAt
         name
-        email
+        email 
         phone
         phone_number_verified
         email_verified
-        handle
-        cognitoId
         person {
-            id
-            email
-            phone
-            profile {
+            id 
+            name {
                 id
                 firstName
                 lastName
-                avatar
-                title
-                headline
-                location 
+                middleInitial
+                suffix
+                fromDate
+                throughDate
+            }
+            email {
+                id
+                payload
+                fromDate
+                throughDate
+            }
+            avatar {
+                id
+                payload
+                fromDate
+                throughDate
+            }
+            metadata {
+                isDraft 
+                isPublic 
+                isRejected
+                isApproved
+                isPendingReview
+            }
+            affiliation {
+                id 
+                fromDate
+                throughDate 
+                title 
+                role 
+                description 
+                organization {
+                    id 
+                    name {
+                        payload 
+                    }
+                    logo {
+                        payload
+                    }
+                }
             }
         }
-        role
+
+        
+        
+        
+    
     }
 }
 

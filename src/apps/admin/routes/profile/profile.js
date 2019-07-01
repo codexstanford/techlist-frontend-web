@@ -20,17 +20,23 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import { navigate } from '@reach/router';
 
 import { GET_PERSON_QUERY } from '../../../../graphql';
 import { MainListItems, secondaryListItems } from './listitems';
 import { useUser } from '../../../../store/user-context';
 
 export function UserProfile({ classes, ...props }) {
-  const [isOpen, toggleDrawerVisibility] = React.useState(false);
+  const [isOpen, toggleDrawerVisibility] = React.useState(true);
+  const { logout } = useUser();
+  const { data } = props;
+  const { person, id: partyAccountId } = data;
 
-  const { data, logout } = useUser();
+  console.log('USER IN USERPROFILE DISPLAY,', data);
+  console.log('PERSONM IN USERPROFILE DISPLAY,', person);
 
-  const { user } = data;
+  const { name } = person;
+  const displayName = name[0];
 
   return (
     <div className={classes.root}>
@@ -42,7 +48,7 @@ export function UserProfile({ classes, ...props }) {
           <IconButton
             color="inherit"
             aria-label="Open drawer"
-            onClick={toggleDrawerVisibility}
+            onClick={() => toggleDrawerVisibility(!isOpen)}
             className={classNames(
               classes.menuButton,
               isOpen && classes.menuButtonHidden
@@ -57,8 +63,8 @@ export function UserProfile({ classes, ...props }) {
             noWrap
             className={classes.title}
           >
-            {user.person.profile ? user.person.profile.firstName : ''}{' '}
-            {user.person.profile ? user.person.profile.lastName : ''}{' '}
+            {displayName ? displayName.firstName : ''}{' '}
+            {displayName ? displayName.lastName : ''}{' '}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={0} color="secondary">
@@ -79,7 +85,7 @@ export function UserProfile({ classes, ...props }) {
           open={isOpen}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={toggleDrawerVisibility}>
+            <IconButton onClick={() => toggleDrawerVisibility(!isOpen)}>
               <ChevronLeftIcon />
             </IconButton>
           </div>
@@ -101,7 +107,7 @@ export function UserProfile({ classes, ...props }) {
           open={isOpen}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={toggleDrawerVisibility}>
+            <IconButton onClick={() => toggleDrawerVisibility(!isOpen)}>
               <ChevronLeftIcon />
             </IconButton>
           </div>
@@ -113,7 +119,7 @@ export function UserProfile({ classes, ...props }) {
               </ListItemIcon>
               <ListItemText
                 primary="Dashboard"
-                onClick={toggleDrawerVisibility}
+                onClick={() => toggleDrawerVisibility(!isOpen)}
               />
             </ListItem>
             <ListItem button>
@@ -138,6 +144,17 @@ export function UserProfile({ classes, ...props }) {
               gutterBottom
             >
               Coming soon!
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={() => navigate('/app/company/')}
+                className={classNames(
+                  classes.menuButton,
+                  isOpen && classes.menuButtonHidden
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
             </Typography>
           </CardContent>
         </Card>

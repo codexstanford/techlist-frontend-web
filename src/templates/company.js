@@ -56,9 +56,11 @@ class CompanyTemplate extends React.Component {
       classes,
       data: { allTechList },
     } = this.props;
-    const { company } = allTechList;
+    const { organization } = allTechList;
 
-    if (company === null) {
+    console.log(organization);
+
+    if (organization === null) {
       return null;
     }
 
@@ -98,7 +100,7 @@ class CompanyTemplate extends React.Component {
                 noWrap
                 className={classes.title}
               >
-                {company.name}
+                {organization.name[0].payload}
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={0} color="secondary">
@@ -174,33 +176,36 @@ class CompanyTemplate extends React.Component {
             <Grid container spacing={16} className={classes.mainGrid}>
               <Grid item md={8} sm={12}>
                 <Card className={classes.card}>
-                  {company && company.logo ? (
+                  {organization && organization.logo ? (
                     <CardMedia
                       className={classes.media}
-                      image={company.logo}
-                      title={`${company.name} logo`}
+                      image={organization.logo[0].payload}
+                      title={`${organization.name} logo`}
                     />
                   ) : null}
                   <CardContent>
                     <Typography variant="h6" color="textSecondary">
-                      {company.name}
+                      {organization.name[0].payload}
                     </Typography>
                     <Typography variant="body1" gutterBottom component="h2">
-                      <p>{unescape(company.description)}</p>
+                      <p>{unescape(organization.description)}</p>
                     </Typography>
-                    {company.cats && company.cats.length > 0 && (
-                      <Typography variant="overline" color="textSecondary">
-                        {formatCompanyCategories(company.cats)}
-                      </Typography>
-                    )}
+                    {organization.categories &&
+                      organization.categories.length > 0 && (
+                        <Typography variant="overline" color="textSecondary">
+                          {formatCompanyCategories(organization.categories)}
+                        </Typography>
+                      )}
                   </CardContent>
                 </Card>
                 <Card className={classes.card}>
-                  {company.location && (
+                  {organization.location[0] && (
                     <>
                       <CardHeader
                         component={() => (
-                          <CompanyLocationMap location={company.location} />
+                          <CompanyLocationMap
+                            location={organization.location[0]}
+                          />
                         )}
                       />
                       <CardContent>
@@ -214,7 +219,9 @@ class CompanyTemplate extends React.Component {
                             </ListItemIcon>
 
                             <ListItemText
-                              primary={company.location.formatted_address || ''}
+                              primary={
+                                organization.location[0].formatted_address || ''
+                              }
                             />
                           </ListItem>
                         </List>
@@ -222,11 +229,11 @@ class CompanyTemplate extends React.Component {
                     </>
                   )}
                 </Card>
-                <CompanyIntelligence classes={classes} company={company} />
-                <CompanyContact classes={classes} company={company} />
+                {/* <CompanyIntelligence classes={classes} company={company} />
+                <CompanyContact classes={classes} company={company} /> */}
               </Grid>
               <Grid item md={4}>
-                <CompanyNews classes={classes} company={company} />
+                <CompanyNews classes={classes} company={organization} />
               </Grid>
             </Grid>
           </main>
@@ -241,53 +248,35 @@ export default withStyles(styles)(CompanyTemplate);
 export const pageQuery = graphql`
   query Company($id: ID) {
     allTechList {
-      company(where: { id: $id }) {
-        name
+      organization(where: { id: $id }) {
         id
-        operatingModels {
-          name
-          id
+        name {
+          payload
         }
-        logo
-        yearFounded
-        description
-        visible
-        targetMarkets {
-          name
+        logo {
           id
-        }
-        cats {
-          name
-          id
+          payload
         }
         location {
           formatted_address
           googleId
-          id
           photos
-          geometry
         }
-        contact {
+        categories {
           id
-          urlTwitter
-          urlCrunchbase
-          urlAngellist
-          urlWebsite
+          payload
         }
-        affiliations {
-          id
-          profile {
-            firstName
-            lastName
-            avatar
-            title
-          }
-        }
+        yearFounded
+        description
 
-        url
-        twitter
-        crunchbase
-        angellist
+        targetMarkets {
+          payload
+        }
+        links {
+          id
+          payload
+          type
+        }
       }
     }
   }

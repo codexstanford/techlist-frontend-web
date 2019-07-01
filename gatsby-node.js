@@ -32,74 +32,125 @@ exports.createPages = ({ graphql, actions }) => {
     graphql(`
       {
         allTechList {
-          companies {
+          organizationCategories {
             id
-            name
+            payload
+          }
+          organizations {
+            id
+            name {
+              payload
+            }
             location {
               formatted_address
               googleId
               photos
             }
-            operatingModels {
-              name
+            categories {
               id
+              payload
             }
             yearFounded
             description
-            visible
+
             targetMarkets {
-              name
-              id
+              payload
             }
-            cats {
-              name
+            links {
               id
+              payload
+              type
             }
-            url
-            twitter
-            crunchbase
-            angellist
-          }
-          companyCategories {
-            id
-            name
           }
         }
       }
     `)
+      // graphql(`
+      //   {
+      //     allTechList {
+      //       companies {
+      //         id
+      //         name
+      //         location {
+      //           formatted_address
+      //           googleId
+      //           photos
+      //         }
+      //         operatingModels {
+      //           name
+      //           id
+      //         }
+      //         yearFounded
+      //         description
+      //         visible
+      //         targetMarkets {
+      //           name
+      //           id
+      //         }
+      //         cats {
+      //           name
+      //           id
+      //         }
+      //         url
+      //         twitter
+      //         crunchbase
+      //         angellist
+      //       }
+      //       companyCategories {
+      //         id
+      //         name
+      //       }
+      //     }
+      //   }
+      // `)
       .then(result => {
         if (result.errors) {
           reject(result.errors);
         }
 
-        const tags = result.data.allTechList.companyCategories;
+        const tags = result.data.allTechList.organizationCategories;
 
-        result.data.allTechList.companies.forEach(node => {
+        result.data.allTechList.organizations.forEach(node => {
           createPage({
-            path: `/companies/${slugify(node.name)}/`,
+            path: `/companies/${slugify(node.name[0].payload)}/`,
             component: companyTemplate,
             context: {
-              slug: slugify(node.name),
+              slug: slugify(node.name[0].payload),
               id: node.id,
-              name: node.name,
-              url: node.url,
+              name: node.name[0].payload,
+              url: 'https://fabulas.io',
               description: node.description,
-              twitter: node.twitter,
+              twitter: 'node.twitter',
               data: JSON.stringify({ ...node }),
             },
           });
         });
 
+        // result.data.allTechList.companies.forEach(node => {
+        //   createPage({
+        //     path: `/companies/${slugify(node.name)}/`,
+        //     component: companyTemplate,
+        //     context: {
+        //       slug: slugify(node.name),
+        //       id: node.id,
+        //       name: node.name,
+        //       url: node.url,
+        //       description: node.description,
+        //       twitter: node.twitter,
+        //       data: JSON.stringify({ ...node }),
+        //     },
+        //   });
+        // });
+
         tags.forEach(tag => {
-          console.log(tag);
-          if (tag.name === '_-' || tag.name === '----') {
+          if (tag.payload === '_-' || tag.payload === '----') {
             return;
           }
           createPage({
-            path: `/tags/${_.kebabCase(tag.name)}/`,
+            path: `/tags/${_.kebabCase(tag.payload)}/`,
             component: tagTemplate,
             context: {
-              tag: tag.name,
+              tag: tag.payload,
               id: tag.id,
             },
           });
