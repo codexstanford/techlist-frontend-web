@@ -21,7 +21,6 @@ function useCallbackStatus() {
 
   const isPending = status === 'pending';
   const isRejected = status === 'rejected';
-
   function run(promise) {
     if (!promise || !promise.then) {
       throw new Error(
@@ -36,7 +35,7 @@ function useCallbackStatus() {
       },
       error => {
         safeSetState({ status: 'rejected', error });
-        return Promise.reject(error);
+        throw error;
       }
     );
   }

@@ -50,6 +50,7 @@ class CompanyTemplate extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
   render() {
     const {
       classes,
