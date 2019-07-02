@@ -4,6 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import { Container } from '../../atoms';
 
 export function CompanyLocationMap(props) {
+  console.log('COMPANY LOCATION MAP PROPS', props);
   if (!props.location.geometry || !props.location.geometry.set) {
     return null;
   }

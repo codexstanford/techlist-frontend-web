@@ -261,6 +261,7 @@ export const pageQuery = graphql`
           formatted_address
           googleId
           photos
+          geometry
         }
         categories {
           id

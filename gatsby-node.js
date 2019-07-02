@@ -39,28 +39,10 @@ exports.createPages = ({ graphql, actions }) => {
           organizations {
             id
             name {
-              payload
-            }
-            location {
-              formatted_address
-              googleId
-              photos
-            }
-            categories {
               id
               payload
             }
-            yearFounded
             description
-
-            targetMarkets {
-              payload
-            }
-            links {
-              id
-              payload
-              type
-            }
           }
         }
       }
