@@ -5,7 +5,7 @@
  */
 
 // You can delete this file if you're not using it
-require('dotenv').config();
+
 const path = require('path');
 const slugify = require('slugify');
 const crypto = require('crypto');
@@ -121,21 +121,15 @@ exports.sourceNodes = async ({
   const { createNode } = actions;
   return new Promise((resolve, rej) => {
     fetch(
-      `https://api.cognitive.microsoft.com/bing/v7.0/news/search?q=legal+tech&freshness=Week&count=20&mkt=en-US`,
-      {
-        headers: {
-          'Ocp-Apim-Subscription-Key': process.env.BING_API_KEY,
-        },
-      }
+      'https://newsapi.org/v2/everything?q=LegalTech&language=en&sortBy=popularity&from=2019-03-15&apiKey=a51190f100bc46a4aba4495c562b1cf9'
     )
-      .then(data => data.json())
+      .then(res => res.json())
       .then(json => {
-        const { value: articles } = json;
-        console.log(articles.length);
-        articles.forEach((item, index) => {
-          if (!item.image) {
-            return;
-          }
+        if (!json.articles) {
+          throw new Error('SOMETHING IS WRONG WITH NEWS API: ', json);
+          rej();
+        }
+        json.articles.forEach((item, index) => {
           const newsNode = {
             id: createNodeId(`news-${index}`),
             parent: null,
@@ -145,15 +139,17 @@ exports.sourceNodes = async ({
               contentDigest: createContentDigest(item),
               content: JSON.stringify(item),
             },
-            slug: slugify(item.name),
-            content: item.description,
-            title: item.name,
+            slug: slugify(item.title),
+            author: item.author,
+            sourceId: item.source.id,
+            sourceName: item.source.name,
+            imageUrl: item.urlToImage,
+            content: item.content,
+            title: item.title,
             description: item.description,
-            imageUrl: item.image.thumbnail.contentUrl,
+            pubDate: item.publishedAt,
+            webMaster: item.webMaster,
             link: item.url,
-            pubDate: item.datePublished,
-            sourceName: item.provider.name,
-            author: item.provider.name,
           };
           createNode(newsNode);
         });

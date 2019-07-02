@@ -1,6 +1,6 @@
 import React from 'react';
 import PrivateRoute from '../../components/PrivateRoute';
-import { Router, navigate } from '@reach/router';
+import { Router } from '@reach/router';
 import Login from './routes/auth/login';
 import Create from './routes/auth/createwiz';
 import Profile from './routes/profile/';
@@ -31,7 +31,7 @@ export class App extends React.Component {
       setUser(data);
       this.setState({ user: data });
     } else if (event === 'signOut') {
-      navigate('/');
+      setUser({});
     }
   }
 
@@ -58,9 +58,9 @@ export class App extends React.Component {
         fullScreen={true}
       >
         <Router>
-          <Login path="/app/login/" classes={this.props.classes} user={user} />
-          <PrivateRoute path="/app/profile/" component={Profile} user={user} />
-          <Create path="/app/create/" classes={this.props.classes} />
+          <Login path="/app/login" classes={this.props.classes} user={user} />
+          <PrivateRoute path="/app/profile" component={Profile} user={user} />
+          <Create path="/app/create" classes={this.props.classes} />
         </Router>
       </Layout>
     );

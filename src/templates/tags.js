@@ -8,7 +8,6 @@ import ReactTable from 'react-table';
 import { Link as GatsbyLink, graphql } from 'gatsby';
 const slugify = require('slugify');
 import Typography from '@material-ui/core/Typography';
-import 'react-table/react-table.css';
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {

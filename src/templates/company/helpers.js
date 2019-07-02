@@ -31,14 +31,7 @@ export function formatCompanyCategories(categories) {
         color="primary"
         key={item.id}
         label={toTitleCase(item.name.split('_').join(' '))}
-        onClick={() =>
-          navigate(
-            `/tags/${item.name
-              .split('_')
-              .join('-')
-              .toLowerCase()}`
-          )
-        }
+        onClick={() => navigate(`/tags/${item.name.toLowerCase()}`)}
       />
     );
   });

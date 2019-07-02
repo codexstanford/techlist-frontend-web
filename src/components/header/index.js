@@ -16,7 +16,6 @@ export function Header({
   classes,
   shouldShowSecondaryHeader = true,
   allSitePage,
-  shouldShowSearch,
 }) {
   return (
     <React.Fragment>
@@ -28,11 +27,7 @@ export function Header({
         <Toolbar className={classes.toolbarMain}>
           <Hidden smDown>
             <HeaderOne siteTitle={siteTitle} classes={classes} />
-            <HeaderTwo
-              allSitePages={allSitePage}
-              classes={classes}
-              shouldShowSearch={shouldShowSearch}
-            />
+            <HeaderTwo allSitePages={allSitePage} classes={classes} />
             <HeaderThree
               sections={mocks.headerLeftSectionMocks}
               classes={classes}

@@ -62,11 +62,7 @@ class CompanyTemplate extends React.Component {
     }
 
     return (
-      <Layout
-        shouldShowSecondaryHeader={false}
-        fullScreen={true}
-        shouldShowSearch={false}
-      >
+      <Layout shouldShowSecondaryHeader={false} fullScreen={true}>
         <div className={classes.root}>
           <AppBar
             position="absolute"
@@ -123,14 +119,7 @@ class CompanyTemplate extends React.Component {
                 </IconButton>
               </div>
               <Divider />
-              <List>
-                <ListItem button onClick={this.handleDrawerClose}>
-                  <ListItemIcon>
-                    <DashboardIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Dashboard" />
-                </ListItem>
-              </List>
+              <List>{mainListItems}</List>
               <Divider />
               <List>{secondaryListItems}</List>
             </Drawer>
@@ -153,7 +142,7 @@ class CompanyTemplate extends React.Component {
               </div>
               <Divider />
               <List>
-                <ListItem button onClick={this.handleDrawerClose}>
+                <ListItem button>
                   <ListItemIcon>
                     <DashboardIcon />
                   </ListItemIcon>
