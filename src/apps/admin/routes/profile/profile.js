@@ -16,6 +16,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
@@ -115,11 +116,11 @@ export function UserProfile({ classes, ...props }) {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <DashboardIcon />
+                <BusinessIcon />
               </ListItemIcon>
               <ListItemText
-                primary="Dashboard"
-                onClick={() => toggleDrawerVisibility(!isOpen)}
+                primary="Create Company"
+                onClick={() => navigate('/app/company/')}
               />
             </ListItem>
             <ListItem button>
