@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Downshift from 'downshift';
+import Divider from '@material-ui/core/Divider';
 
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -30,6 +31,8 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import styled from 'styled-components';
+
+import CompanyLinksInput from '../../components/companylinks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -64,11 +67,9 @@ export default function CreateCompanyScreen({
   }
 
   const handleCreateCompany = async (
-    { name, description, location, locationjson },
+    { name, description, location, locationjson, links },
     { setSubmitting }
   ) => {
-    console.log('got called');
-    console.log('locationjson', locationjson);
     const { formatted_address, geometry, place_id } = locationjson;
     try {
       const result = await createCompany({
@@ -87,6 +88,15 @@ export default function CreateCompanyScreen({
                 geometry,
                 placeId: place_id,
               },
+            },
+            links: {
+              create: links.map(link => {
+                return {
+                  fromDate: new Date(),
+                  payload: link.payload,
+                  type: link.type,
+                };
+              }),
             },
             affiliation: {
               create: {
@@ -111,7 +121,6 @@ export default function CreateCompanyScreen({
     }
   };
 
-  console.log(rest);
   return (
     <Container className={classes.main}>
       <Dialog open={true} TransitionComponent={Transition} fullWidth={true}>
@@ -131,7 +140,17 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
   return (
-    <Formik onSubmit={handleSubmit} initialValues={{}}>
+    <Formik
+      onSubmit={handleSubmit}
+      initialValues={{
+        locationjson: {},
+        links: [
+          { type: 'UrlWebsite', payload: '' },
+          { type: 'UrlTwitter', payload: '' },
+          { type: 'UrlCrunchbase', payload: '' },
+        ],
+      }}
+    >
       {({
         isSubmitting,
         values,
@@ -146,9 +165,21 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
         return (
           <>
             <FormHeader companyName={name} />
+            <Typography
+              variant="h6"
+              color="primary"
+              style={{
+                fontWeight: '800',
+                marginTop: '1rem',
+                letterSpacing: '-.5px',
+                textDecoration: 'none',
+              }}
+            >
+              Logo
+            </Typography>
             <Form className={classes.form}>
               <div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <StyledInput
                     onChange={e => {
                       e.stopPropagation();
@@ -170,16 +201,26 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                     <Fab
                       style={{
                         margin: 10,
-                        width: 120,
-                        height: 120,
+                        width: 400,
+                        height: 300,
+                        borderRadius: '5px',
                       }}
                     >
                       <label htmlFor="avatar">
                         <Avatar
-                          style={{ width: 120, height: 120 }}
+                          style={{
+                            width: 400,
+                            height: 300,
+                            borderRadius: '5px',
+                          }}
                           src={values.avatar}
                           imgProps={{
-                            style: { maxWidth: '100%', maxHeight: '100%' },
+                            style: {
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                              width: 400,
+                              height: 300,
+                            },
                           }}
                         />
                       </label>
@@ -188,12 +229,25 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 </div>
               </div>
 
+              <Typography
+                variant="h6"
+                color="primary"
+                style={{
+                  fontWeight: '800',
+                  marginTop: '1rem',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
+                Basics
+              </Typography>
+
               <CodeXTextField
                 name="name"
                 type="text"
                 errors={errors}
                 touched={touched}
-                label="Company Name"
+                label="Name"
                 fullWidth={true}
               />
 
@@ -204,12 +258,33 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 margin="normal"
                 errors={errors}
                 touched={touched}
-                label="Company Description"
+                label="Description"
               />
               <AddressField
                 classes={classes}
                 setFieldValue={setFieldValue}
                 setValues={setValues}
+              />
+              <Typography
+                variant="h6"
+                color="primary"
+                style={{
+                  fontWeight: '800',
+                  marginTop: '1rem',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
+                Company Links
+              </Typography>
+
+              <CompanyLinksInput
+                classes={classes}
+                setFieldValue={setFieldValue}
+                setValues={setValues}
+                errors={errors}
+                touched={touched}
+                values={values}
               />
 
               <SectionWrapper>
