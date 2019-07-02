@@ -26,7 +26,15 @@ const organizationLinkType = [
   { type: 'Other', niceName: 'Other' },
 ];
 
-export default function SimpleSelect({ classes, field, form, values, styles }) {
+export default function SimpleSelect({
+  classes,
+  field,
+  form,
+  values,
+  styles,
+  label = 'Link Type',
+  options = organizationLinkType,
+}) {
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
   React.useEffect(() => {
@@ -36,16 +44,20 @@ export default function SimpleSelect({ classes, field, form, values, styles }) {
   return (
     <FormControl className={classes.formControl} style={styles}>
       <InputLabel ref={inputLabel} htmlFor={field.name}>
-        Link Type
+        {label}
       </InputLabel>
       <Select
         inputProps={field}
         input={
-          <Input labelWidth={labelWidth} name={field.name} id={field.name} />
+          <Input labelwidth={labelWidth} name={field.name} id={field.name} />
         }
       >
-        {organizationLinkType.map(item => {
-          return <MenuItem value={item.type}>{item.niceName} </MenuItem>;
+        {options.map(item => {
+          return (
+            <MenuItem key={item.type} value={item.type}>
+              {item.niceName}{' '}
+            </MenuItem>
+          );
         })}
       </Select>
     </FormControl>
