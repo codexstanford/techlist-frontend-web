@@ -31,8 +31,11 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import styled from 'styled-components';
+import { useQuery } from 'react-apollo-hooks';
+import { GET_COMPANY_TARGET_MARKETS } from '../../../../graphql/queries';
 
 import CompanyLinksInput from '../../components/companylinks';
+import CompanyTargetMarketSelect from '../../components/companylinks.select';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -59,6 +62,9 @@ export default function CreateCompanyScreen({
   ...rest
 }) {
   const createCompany = useMutation(CREATE_COMPANY_MUTATION);
+  const { data: targetMarkets, loading, error } = useQuery(
+    GET_COMPANY_TARGET_MARKETS
+  );
 
   if (!user) {
     navigate('/app/login', {
@@ -67,10 +73,11 @@ export default function CreateCompanyScreen({
   }
 
   const handleCreateCompany = async (
-    { name, description, location, locationjson, links },
+    { name, description, location, locationjson, links, targetMarkets },
     { setSubmitting }
   ) => {
     const { formatted_address, geometry, place_id } = locationjson;
+
     try {
       const result = await createCompany({
         variables: {
@@ -79,6 +86,11 @@ export default function CreateCompanyScreen({
               create: {
                 payload: name,
                 fromDate: new Date(),
+              },
+            },
+            targetMarkets: {
+              connect: {
+                id: targetMarkets,
               },
             },
             description,
@@ -128,6 +140,7 @@ export default function CreateCompanyScreen({
           <CreateCompanyForm
             handleSubmit={handleCreateCompany}
             classes={classes}
+            targetMarkets={targetMarkets}
           />
         </DialogContent>
       </Dialog>
@@ -135,7 +148,7 @@ export default function CreateCompanyScreen({
   );
 }
 
-function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
+function CreateCompanyForm({ classes, handleSubmit, targetMarkets, ...rest }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
@@ -143,8 +156,9 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        yearFounded: new Date(),
+        yearFounded: new Date().toISOString().split('T')[0],
         locationjson: {},
+        targetMarkets: '',
         links: [
           { type: 'UrlWebsite', payload: '' },
           { type: 'UrlTwitter', payload: '' },
@@ -261,15 +275,42 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 touched={touched}
                 label="Description"
               />
+              <div style={{ display: 'flex' }}>
+                <CodeXTextField
+                  name="yearFounded"
+                  margin="normal"
+                  type="date"
+                  errors={errors}
+                  touched={touched}
+                  label="Date Founded"
+                  fullWidth={false}
+                />
+                <div>
+                  <Field
+                    name="targetMarkets"
+                    component={CompanyTargetMarketSelect}
+                    classes={classes}
+                    options={
+                      targetMarkets &&
+                      targetMarkets.organizationTargetMarkets &&
+                      targetMarkets.organizationTargetMarkets.length > 0
+                        ? targetMarkets.organizationTargetMarkets.map(t => ({
+                            type: t.id,
+                            niceName: t.payload,
+                          }))
+                        : []
+                    }
+                    label="Target Markets"
+                    styles={{
+                      paddingRight: '1rem',
+                      minWidth: '150px',
+                      marginTop: '15px',
+                      marginLeft: '2rem',
+                    }}
+                  />
+                </div>
+              </div>
 
-              <CodeXTextField
-                name="yearFounded"
-                margin="normal"
-                type="date"
-                errors={errors}
-                touched={touched}
-                label="Date Founded"
-              />
               <AddressField
                 classes={classes}
                 setFieldValue={setFieldValue}
@@ -330,6 +371,7 @@ function CodeXTextField({
   component = TextField,
   errors,
   touched,
+  fullWidth = true,
   ...rest
 }) {
   const fieldErrors = errors[name];
@@ -342,7 +384,7 @@ function CodeXTextField({
         type={type}
         label={label || name}
         component={component}
-        fullWidth={true}
+        fullWidth={fullWidth}
         InputLabelProps={{}}
         {...rest}
       />
