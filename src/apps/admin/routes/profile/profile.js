@@ -23,8 +23,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { navigate } from '@reach/router';
 
-import { GET_PERSON_QUERY } from '../../../../graphql';
+import { GET_CURRENT_USER_QUERY } from '../../../../graphql';
 import { MainListItems, secondaryListItems } from './listitems';
+import Affiliations from '../../../../pages/affiliations/index';
 import { useUser } from '../../../../store/user-context';
 
 export function UserProfile({ classes, ...props }) {
@@ -139,24 +140,29 @@ export function UserProfile({ classes, ...props }) {
         <div className={classes.appBarSpacer} />
         <Card className={classes.card}>
           <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              Coming soon!
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={() => navigate('/app/company/')}
-                className={classNames(
-                  classes.menuButton,
-                  isOpen && classes.menuButtonHidden
-                )}
-              >
-                <MenuIcon />
-              </IconButton>
+            <Typography className={classes.title} color="primary" gutterBottom>
+              Affiliations
             </Typography>
+            <Query query={GET_CURRENT_USER_QUERY}>
+              {({ data, loading, error }) => {
+                if (loading) {
+                  return null;
+                }
+                if (error) {
+                  console.log(error);
+                }
+                console.log('DATA IN HOISTED QUERY', data);
+                return (
+                  <div>
+                    <List>
+                      <ListItem>
+                        <Affiliations data={data} />
+                      </ListItem>
+                    </List>
+                  </div>
+                );
+              }}
+            </Query>
           </CardContent>
         </Card>
       </main>
