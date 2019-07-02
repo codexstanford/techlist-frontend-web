@@ -2,10 +2,6 @@ import Amplify, { Auth } from 'aws-amplify';
 import { GraphQLClient } from 'graphql-request';
 import { LOCAL_STORAGE_KEY, GET_USER_QUERY } from './const';
 
-import { client } from '../apollo';
-
-console.log('CLIENT', client);
-
 Amplify.configure({
   Auth: {
     // identityPoolId: 'us-west-2:0de73b6e-0624-4f46-9e56-14e51ecf282a',
@@ -53,7 +49,7 @@ async function getUser() {
     console.log('NO TOKEN');
     return Promise.resolve(null);
   }
-  const client = new GraphQLClient('http://35.239.56.1/apollo', {
+  const client = new GraphQLClient('http://localhost:4000', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
