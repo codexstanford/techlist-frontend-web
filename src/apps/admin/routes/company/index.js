@@ -143,6 +143,7 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
+        yearFounded: new Date(),
         locationjson: {},
         links: [
           { type: 'UrlWebsite', payload: '' },
@@ -260,6 +261,15 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 touched={touched}
                 label="Description"
               />
+
+              <CodeXTextField
+                name="yearFounded"
+                margin="normal"
+                type="date"
+                errors={errors}
+                touched={touched}
+                label="Date Founded"
+              />
               <AddressField
                 classes={classes}
                 setFieldValue={setFieldValue}
@@ -324,6 +334,7 @@ function CodeXTextField({
 }) {
   const fieldErrors = errors[name];
   const isTouched = touched[name];
+
   return (
     <div>
       <Field
