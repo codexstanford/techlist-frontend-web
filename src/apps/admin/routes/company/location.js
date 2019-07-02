@@ -63,7 +63,9 @@ function GoogleEnhancedAutocomplete({ classes, ...props }) {
     <Downshift
       id="downshift-simple"
       itemToString={itemToString}
-      onChange={selection => props.setValues({ locationjson: selection })}
+      onChange={selection =>
+        props.setFieldValue('locationjson', selection, false)
+      }
     >
       {({
         getInputProps,
