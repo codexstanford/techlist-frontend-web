@@ -12,6 +12,7 @@ import 'react-table/react-table.css';
 const AffiliationsPage = props => {
   const { classes } = props;
   const { root } = classes;
+  console.log('PROPS ON AFFILIATIONS', props);
   return (
     <>
       <div className={root}>
