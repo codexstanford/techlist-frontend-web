@@ -60,7 +60,7 @@ class MainSearch extends React.Component {
     const {
       allTechList: { organizations: companies },
     } = data;
-    console.log('COMPANIES:', companies);
+
     const { selectedItem, inputValue } = this.state;
     return (
       <Downshift
@@ -123,11 +123,11 @@ export default props => (
       query SearchListQuery {
         allTechList {
           organizations {
+            id
             name {
               id
               payload
             }
-            id
           }
         }
       }

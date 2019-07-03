@@ -59,11 +59,25 @@ function GoogleEnhancedAutocomplete({ classes, ...props }) {
     }
   }, [query]);
 
+  async function handleSelection(suggestion) {
+    const latlng = await getLatLng(suggestion);
+    const { geometry } = suggestion;
+    const { location } = geometry;
+    const newLocation = Object.assign({}, location, {
+      set: { location: { ...latlng } },
+      lat: null,
+      lng: null,
+    });
+    const newGeo = Object.assign({}, geometry, { ...newLocation });
+    const result = Object.assign({}, suggestion, { geometry: { ...newGeo } });
+    props.setFieldValue('locationjson', result, false);
+  }
+
   return (
     <Downshift
       id="downshift-simple"
       itemToString={itemToString}
-      onChange={selection => props.setValues({ locationjson: selection })}
+      onChange={handleSelection}
     >
       {({
         getInputProps,
@@ -119,7 +133,6 @@ function renderSuggestion(suggestionProps = {}) {
   const isSelected =
     (selectedItem || '').indexOf(suggestion.formated_address) > -1;
 
-  console.log(suggestion);
   return (
     <MenuItem
       {...itemProps}

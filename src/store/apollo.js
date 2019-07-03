@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { onError } from 'apollo-link-error';
@@ -19,14 +20,16 @@ const httpLink = process.browser
   ? createPersistedQueryLink().concat(
       new BatchHttpLink({
         //uri: 'https://apollo.k8s.law.kitchen',
-        uri: 'http://localhost:4000',
+        uri: 'http://35.239.56.1/apollo',
+        // uri: 'http://localhost:4000',
         fetch: fetch,
       })
     )
   : createPersistedQueryLink().concat(
       new BatchHttpLink({
         //uri: 'https://apollo.k8s.law.kitchen',
-        uri: 'http://localhost:4000',
+        uri: 'http://35.239.56.1/apollo',
+        // uri: 'http://localhost:4000',
         fetch: fetch,
       })
     );

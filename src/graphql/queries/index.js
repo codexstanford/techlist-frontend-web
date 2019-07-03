@@ -72,6 +72,15 @@ export const GET_USER_QUERY = gql`
   }
 `;
 
+export const GET_COMPANY_TARGET_MARKETS = gql`
+  query GetTargetMarketsQuery {
+    organizationTargetMarkets {
+      id
+      payload
+    }
+  }
+`;
+
 export const GET_PERSON_QUERY = gql`
   query GetPerson($where: PersonWhereUniqueInput!) {
     person(where: $where) {

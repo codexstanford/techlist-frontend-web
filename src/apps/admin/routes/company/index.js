@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Downshift from 'downshift';
+import Divider from '@material-ui/core/Divider';
 
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -30,6 +31,15 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import styled from 'styled-components';
+import { useQuery } from 'react-apollo-hooks';
+import { GET_COMPANY_TARGET_MARKETS } from '../../../../graphql/queries';
+
+import CompanyLinksInput from '../../components/companylinks';
+import CompanyTargetMarketSelect from '../../components/companylinks.select';
+
+import { CompanyLocationMap } from '../../../../templates/company/locationmap';
+
+import CompanyCategorySelect from '../../components/companycats';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,6 +66,9 @@ export default function CreateCompanyScreen({
   ...rest
 }) {
   const createCompany = useMutation(CREATE_COMPANY_MUTATION);
+  const { data: targetMarkets, loading, error } = useQuery(
+    GET_COMPANY_TARGET_MARKETS
+  );
 
   if (!user) {
     navigate('/app/login', {
@@ -64,20 +77,35 @@ export default function CreateCompanyScreen({
   }
 
   const handleCreateCompany = async (
-    { name, description, location, locationjson },
+    {
+      name,
+      description,
+      location,
+      locationjson,
+      links,
+      targetMarkets,
+      categories,
+    },
     { setSubmitting }
   ) => {
-    console.log('got called');
-    console.log('locationjson', locationjson);
     const { formatted_address, geometry, place_id } = locationjson;
+
     try {
       const result = await createCompany({
         variables: {
           data: {
+            categories: {
+              connect: categories.map(cat => ({ id: cat.value })),
+            },
             name: {
               create: {
                 payload: name,
                 fromDate: new Date(),
+              },
+            },
+            targetMarkets: {
+              connect: {
+                id: targetMarkets,
               },
             },
             description,
@@ -87,6 +115,15 @@ export default function CreateCompanyScreen({
                 geometry,
                 placeId: place_id,
               },
+            },
+            links: {
+              create: links.map(link => {
+                return {
+                  fromDate: new Date(),
+                  payload: link.payload,
+                  type: link.type,
+                };
+              }),
             },
             affiliation: {
               create: {
@@ -111,7 +148,6 @@ export default function CreateCompanyScreen({
     }
   };
 
-  console.log(rest);
   return (
     <Container className={classes.main}>
       <Dialog open={true} TransitionComponent={Transition} fullWidth={true}>
@@ -119,6 +155,7 @@ export default function CreateCompanyScreen({
           <CreateCompanyForm
             handleSubmit={handleCreateCompany}
             classes={classes}
+            targetMarkets={targetMarkets}
           />
         </DialogContent>
       </Dialog>
@@ -126,12 +163,24 @@ export default function CreateCompanyScreen({
   );
 }
 
-function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
+function CreateCompanyForm({ classes, handleSubmit, targetMarkets, ...rest }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
   return (
-    <Formik onSubmit={handleSubmit} initialValues={{}}>
+    <Formik
+      onSubmit={handleSubmit}
+      initialValues={{
+        yearFounded: new Date().toISOString().split('T')[0],
+        locationjson: {},
+        targetMarkets: '',
+        links: [
+          { type: 'UrlWebsite', payload: '' },
+          { type: 'UrlTwitter', payload: '' },
+          { type: 'UrlCrunchbase', payload: '' },
+        ],
+      }}
+    >
       {({
         isSubmitting,
         values,
@@ -146,9 +195,21 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
         return (
           <>
             <FormHeader companyName={name} />
+            <Typography
+              variant="h6"
+              color="primary"
+              style={{
+                fontWeight: '800',
+                marginTop: '1rem',
+                letterSpacing: '-.5px',
+                textDecoration: 'none',
+              }}
+            >
+              Logo
+            </Typography>
             <Form className={classes.form}>
               <div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <StyledInput
                     onChange={e => {
                       e.stopPropagation();
@@ -170,16 +231,26 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                     <Fab
                       style={{
                         margin: 10,
-                        width: 120,
-                        height: 120,
+                        width: 400,
+                        height: 300,
+                        borderRadius: '5px',
                       }}
                     >
                       <label htmlFor="avatar">
                         <Avatar
-                          style={{ width: 120, height: 120 }}
+                          style={{
+                            width: 400,
+                            height: 300,
+                            borderRadius: '5px',
+                          }}
                           src={values.avatar}
                           imgProps={{
-                            style: { maxWidth: '100%', maxHeight: '100%' },
+                            style: {
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                              width: 400,
+                              height: 300,
+                            },
                           }}
                         />
                       </label>
@@ -188,12 +259,25 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 </div>
               </div>
 
+              <Typography
+                variant="h6"
+                color="primary"
+                style={{
+                  fontWeight: '800',
+                  marginTop: '1rem',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
+                Basics
+              </Typography>
+
               <CodeXTextField
                 name="name"
                 type="text"
                 errors={errors}
                 touched={touched}
-                label="Company Name"
+                label="Name"
                 fullWidth={true}
               />
 
@@ -204,10 +288,93 @@ function CreateCompanyForm({ classes, handleSubmit, ...rest }) {
                 margin="normal"
                 errors={errors}
                 touched={touched}
-                label="Company Description"
+                label="Description"
               />
-              <AddressField
+              <div style={{ display: 'flex' }}>
+                <CodeXTextField
+                  name="yearFounded"
+                  margin="normal"
+                  type="date"
+                  errors={errors}
+                  touched={touched}
+                  label="Date Founded"
+                  fullWidth={false}
+                />
+                <div>
+                  <Field
+                    name="targetMarkets"
+                    component={CompanyTargetMarketSelect}
+                    classes={classes}
+                    options={
+                      targetMarkets &&
+                      targetMarkets.organizationTargetMarkets &&
+                      targetMarkets.organizationTargetMarkets.length > 0
+                        ? targetMarkets.organizationTargetMarkets.map(t => ({
+                            type: t.id,
+                            niceName: t.payload,
+                          }))
+                        : []
+                    }
+                    label="Target Markets"
+                    styles={{
+                      paddingRight: '1rem',
+                      minWidth: '150px',
+                      marginTop: '15px',
+                      marginLeft: '2rem',
+                    }}
+                  />
+                </div>
+              </div>
+              <div>
+                <AddressField
+                  classes={classes}
+                  setFieldValue={setFieldValue}
+                  setValues={setValues}
+                />
+                {values.locationjson && values.locationjson.geometry ? (
+                  <CompanyLocationMap
+                    geometry={values.locationjson.geometry}
+                    location={values.locationjson}
+                  />
+                ) : null}
+              </div>
+
+              <Typography
+                variant="h6"
+                color="primary"
+                style={{
+                  fontWeight: '800',
+                  marginTop: '1rem',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
+                Company Links
+              </Typography>
+
+              <CompanyLinksInput
                 classes={classes}
+                setFieldValue={setFieldValue}
+                setValues={setValues}
+                errors={errors}
+                touched={touched}
+                values={values}
+              />
+
+              <Typography
+                variant="h6"
+                color="primary"
+                style={{
+                  fontWeight: '800',
+                  marginTop: '1rem',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
+                Categories
+              </Typography>
+
+              <CompanyCategorySelect
                 setFieldValue={setFieldValue}
                 setValues={setValues}
               />
@@ -245,10 +412,12 @@ function CodeXTextField({
   component = TextField,
   errors,
   touched,
+  fullWidth = true,
   ...rest
 }) {
   const fieldErrors = errors[name];
   const isTouched = touched[name];
+
   return (
     <div>
       <Field
@@ -256,7 +425,7 @@ function CodeXTextField({
         type={type}
         label={label || name}
         component={component}
-        fullWidth={true}
+        fullWidth={fullWidth}
         InputLabelProps={{}}
         {...rest}
       />
