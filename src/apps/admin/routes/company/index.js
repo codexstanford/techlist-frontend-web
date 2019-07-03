@@ -39,6 +39,8 @@ import CompanyTargetMarketSelect from '../../components/companylinks.select';
 
 import { CompanyLocationMap } from '../../../../templates/company/locationmap';
 
+import CompanyCategorySelect from '../../components/companycats';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -75,7 +77,15 @@ export default function CreateCompanyScreen({
   }
 
   const handleCreateCompany = async (
-    { name, description, location, locationjson, links, targetMarkets },
+    {
+      name,
+      description,
+      location,
+      locationjson,
+      links,
+      targetMarkets,
+      categories,
+    },
     { setSubmitting }
   ) => {
     const { formatted_address, geometry, place_id } = locationjson;
@@ -84,6 +94,9 @@ export default function CreateCompanyScreen({
       const result = await createCompany({
         variables: {
           data: {
+            categories: {
+              connect: categories.map(cat => ({ id: cat.value })),
+            },
             name: {
               create: {
                 payload: name,
@@ -346,6 +359,24 @@ function CreateCompanyForm({ classes, handleSubmit, targetMarkets, ...rest }) {
                 errors={errors}
                 touched={touched}
                 values={values}
+              />
+
+              <Typography
+                variant="h6"
+                color="primary"
+                style={{
+                  fontWeight: '800',
+                  marginTop: '1rem',
+                  letterSpacing: '-.5px',
+                  textDecoration: 'none',
+                }}
+              >
+                Categories
+              </Typography>
+
+              <CompanyCategorySelect
+                setFieldValue={setFieldValue}
+                setValues={setValues}
               />
 
               <SectionWrapper>

@@ -43,44 +43,6 @@ exports.createPages = ({ graphql, actions }) => {
         }
       }
     `)
-      // graphql(`
-      //   {
-      //     allTechList {
-      //       companies {
-      //         id
-      //         name
-      //         location {
-      //           formatted_address
-      //           googleId
-      //           photos
-      //         }
-      //         operatingModels {
-      //           name
-      //           id
-      //         }
-      //         yearFounded
-      //         description
-      //         visible
-      //         targetMarkets {
-      //           name
-      //           id
-      //         }
-      //         cats {
-      //           name
-      //           id
-      //         }
-      //         url
-      //         twitter
-      //         crunchbase
-      //         angellist
-      //       }
-      //       companyCategories {
-      //         id
-      //         name
-      //       }
-      //     }
-      //   }
-      // `)
       .then(async result => {
         if (result.errors) {
           reject(result.errors);
