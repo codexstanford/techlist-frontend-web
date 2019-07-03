@@ -37,6 +37,8 @@ import { GET_COMPANY_TARGET_MARKETS } from '../../../../graphql/queries';
 import CompanyLinksInput from '../../components/companylinks';
 import CompanyTargetMarketSelect from '../../components/companylinks.select';
 
+import { CompanyLocationMap } from '../../../../templates/company/locationmap';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -310,12 +312,20 @@ function CreateCompanyForm({ classes, handleSubmit, targetMarkets, ...rest }) {
                   />
                 </div>
               </div>
+              <div>
+                <AddressField
+                  classes={classes}
+                  setFieldValue={setFieldValue}
+                  setValues={setValues}
+                />
+                {values.locationjson && values.locationjson.geometry ? (
+                  <CompanyLocationMap
+                    geometry={values.locationjson.geometry}
+                    location={values.locationjson}
+                  />
+                ) : null}
+              </div>
 
-              <AddressField
-                classes={classes}
-                setFieldValue={setFieldValue}
-                setValues={setValues}
-              />
               <Typography
                 variant="h6"
                 color="primary"

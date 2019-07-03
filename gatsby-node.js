@@ -32,10 +32,6 @@ exports.createPages = ({ graphql, actions }) => {
     graphql(`
       {
         allTechList {
-          organizationCategories {
-            id
-            payload
-          }
           organizations {
             id
             name {
@@ -85,27 +81,40 @@ exports.createPages = ({ graphql, actions }) => {
       //     }
       //   }
       // `)
-      .then(result => {
+      .then(async result => {
         if (result.errors) {
           reject(result.errors);
         }
 
-        const tags = result.data.allTechList.organizationCategories;
+        const newRes = await graphql(`
+          {
+            allTechList {
+              organizationCategories {
+                id
+                payload
+              }
+            }
+          }
+        `);
+
+        const tags = newRes.data.allTechList.organizationCategories;
 
         result.data.allTechList.organizations.forEach(node => {
-          createPage({
-            path: `/companies/${slugify(node.name[0].payload)}/`,
-            component: companyTemplate,
-            context: {
-              slug: slugify(node.name[0].payload),
-              id: node.id,
-              name: node.name[0].payload,
-              url: 'https://fabulas.io',
-              description: node.description,
-              twitter: 'node.twitter',
-              data: JSON.stringify({ ...node }),
-            },
-          });
+          if (node && node.name && node.name.length > 0) {
+            createPage({
+              path: `/companies/${slugify(node.name[0].payload)}/`,
+              component: companyTemplate,
+              context: {
+                slug: slugify(node.name[0].payload),
+                id: node.id,
+                name: node.name[0].payload,
+                url: 'https://fabulas.io',
+                description: node.description,
+                twitter: 'node.twitter',
+                data: JSON.stringify({ ...node }),
+              },
+            });
+          }
         });
 
         // result.data.allTechList.companies.forEach(node => {
