@@ -9,11 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import { StaticQuery, graphql } from 'gatsby';
-import {
-  renderInput,
-  renderSuggestion,
-  getSuggestions,
-} from './select/helpers';
+import { renderInput, renderSuggestion, getSuggestions } from './helpers';
 
 export function DownshiftMultiple(props) {
   const { classes, options, setFieldValue } = props;
@@ -181,7 +177,7 @@ function IntegrationDownshift(props) {
   );
 }
 
-export default props => (
+export const Categories = props => (
   <StaticQuery
     query={graphql`
       query CategoryDropdownListQuery {
