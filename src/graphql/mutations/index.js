@@ -1,5 +1,26 @@
 import gql from 'graphql-tag';
 
+export const UPDATE_PERSON_AFFILIATION = gql`
+  mutation UpdatePersonAffiliation(
+    $data: PersonOrganizationAffiliationUpdateInput!
+    $where: PersonOrganizationAffiliationWhereUniqueInput!
+  ) {
+    updatePersonOrganizationAffiliation(where: $where, data: $data) {
+      id
+      fromDate
+      throughDate
+      role
+      title
+      organization {
+        id
+        name {
+          payload
+        }
+      }
+    }
+  }
+`;
+
 export const CREATE_USER_MUTATION = gql`
   mutation CreateUser($input: UserCreateInput!) {
     createUser(input: $input) {

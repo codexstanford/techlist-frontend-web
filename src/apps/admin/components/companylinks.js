@@ -11,7 +11,7 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 
 function CompanyLinksInput(props) {
   const { values, errors, touched, classes } = props;
-  console.log('PROPS IN COMPANY LINKS: ', props);
+  // console.log('PROPS IN COMPANY LINKS: ', props);
 
   return (
     <FieldArray
@@ -93,7 +93,7 @@ function CodeXTextField({
   value,
   ...rest
 }) {
-  console.log('REST IN CODEX TEXT FIELD', value);
+  // console.log('REST IN CODEX TEXT FIELD', value);
   const fieldErrors = errors[name];
   const isTouched = touched[name];
   return (
