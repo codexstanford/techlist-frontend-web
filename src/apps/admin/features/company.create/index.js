@@ -58,6 +58,7 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
               <Location
                 classes={classes}
                 targetMarkets={data}
+                setFieldValue={setFieldValue}
                 values={values}
                 {...rest}
               />
