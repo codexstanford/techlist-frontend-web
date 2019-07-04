@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import { UPDATE_PERSON_AFFILIATION } from '../../../graphql/mutations';
 import { StaticQuery, graphql } from 'gatsby';
-import { DownshiftMultiple } from './companycats';
+import { DownshiftMultiple } from '../features/company.create/components/categories/';
 import Select from './select';
 import Confirm from '../../../atoms/confirm';
 

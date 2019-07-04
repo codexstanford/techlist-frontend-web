@@ -72,6 +72,8 @@ export const GET_USER_QUERY = gql`
   }
 `;
 
+// TODO: delete this code once refactored company module is in place
+
 export const GET_COMPANY_TARGET_MARKETS = gql`
   query GetTargetMarketsQuery {
     organizationTargetMarkets {
