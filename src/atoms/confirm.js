@@ -58,9 +58,13 @@ export function Confirm({
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {subtitle}
-        </DialogContentText>
+        {props.children ? (
+          props.children
+        ) : (
+          <DialogContentText id="alert-dialog-description">
+            {subtitle}
+          </DialogContentText>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleConfirm} color="primary">

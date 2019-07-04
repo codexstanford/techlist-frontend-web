@@ -9,80 +9,13 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import { StaticQuery, graphql } from 'gatsby';
+import {
+  renderInput,
+  renderSuggestion,
+  getSuggestions,
+} from './select/helpers';
 
-function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps;
-
-  return (
-    <TextField
-      InputProps={{
-        inputRef: ref,
-        classes: {
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        },
-        ...InputProps,
-      }}
-      {...other}
-    />
-  );
-}
-
-function renderSuggestion(suggestionProps) {
-  const {
-    suggestion,
-    index,
-    itemProps,
-    highlightedIndex,
-    selectedItem,
-  } = suggestionProps;
-  const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
-
-  return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion.label}
-      selected={isHighlighted}
-      value={suggestion.value}
-      component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400,
-      }}
-    >
-      {suggestion.label}
-    </MenuItem>
-  );
-}
-renderSuggestion.propTypes = {
-  highlightedIndex: PropTypes.number,
-  index: PropTypes.number,
-  itemProps: PropTypes.object,
-  selectedItem: PropTypes.string,
-  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
-};
-
-function getSuggestions(value, suggestions, { showEmpty = false } = {}) {
-  const inputValue = deburr(value.trim()).toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0 && !showEmpty
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 &&
-          suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
-
-        if (keep) {
-          count += 1;
-        }
-
-        return keep;
-      });
-}
-
-function DownshiftMultiple(props) {
+export function DownshiftMultiple(props) {
   const { classes, options, setFieldValue } = props;
   const [inputValue, setInputValue] = React.useState('');
   const [selectedItem, setSelectedItem] = React.useState([]);
@@ -146,6 +79,7 @@ function DownshiftMultiple(props) {
             {renderInput({
               fullWidth: true,
               classes,
+              name: 'name',
               label: 'Categories',
               InputLabelProps: getLabelProps(),
               InputProps: {

@@ -27,6 +27,8 @@ import { GET_PERSON_QUERY } from '../../../../graphql';
 import { MainListItems, secondaryListItems } from './listitems';
 import { useUser } from '../../../../store/user-context';
 
+import EditAffiliation from '../../components/affiliation.edit';
+
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState(true);
   const { logout } = useUser();
@@ -139,12 +141,17 @@ export function UserProfile({ classes, ...props }) {
         <div className={classes.appBarSpacer} />
         <Card className={classes.card}>
           <CardContent>
+            {/* <EditAffiliation
+              affiliation={person.affiliation[0]}
+              classes={classes}
+            /> */}
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
             >
-              Coming soon!
+              {JSON.stringify(person, undefined, 2)}
+
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
