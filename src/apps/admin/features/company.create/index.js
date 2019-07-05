@@ -20,9 +20,19 @@ import {
 import Preview from './components/preview';
 import { Container, SectionWrapper } from '../../../../atoms';
 
+function useProps({ data, ...props }) {
+  return {
+    targetMarkets: data,
+    ...props,
+  };
+}
+
 export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
   const mutation = useMutation(CREATE_COMPANY_MUTATION);
-  const createCompany = handleCreateCompany(mutation);
+  const createCompany = handleCreateCompany({
+    mutation,
+    user: props.user,
+  });
   const { data, loading, error } = useQuery(GET_COMPANY_TARGET_MARKETS);
   const [image, setImage] = React.useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
@@ -30,74 +40,53 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
 
   return (
     <Formik onSubmit={createCompany} initialValues={getInitialValues()}>
-      {({ values, setFieldValue, isValid, isSubmitting, ...rest }) => {
-        console.log('new company create', values);
+      {({ values, isValid, isSubmitting, ...rest }) => {
+        const getProps = useProps({
+          data,
+          classes,
+          setImage,
+          values,
+          ...rest,
+        });
         return (
           <>
-            <CodeXFormHeader text={`Create Company Profile`} />
-            <Preview values={values} />
-            <CodeXExpansionPanel title="Basics">
-              <Basics
-                classes={classes}
-                targetMarkets={data}
-                values={values}
-                {...rest}
-              />
-            </CodeXExpansionPanel>
-            <CodeXExpansionPanel title="Logo">
-              <Logo
-                classes={classes}
-                targetMarkets={data}
-                values={values}
-                setFieldValue={setFieldValue}
-                setImage={setImage}
-                {...rest}
-              />
-            </CodeXExpansionPanel>
-            <CodeXExpansionPanel title="Location">
-              <Location
-                classes={classes}
-                targetMarkets={data}
-                setFieldValue={setFieldValue}
-                values={values}
-                {...rest}
-              />
-            </CodeXExpansionPanel>
-            <CodeXExpansionPanel title="Links">
-              <Links
-                classes={classes}
-                targetMarkets={data}
-                values={values}
-                {...rest}
-              />
-            </CodeXExpansionPanel>
-            <CodeXExpansionPanel title="Categories">
-              <Categories
-                classes={classes}
-                targetMarkets={data}
-                setFieldValue={setFieldValue}
-                values={values}
-                {...rest}
-              />
-            </CodeXExpansionPanel>
-            <SectionWrapper>
-              <Button
-                type="submit"
-                disabled={!isValid}
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Create Company Profile
-              </Button>
-              {isSubmitting && (
-                <CircularProgress
-                  size={24}
-                  className={classes.buttonProgress}
-                />
-              )}
-            </SectionWrapper>
+            <Form>
+              <CodeXFormHeader text={`Create Company Profile`} />
+              <Preview values={values} />
+              <CodeXExpansionPanel title="Basics">
+                <Basics {...getProps} />
+              </CodeXExpansionPanel>
+              <CodeXExpansionPanel title="Logo">
+                <Logo {...getProps} />
+              </CodeXExpansionPanel>
+              <CodeXExpansionPanel title="Location">
+                <Location {...getProps} />
+              </CodeXExpansionPanel>
+              <CodeXExpansionPanel title="Links">
+                <Links {...getProps} />
+              </CodeXExpansionPanel>
+              <CodeXExpansionPanel title="Categories">
+                <Categories {...getProps} />
+              </CodeXExpansionPanel>
+              <SectionWrapper>
+                <Button
+                  type="submit"
+                  disabled={!isValid}
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Create Company Profile
+                </Button>
+                {isSubmitting && (
+                  <CircularProgress
+                    size={24}
+                    className={classes.buttonProgress}
+                  />
+                )}
+              </SectionWrapper>
+            </Form>
           </>
         );
       }}

@@ -47,6 +47,14 @@ module.exports = {
                 uri: config.api.graphql.endpoint,
                 headers: {
                   authorization: `Bearer ${token.jwt}`,
+                  'apollo-client-name':
+                    process.env.NODE_ENV === 'production'
+                      ? 'gatsby-client-prod'
+                      : 'gatsby-client-dev',
+                  'apollo-client-version':
+                    process.env.NODE_ENV === 'production'
+                      ? '0.0.0-prod'
+                      : '0.0.0-dev',
                 },
               });
               res(client);

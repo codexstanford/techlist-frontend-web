@@ -176,7 +176,9 @@ class CompanyTemplate extends React.Component {
             <Grid container spacing={16} className={classes.mainGrid}>
               <Grid item md={8} sm={12}>
                 <Card className={classes.card}>
-                  {organization && organization.logo ? (
+                  {organization &&
+                  organization.logo &&
+                  organization.logo.length > 0 ? (
                     <CardMedia
                       className={classes.media}
                       image={organization.logo[0].payload}
