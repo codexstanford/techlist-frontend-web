@@ -10,7 +10,13 @@ import { DownshiftMultiple } from '../features/company.create/components/categor
 import Select from './select';
 import Confirm from '../../../atoms/confirm';
 
-function EditAffiliation({ affiliation, data, ...props }) {
+function EditAffiliation({
+  affiliation,
+  isEditing,
+  toggleEditing,
+  data,
+  ...props
+}) {
   const updateAffiliation = useMutation(UPDATE_PERSON_AFFILIATION);
   const { organizations } = data.allTechList;
 
@@ -26,9 +32,10 @@ function EditAffiliation({ affiliation, data, ...props }) {
 
   async function handleSubmit(
     { fromDate, throughDate, role, description, title },
-    bag
+    { setSubmitting }
   ) {
     try {
+      setSubmitting(true);
       const result = await updateAffiliation({
         variables: {
           where: {
@@ -43,8 +50,10 @@ function EditAffiliation({ affiliation, data, ...props }) {
           },
         },
       });
+      setSubmitting(false);
     } catch (error) {
       console.log(error);
+      setSubmitting(false);
     }
   }
 
@@ -60,6 +69,7 @@ function EditAffiliation({ affiliation, data, ...props }) {
       initialValues={{
         fromDate: affiliation.fromDate.split('T')[0],
         id: affiliation.id,
+        description: affiliation.description,
         throughDate:
           affiliation.throughDate !== null
             ? affiliation.throughDate.split('T')[0]
@@ -82,12 +92,13 @@ function EditAffiliation({ affiliation, data, ...props }) {
         touched,
         submitForm,
       }) => {
-        console.log('VALUES IN EDIT AF', values);
         return (
           <Confirm
             confirmText="Save"
             cancelText="Cancel"
+            onClose={() => toggleEditing(false)}
             onConfirm={submitForm}
+            open={isEditing}
             title={`Edit your affiliation with ${
               affiliation.organization.name[0].payload
             }`}

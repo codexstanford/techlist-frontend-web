@@ -29,6 +29,8 @@ import { useUser } from '../../../../store/user-context';
 
 import EditAffiliation from '../../components/affiliation.edit';
 
+import ProfileAffiliations from '../../features/profile.affiliations';
+
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState(true);
   const { logout } = useUser();
@@ -139,33 +141,34 @@ export function UserProfile({ classes, ...props }) {
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Card className={classes.card}>
-          <CardContent>
-            {/* <EditAffiliation
+        <div style={{ maxWidth: 600 }}>
+          <Card>
+            <CardContent>
+              {/* <EditAffiliation
               affiliation={person.affiliation[0]}
               classes={classes}
             /> */}
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {JSON.stringify(person, undefined, 2)}
-
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={() => navigate('/app/company/')}
-                className={classNames(
-                  classes.menuButton,
-                  isOpen && classes.menuButtonHidden
-                )}
+              <ProfileAffiliations affiliations={person.affiliation} />
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
               >
-                <MenuIcon />
-              </IconButton>
-            </Typography>
-          </CardContent>
-        </Card>
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  onClick={() => navigate('/app/company/')}
+                  className={classNames(
+                    classes.menuButton,
+                    isOpen && classes.menuButtonHidden
+                  )}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );
