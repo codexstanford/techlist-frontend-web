@@ -7,6 +7,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import EditAffiliation from '../../../../components/affiliation.edit';
 import { makeStyles } from '@material-ui/styles';
 
+import { EditAffiliationControl } from './edit';
+import { DeleteAffiliationControl } from './delete';
+
 const useStyles = makeStyles(theme => ({
   listItem: {
     alignSelf: 'flex-start',
@@ -18,24 +21,9 @@ export function AfilliationControls({ affiliation, ...props }) {
   return (
     <div className={classes.listItem}>
       <EditAffiliationControl affiliation={affiliation} />
+      <DeleteAffiliationControl affiliation={affiliation} />
     </div>
   );
 }
 
 export default AfilliationControls;
-
-function EditAffiliationControl({ affiliation, ...props }) {
-  const [isEditing, toggleEditing] = React.useState(false);
-  return (
-    <>
-      <IconButton onClick={() => toggleEditing(!isEditing)}>
-        <EditIcon />
-      </IconButton>
-      <EditAffiliation
-        affiliation={affiliation}
-        isEditing={isEditing}
-        toggleEditing={toggleEditing}
-      />
-    </>
-  );
-}
