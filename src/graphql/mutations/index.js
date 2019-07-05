@@ -6,14 +6,19 @@ export const UPDATE_PERSON_AFFILIATION = gql`
     $where: PersonOrganizationAffiliationWhereUniqueInput!
   ) {
     updatePersonOrganizationAffiliation(where: $where, data: $data) {
+      __typename
       id
       fromDate
       throughDate
       role
       title
+      description
       organization {
+        __typename
         id
         name {
+          __typename
+          id
           payload
         }
       }
