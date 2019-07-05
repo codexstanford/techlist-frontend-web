@@ -1,3 +1,5 @@
+import { navigate } from '@reach/router';
+
 const defaultCreateCompanyMetadata = {
   isDraft: true,
   isPublic: false,
@@ -7,7 +9,8 @@ const defaultCreateCompanyMetadata = {
 };
 
 export function handleCreateCompany(props) {
-  const { mutation, ...rest } = props;
+  console.log('called!');
+  const { mutation, user, ...rest } = props;
   return async (
     {
       name,
@@ -15,19 +18,30 @@ export function handleCreateCompany(props) {
       location,
       locationjson,
       links,
+      logo,
       targetMarkets,
       categories,
     },
     { setSubmitting }
   ) => {
     const { formatted_address, geometry, place_id } = locationjson;
+    console.log('called!', logo);
 
     try {
-      const result = await createCompany({
+      const result = await mutation({
         variables: {
           data: {
             categories: {
               connect: categories.map(cat => ({ id: cat.value })),
+            },
+            logo: {
+              create: {
+                payload: logo,
+                fromDate: new Date(),
+                isPrimary: true,
+                isPublic: true,
+                isDefault: true,
+              },
             },
             name: {
               create: {

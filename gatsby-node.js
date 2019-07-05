@@ -38,6 +38,10 @@ exports.createPages = ({ graphql, actions }) => {
               id
               payload
             }
+            logo {
+              id
+              payload
+            }
             description
           }
         }

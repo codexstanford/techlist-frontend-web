@@ -29,7 +29,7 @@ export default function CreateCompanyScreen({
     <Container className={classes.main}>
       <Dialog open={true} TransitionComponent={Transition} fullWidth={true}>
         <DialogContent>
-          <CreateCompanyNew classes={classes} />
+          <CreateCompanyNew classes={classes} user={user} />
         </DialogContent>
       </Dialog>
     </Container>

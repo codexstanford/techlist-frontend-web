@@ -19,7 +19,6 @@ const clientCache = new InMemoryCache({
 const httpLink = process.browser
   ? createPersistedQueryLink().concat(
       new BatchHttpLink({
-        //uri: 'https://apollo.k8s.law.kitchen',
         uri: 'http://35.239.56.1/apollo',
         // uri: 'http://localhost:4000',
         fetch: fetch,
@@ -27,7 +26,6 @@ const httpLink = process.browser
     )
   : createPersistedQueryLink().concat(
       new BatchHttpLink({
-        //uri: 'https://apollo.k8s.law.kitchen',
         uri: 'http://35.239.56.1/apollo',
         // uri: 'http://localhost:4000',
         fetch: fetch,
@@ -76,5 +74,10 @@ export function configureApolloClient() {
     cache: clientCache,
     connectToDevTools: true,
     ssrMode: true,
+    name:
+      process.env.NODE_ENV === 'production'
+        ? 'react-client-prod'
+        : 'react-client-dev',
+    version: process.env.NODE_ENV === 'production' ? '0.0.0-prod' : '0.0.0-dev',
   });
 }
