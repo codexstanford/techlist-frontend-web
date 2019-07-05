@@ -4,11 +4,13 @@ import GoogleMapReact from 'google-map-react';
 import { Container } from '../../atoms';
 
 export function CompanyLocationMap(props) {
-  if (!props.location.geometry || !props.location.geometry.set) {
-    return null;
+  let location = null;
+
+  if (props.location && props.location.geometry) {
+    location = props.location.geometry.set.location;
   }
-  const { location } = props.location.geometry.set;
-  return (
+
+  return location === null ? null : (
     <Container style={{ height: '350px' }}>
       <GoogleMapReact id="test" defaultZoom={8} defaultCenter={location}>
         <Marker {...location} />

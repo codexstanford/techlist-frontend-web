@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
+import { steps } from '../../../../helpers/enums';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,6 @@ export function CreateCompany({ classes, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-
   const { id: userId } = props.user.me;
   const { id: personId } = props.user.me.person;
   const { setStep, activeStep: step, createCompany } = props;
@@ -24,14 +24,19 @@ export function CreateCompany({ classes, ...props }) {
     props.user.me.person.affiliations &&
     props.user.me.person.affiliations.length > 0
   ) {
-    setStep(3);
+    setStep(steps.COMPANY);
   }
-
+  debugger;
   const timeStamp = Date.now().toString();
 
   return (
     <Formik
-      onSubmit={handleCompanySubmitRequest({ userId, personId, createCompany })}
+      onSubmit={handleCompanySubmitRequest({
+        userId,
+        personId,
+        createCompany,
+        setStep,
+      })}
       initialValues={{
         name: '',
         dateFounded: timeStamp,
@@ -190,140 +195,3 @@ export function CreateCompany({ classes, ...props }) {
 }
 
 export default CreateCompany;
-
-// <div>
-//                 <Field
-//                   name="occupation"
-//                   label="I am a"
-//                   component={props => (
-//                     <Select
-//                       renderValue={selected => (
-//                         <div className={classes.chips}>
-//                           {selected.map(value => (
-//                             <Chip
-//                               key={value}
-//                               label={value}
-//                               className={classes.chip}
-//                             />
-//                           ))}
-//                         </div>
-//                       )}
-//                       {...props}
-//                     />
-//                   )}
-//                   multiple={true}
-//                   fullWidth
-//                   inputProps={{
-//                     name: 'occupation',
-//                     id: 'occupation',
-//                   }}
-//                 >
-//                   {opts.map(opt => {
-//                     return (
-//                       <MenuItem key={opt.value} value={opt.value}>
-//                         {opt.label}
-//                       </MenuItem>
-//                     );
-//                   })}
-//                 </Field>
-//               </div>
-
-{
-  /* <div>
-                  <FieldArray
-                    name="links"
-                    render={arrayHelpers => {
-                      return (
-                        <div>
-                          {values.links && values.links.length > 0 ? (
-                            values.links.map((link, index) => {
-                              return (
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                  }}
-                                >
-                                  <div
-                                    key={index}
-                                    style={{
-                                      display: 'flex',
-                                      flex: 1,
-                                      justifyContent: 'space-between',
-                                      alignItems: 'center',
-                                    }}
-                                  >
-                                    <Field
-                                      select
-                                      component={props => (
-                                        <TextField {...props} />
-                                      )}
-                                      label="Link"
-                                      name={`links.${index}.type`}
-                                    >
-                                      {linkOptions.map(opt => {
-                                        return (
-                                          <MenuItem
-                                            key={opt.value}
-                                            value={opt.value}
-                                          >
-                                            {opt.label}
-                                          </MenuItem>
-                                        );
-                                      })}
-                                    </Field>
-                                    <Field
-                                      name={`links.${index}.url`}
-                                      label="Url"
-                                      component={TextField}
-                                    />
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      justifyContent: 'flex-end',
-                                    }}
-                                  >
-                                    <Button
-                                      type="button"
-                                      onClick={() => arrayHelpers.remove(index)}
-                                    >
-                                      <DeleteIcon />
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      onClick={() =>
-                                        arrayHelpers.insert(index, {
-                                          type: '',
-                                          url: '',
-                                          isPublic: true,
-                                        })
-                                      }
-                                    >
-                                      <AddIcon />
-                                    </Button>
-                                  </div>
-                                </div>
-                              );
-                            })
-                          ) : (
-                            <Button
-                              type="button"
-                              onClick={() =>
-                                arrayHelpers.push({
-                                  type: '',
-                                  url: '',
-                                  isPublic: true,
-                                })
-                              }
-                            >
-                              Add
-                            </Button>
-                          )}
-                        </div>
-                      );
-                    }}
-                  />
-                </div> */
-}

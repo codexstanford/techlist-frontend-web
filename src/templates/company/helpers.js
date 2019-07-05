@@ -30,10 +30,10 @@ export function formatCompanyCategories(categories) {
       <Chip
         color="primary"
         key={item.id}
-        label={toTitleCase(item.name.split('_').join(' '))}
+        label={toTitleCase(item.payload.split('_').join(' '))}
         onClick={() =>
           navigate(
-            `/tags/${item.name
+            `/tags/${item.payload
               .split('_')
               .join('-')
               .toLowerCase()}`

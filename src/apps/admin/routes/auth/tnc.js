@@ -22,7 +22,6 @@ export function TermsAndConditions({ classes, theme, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-
   const { id: userId } = props.user.me;
   const { id: personId } = props.user.me.person;
   const { setStep, activeStep: step } = props;

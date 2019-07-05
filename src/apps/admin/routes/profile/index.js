@@ -1,42 +1,52 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
 import { styles } from './styles';
-import { GET_PERSON_QUERY } from '../../../../graphql';
 import UserProfile from './profile';
+import CreateProfile from '../../../admin/routes/auth/profile';
+import { Mutation } from 'react-apollo';
+import { useUser } from '../../../../store/user-context';
+import { useQuery } from 'react-apollo-hooks';
+
+import {
+  UPDATE_CURRENT_USER_MUTATION,
+  GET_CURRENT_USER_QUERY,
+} from '../../../../graphql';
 
 export const UserProfileWithGraphQL = props => {
-  return (
-    <Query
-      query={GET_PERSON_QUERY}
-      variables={{
-        where: {
-          id:
-            props.data && props.data.personId
-              ? props.data.personId
-              : props.user.me.person.id,
-        },
-      }}
-    >
-      {({ data, loading, error }) => {
-        if (loading) {
-          return null;
-        }
-        if (error) {
+  // const { data } = useUser();
+  // console.log('DATA IN USER PROFILE CONTROLLER:', data);
+  // const { person } = data.user;
+  // console.log('PERSON IN PROFILE CONTROLLER', person);
+
+  const { data, loading, error } = useQuery(GET_CURRENT_USER_QUERY);
+  if (loading) {
+    return null;
+  }
+  if (error) {
+    console.log(error);
+    return null;
+  }
+  console.log('qdata', data);
+  const { me } = data;
+  const { person, id } = me;
+
+  if (person.metadata.isDraft === true) {
+    console.log('***CREATE PROFILE***');
+    return (
+      <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
+        {mutation => {
           return (
-            <Typography color="textSecondary" gutterBottom>
-              {JSON.stringify(error)}
-            </Typography>
+            <CreateProfile createProfile={mutation} user={person} {...props} />
           );
-        }
-        console.log('DATA', data);
-        return <UserProfile data={data} {...props} />;
-      }}
-    </Query>
-  );
+        }}
+      </Mutation>
+    );
+  } else if (person.metadata.isDraft === false) {
+    console.log('***USER PROFILE***');
+    return <UserProfile data={me} me={me} {...props} />;
+  } else {
+    console.log('ELSE CLAUSE HIT!');
+  }
 };
 
 export default withStyles(styles)(UserProfileWithGraphQL);

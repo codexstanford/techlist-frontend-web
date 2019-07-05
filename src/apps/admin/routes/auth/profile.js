@@ -2,28 +2,20 @@ import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import { validateCreateAccountForm } from '../../helpers';
+import { steps } from '../../../../helpers/enums';
 import { TextField, Select } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { MenuItem } from '@material-ui/core';
-import ConfirmPhone from './confirm';
-import { Auth } from 'aws-amplify';
-import { Link as GatsbyLink } from 'gatsby';
-import Link from '@material-ui/core/Link';
-import { navigate } from '@reach/router';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+
 import Fab from '@material-ui/core/Fab';
-// import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
-import Input from '@material-ui/core/Input';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { schema } from './index';
+import { navigate } from '@reach/router';
 
 const opts = [
   { value: 'Attorney', label: 'Attorney' },
@@ -39,20 +31,13 @@ const linkOptions = [
   { value: 'Other', label: 'Other' },
 ];
 
-function CreateAccount({ classes, ...props }) {
+function CreateProfile({ classes, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
 
-  const { id: userId } = props.user.me;
-  const { person } = props.user.me;
-  const { profile, id: personId } = person;
-
-  if (profile) {
-    props.setStep(2);
-  }
-
-  const { setStep, activeStep: step } = props;
+  console.log('PROPS ON PROFILE', props);
+  const { id: userId } = props.user;
 
   const handleSubmitRequest = async (
     values,
@@ -61,46 +46,47 @@ function CreateAccount({ classes, ...props }) {
     setSubmitting(true);
     const { firstName, lastName, avatar, title, handle } = values;
     try {
-      const profile = await props.createProfile({
-        variables: {
-          where: {
-            id: userId,
+      const profile = await props
+        .createProfile({
+          update: (cache, { data: { updatePartyAccount } }) => {
+            // console.log('UPDATE USER IN COMPANY', updatePartyAccount);
           },
-          data: {
-            handle: handle,
-            person: {
-              update: {
-                profile: {
-                  upsert: {
+          variables: {
+            where: {
+              id: userId,
+            },
+            data: {
+              person: {
+                update: {
+                  metadata: {
+                    update: {
+                      isDraft: false,
+                    },
+                  },
+                  avatar: {
+                    create: {
+                      payload: avatar,
+                      fromDate: new Date(),
+                    },
+                  },
+                  name: {
                     create: {
                       firstName,
                       lastName,
-                      avatar,
-                      title,
-                    },
-                    update: {
-                      firstName,
-                      lastName,
-                      avatar,
-                      title,
+                      fromDate: new Date(),
                     },
                   },
                 },
               },
             },
           },
-        },
-      });
-      setSubmitting(false);
-      setStep(2);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleConfirmRequest = (values, { setSubmitting }) => {
-    setSubmitting(true);
-    try {
+        })
+        .then(data => {
+          console.log('DATA IN PROMISE', data);
+          setSubmitting(false);
+          // props.user.person.profile = profile;
+          navigate('/app/profile/index.js');
+        });
     } catch (err) {
       console.log(err);
     }
@@ -114,6 +100,7 @@ function CreateAccount({ classes, ...props }) {
         lastName: '',
         title: '',
         location: '',
+        handle: '',
         avatar: image,
         links: [],
         skills: [],
@@ -217,8 +204,8 @@ function CreateAccount({ classes, ...props }) {
                     fullWidth
                     component={TextField}
                   />
-                  {errors.firstName && touched.firstName ? (
-                    <div>{errors.firstName}</div>
+                  {errors.handle && touched.handle ? (
+                    <div>{errors.handle}</div>
                   ) : null}
                 </div>
                 <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
@@ -304,18 +291,7 @@ function CreateAccount({ classes, ...props }) {
                               );
                             })
                           ) : (
-                            <Button
-                              type="button"
-                              onClick={() =>
-                                arrayHelpers.push({
-                                  type: '',
-                                  url: '',
-                                  isPublic: true,
-                                })
-                              }
-                            >
-                              Add
-                            </Button>
+                            <React.Fragment />
                           )}
                         </div>
                       );
@@ -349,7 +325,7 @@ function CreateAccount({ classes, ...props }) {
   );
 }
 
-export default CreateAccount;
+export default CreateProfile;
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -383,40 +359,3 @@ const StyledInput = styled.input.attrs({
   position: absolute;
   z-index: -1;
 `;
-
-// <div>
-//                 <Field
-//                   name="occupation"
-//                   label="I am a"
-//                   component={props => (
-//                     <Select
-//                       renderValue={selected => (
-//                         <div className={classes.chips}>
-//                           {selected.map(value => (
-//                             <Chip
-//                               key={value}
-//                               label={value}
-//                               className={classes.chip}
-//                             />
-//                           ))}
-//                         </div>
-//                       )}
-//                       {...props}
-//                     />
-//                   )}
-//                   multiple={true}
-//                   fullWidth
-//                   inputProps={{
-//                     name: 'occupation',
-//                     id: 'occupation',
-//                   }}
-//                 >
-//                   {opts.map(opt => {
-//                     return (
-//                       <MenuItem key={opt.value} value={opt.value}>
-//                         {opt.label}
-//                       </MenuItem>
-//                     );
-//                   })}
-//                 </Field>
-//               </div>

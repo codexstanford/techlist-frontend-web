@@ -1,3 +1,5 @@
+import 'stop-runaway-react-effects/hijack';
+
 import React, { useEffect } from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../components/layout';

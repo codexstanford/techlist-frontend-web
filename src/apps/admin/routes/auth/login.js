@@ -4,6 +4,8 @@ import { TextField } from 'formik-material-ui';
 import { Link as GatsbyLink } from 'gatsby';
 import { Auth } from 'aws-amplify';
 import { navigate } from '@reach/router';
+import { useAuth } from '../../../../store/auth-context';
+import useCallbackStatus from '../../../../store/utils/useCallbackStatus';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,22 +16,49 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import { validateSignInForm } from '../../helpers';
-import { isLoggedIn } from '../../../../services/auth';
+
+import { useUser } from '../../../../store/user-context';
+
 import { Container, SectionWrapper } from '../../../../atoms';
 
-function Login({ classes, user, locaiton, ...props }) {
-  if (user !== null) {
-    const { from } = location.state || { from: { pathname: '/app/profile/' } };
-    navigate(from.pathname);
+function Login({ classes, location, ...props }) {
+  const { data } = useUser();
+  const { isPending, isRejected, error, run } = useCallbackStatus();
+  const { login } = useAuth();
+  const { user } = data;
+
+  if (user && user.person && user.person.profile === null) {
+    navigate('/app/profile/');
+  } else if (user && user.person && user.person.profile !== null) {
+    navigate('/app/profile/', { state: { data } });
+  } else {
+    // navigate('/app/profile');
+  }
+
+  function handleLoginSubmit(values, { setSubmitting, setErrors }) {
+    const { email: username, password } = values;
+
+    console.log('USER IN LOGIN FUNCTION', user);
+
+    setSubmitting(true);
+    const result = run(login({ username, password }));
+    result
+      .catch(errors => {
+        console.log('Settings Errors', errors);
+        setErrors(errors);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   }
 
   return (
     <Formik
-      onSubmit={handleLoginRequest}
+      onSubmit={handleLoginSubmit}
       initialValues={{ email: '', password: '' }}
       validate={validateSignInForm}
     >
-      {({ isSubmitting, isValid }) => {
+      {({ isSubmitting, isValid, errors, touched }) => {
         return (
           <Container className={classes.main}>
             <Paper className={classes.paper}>
@@ -47,7 +76,6 @@ function Login({ classes, user, locaiton, ...props }) {
                   Please login below.
                 </Typography>
               </SectionWrapper>
-
               <Form className={classes.form}>
                 <div>
                   <Field
@@ -66,6 +94,14 @@ function Login({ classes, user, locaiton, ...props }) {
                     fullWidth
                     component={TextField}
                   />
+                  <Typography
+                    component="p"
+                    variant="subtitle1"
+                    align="center"
+                    color="error"
+                  >
+                    {errors.message}
+                  </Typography>
                 </div>
                 <SectionWrapper>
                   <Button
@@ -101,26 +137,3 @@ function Login({ classes, user, locaiton, ...props }) {
 }
 
 export default Login;
-
-export async function handleLoginRequest(values, { setSubmitting }) {
-  setSubmitting(true);
-  const { email, password } = values;
-  const username = email;
-  try {
-    const user = await Auth.signIn(username, password)
-      .data(user => {
-        console.log(user);
-        return Auth.currentUserPoolUser()
-          .then(session => {
-            console.log(session);
-            return session;
-          })
-          .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
-    setSubmitting(false);
-  } catch (error) {
-    console.log(error);
-    setSubmitting(false);
-  }
-}

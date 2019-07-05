@@ -11,7 +11,8 @@ export function getSuggestions({ value, data }) {
         const keep =
           count < 5 &&
           suggestion.name &&
-          suggestion.name.slice(0, inputLength).toLowerCase() === inputValue;
+          suggestion.name[0].payload.slice(0, inputLength).toLowerCase() ===
+            inputValue;
 
         if (keep) {
           count += 1;

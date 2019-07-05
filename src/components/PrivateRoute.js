@@ -1,32 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from '@reach/router';
-import { isLoggedIn } from '../services/auth';
-import { Query } from 'react-apollo';
-import { GET_CURRENT_USER_QUERY } from '../graphql';
+import { useUser } from '../store/user-context';
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
-  if (!isLoggedIn() && location.pathname !== `/app/login/`) {
-    navigate(`/app/login/`, {
+  const {
+    data: { user },
+  } = useUser();
+  console.log('USER IN PRIVATE ROUTE', user);
+  if (!user) {
+    navigate('/app/login/', {
       state: {
         from: location,
+        ...rest,
       },
     });
-    return null;
   }
 
-  return (
-    <Query query={GET_CURRENT_USER_QUERY}>
-      {({ data, loading, error }) => {
-        if (loading) {
-          return null;
-        }
-        return (
-          <Component location={location} user={data} classes={rest.classes} />
-        );
-      }}
-    </Query>
-  );
+  return <Component location={location} user={user} classes={rest.classes} />;
 };
 
 PrivateRoute.propTypes = {

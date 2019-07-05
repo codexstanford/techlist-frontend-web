@@ -16,141 +16,162 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import { navigate } from '@reach/router';
 
 import { GET_PERSON_QUERY } from '../../../../graphql';
-import { mainListItems, secondaryListItems } from './listitems';
-import { logout } from '../../../../services/auth';
+import { MainListItems, secondaryListItems } from './listitems';
+import { useUser } from '../../../../store/user-context';
 
-export class UserProfile extends React.PureComponent {
-  state = {
-    isOpen: false,
-  };
+import EditAffiliation from '../../components/affiliation.edit';
 
-  toggleDrawerVisibility = () => {
-    this.setState(prev => ({ ...prev, isOpen: !prev.isOpen }));
-  };
+import ProfileAffiliations from '../../features/profile.affiliations';
 
-  render() {
-    const { classes } = this.props;
-    const { isOpen } = this.state;
+export function UserProfile({ classes, ...props }) {
+  const [isOpen, toggleDrawerVisibility] = React.useState(true);
+  const { logout } = useUser();
+  const { data } = props;
+  const { person, id: partyAccountId } = data;
 
-    return (
-      <div className={classes.root}>
-        <AppBar
-          position="absolute"
-          className={classNames(classes.appBar, isOpen && classes.appBarShift)}
+  console.log('USER IN USERPROFILE DISPLAY,', data);
+  console.log('PERSONM IN USERPROFILE DISPLAY,', person);
+
+  const { name } = person;
+  const displayName = name[0];
+
+  return (
+    <div className={classes.root}>
+      <AppBar
+        position="absolute"
+        className={classNames(classes.appBar, isOpen && classes.appBarShift)}
+      >
+        <Toolbar disableGutters={!isOpen} className={classes.toolbar}>
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={() => toggleDrawerVisibility(!isOpen)}
+            className={classNames(
+              classes.menuButton,
+              isOpen && classes.menuButtonHidden
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            {displayName ? displayName.firstName : ''}{' '}
+            {displayName ? displayName.lastName : ''}{' '}
+          </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Hidden smUp>
+        <Drawer
+          variant="temporary"
+          classes={{
+            paper: classNames(
+              classes.drawerPaper,
+              !isOpen && classes.drawerPaperClose
+            ),
+          }}
+          open={isOpen}
         >
-          <Toolbar disableGutters={!isOpen} className={classes.toolbar}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.toggleDrawerVisibility}
-              className={classNames(
-                classes.menuButton,
-                isOpen && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={() => toggleDrawerVisibility(!isOpen)}>
+              <ChevronLeftIcon />
             </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              {this.props.data.person.profile.firstName}{' '}
-              {this.props.data.person.profile.lastName}
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={0} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+          </div>
+          <Divider />
+          <List>{MainListItems}</List>
+          <Divider />
+          <List>{secondaryListItems}</List>
+        </Drawer>
+      </Hidden>
+      <Hidden xsDown>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: classNames(
+              classes.drawerPaper,
+              !isOpen && classes.drawerPaperClose
+            ),
+          }}
+          open={isOpen}
+        >
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={() => toggleDrawerVisibility(!isOpen)}>
+              <ChevronLeftIcon />
             </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Hidden smUp>
-          <Drawer
-            variant="temporary"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !isOpen && classes.drawerPaperClose
-              ),
-            }}
-            open={isOpen}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.toggleDrawerVisibility}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown>
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !isOpen && classes.drawerPaperClose
-              ),
-            }}
-            open={isOpen}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.toggleDrawerVisibility}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
-            <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Dashboard"
-                  onClick={this.handleDrawerClose}
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" onClick={() => logout()} />
-              </ListItem>
-            </List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-          </Drawer>
-        </Hidden>
+          </div>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <BusinessIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Create Company"
+                onClick={() => navigate('/app/company/')}
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" onClick={() => logout()} />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>{secondaryListItems}</List>
+        </Drawer>
+      </Hidden>
 
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Card className={classes.card}>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <div style={{ maxWidth: 600 }}>
+          <Card>
             <CardContent>
+              {/* <EditAffiliation
+              affiliation={person.affiliation[0]}
+              classes={classes}
+            /> */}
+              <ProfileAffiliations affiliations={person.affiliation} />
               <Typography
                 className={classes.title}
                 color="textSecondary"
                 gutterBottom
               >
-                Coming soon!
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  onClick={() => navigate('/app/company/')}
+                  className={classNames(
+                    classes.menuButton,
+                    isOpen && classes.menuButtonHidden
+                  )}
+                >
+                  <MenuIcon />
+                </IconButton>
               </Typography>
             </CardContent>
           </Card>
-        </main>
-      </div>
-    );
-  }
+        </div>
+      </main>
+    </div>
+  );
 }
 
 export default UserProfile;

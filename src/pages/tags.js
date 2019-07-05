@@ -98,9 +98,9 @@ export const pageQuery = graphql`
       }
     }
     allTechList {
-      companyCategories {
+      organizationCategories {
         id
-        name
+        payload
       }
     }
   }

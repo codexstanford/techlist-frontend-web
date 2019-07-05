@@ -6,92 +6,91 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
+import { steps } from '../../../../helpers/enums';
 import { TextField } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ConfirmPhone from './confirm';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import { Auth } from 'aws-amplify';
-import { Link as GatsbyLink } from 'gatsby';
-import Link from '@material-ui/core/Link';
 import { navigate } from '@reach/router';
-import { setUser, isLoggedIn } from '../../../../services/auth';
+
+import { SectionWrapper } from '../../../../atoms';
+
+import { useUser } from '../../../../store/user-context';
 
 function CreateAccount({ classes, ...props }) {
+  const { data, register, confirm } = useUser();
   const [shouldShowConfirm, setShowConfirm] = useState(false);
-  const [cognitoData, setCognitoData] = useState({});
 
   const { setStep, activeStep: step } = props;
 
-  const handleSubmitRequest = (
+  const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
     setSubmitting(true);
-    const { email, password, phone: phone_number } = values;
+    const { email, password, phone } = values;
     const username = email;
     try {
-      Auth.signUp({
-        username,
+      const result = await register({
+        email,
         password,
-        attributes: {
-          email,
-          phone_number: `+1${phone_number}`,
-        },
-      })
-        .then(data => {
-          console.log(data);
-          setSubmitting(false);
-          setCognitoData({ ...data, username });
-          setShowConfirm(true);
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.code === 'UsernameExistsException') {
-            setFieldError(
-              'email',
-              'An account with the given email already exists.'
-            );
-          }
-          if (err.code === 'InvalidPasswordException') {
-            setFieldError(
-              'password',
-              'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
-            );
-          }
-          setSubmitting(false);
-        });
-    } catch (err) {
-      console.log(err);
+        phone,
+        username,
+      });
+
+      console.log('REGISTER RESULT:', result);
+      setSubmitting(false);
+      setShowConfirm(true);
+    } catch (error) {
+      console.log('****ERROR INSIDE CREATE HERE******', error);
+      if (error.code === 'UsernameExistsException') {
+        setFieldError(
+          'email',
+          'An account with the given email already exists.'
+        );
+      }
+      if (error.code === 'InvalidPasswordException') {
+        setFieldError(
+          'password',
+          'Passwords must contain 8 characters, a number, symbol, and uppercase letter'
+        );
+      }
+      setSubmitting(false);
     }
   };
 
-  const handleConfirmRequest = async (values, { setSubmitting }) => {
+  const handleConfirmRequest = async (
+    values,
+    { setSubmitting, setFieldError }
+  ) => {
     setSubmitting(true);
     const { username, code, password } = values;
     try {
-      const result = await Auth.confirmSignUp(username, code, {}).catch(err =>
-        console.log(err)
-      );
-      if (result === 'SUCCESS') {
-        const user = await Auth.signIn(username, password).catch(err =>
-          console.log(err)
-        );
-        console.log(user);
-        setSubmitting(false);
-        setShowConfirm(false);
-      }
+      const result = await confirm({ username, code });
+      setSubmitting(false);
+      setShowConfirm(false);
+      navigate('/app/login');
     } catch (err) {
-      console.log(err);
+      if (err.code === 'CodeMismatchException') {
+        setFieldError('code', err.message);
+        setSubmitting(false);
+      }
     }
   };
-
-  if (isLoggedIn()) {
-    setStep(1);
-  }
 
   return (
     <Formik
       onSubmit={handleSubmitRequest}
-      initialValues={{ email: '', phone: '', password: '', confirm: '' }}
+      initialValues={{
+        terms: false,
+        email: '',
+        phone: '',
+        password: '',
+        confirm: '',
+      }}
       validate={validateCreateAccountForm}
     >
       {({ submitForm, isSubmitting, values, setFieldValue, isValid }) => {
@@ -148,10 +147,34 @@ function CreateAccount({ classes, ...props }) {
                   component={TextField}
                 />
               </div>
+              <FormControlLabel
+                control={
+                  <Field
+                    name="terms"
+                    label="Company Description"
+                    component={props => (
+                      <Checkbox
+                        onChange={() => {
+                          setFieldValue('terms', !values.terms);
+                        }}
+                        checked={values.terms}
+                      />
+                    )}
+                  />
+                }
+                label={
+                  <>
+                    <span>I accept the </span>
+                    <StyledATag href="https://www.google.com/search?q=terms+and+conditions&oq=Terms+and+Conditions&aqs=chrome.0.0l6.9044j0j8&sourceid=chrome&ie=UTF-8">
+                      Terms of Service
+                    </StyledATag>
+                  </>
+                }
+              />
               <ButtonWrapper>
                 <Button
                   type="submit"
-                  disabled={!isValid}
+                  disabled={!(isValid && values.terms)}
                   fullWidth
                   variant="contained"
                   color="primary"
@@ -198,8 +221,11 @@ const ButtonWrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
+`;
+
+const StyledATag = styled.a`
+  text-decoration: none;
+  color: red;
 `;

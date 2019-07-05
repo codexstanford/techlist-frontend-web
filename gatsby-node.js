@@ -28,80 +28,86 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
   const companyTemplate = path.resolve('src/templates/company.js');
   const tagTemplate = path.resolve('src/templates/tags.js');
-
   return new Promise((resolve, reject) => {
     graphql(`
       {
         allTechList {
-          companies {
+          organizations {
             id
-            name
-            location {
-              formatted_address
-              googleId
+            name {
               id
-              photos
+              payload
             }
-            operatingModels {
-              name
+            logo {
               id
+              payload
             }
-            yearFounded
             description
-            visible
-            targetMarkets {
-              name
-              id
-            }
-            cats {
-              name
-              id
-            }
-            url
-            twitter
-            crunchbase
-            angellist
-          }
-          companyCategories {
-            id
-            name
           }
         }
       }
     `)
-      .then(result => {
+      .then(async result => {
         if (result.errors) {
           reject(result.errors);
         }
 
-        const tags = result.data.allTechList.companyCategories;
+        const newRes = await graphql(`
+          {
+            allTechList {
+              organizationCategories {
+                id
+                payload
+              }
+            }
+          }
+        `);
 
-        result.data.allTechList.companies.forEach(node => {
-          createPage({
-            path: `/companies/${slugify(node.name)}/`,
-            component: companyTemplate,
-            context: {
-              slug: slugify(node.name),
-              id: node.id,
-              name: node.name,
-              url: node.url,
-              description: node.description,
-              twitter: node.twitter,
-              data: JSON.stringify({ ...node }),
-            },
-          });
+        const tags = newRes.data.allTechList.organizationCategories;
+
+        result.data.allTechList.organizations.forEach(node => {
+          if (node && node.name && node.name.length > 0) {
+            createPage({
+              path: `/companies/${slugify(node.name[0].payload)}/`,
+              component: companyTemplate,
+              context: {
+                slug: slugify(node.name[0].payload),
+                id: node.id,
+                name: node.name[0].payload,
+                url: 'https://fabulas.io',
+                description: node.description,
+                twitter: 'node.twitter',
+                data: JSON.stringify({ ...node }),
+              },
+            });
+          }
         });
 
+        // result.data.allTechList.companies.forEach(node => {
+        //   createPage({
+        //     path: `/companies/${slugify(node.name)}/`,
+        //     component: companyTemplate,
+        //     context: {
+        //       slug: slugify(node.name),
+        //       id: node.id,
+        //       name: node.name,
+        //       url: node.url,
+        //       description: node.description,
+        //       twitter: node.twitter,
+        //       data: JSON.stringify({ ...node }),
+        //     },
+        //   });
+        // });
+
         tags.forEach(tag => {
-          console.log(tag);
-          if (tag.name === '_-' || tag.name === '----') {
+          if (tag.payload === '_-' || tag.payload === '----') {
             return;
           }
           createPage({
-            path: `/tags/${_.kebabCase(tag.name)}/`,
+            path: `/tags/${_.kebabCase(tag.payload)}/`,
             component: tagTemplate,
             context: {
-              tag: tag.name,
+              tag: tag.payload,
               id: tag.id,
             },
           });

@@ -28,6 +28,7 @@ class AlertDialogSlide extends React.Component {
   };
 
   handleResendRequest = () => {
+    console.log('RESENDING CODE');
     Auth.resendSignUp(this.props.data.email)
       .then(data => console.log(data))
       .catch(err => console.log(err));

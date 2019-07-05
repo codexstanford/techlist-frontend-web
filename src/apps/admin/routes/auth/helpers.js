@@ -1,7 +1,10 @@
+import { steps } from '../../../../helpers/enums';
+
 export const handleCompanySubmitRequest = ({
   userId,
   personId,
   createCompany,
+  setStep,
 }) => async (values, { setSubmitting }) => {
   setSubmitting(true);
   const {
@@ -76,10 +79,9 @@ export const handleCompanySubmitRequest = ({
           },
         },
       },
+    }).then(data => {
+      setStep(steps.TERMS);
     });
-
-    setSubmitting(false);
-    setStep(3);
   } catch (err) {
     console.log(err);
   }
