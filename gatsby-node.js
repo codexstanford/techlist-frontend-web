@@ -32,6 +32,10 @@ exports.createPages = ({ graphql, actions }) => {
     graphql(`
       {
         allTechList {
+          organizationCategories {
+            id
+            payload
+          }
           organizations {
             id
             name {
@@ -52,18 +56,18 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors);
         }
 
-        const newRes = await graphql(`
-          {
-            allTechList {
-              organizationCategories {
-                id
-                payload
-              }
-            }
-          }
-        `);
+        // const newRes = await graphql(`
+        //   {
+        //     allTechList {
+        //       organizationCategories {
+        //         id
+        //         payload
+        //       }
+        //     }
+        //   }
+        // `);
 
-        const tags = newRes.data.allTechList.organizationCategories;
+        const tags = result.data.allTechList.organizationCategories;
 
         result.data.allTechList.organizations.forEach(node => {
           if (node && node.name && node.name.length > 0) {

@@ -133,9 +133,9 @@ export default withStyles(theme => ({
 }))(Tags);
 
 export const pageQuery = graphql`
-  query CompanyCategory($tag: String) {
+  query CompanyCategory($id: ID!) {
     allTechList {
-      organizationCategory(where: { payload: $tag }) {
+      organizationCategory(where: { id: $id }) {
         id
         payload
         organizations {
@@ -143,11 +143,6 @@ export const pageQuery = graphql`
           description
           name {
             payload
-          }
-          location {
-            formatted_address
-            googleId
-            photos
           }
         }
       }
