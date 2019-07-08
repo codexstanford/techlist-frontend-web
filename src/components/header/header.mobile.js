@@ -81,11 +81,6 @@ const SideLeft = props => {
   const { classes, allSitePages } = props;
   const isUserLoggedIn = user ? true : false;
 
-  console.log(
-    'toggleCompanyScreen in SIDELEFT of MOBILE NAV',
-    toggleCompanyScreen
-  );
-
   return (
     <div style={{ minHeight: '50vh' }}>
       <List>
