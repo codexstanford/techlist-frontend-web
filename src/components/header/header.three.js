@@ -16,7 +16,6 @@ import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 export function HeaderLeft({ sections, classes, ...props }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const { data, logout } = useUser();
-  console.log('DATA IN HEADER THREE:', data);
   const { user } = data;
 
   const isUserLoggedIn = user ? true : false;
