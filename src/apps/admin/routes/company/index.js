@@ -17,21 +17,20 @@ export default function CreateCompanyScreen({
   classes,
   user,
   navigate,
+  open,
+  onCancel,
   ...rest
 }) {
-  if (!user) {
-    navigate('/app/login', {
-      redirect: '/app/company/',
-    });
-  }
-
   return (
-    <Container className={classes.main}>
-      <Dialog open={true} TransitionComponent={Transition} fullWidth={true}>
-        <DialogContent>
-          <CreateCompanyNew classes={classes} user={user} />
-        </DialogContent>
-      </Dialog>
-    </Container>
+    <Dialog
+      open={open !== undefined && open}
+      TransitionComponent={Transition}
+      fullWidth={true}
+      onBackdropClick={() => onCancel(!open)}
+    >
+      <DialogContent>
+        <CreateCompanyNew classes={classes} user={user} />
+      </DialogContent>
+    </Dialog>
   );
 }

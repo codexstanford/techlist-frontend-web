@@ -31,14 +31,14 @@ import EditAffiliation from '../../components/affiliation.edit';
 
 import ProfileAffiliations from '../../features/profile.affiliations';
 
+import CreateCompanyScreen from '../company/index';
+
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState(true);
+  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
   const { logout } = useUser();
   const { data } = props;
   const { person, id: partyAccountId } = data;
-
-  console.log('USER IN USERPROFILE DISPLAY,', data);
-  console.log('PERSONM IN USERPROFILE DISPLAY,', person);
 
   const { name } = person;
   const displayName = name[0];
@@ -117,6 +117,11 @@ export function UserProfile({ classes, ...props }) {
             </IconButton>
           </div>
           <Divider />
+          <CreateCompanyScreen
+            open={showCompanyScreen}
+            onCancel={toggleCompanyScreen}
+            classes={classes}
+          />
           <List>
             <ListItem button>
               <ListItemIcon>
@@ -124,7 +129,7 @@ export function UserProfile({ classes, ...props }) {
               </ListItemIcon>
               <ListItemText
                 primary="Create Company"
-                onClick={() => navigate('/app/company/')}
+                onClick={() => toggleCompanyScreen(true)}
               />
             </ListItem>
             <ListItem button>
@@ -149,23 +154,6 @@ export function UserProfile({ classes, ...props }) {
               classes={classes}
             /> */}
               <ProfileAffiliations affiliations={person.affiliation} />
-              <Typography
-                className={classes.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                <IconButton
-                  color="inherit"
-                  aria-label="Open drawer"
-                  onClick={() => navigate('/app/company/')}
-                  className={classNames(
-                    classes.menuButton,
-                    isOpen && classes.menuButtonHidden
-                  )}
-                >
-                  <MenuIcon />
-                </IconButton>
-              </Typography>
             </CardContent>
           </Card>
         </div>
