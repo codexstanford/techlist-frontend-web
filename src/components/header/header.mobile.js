@@ -20,8 +20,8 @@ import BuildIcon from '@material-ui/icons/Build';
 import Link from '@material-ui/core/Link';
 
 import MainSearch from '../search';
-
 import { useUser } from '../../store/user-context';
+import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
@@ -75,10 +75,12 @@ export function MobileNav({ classes, siteTitle, ...props }) {
 }
 
 const SideLeft = props => {
+  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
   const { data, logout } = useUser();
-  console.log('DATA IN MOBILE HEADER', data);
+  const { user } = data;
   const { classes, allSitePages } = props;
-  const isUserLoggedIn = data ? true : false;
+  const isUserLoggedIn = user ? true : false;
+
   return (
     <div style={{ minHeight: '50vh' }}>
       <List>
@@ -116,12 +118,30 @@ const SideLeft = props => {
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItem>
-        <ListItem button component={GatsbyLink} to="/app/profile/">
-          <ListItemIcon>
-            <BuildIcon />
-          </ListItemIcon>
-          <ListItemText primary="Get Listed" />
-        </ListItem>
+        <CreateCompanyScreen
+          open={showCompanyScreen}
+          onCancel={toggleCompanyScreen}
+          classes={classes}
+        />
+        {isUserLoggedIn ? (
+          <ListItem
+            button
+            onClick={() => toggleCompanyScreen(!showCompanyScreen)}
+          >
+            <ListItemIcon>
+              <BuildIcon />
+            </ListItemIcon>
+            <ListItemText primary="Get Listed" />
+          </ListItem>
+        ) : (
+          <ListItem button component={GatsbyLink} to={'/app/login/'}>
+            <ListItemIcon>
+              <BuildIcon />
+            </ListItemIcon>
+            <ListItemText primary="Get Listed" />
+          </ListItem>
+        )}
+
         {isUserLoggedIn ? (
           <ListItem button component={GatsbyLink} to="/app/login/">
             <ListItemIcon>
