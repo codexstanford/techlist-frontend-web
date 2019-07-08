@@ -19,6 +19,7 @@ import {
 } from '../../features/company.create/components/';
 import Preview from './components/preview';
 import { Container, SectionWrapper } from '../../../../atoms';
+import * as Yup from 'yup';
 
 function useProps({ data, ...props }) {
   return {
@@ -39,7 +40,11 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
   );
 
   return (
-    <Formik onSubmit={createCompany} initialValues={getInitialValues()}>
+    <Formik
+      onSubmit={createCompany}
+      initialValues={getInitialValues()}
+      validationSchema={ValidationSchema}
+    >
       {({ values, isValid, isSubmitting, ...rest }) => {
         const getProps = useProps({
           data,
@@ -93,5 +98,20 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
     </Formik>
   );
 }
+
+const currentDate = new Date();
+const yesterday = new Date(
+  currentDate.setDate(currentDate.getDate() - 1)
+).toISOString();
+
+const ValidationSchema = Yup.object().shape({
+  name: Yup.string().required('Name is required.'),
+  description: Yup.string()
+    .min(150, 'Description must be at least 150 characters.')
+    .required('Required'),
+  yearFounded: Yup.date()
+    .required('Required')
+    .max(yesterday, 'Date founded must be before today.'),
+});
 
 export default CreateCompany;
