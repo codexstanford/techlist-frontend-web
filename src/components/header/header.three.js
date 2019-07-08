@@ -11,11 +11,15 @@ import Avatar from '@material-ui/core/Avatar';
 import { Query } from 'react-apollo';
 import { useUser } from '../../store/user-context';
 import gql from 'graphql-tag';
+import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 
 export function HeaderLeft({ sections, classes, ...props }) {
+  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const { data, logout } = useUser();
   console.log('DATA IN HEADER THREE:', data);
   const { user } = data;
+
+  const isUserLoggedIn = user ? true : false;
 
   // useEffect(() => {
   //   Auth.currentAuthenticatedUser()
@@ -48,6 +52,11 @@ export function HeaderLeft({ sections, classes, ...props }) {
 
   return (
     <React.Fragment>
+      <CreateCompanyScreen
+        open={showCompanyScreen}
+        onCancel={toggleCompanyScreen}
+        classes={classes}
+      />
       <div className={classes.sectionDesktop}>
         {sections &&
           sections.map(section => {
@@ -65,20 +74,35 @@ export function HeaderLeft({ sections, classes, ...props }) {
             );
           })}
         <React.Fragment>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="small"
-            aria-label="Get Listed"
-            component={props => (
-              <Link to="/app/profile/" component={GatsbyLink} {...props} />
-            )}
-            style={{
-              marginLeft: '10px',
-            }}
-          >
-            Get Listed
-          </Button>
+          {isUserLoggedIn ? (
+            <Button
+              color="primary"
+              variant="outlined"
+              size="small"
+              aria-label="Get Listed"
+              onClick={() => toggleCompanyScreen(!showCompanyScreen)}
+              style={{
+                marginLeft: '10px',
+              }}
+            >
+              Get Listed
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              variant="outlined"
+              size="small"
+              aria-label="Get Listed"
+              component={props => (
+                <Link to="/app/login/" component={GatsbyLink} {...props} />
+              )}
+              style={{
+                marginLeft: '10px',
+              }}
+            >
+              Get Listed
+            </Button>
+          )}
         </React.Fragment>
 
         {user ? (
