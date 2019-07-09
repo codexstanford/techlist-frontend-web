@@ -49,7 +49,7 @@ async function getUser() {
     console.log('NO TOKEN');
     return Promise.resolve(null);
   }
-  const client = new GraphQLClient('http://35.239.56.1/apollo', {
+  const client = new GraphQLClient(process.env.GATSBY_GRAPHQL_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

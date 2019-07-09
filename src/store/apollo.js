@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { onError } from 'apollo-link-error';
@@ -19,14 +18,13 @@ const clientCache = new InMemoryCache({
 const httpLink = process.browser
   ? createPersistedQueryLink().concat(
       new BatchHttpLink({
-        uri: 'http://35.239.56.1/apollo',
-        // uri: 'http://localhost:4000',
+        uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
         fetch: fetch,
       })
     )
   : createPersistedQueryLink().concat(
       new BatchHttpLink({
-        uri: 'http://35.239.56.1/apollo',
+        uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
         // uri: 'http://localhost:4000',
         fetch: fetch,
       })
@@ -37,9 +35,7 @@ const asyncAuthLink = setContext(
     new Promise((success, fail) => {
       const user = getUser()
         .then(user => {
-          console.log('USER IN SET CONTEXT', user);
           const token = getToken();
-          console.log('token', token);
           success({
             headers: {
               ...headers,
@@ -74,10 +70,7 @@ export function configureApolloClient() {
     cache: clientCache,
     connectToDevTools: true,
     ssrMode: true,
-    name:
-      process.env.NODE_ENV === 'production'
-        ? 'react-client-prod'
-        : 'react-client-dev',
-    version: process.env.NODE_ENV === 'production' ? '0.0.0-prod' : '0.0.0-dev',
+    name: process.env.GATSBY_APPLICATION_NAME,
+    version: process.env.GATSBY_APPLICATION_VERSION,
   });
 }

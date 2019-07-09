@@ -1,4 +1,10 @@
-require('dotenv').config();
+require('dotenv').config({
+  path: `.env${
+    process.env.NODE_ENV === 'production' || process.env.LOCAL !== 'true'
+      ? '.production'
+      : '.local'
+  }`,
+});
 const theme = require('./theme');
 
 module.exports = () => ({
@@ -16,8 +22,7 @@ module.exports = () => ({
   },
   api: {
     graphql: {
-      endpoint: 'http://35.239.56.1/apollo',
-      // endpoint: 'http://localhost:4000',
+      endpoint: process.env.GATSBY_GRAPHQL_ENDPOINT,
       typeName: 'TechList',
       fieldName: 'allTechList',
     },
