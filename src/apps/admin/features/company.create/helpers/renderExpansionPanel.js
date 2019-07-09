@@ -14,10 +14,11 @@ export function CodeXExpansionPanel({
   titleComponent,
   titleStyle,
   titleVariant,
+  error,
   ...props
 }) {
   return (
-    <ExpansionPanel>
+    <ExpansionPanel style={error ? { border: '1px solid red' } : {}}>
       <ExpansionPanelSummary expandIcon={expandIcon}>
         <Typography
           variant={titleVariant}
