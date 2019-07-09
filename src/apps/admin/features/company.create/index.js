@@ -4,6 +4,7 @@ import { Formik, Field, Form } from 'formik';
 import { CREATE_COMPANY_MUTATION, GET_COMPANY_TARGET_MARKETS } from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import {
   CodeXExpansionPanel,
   CodeXFormHeader,
@@ -20,6 +21,7 @@ import {
 import Preview from './components/preview';
 import { Container, SectionWrapper } from '../../../../atoms';
 import * as Yup from 'yup';
+import styled from 'styled-components';
 
 function useProps({ data, ...props }) {
   return {
@@ -45,7 +47,17 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
       initialValues={getInitialValues()}
       validationSchema={ValidationSchema}
     >
-      {({ values, isValid, isSubmitting, ...rest }) => {
+      {({
+        values,
+        isSubmitting,
+        handleBlur,
+        errors,
+        touched,
+        validateField,
+        handleChange,
+        setFieldError,
+        ...rest
+      }) => {
         const getProps = useProps({
           data,
           classes,
@@ -53,30 +65,100 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
           values,
           ...rest,
         });
+
+        const intersection = Object.keys(touched).filter(element =>
+          Object.keys(errors).includes(element)
+        );
+
+        const canSubmit = () => {
+          if (Object.keys(touched).length < 1) {
+            return true;
+          }
+
+          if (intersection.length > 0) {
+            return true;
+          }
+
+          return false;
+        };
+
+        const getDisplayedErrorMessage = () => {
+          let error;
+
+          switch (intersection[0]) {
+            case 'name':
+              error = `Error in Basic section. ${errors.name}`;
+              break;
+            case 'description':
+              error = `Error in Basic section. ${errors.description}`;
+              break;
+            case 'yearFounded':
+              error = `Error in Basic section. ${errors.yearFounded}`;
+              break;
+            default:
+              error = null;
+          }
+          return error;
+        };
+
         return (
           <>
             <Form>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
-              <CodeXExpansionPanel title="Basics">
+              <ErrorMessageContainer>
+                <FormHelperText error={true}>
+                  {getDisplayedErrorMessage()}
+                </FormHelperText>
+              </ErrorMessageContainer>
+
+              <CodeXExpansionPanel
+                title="Basics"
+                error={
+                  (errors.name && touched.name) ||
+                  (errors.description && touched.description) ||
+                  (errors.yearFounded && touched.yearFounded)
+                    ? true
+                    : false
+                }
+              >
                 <Basics {...getProps} />
               </CodeXExpansionPanel>
-              <CodeXExpansionPanel title="Logo">
+              <CodeXExpansionPanel
+                title="Logo"
+                error={errors.logo && touched.logo ? true : false}
+              >
                 <Logo {...getProps} />
               </CodeXExpansionPanel>
               <CodeXExpansionPanel title="Location">
-                <Location {...getProps} />
+                <Location
+                  {...getProps}
+                  errors={errors.location && touched.location ? true : false}
+                />
               </CodeXExpansionPanel>
               <CodeXExpansionPanel title="Links">
-                <Links {...getProps} />
+                <Links
+                  {...getProps}
+                  errors={
+                    (errors.website && touched.website) ||
+                    (errors.addresss && touched.address)
+                      ? true
+                      : false
+                  }
+                />
               </CodeXExpansionPanel>
               <CodeXExpansionPanel title="Categories">
-                <Categories {...getProps} />
+                <Categories
+                  {...getProps}
+                  errors={
+                    errors.categories && touched.categories ? true : false
+                  }
+                />
               </CodeXExpansionPanel>
               <SectionWrapper>
                 <Button
                   type="submit"
-                  disabled={!isValid}
+                  disabled={canSubmit()}
                   fullWidth
                   variant="contained"
                   color="primary"
@@ -107,11 +189,19 @@ const yesterday = new Date(
 const ValidationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required.'),
   description: Yup.string()
-    .min(150, 'Description must be at least 150 characters.')
-    .required('Required'),
+    .required('Description is required.')
+    .min(150, 'Description must be at least 150 characters.'),
   yearFounded: Yup.date()
-    .required('Required')
+    .required('Date founded is required.')
     .max(yesterday, 'Date founded must be before today.'),
 });
+
+const ErrorMessageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+`;
 
 export default CreateCompany;

@@ -12,7 +12,6 @@ export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
         width: '100%',
       }}
     >
-      {' '}
       <CodeXTextField
         name="name"
         type="text"
