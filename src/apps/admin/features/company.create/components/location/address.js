@@ -12,6 +12,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import LocationPaper from './locationPaper';
 
 const itemToString = item => (item ? item.formatted_address : '');
 
@@ -99,20 +100,27 @@ function GoogleEnhancedAutocomplete({ classes, ...props }) {
           })}
           <div {...getMenuProps()}>
             {isOpen ? (
-              <Paper className={classes.paper} square>
-                {suggestions.map((suggestion, index) =>
-                  renderSuggestion({
-                    suggestion,
-                    index,
-                    itemProps: getItemProps({
-                      item: suggestion,
-                    }),
-                    highlightedIndex,
-                    selectedItem,
-                  })
-                )}
-              </Paper>
-            ) : null}
+              <LocationPaper
+                suggestions={suggestions}
+                highlightedIndex={highlightedIndex}
+                selectedItem={selectedItem}
+                getItemProps={getItemProps}
+                renderSuggestion={renderSuggestion}
+              />
+            ) : // <Paper className={classes.paper} square>
+            //   {suggestions.map((suggestion, index) =>
+            //     renderSuggestion({
+            //       suggestion,
+            //       index,
+            //       itemProps: getItemProps({
+            //         item: suggestion,
+            //       }),
+            //       highlightedIndex,
+            //       selectedItem,
+            //     })
+            //   )}
+            // </Paper>
+            null}
           </div>
         </div>
       )}
@@ -134,8 +142,8 @@ function renderSuggestion(suggestionProps = {}) {
 
   return (
     <MenuItem
-      {...itemProps}
       key={suggestion.formated_address}
+      {...itemProps}
       selected={isHighlighted}
       component="div"
       style={{ fontWeight: isSelected ? 500 : 400, color: '#000000' }}
