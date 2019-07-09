@@ -25,7 +25,6 @@ export function handleCreateCompany(props) {
     { setSubmitting }
   ) => {
     const { formatted_address, geometry, place_id } = locationjson;
-    console.log('called!', logo);
 
     try {
       const result = await mutation({
