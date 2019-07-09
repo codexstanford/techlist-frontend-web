@@ -80,15 +80,6 @@ export function DownshiftMultiple(props) {
               label: 'Categories',
               InputLabelProps: getLabelProps(),
               InputProps: {
-                startAdornment: selectedItem.map(item => (
-                  <Chip
-                    key={item.label}
-                    tabIndex={-1}
-                    label={formatCategory(item.label)}
-                    className={classes.chip}
-                    onDelete={handleDelete(item)}
-                  />
-                )),
                 onBlur,
                 onChange: event => {
                   handleInputChange(event);
@@ -99,7 +90,7 @@ export function DownshiftMultiple(props) {
               inputProps,
             })}
 
-            {isOpen ? (
+            {true ? (
               <Paper className={classes.paper} square>
                 {getSuggestions(inputValue2, options).map((suggestion, index) =>
                   renderSuggestion({
@@ -112,6 +103,20 @@ export function DownshiftMultiple(props) {
                 )}
               </Paper>
             ) : null}
+            <div style={{ marginTop: 10 }}>
+              {selectedItem.map(item => (
+                <Chip
+                  key={item.label}
+                  tabIndex={-1}
+                  label={formatCategory(item.label)}
+                  className={classes.chip}
+                  onDelete={handleDelete(item)}
+                  style={{
+                    margin: '.25rem .25rem',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         );
       }}
@@ -126,7 +131,7 @@ DownshiftMultiple.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: 250,
+    minHeight: 70,
   },
   container: {
     flexGrow: 1,
@@ -135,7 +140,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: '1rem',
+    marginTop: '.5rem',
     left: 0,
     right: 0,
   },
