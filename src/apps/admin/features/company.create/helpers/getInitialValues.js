@@ -1,5 +1,6 @@
 export function getInitialValues(props) {
   return {
+    name: '',
     yearFounded: new Date().toISOString().split('T')[0],
     description: '',
     locationjson: {},

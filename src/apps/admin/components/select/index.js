@@ -43,7 +43,6 @@ export function Select({
     if (newSelectedItem.indexOf(item) === -1) {
       newSelectedItem = [...newSelectedItem, item];
     }
-    console.log(item);
     setInputValue(item.label);
     setSelectedItem(newSelectedItem);
   }
