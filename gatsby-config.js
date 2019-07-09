@@ -2,6 +2,7 @@ const Config = require('./config/site');
 const config = Config();
 global.fetch = require('node-fetch');
 const { createHttpLink } = require('apollo-link-http');
+const { HTTPLinkDataloader } = require('http-link-dataloader');
 const getTemporaryAuthCreds = require('./config/buildAuth');
 const jwt = getTemporaryAuthCreds();
 
@@ -40,6 +41,7 @@ module.exports = {
       options: {
         typeName: config.api.graphql.typeName,
         fieldName: config.api.graphql.fieldName,
+
         createLink: pluginOptions => {
           return new Promise((res, rej) => {
             jwt.then(token => {
@@ -52,18 +54,13 @@ module.exports = {
               console.log(
                 `****************************************************\n`
               );
-              const client = createHttpLink({
+              const client = new HTTPLinkDataloader({
                 uri: config.api.graphql.endpoint,
                 headers: {
                   authorization: `Bearer ${token.jwt}`,
-                  'apollo-client-name':
-                    process.env.NODE_ENV === 'production'
-                      ? 'gatsby-client-prod'
-                      : 'gatsby-client-dev',
+                  'apollo-client-name': process.env.GATSBY_APPLICATION_NAME,
                   'apollo-client-version':
-                    process.env.NODE_ENV === 'production'
-                      ? '0.0.0-prod'
-                      : '0.0.0-dev',
+                    process.env.GATSBY_APPLICATION_VERSION,
                 },
               });
               res(client);
