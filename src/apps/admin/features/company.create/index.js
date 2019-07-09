@@ -87,13 +87,13 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
 
           switch (intersection[0]) {
             case 'name':
-              error = `Error in Basic section. ${errors.name}`;
+              error = `Error in Basics section. ${errors.name}`;
               break;
             case 'description':
-              error = `Error in Basic section. ${errors.description}`;
+              error = `Error in Basics section. ${errors.description}`;
               break;
             case 'yearFounded':
-              error = `Error in Basic section. ${errors.yearFounded}`;
+              error = `Error in Basics section. ${errors.yearFounded}`;
               break;
             default:
               error = null;
