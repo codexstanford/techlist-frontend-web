@@ -17,6 +17,7 @@ export function Logo({
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <StyledInput
+          name="logo"
           onChange={e => {
             e.stopPropagation();
             e.preventDefault();

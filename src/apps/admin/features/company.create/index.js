@@ -45,7 +45,7 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
       initialValues={getInitialValues()}
       validationSchema={ValidationSchema}
     >
-      {({ values, isValid, isSubmitting, ...rest }) => {
+      {({ values, isValid, isSubmitting, errors, touched, ...rest }) => {
         const getProps = useProps({
           data,
           classes,
@@ -58,20 +58,48 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
             <Form>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
-              <CodeXExpansionPanel title="Basics">
+              <CodeXExpansionPanel
+                title="Basics"
+                error={
+                  (errors.name && touched.name) ||
+                  (errors.description && touched.description) ||
+                  (errors.yearFounded && touched.yearFounded)
+                    ? true
+                    : false
+                }
+              >
                 <Basics {...getProps} />
               </CodeXExpansionPanel>
-              <CodeXExpansionPanel title="Logo">
+              <CodeXExpansionPanel
+                title="Logo"
+                error={errors.logo && touched.logo ? true : false}
+              >
                 <Logo {...getProps} />
               </CodeXExpansionPanel>
               <CodeXExpansionPanel title="Location">
-                <Location {...getProps} />
+                <Location
+                  {...getProps}
+                  errors={errors.location && touched.location ? true : false}
+                />
               </CodeXExpansionPanel>
               <CodeXExpansionPanel title="Links">
-                <Links {...getProps} />
+                <Links
+                  {...getProps}
+                  errors={
+                    (errors.website && touched.website) ||
+                    (errors.addresss && touched.address)
+                      ? true
+                      : false
+                  }
+                />
               </CodeXExpansionPanel>
               <CodeXExpansionPanel title="Categories">
-                <Categories {...getProps} />
+                <Categories
+                  {...getProps}
+                  errors={
+                    errors.categories && touched.categories ? true : false
+                  }
+                />
               </CodeXExpansionPanel>
               <SectionWrapper>
                 <Button
