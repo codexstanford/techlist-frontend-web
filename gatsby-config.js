@@ -43,6 +43,15 @@ module.exports = {
         createLink: pluginOptions => {
           return new Promise((res, rej) => {
             jwt.then(token => {
+              console.log(
+                `\n****************************************************`
+              );
+              console.log(
+                `Connecting to => ${process.env.GATSBY_GRAPHQL_ENDPOINT}`
+              );
+              console.log(
+                `****************************************************\n`
+              );
               const client = createHttpLink({
                 uri: config.api.graphql.endpoint,
                 headers: {

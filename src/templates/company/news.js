@@ -14,11 +14,14 @@ export function CompanyNews({ classes, company, ...props }) {
   const qstring = company.name[0].payload;
 
   useEffect(() => {
-    fetch(`${process.env.BING_SEARCH_NEWS_API}?q=${encodeURI(qstring)}`, {
-      headers: {
-        'Ocp-Apim-Subscription-Key': process.env.BING_API_KEY,
-      },
-    })
+    fetch(
+      `${process.env.GATSBY_BING_SEARCH_NEWS_API}?q=${encodeURI(qstring)}`,
+      {
+        headers: {
+          'Ocp-Apim-Subscription-Key': process.env.GATSBY_BING_API_KEY,
+        },
+      }
+    )
       .then(data => data.json())
       .then(data => {
         if (data && data.value && data.value.length > 0) {
