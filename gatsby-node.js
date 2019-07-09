@@ -5,7 +5,13 @@
  */
 
 // You can delete this file if you're not using it
-require('dotenv').config();
+require('dotenv').config({
+  path: `.env${
+    process.env.NODE_ENV === 'production' || process.env.LOCAL !== true
+      ? '.production'
+      : '.local'
+  }`,
+});
 const path = require('path');
 const slugify = require('slugify');
 const crypto = require('crypto');
@@ -134,7 +140,7 @@ exports.sourceNodes = async ({
       `https://api.cognitive.microsoft.com/bing/v7.0/news/search?q=legal+tech&freshness=Week&count=20&mkt=en-US`,
       {
         headers: {
-          'Ocp-Apim-Subscription-Key': process.env.BING_API_KEY,
+          'Ocp-Apim-Subscription-Key': process.env.GATSBY_BING_API_KEY,
         },
       }
     )
