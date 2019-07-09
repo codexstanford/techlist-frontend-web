@@ -1,6 +1,7 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
+import formatCategory from './formatCategory';
 
 export function renderSuggestion(suggestionProps) {
   const {
@@ -24,7 +25,7 @@ export function renderSuggestion(suggestionProps) {
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.label}
+      {formatCategory(suggestion.label)}
     </MenuItem>
   );
 }
