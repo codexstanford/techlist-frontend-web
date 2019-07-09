@@ -3,7 +3,15 @@ import CodeXTextField from '../../../components/codex.textinput';
 import CompanyTargetMarketSelect from './select';
 import { Field } from 'formik';
 
-export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
+export function Basics({
+  errors,
+  touched,
+  classes,
+  targetMarkets,
+  validateField,
+  handleBlur,
+  ...rest
+}) {
   return (
     <div
       style={{
@@ -19,6 +27,12 @@ export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
         touched={touched}
         label="Name"
         fullWidth={true}
+        onBlur={event => {
+          console.log('field validated');
+          validateField('name');
+          console.log('field validated');
+          handleBlur(event);
+        }}
       />
       <CodeXTextField
         type="text"

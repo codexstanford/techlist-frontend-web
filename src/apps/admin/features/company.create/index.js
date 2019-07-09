@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { CREATE_COMPANY_MUTATION, GET_COMPANY_TARGET_MARKETS } from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -46,6 +46,8 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
       onSubmit={createCompany}
       initialValues={getInitialValues()}
       validationSchema={ValidationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
     >
       {({
         values,
@@ -62,6 +64,8 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
           data,
           classes,
           setImage,
+          validateField,
+          handleBlur,
           values,
           ...rest,
         });
@@ -188,7 +192,9 @@ const yesterday = new Date(
 ).toISOString();
 
 const ValidationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required.'),
+  name: Yup.string()
+    .required('Required')
+    .min(1, 'Name is required.'),
   description: Yup.string()
     .required('Description is required.')
     .min(150, 'Description must be at least 150 characters.'),
