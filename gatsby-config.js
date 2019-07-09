@@ -54,7 +54,7 @@ module.exports = {
               console.log(
                 `****************************************************\n`
               );
-              const client = new HTTPLinkDataloader({
+              const client = createHttpLink({
                 uri: config.api.graphql.endpoint,
                 headers: {
                   authorization: `Bearer ${token.jwt}`,
