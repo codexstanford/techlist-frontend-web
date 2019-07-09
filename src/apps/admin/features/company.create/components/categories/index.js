@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import { StaticQuery, graphql } from 'gatsby';
 import { renderInput, renderSuggestion, getSuggestions } from './helpers';
+import formatCategory from './helpers/formatCategory';
 
 export function DownshiftMultiple(props) {
   const { classes, options, setFieldValue } = props;
@@ -83,7 +84,7 @@ export function DownshiftMultiple(props) {
                   <Chip
                     key={item.label}
                     tabIndex={-1}
-                    label={item.label}
+                    label={formatCategory(item.label)}
                     className={classes.chip}
                     onDelete={handleDelete(item)}
                   />
@@ -161,7 +162,6 @@ function IntegrationDownshift(props) {
   const { setFieldValue } = props;
 
   const { organizationCategories } = props.data.allTechList;
-  console.log('ORGS IN DS', organizationCategories);
 
   return (
     <div className={classes.root}>
