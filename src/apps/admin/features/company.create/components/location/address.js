@@ -111,7 +111,6 @@ function GoogleEnhancedAutocomplete({ classes, ...props }) {
                     selectedItem,
                   })
                 )}
-                }
               </Paper>
             ) : null}
           </div>
@@ -148,7 +147,6 @@ function renderSuggestion(suggestionProps = {}) {
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
-  console.log(other);
 
   return (
     <div>

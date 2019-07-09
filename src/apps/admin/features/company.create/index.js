@@ -1,9 +1,10 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Field, Form } from 'formik';
 import { CREATE_COMPANY_MUTATION, GET_COMPANY_TARGET_MARKETS } from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import {
   CodeXExpansionPanel,
   CodeXFormHeader,
@@ -20,6 +21,7 @@ import {
 import Preview from './components/preview';
 import { Container, SectionWrapper } from '../../../../atoms';
 import * as Yup from 'yup';
+import styled from 'styled-components';
 
 function useProps({ data, ...props }) {
   return {
@@ -44,51 +46,72 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
       onSubmit={createCompany}
       initialValues={getInitialValues()}
       validationSchema={ValidationSchema}
-      validateOnChange={false}
-      validateOnBlur={false}
     >
       {({
         values,
-        isValid,
         isSubmitting,
         handleBlur,
         errors,
         touched,
         validateField,
+        handleChange,
+        setFieldError,
         ...rest
       }) => {
         const getProps = useProps({
           data,
           classes,
           setImage,
-          validateField,
-          handleBlur,
           values,
           ...rest,
         });
+
+        const intersection = Object.keys(touched).filter(element =>
+          Object.keys(errors).includes(element)
+        );
+
         const canSubmit = () => {
           if (Object.keys(touched).length < 1) {
             return true;
           }
 
-          if (!isValid) {
-            console.log('Disabled form Valid');
+          if (intersection.length > 0) {
             return true;
           }
 
           return false;
         };
 
-        console.log('!isValid', !isValid);
-        console.log('TOUCHED', touched);
-        console.log('ERRORS', errors);
+        const getDisplayedErrorMessage = () => {
+          let error;
+
+          switch (intersection[0]) {
+            case 'name':
+              error = `Error in Basic section. ${errors.name}`;
+              break;
+            case 'description':
+              error = `Error in Basic section. ${errors.description}`;
+              break;
+            case 'yearFounded':
+              error = `Error in Basic section. ${errors.yearFounded}`;
+              break;
+            default:
+              error = null;
+          }
+          return error;
+        };
 
         return (
           <>
             <Form>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
-              <ErrorMessage name="name" />
+              <ErrorMessageContainer>
+                <FormHelperText error={true}>
+                  {getDisplayedErrorMessage()}
+                </FormHelperText>
+              </ErrorMessageContainer>
+
               <CodeXExpansionPanel
                 title="Basics"
                 error={
@@ -164,15 +187,21 @@ const yesterday = new Date(
 ).toISOString();
 
 const ValidationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required('Required')
-    .min(1, 'Name is required.'),
+  name: Yup.string().required('Name is required.'),
   description: Yup.string()
-    .required('Required')
-    .min(1, 'Description must be at least 150 characters.'),
+    .required('Description is required.')
+    .min(150, 'Description must be at least 150 characters.'),
   yearFounded: Yup.date()
-    .required('Required')
+    .required('Date founded is required.')
     .max(yesterday, 'Date founded must be before today.'),
 });
+
+const ErrorMessageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+`;
 
 export default CreateCompany;
