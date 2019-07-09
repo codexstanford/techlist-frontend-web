@@ -10,6 +10,7 @@ export default function CodeXTextField({
   errors,
   touched,
   value,
+  onBlur,
   ...rest
 }) {
   // const fieldErrors = errors[name];
@@ -24,6 +25,7 @@ export default function CodeXTextField({
         fullWidth={false}
         InputLabelProps={{}}
         value={value}
+        onBlur={onBlur}
         {...rest}
       />
       {/* {fieldErrors && isTouched ? <div>{fieldErrors}</div> : null} */}

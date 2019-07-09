@@ -1,6 +1,7 @@
 export function getInitialValues(props) {
   return {
     yearFounded: new Date().toISOString().split('T')[0],
+    description: '',
     locationjson: {},
     targetMarkets: '',
     logo: '',
