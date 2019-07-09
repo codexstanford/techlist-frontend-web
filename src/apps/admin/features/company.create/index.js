@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { CREATE_COMPANY_MUTATION, GET_COMPANY_TARGET_MARKETS } from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -44,20 +44,51 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
       onSubmit={createCompany}
       initialValues={getInitialValues()}
       validationSchema={ValidationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
     >
-      {({ values, isValid, isSubmitting, errors, touched, ...rest }) => {
+      {({
+        values,
+        isValid,
+        isSubmitting,
+        handleBlur,
+        errors,
+        touched,
+        validateField,
+        ...rest
+      }) => {
         const getProps = useProps({
           data,
           classes,
           setImage,
+          validateField,
+          handleBlur,
           values,
           ...rest,
         });
+        const canSubmit = () => {
+          if (Object.keys(touched).length < 1) {
+            return true;
+          }
+
+          if (!isValid) {
+            console.log('Disabled form Valid');
+            return true;
+          }
+
+          return false;
+        };
+
+        console.log('!isValid', !isValid);
+        console.log('TOUCHED', touched);
+        console.log('ERRORS', errors);
+
         return (
           <>
             <Form>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
+              <ErrorMessage name="name" />
               <CodeXExpansionPanel
                 title="Basics"
                 error={
@@ -104,7 +135,7 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
               <SectionWrapper>
                 <Button
                   type="submit"
-                  disabled={!isValid}
+                  disabled={canSubmit()}
                   fullWidth
                   variant="contained"
                   color="primary"
@@ -133,10 +164,12 @@ const yesterday = new Date(
 ).toISOString();
 
 const ValidationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required.'),
+  name: Yup.string()
+    .required('Required')
+    .min(1, 'Name is required.'),
   description: Yup.string()
-    .min(150, 'Description must be at least 150 characters.')
-    .required('Required'),
+    .required('Required')
+    .min(1, 'Description must be at least 150 characters.'),
   yearFounded: Yup.date()
     .required('Required')
     .max(yesterday, 'Date founded must be before today.'),
