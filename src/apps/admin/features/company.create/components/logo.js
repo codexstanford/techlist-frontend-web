@@ -14,8 +14,8 @@ export function Logo({
   ...rest
 }) {
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+    <InputContainer>
+      <InputWrapper>
         <StyledInput
           name="logo"
           onChange={e => {
@@ -33,20 +33,13 @@ export function Logo({
             }
           }}
         />
-        <label htmlFor="avatar">
-          <Fab
-            style={{
-              margin: 10,
-              width: 400,
-              height: 300,
-              borderRadius: '5px',
-            }}
-          >
+        <InputLabel htmlFor="avatar">
+          <StyledFab>
             <label htmlFor="avatar">
               <Avatar
                 style={{
-                  width: 400,
-                  height: 300,
+                  width: '100%',
+                  height: '100%',
                   borderRadius: '5px',
                 }}
                 src={values.logo}
@@ -54,18 +47,51 @@ export function Logo({
                   style: {
                     maxWidth: '100%',
                     maxHeight: '100%',
-                    width: 400,
-                    height: 300,
                   },
                 }}
               />
             </label>
-          </Fab>
-        </label>
-      </div>
-    </div>
+          </StyledFab>
+        </InputLabel>
+      </InputWrapper>
+    </InputContainer>
   );
 }
+
+const InputContainer = styled.div`
+  min-width: 99%;
+  max-width: 100%;
+`;
+
+const InputWrapper = styled(InputContainer)`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const InputLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  min-width: 99%;
+`;
+
+const StyledFab = styled(Fab)`
+  margin: 10px;
+  min-width: 50%;
+  max-width: 50%;
+  max-height: 200px;
+  min-height: 200px;
+  border-radius: 5px;
+
+  @media (max-width: 620px) {
+    max-height: 175px;
+    min-height: 175px;
+  }
+
+  @media (max-width: 560px) {
+    max-height: 150px;
+    min-height: 150px;
+  }
+`;
 
 const StyledInput = styled.input.attrs({
   type: 'file',
