@@ -9,7 +9,6 @@ import Slide from '@material-ui/core/Slide';
 import styled from 'styled-components';
 import { Container, SectionWrapper } from '../../../../atoms';
 import CreateCompanyNew from '../../features/company.create';
-import { StylesProvider } from '@material-ui/styles';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -24,19 +23,17 @@ export default function CreateCompanyScreen({
   ...rest
 }) {
   return (
-    <StylesProvider injectFirst>
-      <Dialog
-        open={open !== undefined && open}
-        TransitionComponent={Transition}
-        fullWidth={true}
-        onBackdropClick={() => onCancel(!open)}
-        PaperComponent={PaperComponent}
-      >
-        <StyledDialogContent>
-          <CreateCompanyNew classes={classes} user={user} />
-        </StyledDialogContent>
-      </Dialog>
-    </StylesProvider>
+    <Dialog
+      open={open !== undefined && open}
+      TransitionComponent={Transition}
+      fullWidth={true}
+      onBackdropClick={() => onCancel(!open)}
+      PaperComponent={PaperComponent}
+    >
+      <StyledDialogContent>
+        <CreateCompanyNew classes={classes} user={user} />
+      </StyledDialogContent>
+    </Dialog>
   );
 }
 
@@ -48,11 +45,7 @@ const StyledDialogContent = styled(DialogContent)`
 `;
 
 const PaperComponent = ({ children, ...props }) => {
-  return (
-    <StylesProvider injectFirst>
-      <StyledPaper>{children}</StyledPaper>
-    </StylesProvider>
-  );
+  return <StyledPaper>{children}</StyledPaper>;
 };
 
 const StyledPaper = styled(Paper)`
