@@ -25,7 +25,8 @@ import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
-
+  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
+  console.log('isDrawerOpen', isDrawerOpen);
   return (
     <React.Fragment>
       <div
@@ -54,12 +55,17 @@ export function MobileNav({ classes, siteTitle, ...props }) {
           <MenuIcon />
         </Button>
       </div>
+      <CreateCompanyScreen
+        open={showCompanyScreen}
+        onCancel={toggleCompanyScreen}
+        classes={classes}
+      />
 
       <SwipeableDrawer
         anchor="top"
         open={isDrawerOpen}
-        onClose={toggleDrawer}
-        onOpen={toggleDrawer}
+        onClose={() => toggleDrawer(!isDrawerOpen)}
+        onOpen={() => toggleDrawer(!isDrawerOpen)}
       >
         <div
           tabIndex={0}
@@ -67,7 +73,14 @@ export function MobileNav({ classes, siteTitle, ...props }) {
           // onClick={this.toggleDrawer}
           // onKeyDown={this.toggleDrawer}
         >
-          <SideLeft classes={classes} {...props} />
+          <SideLeft
+            classes={classes}
+            {...props}
+            showCompanyScreen={showCompanyScreen}
+            toggleCompanyScreen={toggleCompanyScreen}
+            isDrawerOpen={isDrawerOpen}
+            toggleDrawer={toggleDrawer}
+          />
         </div>
       </SwipeableDrawer>
     </React.Fragment>
@@ -75,10 +88,16 @@ export function MobileNav({ classes, siteTitle, ...props }) {
 }
 
 const SideLeft = props => {
-  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
   const { data, logout } = useUser();
   const { user } = data;
-  const { classes, allSitePages } = props;
+  const {
+    classes,
+    allSitePages,
+    showCompanyScreen,
+    toggleCompanyScreen,
+    isDrawerOpen,
+    toggleDrawer,
+  } = props;
   const isUserLoggedIn = user ? true : false;
 
   return (
@@ -118,15 +137,14 @@ const SideLeft = props => {
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItem>
-        <CreateCompanyScreen
-          open={showCompanyScreen}
-          onCancel={toggleCompanyScreen}
-          classes={classes}
-        />
+
         {isUserLoggedIn ? (
           <ListItem
             button
-            onClick={() => toggleCompanyScreen(!showCompanyScreen)}
+            onClick={() => {
+              toggleDrawer(!isDrawerOpen);
+              toggleCompanyScreen(!showCompanyScreen);
+            }}
           >
             <ListItemIcon>
               <BuildIcon />
