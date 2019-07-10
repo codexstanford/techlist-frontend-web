@@ -121,6 +121,7 @@ export function UserProfile({ classes, ...props }) {
             open={showCompanyScreen}
             onCancel={toggleCompanyScreen}
             classes={classes}
+            {...props}
           />
           <List>
             <ListItem button>

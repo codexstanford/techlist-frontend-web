@@ -26,6 +26,12 @@ export const CREATE_COMPANY_MUTATION = gql`
           id
         }
       }
+      admins {
+        id
+        person {
+          id
+        }
+      }
       metadata {
         isDraft
         isPublic

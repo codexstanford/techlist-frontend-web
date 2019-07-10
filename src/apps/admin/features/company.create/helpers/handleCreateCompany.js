@@ -9,7 +9,6 @@ const defaultCreateCompanyMetadata = {
 };
 
 export function handleCreateCompany(props) {
-  console.log('called!');
   const { mutation, user, ...rest } = props;
   return async (
     {
@@ -78,6 +77,11 @@ export function handleCreateCompany(props) {
                     id: user.person.id,
                   },
                 },
+              },
+            },
+            admins: {
+              connect: {
+                id: user.id,
               },
             },
             metadata: {
