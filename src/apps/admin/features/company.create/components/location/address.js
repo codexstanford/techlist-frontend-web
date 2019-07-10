@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function GoogleEnhancedAutocomplete({ classes, ...props }) {
+function GoogleEnhancedAutocomplete({ classes, handleBlur, ...props }) {
   const [suggestions, setSuggestions] = React.useState([]);
   const [query, setQuery] = React.useState('');
 
@@ -96,6 +96,7 @@ function GoogleEnhancedAutocomplete({ classes, ...props }) {
             InputProps: getInputProps({
               placeholder: 'Enter company address',
               onChange: event => setQuery(event.target.value),
+              onBlur: handleBlur,
             }),
           })}
           <div {...getMenuProps()}>
@@ -107,20 +108,7 @@ function GoogleEnhancedAutocomplete({ classes, ...props }) {
                 getItemProps={getItemProps}
                 renderSuggestion={renderSuggestion}
               />
-            ) : // <Paper className={classes.paper} square>
-            //   {suggestions.map((suggestion, index) =>
-            //     renderSuggestion({
-            //       suggestion,
-            //       index,
-            //       itemProps: getItemProps({
-            //         item: suggestion,
-            //       }),
-            //       highlightedIndex,
-            //       selectedItem,
-            //     })
-            //   )}
-            // </Paper>
-            null}
+            ) : null}
           </div>
         </div>
       )}
@@ -146,7 +134,14 @@ function renderSuggestion(suggestionProps = {}) {
       {...itemProps}
       selected={isHighlighted}
       component="div"
-      style={{ fontWeight: isSelected ? 500 : 400, color: '#000000' }}
+      style={{
+        fontWeight: isSelected ? 500 : 400,
+        color: '#000000',
+        maxWidth: '100%',
+        textAlign: 'center',
+        whiteSpace: 'normal',
+        padding: '30px 0',
+      }}
     >
       {suggestion['formatted_address']}
     </MenuItem>

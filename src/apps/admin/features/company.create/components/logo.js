@@ -10,6 +10,7 @@ export function Logo({
   classes,
   setImage,
   setFieldValue,
+  handleBlur,
   values,
   ...rest
 }) {
@@ -18,6 +19,7 @@ export function Logo({
       <InputWrapper>
         <StyledInput
           name="logo"
+          onBlur={handleBlur}
           onChange={e => {
             e.stopPropagation();
             e.preventDefault();

@@ -9,6 +9,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { TextField } from 'formik-material-ui';
+import styled from 'styled-components';
 
 const organizationLinkType = [
   { type: 'UrlPrivacyPolicy', niceName: 'Privacy Policy' },
@@ -42,7 +43,7 @@ export default function SimpleSelect({
   }, []);
 
   return (
-    <FormControl className={classes.formControl} style={styles}>
+    <StyledFormControl className={classes.formControl} style={styles}>
       <InputLabel ref={inputLabel} htmlFor={field.name}>
         {label}
       </InputLabel>
@@ -60,6 +61,16 @@ export default function SimpleSelect({
           );
         })}
       </Select>
-    </FormControl>
+    </StyledFormControl>
   );
 }
+
+const StyledFormControl = styled(FormControl)`
+  padding-right: 1rem;
+  min-width: 150px;
+  margin-top: 15px;
+  margin-left: 2rem;
+  @media (max-width: 480px) {
+    margin-left: 0;
+  }
+`;
