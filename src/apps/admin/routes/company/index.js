@@ -41,6 +41,7 @@ const StyledDialogContent = styled(DialogContent)`
   max-height: calc(100vh - 96px);
   @media (max-width: 480px) {
     padding: 10px;
+    max-height: 100vh;
   }
 `;
 
@@ -52,7 +53,10 @@ const StyledPaper = styled(Paper)`
   max-width: 530px;
   max-height: calc(100vh - 96px);
   @media (max-width: 480px) {
-    max-width: 95%;
-    max-height: calc(100vh - 96px);
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: 0;
   }
 `;
