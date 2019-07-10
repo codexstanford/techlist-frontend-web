@@ -107,14 +107,16 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
             <Form>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
-              <ErrorMessageContainer>
-                <FormHelperText error={true}>
-                  Error in {getDisplayedErrorMessage().section} section.
-                </FormHelperText>
-                <FormHelperText error={true}>
-                  {getDisplayedErrorMessage().message}
-                </FormHelperText>
-              </ErrorMessageContainer>
+              {getDisplayedErrorMessage() !== null && (
+                <ErrorMessageContainer>
+                  <FormHelperText error={true}>
+                    Error in {getDisplayedErrorMessage().section} section.
+                  </FormHelperText>
+                  <FormHelperText error={true}>
+                    {getDisplayedErrorMessage().message}
+                  </FormHelperText>
+                </ErrorMessageContainer>
+              )}
 
               <CodeXExpansionPanel
                 title="Basics"
