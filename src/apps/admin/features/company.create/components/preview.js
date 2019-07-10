@@ -24,8 +24,10 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 212,
   },
   cover: {
-    width: 151,
-    height: 151,
+    minWidth: 151,
+    maxWidth: 151,
+    minHeight: 151,
+    maxHeight: 151,
   },
   controls: {
     display: 'flex',
