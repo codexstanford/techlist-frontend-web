@@ -2,6 +2,7 @@ import React from 'react';
 import CodeXTextField from '../../../components/codex.textinput';
 import CompanyTargetMarketSelect from './select';
 import { Field } from 'formik';
+import styled from 'styled-components';
 
 export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
   return (
@@ -29,7 +30,7 @@ export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
         touched={touched}
         label="Description"
       />
-      <div style={{ display: 'flex' }}>
+      <YearAndMarketLayout>
         <CodeXTextField
           name="yearFounded"
           margin="normal"
@@ -55,15 +56,16 @@ export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
                 : []
             }
             label="Target Markets"
-            styles={{
-              paddingRight: '1rem',
-              minWidth: '150px',
-              marginTop: '15px',
-              marginLeft: '2rem',
-            }}
           />
         </div>
-      </div>
+      </YearAndMarketLayout>
     </div>
   );
 }
+
+const YearAndMarketLayout = styled.div`
+  display: flex;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`;

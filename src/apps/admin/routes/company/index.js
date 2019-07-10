@@ -2,6 +2,7 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import Paper from '@material-ui/core/Paper';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
@@ -27,10 +28,31 @@ export default function CreateCompanyScreen({
       TransitionComponent={Transition}
       fullWidth={true}
       onBackdropClick={() => onCancel(!open)}
+      PaperComponent={PaperComponent}
     >
-      <DialogContent>
+      <StyledDialogContent>
         <CreateCompanyNew classes={classes} user={user} />
-      </DialogContent>
+      </StyledDialogContent>
     </Dialog>
   );
 }
+
+const StyledDialogContent = styled(DialogContent)`
+  max-height: calc(100vh - 96px);
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
+`;
+
+const PaperComponent = ({ children, ...props }) => {
+  return <StyledPaper>{children}</StyledPaper>;
+};
+
+const StyledPaper = styled(Paper)`
+  max-width: 530px;
+  max-height: calc(100vh - 96px);
+  @media (max-width: 480px) {
+    max-width: 95%;
+    max-height: calc(100vh - 96px);
+  }
+`;

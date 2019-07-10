@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     marginTop: '1rem',
     marginBottom: '1rem',
+    '@media(max-width: 480px)': {
+      flexDirection: 'column',
+    },
   },
   details: {
     display: 'flex',
@@ -18,6 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flex: '1 0 auto',
+    maxWidth: 212,
   },
   cover: {
     width: 151,
@@ -41,7 +45,9 @@ export function CompanyCreatePreview({ values }) {
 
   return (
     <Card className={cardClasses.card}>
-      <CardMedia className={cardClasses.cover} image={logo} title={'test'} />
+      {logo && (
+        <CardMedia className={cardClasses.cover} image={logo} title={'test'} />
+      )}
       <div className={cardClasses.details}>
         <CardContent>
           <Typography

@@ -13,7 +13,7 @@ import { renderInput, renderSuggestion, getSuggestions } from './helpers';
 import formatCategory from './helpers/formatCategory';
 
 export function DownshiftMultiple(props) {
-  const { classes, options, setFieldValue } = props;
+  const { classes, options, setFieldValue, handleBlur } = props;
   const [inputValue, setInputValue] = React.useState('');
   const [selectedItem, setSelectedItem] = React.useState([]);
 
@@ -66,7 +66,7 @@ export function DownshiftMultiple(props) {
         selectedItem: selectedItem2,
         highlightedIndex,
       }) => {
-        const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
+        const { onChange, onFocus, ...inputProps } = getInputProps({
           onKeyDown: handleKeyDown,
           placeholder: 'Select multiple categories',
         });
@@ -76,15 +76,15 @@ export function DownshiftMultiple(props) {
             {renderInput({
               fullWidth: true,
               classes,
-              name: 'name',
+              name: 'categories',
               label: 'Categories',
               InputLabelProps: getLabelProps(),
               InputProps: {
-                onBlur,
                 onChange: event => {
                   handleInputChange(event);
                   onChange(event);
                 },
+                onBlur: handleBlur,
                 onFocus,
               },
               inputProps,
@@ -164,13 +164,14 @@ let popperNode;
 function IntegrationDownshift(props) {
   const classes = useStyles();
 
-  const { setFieldValue } = props;
+  const { setFieldValue, handleBlur } = props;
 
   const { organizationCategories } = props.data.allTechList;
 
   return (
     <div className={classes.root}>
       <DownshiftMultiple
+        handleBlur={handleBlur}
         classes={classes}
         options={organizationCategories.map(item => ({
           label: item.payload,

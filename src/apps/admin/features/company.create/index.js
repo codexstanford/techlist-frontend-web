@@ -63,6 +63,7 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
           classes,
           setImage,
           values,
+          handleBlur,
           ...rest,
         });
 
@@ -83,17 +84,17 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
         };
 
         const getDisplayedErrorMessage = () => {
-          let error;
+          let error = { section: null, message: null };
 
           switch (intersection[0]) {
             case 'name':
-              error = `Error in Basics section. ${errors.name}`;
+              error = { section: 'Basics', message: errors.name };
               break;
             case 'description':
-              error = `Error in Basics section. ${errors.description}`;
+              error = { section: 'Basics', message: errors.description };
               break;
             case 'yearFounded':
-              error = `Error in Basics section. ${errors.yearFounded}`;
+              error = { section: 'Basics', message: errors.yearFounded };
               break;
             default:
               error = null;
@@ -106,11 +107,16 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
             <Form>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
-              <ErrorMessageContainer>
-                <FormHelperText error={true}>
-                  {getDisplayedErrorMessage()}
-                </FormHelperText>
-              </ErrorMessageContainer>
+              {getDisplayedErrorMessage() !== null && (
+                <ErrorMessageContainer>
+                  <FormHelperText error={true}>
+                    Error in {getDisplayedErrorMessage().section} section.
+                  </FormHelperText>
+                  <FormHelperText error={true}>
+                    {getDisplayedErrorMessage().message}
+                  </FormHelperText>
+                </ErrorMessageContainer>
+              )}
 
               <CodeXExpansionPanel
                 title="Basics"
@@ -199,6 +205,7 @@ const ValidationSchema = Yup.object().shape({
 
 const ErrorMessageContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 0;

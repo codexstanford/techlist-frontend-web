@@ -4,7 +4,13 @@ import CodeXTextField from '../../../../components/codex.textinput';
 import AddressField from './address';
 import { CompanyLocationMap } from '../../../../../../templates/company/locationmap';
 
-export function Location({ setFieldValue, setValues, values, ...rest }) {
+export function Location({
+  setFieldValue,
+  setValues,
+  values,
+  handleBlur,
+  ...rest
+}) {
   return (
     <div
       style={{
@@ -16,6 +22,7 @@ export function Location({ setFieldValue, setValues, values, ...rest }) {
       <AddressField
         setFieldValue={setFieldValue}
         setValues={setValues}
+        handleBlur={handleBlur}
         {...rest}
       />
       {values.locationjson && values.locationjson.geometry ? (
