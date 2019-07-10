@@ -38,15 +38,16 @@ export function Logo({
             <label htmlFor="avatar">
               <Avatar
                 style={{
-                  width: '100%',
-                  height: '100%',
+                  minWidth: 250,
+                  minHeight: 200,
                   borderRadius: '5px',
+                  padding: 10,
                 }}
                 src={values.logo}
                 imgProps={{
                   style: {
-                    maxWidth: '100%',
-                    maxHeight: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   },
                 }}
               />
@@ -65,32 +66,19 @@ const InputContainer = styled.div`
 
 const InputWrapper = styled(InputContainer)`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 `;
 
 const InputLabel = styled.label`
   display: flex;
   justify-content: center;
-  min-width: 99%;
+  min-width: 250px;
 `;
 
 const StyledFab = styled(Fab)`
-  margin: 10px;
-  min-width: 50%;
-  max-width: 50%;
-  max-height: 200px;
+  min-width: 250px;
   min-height: 200px;
   border-radius: 5px;
-
-  @media (max-width: 620px) {
-    max-height: 175px;
-    min-height: 175px;
-  }
-
-  @media (max-width: 560px) {
-    max-height: 150px;
-    min-height: 150px;
-  }
 `;
 
 const StyledInput = styled.input.attrs({
