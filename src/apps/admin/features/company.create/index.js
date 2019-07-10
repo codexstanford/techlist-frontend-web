@@ -127,6 +127,7 @@ export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
               <CodeXExpansionPanel
                 title="Logo"
                 error={errors.logo && touched.logo ? true : false}
+                style={{ maxHeight: 308 }}
               >
                 <Logo {...getProps} />
               </CodeXExpansionPanel>
