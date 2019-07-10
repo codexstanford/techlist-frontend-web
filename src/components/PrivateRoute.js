@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
   const {
     data: { user },
   } = useUser();
-  console.log('USER IN PRIVATE ROUTE', user);
+  // console.log('USER IN PRIVATE ROUTE', user);
   if (!user) {
     navigate('/app/login/', {
       state: {

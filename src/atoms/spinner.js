@@ -1,6 +1,8 @@
 import React from 'react';
 import { css } from 'styled-components';
-import { ClipLoader } from 'react-spinners';
+import { BounceLoader as ClipLoader } from 'react-spinners';
+
+import styled from 'styled-components';
 
 const override = css`
   display: block;
@@ -17,17 +19,30 @@ class AwesomeComponent extends React.Component {
   }
   render() {
     return (
-      <div className="sweet-loading">
+      <Container className="sweet-loading">
         <ClipLoader
-          css={override}
           sizeUnit={'px'}
           size={150}
-          color={'#123abc'}
+          color={'#ffffff'}
           loading={this.state.loading}
         />
-      </div>
+      </Container>
     );
   }
 }
 
 export default AwesomeComponent;
+
+const Container = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b1040e;
+`;
+
+const Wrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+`;
