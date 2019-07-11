@@ -80,6 +80,7 @@ export function CompanyCreatePreview({ values }) {
             style={{
               letterSpacing: '-.5px',
               textDecoration: 'none',
+              lineHeight: 1.35,
             }}
           >
             {values.description}
