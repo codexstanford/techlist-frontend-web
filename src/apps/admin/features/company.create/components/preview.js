@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     marginTop: '1rem',
     marginBottom: '1rem',
+    minHeight: '8rem',
     '@media(max-width: 480px)': {
       flexDirection: 'column',
     },
@@ -23,11 +24,18 @@ const useStyles = makeStyles(theme => ({
     flex: '1 0 auto',
     maxWidth: 212,
   },
+  root: {
+    backgroundSize: '100%',
+  },
   cover: {
-    minWidth: 151,
-    maxWidth: 151,
-    minHeight: 151,
-    maxHeight: 151,
+    minWidth: '6rem',
+    maxHeight: '6rem',
+    margin: 5,
+    '@media(max-width: 480px)': {
+      flexDirection: 'column',
+      maxWidth: '6rem',
+      minHeight: '6rem',
+    },
   },
   controls: {
     display: 'flex',

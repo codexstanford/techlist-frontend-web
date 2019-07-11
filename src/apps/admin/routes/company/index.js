@@ -54,13 +54,11 @@ const PaperComponent = ({ children, ...props }) => {
 };
 
 const StyledPaper = styled(Paper)`
-  max-width: 530px;
-  max-height: calc(100vh - 96px);
+  max-width: 100vh;
+  max-height: 90vh;
   @media (max-width: 480px) {
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 100%;
-    min-height: 100%;
+    min-width: 100vw;
+    min-height: 100vh;
     border-radius: 0;
   }
 `;

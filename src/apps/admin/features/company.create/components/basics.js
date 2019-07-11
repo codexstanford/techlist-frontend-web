@@ -37,7 +37,7 @@ export function Basics({
         touched={touched}
         label="Description"
       />
-      <YearAndMarketLayout>
+      <FlexLayoutMobile>
         <CodeXTextField
           name="yearFounded"
           margin="normal"
@@ -65,12 +65,12 @@ export function Basics({
             label="Target Markets"
           />
         </div>
-      </YearAndMarketLayout>
+      </FlexLayoutMobile>
     </div>
   );
 }
 
-const YearAndMarketLayout = styled.div`
+const FlexLayoutMobile = styled.div`
   display: flex;
   @media (max-width: 480px) {
     flex-direction: column;

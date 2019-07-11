@@ -1,7 +1,20 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { styles } from '../../../../config/styles';
+
+const styles = theme => ({
+  paper: {
+    marginTop: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`,
+    [theme.breakpoints.up(450 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 8,
+    },
+  },
+});
 
 const LocationPaper = ({
   classes,

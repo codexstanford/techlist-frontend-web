@@ -19,6 +19,7 @@ import ListIcon from '@material-ui/icons/List';
 import CategoryIcon from '@material-ui/icons/Category';
 import BuildIcon from '@material-ui/icons/Build';
 import Link from '@material-ui/core/Link';
+import { navigate } from '@reach/router';
 
 import MainSearch from '../search';
 import { useUser } from '../../store/user-context';
@@ -142,12 +143,29 @@ const SideLeft = props => {
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItem>
-        <ListItem button component={GatsbyLink} to="/app/profile/">
-          <ListItemIcon>
-            <BuildIcon />
-          </ListItemIcon>
-          <ListItemText primary="Get Listed" />
-        </ListItem>
+        {isUserLoggedIn ? (
+          <ListItem
+            button
+            onClick={() => {
+              toggleDrawer(!isDrawerOpen);
+              isUserLoggedIn
+                ? toggleCompanyScreen(!showCompanyScreen)
+                : navigate('/app/login/');
+            }}
+          >
+            <ListItemIcon>
+              <BuildIcon />
+            </ListItemIcon>
+            <ListItemText primary="Get Listed" />
+          </ListItem>
+        ) : (
+          <ListItem button component={GatsbyLink} to={'/app/login/'}>
+            <ListItemIcon>
+              <BuildIcon />
+            </ListItemIcon>
+            <ListItemText primary="Get Listed" />
+          </ListItem>
+        )}
 
         {isUserLoggedIn ? (
           <>

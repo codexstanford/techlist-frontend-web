@@ -90,7 +90,7 @@ export function DownshiftMultiple(props) {
               inputProps,
             })}
 
-            {true ? (
+            {isOpen ? (
               <Paper className={classes.paper} square>
                 {getSuggestions(inputValue2, options).map((suggestion, index) =>
                   renderSuggestion({
@@ -108,7 +108,7 @@ export function DownshiftMultiple(props) {
                 <Chip
                   key={item.label}
                   tabIndex={-1}
-                  label={formatCategory(item.label)}
+                  label={item.label && formatCategory(item.label)}
                   className={classes.chip}
                   onDelete={handleDelete(item)}
                   style={{
