@@ -201,35 +201,37 @@ class CompanyTemplate extends React.Component {
                   </CardContent>
                 </Card>
                 <Card className={classes.card}>
-                  {organization.location[0] && (
-                    <>
-                      <CardHeader
-                        component={() => (
-                          <CompanyLocationMap
-                            location={organization.location[0]}
-                          />
-                        )}
-                      />
-                      <CardContent>
-                        <Typography component="h3" variant="h6">
-                          Location
-                        </Typography>
-                        <List dense>
-                          <ListItem>
-                            <ListItemIcon>
-                              <BusinessIcon />
-                            </ListItemIcon>
-
-                            <ListItemText
-                              primary={
-                                organization.location[0].formatted_address || ''
-                              }
+                  {organization.location[0] &&
+                    organization.location[0].formatted_address !== null && (
+                      <>
+                        <CardHeader
+                          component={() => (
+                            <CompanyLocationMap
+                              location={organization.location[0]}
                             />
-                          </ListItem>
-                        </List>
-                      </CardContent>
-                    </>
-                  )}
+                          )}
+                        />
+                        <CardContent>
+                          <Typography component="h3" variant="h6">
+                            Location
+                          </Typography>
+                          <List dense>
+                            <ListItem>
+                              <ListItemIcon>
+                                <BusinessIcon />
+                              </ListItemIcon>
+
+                              <ListItemText
+                                primary={
+                                  organization.location[0].formatted_address ||
+                                  ''
+                                }
+                              />
+                            </ListItem>
+                          </List>
+                        </CardContent>
+                      </>
+                    )}
                 </Card>
                 {/* <CompanyIntelligence classes={classes} company={company} />
                 <CompanyContact classes={classes} company={company} /> */}
