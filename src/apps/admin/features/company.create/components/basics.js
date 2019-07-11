@@ -4,7 +4,14 @@ import CompanyTargetMarketSelect from './select';
 import { Field } from 'formik';
 import styled from 'styled-components';
 
-export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
+export function Basics({
+  errors,
+  touched,
+  classes,
+  targetMarkets,
+  handleBlur,
+  ...rest
+}) {
   return (
     <div
       style={{
@@ -30,7 +37,7 @@ export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
         touched={touched}
         label="Description"
       />
-      <YearAndMarketLayout>
+      <FlexLayoutMobile>
         <CodeXTextField
           name="yearFounded"
           margin="normal"
@@ -58,12 +65,12 @@ export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
             label="Target Markets"
           />
         </div>
-      </YearAndMarketLayout>
+      </FlexLayoutMobile>
     </div>
   );
 }
 
-const YearAndMarketLayout = styled.div`
+const FlexLayoutMobile = styled.div`
   display: flex;
   @media (max-width: 480px) {
     flex-direction: column;

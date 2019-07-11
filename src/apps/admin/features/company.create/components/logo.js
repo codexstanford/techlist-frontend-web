@@ -16,59 +16,51 @@ export function Logo({
 }) {
   return (
     <InputContainer>
-      <InputWrapper>
-        <StyledInput
-          name="logo"
-          onBlur={handleBlur}
-          onChange={e => {
-            e.stopPropagation();
-            e.preventDefault();
+      <StyledInput
+        name="logo"
+        onBlur={handleBlur}
+        onChange={e => {
+          e.stopPropagation();
+          e.preventDefault();
 
-            const fileReader = new FileReader();
-            fileReader.onloadend = e => {
-              const content = fileReader.result;
-              setFieldValue('logo', content);
-              setImage(content);
-            };
-            if (e.target.files.length > 0) {
-              fileReader.readAsDataURL(e.target.files[0]);
-            }
-          }}
-        />
-        <InputLabel htmlFor="avatar">
-          <StyledFab>
-            <label htmlFor="avatar">
-              <Avatar
-                style={{
-                  minWidth: 250,
-                  minHeight: 200,
-                  borderRadius: '5px',
-                  padding: 10,
-                }}
-                src={values.logo}
-                imgProps={{
-                  style: {
-                    height: '100%',
-                    objectFit: 'contain',
-                  },
-                }}
-              />
-            </label>
-          </StyledFab>
-        </InputLabel>
-      </InputWrapper>
+          const fileReader = new FileReader();
+          fileReader.onloadend = e => {
+            const content = fileReader.result;
+            setFieldValue('logo', content);
+            setImage(content);
+          };
+          if (e.target.files.length > 0) {
+            fileReader.readAsDataURL(e.target.files[0]);
+          }
+        }}
+      />
+      <InputLabel htmlFor="avatar">
+        <StyledFab>
+          <label htmlFor="avatar">
+            <Avatar
+              style={{
+                minWidth: 250,
+                minHeight: 200,
+                borderRadius: '5px',
+                padding: 10,
+              }}
+              src={values.logo}
+              imgProps={{
+                style: {
+                  height: '100%',
+                  objectFit: 'contain',
+                },
+              }}
+            />
+          </label>
+        </StyledFab>
+      </InputLabel>
     </InputContainer>
   );
 }
 
 const InputContainer = styled.div`
-  min-width: 99%;
-  max-width: 100%;
-`;
-
-const InputWrapper = styled(InputContainer)`
-  display: flex;
-  justify-content: center;
+  width: 100%;
 `;
 
 const InputLabel = styled.label`

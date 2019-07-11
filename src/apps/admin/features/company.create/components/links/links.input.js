@@ -100,7 +100,6 @@ const AddressAndButtonsContainer = styled.div`
 `;
 
 const ButtonsContainer = styled.div`
-  display: inline-block;
   display: flex;
 `;
 

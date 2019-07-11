@@ -9,7 +9,7 @@ const defaultCreateCompanyMetadata = {
 };
 
 export function handleCreateCompany(props) {
-  const { mutation, user, ...rest } = props;
+  const { mutation, user, handleClose, ...rest } = props;
   return async (
     {
       name,
@@ -91,6 +91,7 @@ export function handleCreateCompany(props) {
         },
       });
       setSubmitting(false);
+      handleClose();
       navigate('/app/profile/');
     } catch (error) {
       console.log(error);

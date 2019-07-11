@@ -12,13 +12,12 @@ import { Query } from 'react-apollo';
 import { useUser } from '../../store/user-context';
 import gql from 'graphql-tag';
 import CreateCompanyScreen from '../../apps/admin/routes/company/index';
+import { navigate } from '@reach/router';
 
 export function HeaderLeft({ sections, classes, ...props }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const { data, logout } = useUser();
   const { user } = data;
-
-  const isUserLoggedIn = user ? true : false;
 
   // useEffect(() => {
   //   Auth.currentAuthenticatedUser()
@@ -74,35 +73,22 @@ export function HeaderLeft({ sections, classes, ...props }) {
             );
           })}
         <React.Fragment>
-          {isUserLoggedIn ? (
-            <Button
-              color="primary"
-              variant="outlined"
-              size="small"
-              aria-label="Get Listed"
-              onClick={() => toggleCompanyScreen(!showCompanyScreen)}
-              style={{
-                marginLeft: '10px',
-              }}
-            >
-              Get Listed
-            </Button>
-          ) : (
-            <Button
-              color="primary"
-              variant="outlined"
-              size="small"
-              aria-label="Get Listed"
-              component={props => (
-                <Link to="/app/login/" component={GatsbyLink} {...props} />
-              )}
-              style={{
-                marginLeft: '10px',
-              }}
-            >
-              Get Listed
-            </Button>
-          )}
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            aria-label="Get Listed"
+            onClick={() =>
+              user
+                ? toggleCompanyScreen(!showCompanyScreen)
+                : navigate('/app/login/')
+            }
+            style={{
+              marginLeft: '10px',
+            }}
+          >
+            Get Listed
+          </Button>
         </React.Fragment>
 
         {user ? (
