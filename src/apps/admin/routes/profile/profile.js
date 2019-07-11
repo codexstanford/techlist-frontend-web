@@ -15,14 +15,25 @@ import styled from 'styled-components';
 import ProfileAffiliations from '../../features/profile.affiliations';
 
 export function UserProfile({ classes, ...props }) {
-  const [isOpen, toggleDrawerVisibility] = React.useState(true);
+  const [isOpen, toggleDrawerVisibility] = React.useState();
   const { logout } = useUser();
   const { data } = props;
   const { person, id: partyAccountId } = data;
 
   // console.log('USER IN USERPROFILE DISPLAY,', data);
   // console.log('PERSONM IN USERPROFILE DISPLAY,', person);
-  console.log('Classes.content', classes.content);
+
+  React.useEffect(() => {
+    const w = window,
+      d = document,
+      e = d.documentElement,
+      wx = w.innerWidth || e.clientWidth || g.clientWidth;
+    if (wx && wx < 480) {
+      toggleDrawerVisibility(false);
+    } else {
+      toggleDrawerVisibility(true);
+    }
+  }, []);
 
   const { name } = person;
   const displayName = name[0];
@@ -69,7 +80,7 @@ export function UserProfile({ classes, ...props }) {
         <StyledWrapper>
           <Card>
             <CardContent>
-              <ProfileAffiliations affiliations={person.affiliation} />
+              <ProfileAffiliations person={person} />
             </CardContent>
           </Card>
         </StyledWrapper>

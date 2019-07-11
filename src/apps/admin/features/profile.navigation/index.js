@@ -1,5 +1,5 @@
 import React from 'react';
-// import MobileNav from './components/mobile';
+import MobileNav from './components/mobile';
 import DesktopNav from './components/desktop';
 import Media from 'react-media';
 

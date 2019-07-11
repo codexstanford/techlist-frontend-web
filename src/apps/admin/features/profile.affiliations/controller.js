@@ -4,7 +4,6 @@ import List from '@material-ui/core/List';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { renderAffiliation } from './helpers';
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function AffiliationsListController({ affiliations, ...props }) {
   const classes = useStyles();
-  const [first, second, ...rest] = affiliations.reverse();
+  const [first, second, ...rest] = affiliations;
   return (
     <>
       {first && renderAffiliation({ affiliation: first, hasDivider: false })}
