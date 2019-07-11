@@ -29,6 +29,7 @@ import { formatCompanyCategories } from './company/helpers';
 import { mainListItems, secondaryListItems } from './__mocks__/listitems';
 import { styles } from './__mocks__/styles';
 import { graphql } from 'gatsby';
+import styled from 'styled-components';
 
 import {
   CompanyLocationMap,
@@ -171,20 +172,35 @@ class CompanyTemplate extends React.Component {
             </Drawer>
           </Hidden>
 
-          <main className={classes.content}>
+          <StyledMain>
             <div className={classes.appBarSpacer} />
             <Grid container spacing={16} className={classes.mainGrid}>
-              <Grid item md={8} sm={12}>
+              <Grid item md={8} xs={12}>
                 <Card className={classes.card}>
                   {organization &&
                   organization.logo &&
-                  organization.logo.length > 0 ? (
+                  organization.logo.length > 0 &&
+                  organization.logo[0].payload !==
+                    'http://via.placeholder.com/640x360' ? (
                     <CardMedia
                       className={classes.media}
                       image={organization.logo[0].payload}
                       title={`${organization.name} logo`}
                     />
-                  ) : null}
+                  ) : (
+                    <CardHeader
+                      className={classes.media}
+                      component={() => (
+                        <DefaultLogoContainer>
+                          <div>
+                            <DefaultLogoTitle>
+                              {organization.name[0].payload}
+                            </DefaultLogoTitle>
+                          </div>
+                        </DefaultLogoContainer>
+                      )}
+                    />
+                  )}
                   <CardContent>
                     <Typography variant="h6" color="textSecondary">
                       {organization.name[0].payload}
@@ -200,36 +216,39 @@ class CompanyTemplate extends React.Component {
                       )}
                   </CardContent>
                 </Card>
-                <Card className={classes.card}>
-                  {organization.location[0] && (
-                    <>
-                      <CardHeader
-                        component={() => (
-                          <CompanyLocationMap
-                            location={organization.location[0]}
-                          />
-                        )}
-                      />
-                      <CardContent>
-                        <Typography component="h3" variant="h6">
-                          Location
-                        </Typography>
-                        <List dense>
-                          <ListItem>
-                            <ListItemIcon>
-                              <BusinessIcon />
-                            </ListItemIcon>
 
-                            <ListItemText
-                              primary={
-                                organization.location[0].formatted_address || ''
-                              }
+                <Card className={classes.card}>
+                  {organization.location[0] &&
+                    organization.location[0].formatted_address !== null && (
+                      <>
+                        <CardHeader
+                          component={() => (
+                            <CompanyLocationMap
+                              location={organization.location[0]}
                             />
-                          </ListItem>
-                        </List>
-                      </CardContent>
-                    </>
-                  )}
+                          )}
+                        />
+                        <CardContent>
+                          <Typography component="h3" variant="h6">
+                            Location
+                          </Typography>
+                          <List dense>
+                            <ListItem>
+                              <ListItemIcon>
+                                <BusinessIcon />
+                              </ListItemIcon>
+
+                              <ListItemText
+                                primary={
+                                  organization.location[0].formatted_address ||
+                                  ''
+                                }
+                              />
+                            </ListItem>
+                          </List>
+                        </CardContent>
+                      </>
+                    )}
                 </Card>
                 {/* <CompanyIntelligence classes={classes} company={company} />
                 <CompanyContact classes={classes} company={company} /> */}
@@ -238,12 +257,41 @@ class CompanyTemplate extends React.Component {
                 <CompanyNews classes={classes} company={organization} />
               </Grid>
             </Grid>
-          </main>
+          </StyledMain>
         </div>
       </Layout>
     );
   }
 }
+
+const DefaultLogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b1040e;
+  padding: 4px;
+
+  @media (min-width: 480) {
+    min-height: 300px;
+  }
+`;
+
+const StyledWrapper = styled.main`
+  @media (min-width: 1080px) {
+    max-width: 600px;
+  }
+`;
+
+const StyledMain = styled.main`
+  flex-grow: 1;
+  padding: 8px;
+  height: 100vh;
+  overflow: auto;
+
+  @media (min-width: 480px) {
+    padding: 24px;
+  }
+`;
 
 export default withStyles(styles)(CompanyTemplate);
 
@@ -282,5 +330,28 @@ export const pageQuery = graphql`
         }
       }
     }
+  }
+`;
+
+const DefaultLogoTitle = styled.h1`
+  color: white;
+  font-size: 52px;
+  font-family: ${[
+    'Source Sans Pro',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(',')};
+
+  @media (min-width: 480) {
+    min-height: 300px;
+    font-size: 72px;
   }
 `;

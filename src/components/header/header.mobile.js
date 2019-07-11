@@ -14,6 +14,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
+import PersonIcon from '@material-ui/icons/Person';
 import ListIcon from '@material-ui/icons/List';
 import CategoryIcon from '@material-ui/icons/Category';
 import BuildIcon from '@material-ui/icons/Build';
@@ -141,36 +142,28 @@ const SideLeft = props => {
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItem>
+        <ListItem button component={GatsbyLink} to="/app/profile/">
+          <ListItemIcon>
+            <BuildIcon />
+          </ListItemIcon>
+          <ListItemText primary="Get Listed" />
+        </ListItem>
 
         {isUserLoggedIn ? (
-          <ListItem
-            button
-            onClick={() => {
-              toggleDrawer(!isDrawerOpen);
-              toggleCompanyScreen(!showCompanyScreen);
-            }}
-          >
-            <ListItemIcon>
-              <BuildIcon />
-            </ListItemIcon>
-            <ListItemText primary="Get Listed" />
-          </ListItem>
-        ) : (
-          <ListItem button component={GatsbyLink} to={'/app/login/'}>
-            <ListItemIcon>
-              <BuildIcon />
-            </ListItemIcon>
-            <ListItemText primary="Get Listed" />
-          </ListItem>
-        )}
-
-        {isUserLoggedIn ? (
-          <ListItem button component={GatsbyLink} to="/app/login/">
-            <ListItemIcon>
-              <LockOpenIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" onClick={() => logout()} />
-          </ListItem>
+          <>
+            <ListItem button component={GatsbyLink} to="/app/profile/">
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
+            <ListItem button component={GatsbyLink} to="/app/login/">
+              <ListItemIcon>
+                <LockOpenIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" onClick={() => logout()} />
+            </ListItem>
+          </>
         ) : (
           <ListItem button button component={GatsbyLink} to="/app/login/">
             <ListItemIcon>

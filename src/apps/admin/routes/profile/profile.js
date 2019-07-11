@@ -1,44 +1,42 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Query } from 'react-apollo';
-
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Hidden from '@material-ui/core/Hidden';
-import ListItem from '@material-ui/core/ListItem';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import BusinessIcon from '@material-ui/icons/Business';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { navigate } from '@reach/router';
-
-import { GET_PERSON_QUERY } from '../../../../graphql';
-import { MainListItems, secondaryListItems } from './listitems';
+import ProfileNav from '../../features/profile.navigation/';
 import { useUser } from '../../../../store/user-context';
 
-import EditAffiliation from '../../components/affiliation.edit';
+import styled from 'styled-components';
 
 import ProfileAffiliations from '../../features/profile.affiliations';
 
 import CreateCompanyScreen from '../company/index';
 
 export function UserProfile({ classes, ...props }) {
-  const [isOpen, toggleDrawerVisibility] = React.useState(true);
+  const [isOpen, toggleDrawerVisibility] = React.useState();
   const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
   const { logout } = useUser();
   const { data } = props;
   const { person, id: partyAccountId } = data;
+
+  // console.log('USER IN USERPROFILE DISPLAY,', data);
+  // console.log('PERSONM IN USERPROFILE DISPLAY,', person);
+
+  React.useEffect(() => {
+    const w = window,
+      d = document,
+      e = d.documentElement,
+      wx = w.innerWidth || e.clientWidth || g.clientWidth;
+    if (wx && wx < 480) {
+      toggleDrawerVisibility(false);
+    } else {
+      toggleDrawerVisibility(true);
+    }
+  }, []);
 
   const { name } = person;
   const displayName = name[0];
@@ -71,96 +69,44 @@ export function UserProfile({ classes, ...props }) {
             {displayName ? displayName.firstName : ''}{' '}
             {displayName ? displayName.lastName : ''}{' '}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={0} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
         </Toolbar>
       </AppBar>
-      <Hidden smUp>
-        <Drawer
-          variant="temporary"
-          classes={{
-            paper: classNames(
-              classes.drawerPaper,
-              !isOpen && classes.drawerPaperClose
-            ),
-          }}
-          open={isOpen}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={() => toggleDrawerVisibility(!isOpen)}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{MainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
-        </Drawer>
-      </Hidden>
-      <Hidden xsDown>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classNames(
-              classes.drawerPaper,
-              !isOpen && classes.drawerPaperClose
-            ),
-          }}
-          open={isOpen}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={() => toggleDrawerVisibility(!isOpen)}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <CreateCompanyScreen
-            open={showCompanyScreen}
-            onCancel={toggleCompanyScreen}
-            classes={classes}
-            {...props}
-          />
-          <List>
-            <ListItem button>
-              <ListItemIcon>
-                <BusinessIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Create Company"
-                onClick={() => toggleCompanyScreen(true)}
-              />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" onClick={() => logout()} />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>{secondaryListItems}</List>
-        </Drawer>
-      </Hidden>
+      <ProfileNav
+        classes={classes}
+        isOpen={isOpen}
+        toggleDrawerVisibility={toggleDrawerVisibility}
+        logout={logout}
+      />
 
-      <main className={classes.content}>
+      <StyledMain>
         <div className={classes.appBarSpacer} />
-        <div style={{ maxWidth: 600 }}>
+        <StyledWrapper>
           <Card>
             <CardContent>
-              {/* <EditAffiliation
-              affiliation={person.affiliation[0]}
-              classes={classes}
-            /> */}
-              <ProfileAffiliations affiliations={person.affiliation} />
+              <ProfileAffiliations person={person} />
             </CardContent>
           </Card>
-        </div>
-      </main>
+        </StyledWrapper>
+      </StyledMain>
     </div>
   );
 }
 
 export default UserProfile;
+
+const StyledWrapper = styled.main`
+  @media (min-width: 1080px) {
+    max-width: 600px;
+  }
+`;
+
+const StyledMain = styled.main`
+  flex-grow: 1;
+  padding: 8px;
+  height: 100vh;
+  overflow: auto;
+
+  @media (min-width: 480px) {
+    padding: 24px;
+  }
+`;
