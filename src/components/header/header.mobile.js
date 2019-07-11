@@ -26,7 +26,10 @@ import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
   const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
-  console.log('isDrawerOpen', isDrawerOpen);
+  const { data, logout } = useUser();
+  const { user } = data;
+
+  console.log('USER IN MOBILE', data);
   return (
     <React.Fragment>
       <div
@@ -59,6 +62,7 @@ export function MobileNav({ classes, siteTitle, ...props }) {
         open={showCompanyScreen}
         onCancel={toggleCompanyScreen}
         classes={classes}
+        user={user}
       />
 
       <SwipeableDrawer

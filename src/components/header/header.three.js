@@ -55,6 +55,7 @@ export function HeaderLeft({ sections, classes, ...props }) {
         open={showCompanyScreen}
         onCancel={toggleCompanyScreen}
         classes={classes}
+        user={user}
       />
       <div className={classes.sectionDesktop}>
         {sections &&

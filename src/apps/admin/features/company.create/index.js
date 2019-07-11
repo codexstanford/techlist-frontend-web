@@ -22,6 +22,7 @@ import Preview from './components/preview';
 import { Container, SectionWrapper } from '../../../../atoms';
 import * as Yup from 'yup';
 import styled from 'styled-components';
+import { ConsoleLogger } from '@aws-amplify/core';
 
 function useProps({ data, ...props }) {
   return {
@@ -32,6 +33,7 @@ function useProps({ data, ...props }) {
 
 export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
   const mutation = useMutation(CREATE_COMPANY_MUTATION);
+  console.log('comp', props);
   const createCompany = handleCreateCompany({
     mutation,
     user: props.user,
