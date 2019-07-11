@@ -13,6 +13,7 @@ import { useUser } from '../../../../store/user-context';
 import styled from 'styled-components';
 
 import ProfileAffiliations from '../../features/profile.affiliations';
+import ProfileCompanies from '../../features/profile.companies';
 
 import CreateCompanyScreen from '../company/index';
 
@@ -87,6 +88,11 @@ export function UserProfile({ classes, ...props }) {
               <ProfileAffiliations person={person} />
             </CardContent>
           </Card>
+          <Card>
+            <CardContent>
+              <ProfileCompanies user={data} />
+            </CardContent>
+          </Card>
         </StyledWrapper>
       </StyledMain>
     </div>
@@ -96,8 +102,10 @@ export function UserProfile({ classes, ...props }) {
 export default UserProfile;
 
 const StyledWrapper = styled.main`
+  display: flex;
+  justify-content: space-around;
   @media (min-width: 1080px) {
-    max-width: 600px;
+    max-width: 100%;
   }
 `;
 
