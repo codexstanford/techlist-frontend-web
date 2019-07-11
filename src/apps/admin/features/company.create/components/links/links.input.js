@@ -23,7 +23,7 @@ function CompanyLinksInput(props) {
               <Container key={index}>
                 <Field
                   name={`links.${index}.type`}
-                  component={StyledCompanyLinksSelect}
+                  component={CompanyLinksSelect}
                   classes={props.classes}
                   styles={{
                     paddingRight: '1rem',
@@ -84,10 +84,6 @@ const Container = styled.div`
   @media (max-width: 480px) {
     flex-direction: column;
   }
-`;
-
-const StyledCompanyLinksSelect = styled(CompanyLinksSelect)`
-  margin: 100px;
 `;
 
 const AddressAndButtonsContainer = styled.div`
