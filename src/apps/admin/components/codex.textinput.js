@@ -12,8 +12,6 @@ export default function CodeXTextField({
   value,
   ...rest
 }) {
-  const fieldErrors = errors[name];
-  const isTouched = touched[name];
   return (
     <>
       <Field
@@ -26,7 +24,7 @@ export default function CodeXTextField({
         value={value}
         {...rest}
       />
-      {fieldErrors && isTouched ? <div>{fieldErrors}</div> : null}
+      {/* {fieldErrors && isTouched ? <div>{fieldErrors}</div> : null} */}
     </>
   );
 }

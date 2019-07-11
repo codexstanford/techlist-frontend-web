@@ -19,14 +19,19 @@ import ListIcon from '@material-ui/icons/List';
 import CategoryIcon from '@material-ui/icons/Category';
 import BuildIcon from '@material-ui/icons/Build';
 import Link from '@material-ui/core/Link';
+import { navigate } from '@reach/router';
 
 import MainSearch from '../search';
-
 import { useUser } from '../../store/user-context';
+import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
+  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
+  const { data, logout } = useUser();
+  const { user } = data;
 
+  console.log('USER IN MOBILE', data);
   return (
     <React.Fragment>
       <div
@@ -55,12 +60,18 @@ export function MobileNav({ classes, siteTitle, ...props }) {
           <MenuIcon />
         </Button>
       </div>
+      <CreateCompanyScreen
+        open={showCompanyScreen}
+        onCancel={toggleCompanyScreen}
+        classes={classes}
+        user={user}
+      />
 
       <SwipeableDrawer
         anchor="top"
         open={isDrawerOpen}
-        onClose={toggleDrawer}
-        onOpen={toggleDrawer}
+        onClose={() => toggleDrawer(!isDrawerOpen)}
+        onOpen={() => toggleDrawer(!isDrawerOpen)}
       >
         <div
           tabIndex={0}
@@ -68,7 +79,14 @@ export function MobileNav({ classes, siteTitle, ...props }) {
           // onClick={this.toggleDrawer}
           // onKeyDown={this.toggleDrawer}
         >
-          <SideLeft classes={classes} {...props} />
+          <SideLeft
+            classes={classes}
+            {...props}
+            showCompanyScreen={showCompanyScreen}
+            toggleCompanyScreen={toggleCompanyScreen}
+            isDrawerOpen={isDrawerOpen}
+            toggleDrawer={toggleDrawer}
+          />
         </div>
       </SwipeableDrawer>
     </React.Fragment>
@@ -77,9 +95,17 @@ export function MobileNav({ classes, siteTitle, ...props }) {
 
 const SideLeft = props => {
   const { data, logout } = useUser();
-  console.log('DATA IN MOBILE HEADER', data);
-  const { classes, allSitePages } = props;
-  const isUserLoggedIn = data ? true : false;
+  const { user } = data;
+  const {
+    classes,
+    allSitePages,
+    showCompanyScreen,
+    toggleCompanyScreen,
+    isDrawerOpen,
+    toggleDrawer,
+  } = props;
+  const isUserLoggedIn = user ? true : false;
+
   return (
     <div style={{ minHeight: '50vh' }}>
       <List>
@@ -117,12 +143,29 @@ const SideLeft = props => {
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItem>
-        <ListItem button component={GatsbyLink} to="/app/profile/">
-          <ListItemIcon>
-            <BuildIcon />
-          </ListItemIcon>
-          <ListItemText primary="Get Listed" />
-        </ListItem>
+        {isUserLoggedIn ? (
+          <ListItem
+            button
+            onClick={() => {
+              toggleDrawer(!isDrawerOpen);
+              isUserLoggedIn
+                ? toggleCompanyScreen(!showCompanyScreen)
+                : navigate('/app/login/');
+            }}
+          >
+            <ListItemIcon>
+              <BuildIcon />
+            </ListItemIcon>
+            <ListItemText primary="Get Listed" />
+          </ListItem>
+        ) : (
+          <ListItem button component={GatsbyLink} to={'/app/login/'}>
+            <ListItemIcon>
+              <BuildIcon />
+            </ListItemIcon>
+            <ListItemText primary="Get Listed" />
+          </ListItem>
+        )}
 
         {isUserLoggedIn ? (
           <>

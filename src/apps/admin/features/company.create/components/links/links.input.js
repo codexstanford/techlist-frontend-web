@@ -12,7 +12,6 @@ import CodeXTextField from '../../../../components/codex.textinput';
 
 function CompanyLinksInput(props) {
   const { values, errors, touched, classes } = props;
-  // console.log('PROPS IN COMPANY LINKS: ', props);
 
   return (
     <FieldArray
@@ -24,50 +23,52 @@ function CompanyLinksInput(props) {
               <Container key={index}>
                 <Field
                   name={`links.${index}.type`}
-                  component={CompanyLinksSelect}
+                  component={StyledCompanyLinksSelect}
                   classes={props.classes}
                   styles={{
                     paddingRight: '1rem',
-
-                    minWidth: '150px',
+                    marginTop: 0,
                   }}
                 />
-                <CodeXTextField
-                  type="text"
-                  name={`links.${index}.payload`}
-                  errors={errors}
-                  touched={touched}
-                  value={values.links[index].payload}
-                  label="Address"
-                  style={{
-                    flexGrow: 2,
-                  }}
-                />
-                <Fab
-                  style={{ marginRight: '1px' }}
-                  size="small"
-                  aria-label="Delete"
-                  className={classes.fab}
-                  onClick={() => arrayHelpers.remove(index)}
-                >
-                  <DeleteIcon />
-                </Fab>
-                {values.links.length === index + 1 ? (
-                  <Fab
-                    onClick={() => arrayHelpers.push('')}
-                    size="small"
-                    color="primary"
-                    aria-label="Add"
-                    className={classes.fab}
-                  >
-                    <AddIcon />
-                  </Fab>
-                ) : null}
+                <AddressAndButtonsContainer>
+                  <CodeXTextField
+                    type="text"
+                    name={`links.${index}.payload`}
+                    errors={errors}
+                    touched={touched}
+                    value={values.links[index].payload}
+                    label="Address"
+                    style={{
+                      flexGrow: 2,
+                    }}
+                  />
+                  <ButtonsContainer>
+                    <Fab
+                      style={{ marginRight: '1px' }}
+                      size="small"
+                      aria-label="Delete"
+                      className={classes.fab}
+                      onClick={() => arrayHelpers.remove(index)}
+                    >
+                      <DeleteIcon />
+                    </Fab>
+                    {values.links.length === index + 1 ? (
+                      <Fab
+                        onClick={() => arrayHelpers.push('')}
+                        size="small"
+                        color="primary"
+                        aria-label="Add"
+                        className={classes.fab}
+                      >
+                        <AddIcon />
+                      </Fab>
+                    ) : null}
+                  </ButtonsContainer>
+                </AddressAndButtonsContainer>
               </Container>
             ))
           ) : (
             <button type="button" onClick={() => arrayHelpers.push('')}>
-              {/* show this when user has removed all friends from the list */}
               Add a friend
             </button>
           )}
@@ -80,6 +81,26 @@ function CompanyLinksInput(props) {
 const Container = styled.div`
   display: flex;
   margin-top: 1rem;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`;
+
+const StyledCompanyLinksSelect = styled(CompanyLinksSelect)`
+  margin: 100px;
+`;
+
+const AddressAndButtonsContainer = styled.div`
+  display: flex;
+  @media (max-width: 480px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+  }
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
 `;
 
 export default CompanyLinksInput;

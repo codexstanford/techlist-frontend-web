@@ -9,8 +9,7 @@ const defaultCreateCompanyMetadata = {
 };
 
 export function handleCreateCompany(props) {
-  console.log('called!');
-  const { mutation, user, ...rest } = props;
+  const { mutation, user, handleClose, ...rest } = props;
   return async (
     {
       name,
@@ -25,7 +24,6 @@ export function handleCreateCompany(props) {
     { setSubmitting }
   ) => {
     const { formatted_address, geometry, place_id } = locationjson;
-    console.log('called!', logo);
 
     try {
       const result = await mutation({
@@ -81,6 +79,11 @@ export function handleCreateCompany(props) {
                 },
               },
             },
+            admins: {
+              connect: {
+                id: user.id,
+              },
+            },
             metadata: {
               create: defaultCreateCompanyMetadata,
             },
@@ -88,6 +91,7 @@ export function handleCreateCompany(props) {
         },
       });
       setSubmitting(false);
+      handleClose();
       navigate('/app/profile/');
     } catch (error) {
       console.log(error);

@@ -2,6 +2,7 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import Paper from '@material-ui/core/Paper';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
@@ -17,21 +18,47 @@ export default function CreateCompanyScreen({
   classes,
   user,
   navigate,
+  open,
+  onCancel,
   ...rest
 }) {
-  if (!user) {
-    navigate('/app/login', {
-      redirect: '/app/company/',
-    });
-  }
-
   return (
-    <Container className={classes.main}>
-      <Dialog open={true} TransitionComponent={Transition} fullWidth={true}>
-        <DialogContent>
-          <CreateCompanyNew classes={classes} user={user} />
-        </DialogContent>
-      </Dialog>
-    </Container>
+    <Dialog
+      open={open !== undefined && open}
+      TransitionComponent={Transition}
+      fullWidth={true}
+      onBackdropClick={() => onCancel(!open)}
+      PaperComponent={PaperComponent}
+    >
+      <StyledDialogContent>
+        <CreateCompanyNew
+          classes={classes}
+          user={user}
+          handleClose={() => onCancel(!open)}
+        />
+      </StyledDialogContent>
+    </Dialog>
   );
 }
+
+const StyledDialogContent = styled(DialogContent)`
+  max-height: calc(100vh - 96px);
+  @media (max-width: 480px) {
+    padding: 10px;
+    max-height: 100vh;
+  }
+`;
+
+const PaperComponent = ({ children, ...props }) => {
+  return <StyledPaper>{children}</StyledPaper>;
+};
+
+const StyledPaper = styled(Paper)`
+  max-width: 100vh;
+  max-height: 90vh;
+  @media (max-width: 480px) {
+    min-width: 100vw;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+`;

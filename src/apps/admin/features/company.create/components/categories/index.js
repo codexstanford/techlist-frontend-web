@@ -10,9 +10,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import { StaticQuery, graphql } from 'gatsby';
 import { renderInput, renderSuggestion, getSuggestions } from './helpers';
+import formatCategory from './helpers/formatCategory';
 
 export function DownshiftMultiple(props) {
-  const { classes, options, setFieldValue } = props;
+  const { classes, options, setFieldValue, handleBlur } = props;
   const [inputValue, setInputValue] = React.useState('');
   const [selectedItem, setSelectedItem] = React.useState([]);
 
@@ -65,7 +66,7 @@ export function DownshiftMultiple(props) {
         selectedItem: selectedItem2,
         highlightedIndex,
       }) => {
-        const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
+        const { onChange, onFocus, ...inputProps } = getInputProps({
           onKeyDown: handleKeyDown,
           placeholder: 'Select multiple categories',
         });
@@ -75,24 +76,15 @@ export function DownshiftMultiple(props) {
             {renderInput({
               fullWidth: true,
               classes,
-              name: 'name',
+              name: 'categories',
               label: 'Categories',
               InputLabelProps: getLabelProps(),
               InputProps: {
-                startAdornment: selectedItem.map(item => (
-                  <Chip
-                    key={item.label}
-                    tabIndex={-1}
-                    label={item.label}
-                    className={classes.chip}
-                    onDelete={handleDelete(item)}
-                  />
-                )),
-                onBlur,
                 onChange: event => {
                   handleInputChange(event);
                   onChange(event);
                 },
+                onBlur: handleBlur,
                 onFocus,
               },
               inputProps,
@@ -111,6 +103,20 @@ export function DownshiftMultiple(props) {
                 )}
               </Paper>
             ) : null}
+            <div style={{ marginTop: 10 }}>
+              {selectedItem.map(item => (
+                <Chip
+                  key={item.label}
+                  tabIndex={-1}
+                  label={item.label && formatCategory(item.label)}
+                  className={classes.chip}
+                  onDelete={handleDelete(item)}
+                  style={{
+                    margin: '.25rem .25rem',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         );
       }}
@@ -125,7 +131,7 @@ DownshiftMultiple.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: 250,
+    minHeight: 70,
   },
   container: {
     flexGrow: 1,
@@ -134,7 +140,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: '1rem',
+    marginTop: '.5rem',
     left: 0,
     right: 0,
   },
@@ -158,14 +164,14 @@ let popperNode;
 function IntegrationDownshift(props) {
   const classes = useStyles();
 
-  const { setFieldValue } = props;
+  const { setFieldValue, handleBlur } = props;
 
   const { organizationCategories } = props.data.allTechList;
-  console.log('ORGS IN DS', organizationCategories);
 
   return (
     <div className={classes.root}>
       <DownshiftMultiple
+        handleBlur={handleBlur}
         classes={classes}
         options={organizationCategories.map(item => ({
           label: item.payload,

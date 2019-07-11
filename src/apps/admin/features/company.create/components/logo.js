@@ -10,61 +10,70 @@ export function Logo({
   classes,
   setImage,
   setFieldValue,
+  handleBlur,
   values,
   ...rest
 }) {
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <StyledInput
-          onChange={e => {
-            e.stopPropagation();
-            e.preventDefault();
+    <InputContainer>
+      <StyledInput
+        name="logo"
+        onBlur={handleBlur}
+        onChange={e => {
+          e.stopPropagation();
+          e.preventDefault();
 
-            const fileReader = new FileReader();
-            fileReader.onloadend = e => {
-              const content = fileReader.result;
-              setFieldValue('logo', content);
-              setImage(content);
-            };
-            if (e.target.files.length > 0) {
-              fileReader.readAsDataURL(e.target.files[0]);
-            }
-          }}
-        />
-        <label htmlFor="avatar">
-          <Fab
-            style={{
-              margin: 10,
-              width: 400,
-              height: 300,
-              borderRadius: '5px',
-            }}
-          >
-            <label htmlFor="avatar">
-              <Avatar
-                style={{
-                  width: 400,
-                  height: 300,
-                  borderRadius: '5px',
-                }}
-                src={values.logo}
-                imgProps={{
-                  style: {
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    width: 400,
-                    height: 300,
-                  },
-                }}
-              />
-            </label>
-          </Fab>
-        </label>
-      </div>
-    </div>
+          const fileReader = new FileReader();
+          fileReader.onloadend = e => {
+            const content = fileReader.result;
+            setFieldValue('logo', content);
+            setImage(content);
+          };
+          if (e.target.files.length > 0) {
+            fileReader.readAsDataURL(e.target.files[0]);
+          }
+        }}
+      />
+      <InputLabel htmlFor="avatar">
+        <StyledFab>
+          <label htmlFor="avatar">
+            <Avatar
+              style={{
+                minWidth: 250,
+                minHeight: 200,
+                borderRadius: '5px',
+                padding: 10,
+              }}
+              src={values.logo}
+              imgProps={{
+                style: {
+                  height: '100%',
+                  objectFit: 'contain',
+                },
+              }}
+            />
+          </label>
+        </StyledFab>
+      </InputLabel>
+    </InputContainer>
   );
 }
+
+const InputContainer = styled.div`
+  width: 100%;
+`;
+
+const InputLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  min-width: 250px;
+`;
+
+const StyledFab = styled(Fab)`
+  min-width: 250px;
+  min-height: 200px;
+  border-radius: 5px;
+`;
 
 const StyledInput = styled.input.attrs({
   type: 'file',

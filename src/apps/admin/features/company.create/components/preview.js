@@ -11,6 +11,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     marginTop: '1rem',
     marginBottom: '1rem',
+    minHeight: '8rem',
+    '@media(max-width: 480px)': {
+      flexDirection: 'column',
+    },
   },
   details: {
     display: 'flex',
@@ -18,10 +22,20 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flex: '1 0 auto',
+    maxWidth: 212,
+  },
+  root: {
+    backgroundSize: '100%',
   },
   cover: {
-    width: 151,
-    height: 151,
+    minWidth: '6rem',
+    maxHeight: '6rem',
+    margin: 5,
+    '@media(max-width: 480px)': {
+      flexDirection: 'column',
+      maxWidth: '6rem',
+      minHeight: '6rem',
+    },
   },
   controls: {
     display: 'flex',
@@ -41,7 +55,9 @@ export function CompanyCreatePreview({ values }) {
 
   return (
     <Card className={cardClasses.card}>
-      <CardMedia className={cardClasses.cover} image={logo} title={'test'} />
+      {logo && (
+        <CardMedia className={cardClasses.cover} image={logo} title={'test'} />
+      )}
       <div className={cardClasses.details}>
         <CardContent>
           <Typography

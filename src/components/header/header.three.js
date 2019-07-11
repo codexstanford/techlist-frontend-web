@@ -11,10 +11,12 @@ import Avatar from '@material-ui/core/Avatar';
 import { Query } from 'react-apollo';
 import { useUser } from '../../store/user-context';
 import gql from 'graphql-tag';
+import CreateCompanyScreen from '../../apps/admin/routes/company/index';
+import { navigate } from '@reach/router';
 
 export function HeaderLeft({ sections, classes, ...props }) {
+  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const { data, logout } = useUser();
-  console.log('DATA IN HEADER THREE:', data);
   const { user } = data;
 
   // useEffect(() => {
@@ -48,6 +50,12 @@ export function HeaderLeft({ sections, classes, ...props }) {
 
   return (
     <React.Fragment>
+      <CreateCompanyScreen
+        open={showCompanyScreen}
+        onCancel={toggleCompanyScreen}
+        classes={classes}
+        user={user}
+      />
       <div className={classes.sectionDesktop}>
         {sections &&
           sections.map(section => {
@@ -70,9 +78,11 @@ export function HeaderLeft({ sections, classes, ...props }) {
             variant="outlined"
             size="small"
             aria-label="Get Listed"
-            component={props => (
-              <Link to="/app/profile/" component={GatsbyLink} {...props} />
-            )}
+            onClick={() =>
+              user
+                ? toggleCompanyScreen(!showCompanyScreen)
+                : navigate('/app/login/')
+            }
             style={{
               marginLeft: '10px',
             }}

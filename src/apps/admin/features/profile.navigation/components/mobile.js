@@ -10,7 +10,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { navigate } from '@reach/router';
+import CreateCompanyScreen from '../../../routes/company';
 
 function DesktopProfileNavigation({
   classes,
@@ -20,9 +20,18 @@ function DesktopProfileNavigation({
   isClosed,
   toggleDrawerVisibility,
   logout,
+  user,
 }) {
+  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
+
   return (
     <>
+      <CreateCompanyScreen
+        open={showCompanyScreen}
+        onCancel={toggleCompanyScreen}
+        classes={classes}
+        user={user}
+      />
       <Drawer
         variant="temporary"
         classes={{
@@ -46,7 +55,7 @@ function DesktopProfileNavigation({
             </ListItemIcon>
             <ListItemText
               primary="Create Company"
-              onClick={() => navigate('/app/company/')}
+              onClick={() => toggleCompanyScreen(!showCompanyScreen)}
             />
           </ListItem>
           <ListItem button>
