@@ -31,13 +31,19 @@ function useProps({ data, ...props }) {
   };
 }
 
-export function CreateCompany({ handleCompanyCreate, classes, ...props }) {
+export function CreateCompany({
+  handleCompanyCreate,
+  handleClose,
+  classes,
+  ...props
+}) {
   const mutation = useMutation(CREATE_COMPANY_MUTATION);
-  console.log('comp', props);
   const createCompany = handleCreateCompany({
     mutation,
     user: props.user,
+    handleClose,
   });
+
   const { data, loading, error } = useQuery(GET_COMPANY_TARGET_MARKETS);
   const [image, setImage] = React.useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'

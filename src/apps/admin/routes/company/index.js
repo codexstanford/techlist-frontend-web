@@ -31,7 +31,11 @@ export default function CreateCompanyScreen({
       PaperComponent={PaperComponent}
     >
       <StyledDialogContent>
-        <CreateCompanyNew classes={classes} user={user} />
+        <CreateCompanyNew
+          classes={classes}
+          user={user}
+          handleClose={() => onCancel(!open)}
+        />
       </StyledDialogContent>
     </Dialog>
   );

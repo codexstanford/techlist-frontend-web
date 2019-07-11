@@ -4,7 +4,14 @@ import CompanyTargetMarketSelect from './select';
 import { Field } from 'formik';
 import styled from 'styled-components';
 
-export function Basics({ errors, touched, classes, targetMarkets, ...rest }) {
+export function Basics({
+  errors,
+  touched,
+  classes,
+  targetMarkets,
+  handleBlur,
+  ...rest
+}) {
   return (
     <div
       style={{
