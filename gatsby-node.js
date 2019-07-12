@@ -147,7 +147,6 @@ exports.sourceNodes = async ({
       .then(data => data.json())
       .then(json => {
         const { value: articles } = json;
-        console.log(articles.length);
         articles.forEach((item, index) => {
           if (!item.image) {
             return;
@@ -165,7 +164,7 @@ exports.sourceNodes = async ({
             content: item.description,
             title: item.name,
             description: item.description,
-            imageUrl: item.image.thumbnail.contentUrl,
+            imageUrl: item.image.thumbnail.contentUrl.split('&')[0],
             link: item.url,
             pubDate: item.datePublished,
             sourceName: item.provider.name,
