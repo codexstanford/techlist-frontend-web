@@ -11,6 +11,17 @@ export default theme => ({
       paddingRight: 0,
     },
   },
+  mainFeaturedPostContentSmall: {
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1.5rem',
+    },
+  },
+  mainFeaturedPostContentSmallSub: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: '12px',
+      fontSize: '1rem',
+    },
+  },
   mainGrid: {
     marginTop: theme.spacing.unit * 3,
   },
