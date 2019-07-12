@@ -47,7 +47,7 @@ export function Basics({
           label="Date Founded"
           fullWidth={false}
         />
-        <div>
+        <TargetMarketsWrapper>
           <Field
             name="targetMarkets"
             component={CompanyTargetMarketSelect}
@@ -64,7 +64,7 @@ export function Basics({
             }
             label="Target Markets"
           />
-        </div>
+        </TargetMarketsWrapper>
       </FlexLayoutMobile>
     </div>
   );
@@ -75,4 +75,8 @@ const FlexLayoutMobile = styled.div`
   @media (max-width: 480px) {
     flex-direction: column;
   }
+`;
+
+const TargetMarketsWrapper = styled.div`
+  margin-left: 2rem;
 `;

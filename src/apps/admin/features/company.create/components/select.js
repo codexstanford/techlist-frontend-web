@@ -69,8 +69,4 @@ const StyledFormControl = styled(FormControl)`
   padding-right: 1rem;
   min-width: 150px;
   margin-top: 15px;
-  margin-left: 2rem;
-  @media (max-width: 480px) {
-    margin-left: 0;
-  }
 `;
