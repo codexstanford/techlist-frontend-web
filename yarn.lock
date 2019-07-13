@@ -13168,11 +13168,12 @@ preserve@^0.2.0:
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
 
-prettier-plugin-import-sanity@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-import-sanity/-/prettier-plugin-import-sanity-0.0.1.tgz#bac4f3450a7d7850d67223e0eda317410e451c2c"
-  integrity sha512-As3e2s402KK8jzoj2aFzykQO0OGH1BjHE4Oh3V8CNH0UKZi4e25j7wLPpP2G/jFZuRc6XkezCCx8NSF9Wh5cBw==
+prettier-plugin-import-sanity@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-import-sanity/-/prettier-plugin-import-sanity-0.0.2.tgz#38a99caed13a0841934b2e1f9fd5fc3541eafa4c"
+  integrity sha512-ph1GsIQm4PyzADSFMCcZQUvRFx5OCa/2mwxesTWOEWGvftNJ73PuwIaQJif1TTip2Rlw7TbBgOGzL2NYZoqJeA==
   dependencies:
+    "@babel/generator" "^7.5.0"
     jscodeshift "^0.6.4"
 
 prettier@^1.16.4:

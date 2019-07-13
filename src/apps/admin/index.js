@@ -31,6 +31,7 @@ function App(props) {
           path="/app/profile/"
           component={Profile}
           logout={logout}
+          user={data.user}
           {...props}
         />
         <Create
