@@ -14,6 +14,7 @@ export function Hero(props) {
           <Grid item md={6}>
             <div className={classes.mainFeaturedPostContent}>
               <Link
+                className={classes.mainFeaturedPostContentSmall}
                 href={data.link}
                 color="inherit"
                 underline="none"
@@ -23,7 +24,12 @@ export function Hero(props) {
                 {title}
               </Link>
 
-              <Typography variant="h5" color="inherit" paragraph>
+              <Typography
+                className={classes.mainFeaturedPostContentSmallSub}
+                variant="h5"
+                color="inherit"
+                paragraph
+              >
                 {description}
               </Typography>
             </div>
