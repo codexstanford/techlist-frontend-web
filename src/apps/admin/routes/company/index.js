@@ -47,6 +47,15 @@ const StyledDialogContent = styled(DialogContent)`
     padding: 10px;
     max-height: 100vh;
   }
+  @media (min-width: 1000px) {
+    width: 800px;
+  }
+  @media (min-width: 1200px) {
+    width: 1000px;
+  }
+  @media (min-width: 1600px) {
+    width: 1400px;
+  }
 `;
 
 const PaperComponent = ({ children, ...props }) => {
