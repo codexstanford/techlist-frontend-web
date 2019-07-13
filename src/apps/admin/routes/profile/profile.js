@@ -19,8 +19,7 @@ import CreateCompanyScreen from '../company/index';
 
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState();
-  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
-  const { user, logout } = useUser();
+  const { logout } = useUser();
   const { data } = props;
   const { person, id: partyAccountId } = data;
 
@@ -77,7 +76,7 @@ export function UserProfile({ classes, ...props }) {
         isOpen={isOpen}
         toggleDrawerVisibility={toggleDrawerVisibility}
         logout={logout}
-        user={user}
+        user={props.user}
       />
 
       <StyledMain>
