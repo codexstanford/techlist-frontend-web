@@ -15,8 +15,6 @@ import { useUser, UserProvider } from '../../store/user-context';
 function App(props) {
   const { login, data, logout, register, getUser } = useUser();
 
-  console.log('ADMIN INDEX USER:', data);
-  console.log('ADMIN INDEX PROPS:', props);
   return (
     <Layout
       {...props}

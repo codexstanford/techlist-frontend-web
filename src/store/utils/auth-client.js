@@ -39,6 +39,7 @@ async function getUser() {
   if (!token) {
     return Promise.resolve(null);
   }
+
   const client = new GraphQLClient(process.env.GATSBY_GRAPHQL_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${token}`,

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import ListItemText from '@material-ui/core/ListItemText';
 import renderPrimaryContent from './primary';
 import renderSecondaryContent from './secondary';
+import ListItem from '@material-ui/core/ListItem';
 
 const useStyles = makeStyles(() => ({
   listItem: {
@@ -14,7 +15,7 @@ export function CompanyContent({ company, ...props }) {
   const classes = useStyles();
   return (
     <>
-      <ListItemText
+      <ListItem
         className={classes.listItem}
         primary={renderPrimaryContent({ company })}
         secondary={renderSecondaryContent({ company })}

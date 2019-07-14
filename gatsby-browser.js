@@ -32,9 +32,8 @@ const client = configureApolloClient();
 export const registerServiceWorker = () => true;
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
-  console.log('new pathname', location.pathname);
-  console.log('old pathname', prevLocation ? prevLocation.pathname : null);
-
+  // console.log('new pathname', location.pathname);
+  // console.log('old pathname', prevLocation ? prevLocation.pathname : null);
   // Track pageview with google analytics
 };
 
@@ -52,9 +51,9 @@ export const wrapRootElement = ({ element }) => {
 
 // Page Transitions
 export const onPreRouteUpdate = ({ location, prevLocation }) => {
-  console.log('Gatsby started to change location to', location.pathname);
-  console.log(
-    'Gatsby started to change location from',
-    prevLocation ? prevLocation.pathname : null
-  );
+  // console.log('Gatsby started to change location to', location.pathname);
+  // console.log(
+  //   'Gatsby started to change location from',
+  //   prevLocation ? prevLocation.pathname : null
+  // );
 };

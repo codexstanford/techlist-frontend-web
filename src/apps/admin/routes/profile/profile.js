@@ -15,16 +15,11 @@ import styled from 'styled-components';
 import ProfileAffiliations from '../../features/profile.affiliations';
 import ProfileCompanies from '../../features/profile.companies';
 
-import CreateCompanyScreen from '../company/index';
-
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState();
   const { logout } = useUser();
   const { data } = props;
   const { person, id: partyAccountId } = data;
-
-  // console.log('USER IN USERPROFILE DISPLAY,', data);
-  // console.log('PERSONM IN USERPROFILE DISPLAY,', person);
 
   React.useEffect(() => {
     const w = window,

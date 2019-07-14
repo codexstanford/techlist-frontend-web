@@ -1,10 +1,7 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { styles } from './styles';
 import UserProfile from './profile';
 import CreateProfile from '../../../admin/routes/auth/profile';
 import { Mutation } from 'react-apollo';
-import { useUser } from '../../../../store/user-context';
 import { useQuery } from 'react-apollo-hooks';
 
 import {
@@ -13,11 +10,6 @@ import {
 } from '../../../../graphql';
 
 export const UserProfileWithGraphQL = props => {
-  // const { data } = useUser();
-  // console.log('DATA IN USER PROFILE CONTROLLER:', data);
-  // const { person } = data.user;
-  // console.log('PERSON IN PROFILE CONTROLLER', person);
-
   const { data, loading, error } = useQuery(GET_CURRENT_USER_QUERY);
   if (loading) {
     return null;
@@ -26,12 +18,11 @@ export const UserProfileWithGraphQL = props => {
     console.log(error);
     return null;
   }
-  console.log('qdata', data);
+
   const { me } = data;
   const { person, id } = me;
 
   if (person.metadata.isDraft === true) {
-    console.log('***CREATE PROFILE***');
     return (
       <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
         {mutation => {
@@ -42,11 +33,8 @@ export const UserProfileWithGraphQL = props => {
       </Mutation>
     );
   } else if (person.metadata.isDraft === false) {
-    console.log('***USER PROFILE***');
     return <UserProfile data={me} me={me} {...props} />;
-  } else {
-    console.log('ELSE CLAUSE HIT!');
   }
 };
 
-export default withStyles(styles)(UserProfileWithGraphQL);
+export default UserProfileWithGraphQL;

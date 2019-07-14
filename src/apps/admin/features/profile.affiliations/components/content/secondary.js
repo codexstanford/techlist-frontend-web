@@ -9,7 +9,7 @@ function renderAffiliationSecondaryContent({ affiliation }) {
       <span>{`${formatDateString(affiliation.fromDate)} to ${formatDateString(
         affiliation.throughDate
       )} `}</span>
-      <p>{`${affiliation.description}`}</p>
+      {`${affiliation.description}`}
     </div>
   );
 }

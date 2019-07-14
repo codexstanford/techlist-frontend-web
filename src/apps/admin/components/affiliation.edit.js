@@ -97,11 +97,15 @@ function EditAffiliation({
             confirmText="Save"
             cancelText="Cancel"
             onClose={() => toggleEditing(false)}
+            onCancel={() => {}}
             onConfirm={submitForm}
             open={isEditing}
-            title={`Edit your affiliation with ${
-              affiliation.organization.name[0].payload
-            }`}
+            title={
+              <>
+                `Edit your affiliation with $
+                {affiliation.organization.name[0].payload}`
+              </>
+            }
           >
             <Container>
               <div style={{ display: 'flex' }}>
@@ -177,9 +181,9 @@ EditAffiliation.propTypes = {
   affiliation: PropTypes.shape({
     id: PropTypes.string,
     fromDate: PropTypes.string,
-    throughDate: PropTypes.oneOfType(['string', 'null']),
-    role: PropTypes.oneOfType(['string', 'null']),
-    title: PropTypes.oneOfType(['string', 'null']),
+    throughDate: PropTypes.string,
+    role: PropTypes.PropTypes.string,
+    title: PropTypes.PropTypes.string,
     organization: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.arrayOf(

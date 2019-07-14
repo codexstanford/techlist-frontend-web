@@ -17,7 +17,7 @@ export function renderAffiliation({ affiliation, hasDivider = true }) {
   const classes = useStyles();
   return (
     <>
-      <ListItem>
+      <ListItem key={affiliation.id} component="div">
         <AffiliationAvatar affiliation={affiliation} />
         <AffiliationContent affiliation={affiliation} />
         <AffiliationControls affiliation={affiliation} />

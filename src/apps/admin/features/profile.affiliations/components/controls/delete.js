@@ -38,6 +38,7 @@ function DeleteAffiliation({
       open={isDeleting}
       onConfirm={deleteAffiliation}
       onClose={() => toggleDelete(false)}
+      onCancel={() => {}}
     >
       Test
     </Confirm>

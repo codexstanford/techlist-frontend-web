@@ -31,6 +31,7 @@ function DeleteCompany({ isDeleting, toggleDelete, company, ...props }) {
       open={isDeleting}
       onConfirm={deleteCompany}
       onClose={() => toggleDelete(false)}
+      onCancel={() => {}}
     >
       Test
     </Confirm>

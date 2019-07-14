@@ -3,7 +3,6 @@ import { useAsync } from 'react-async';
 import * as authClient from './utils/auth-client';
 import { bootstrapAppData } from './utils/bootstrap';
 import FullPageSpinner from '../atoms/spinner';
-import { LOCAL_STORAGE_KEY } from './utils/const';
 
 const AuthContext = React.createContext();
 
@@ -43,7 +42,7 @@ function AuthProvider(props) {
   const register = form => authClient.register(form).then(reload);
   const logout = () => authClient.logout().then(reload);
   const confirm = form => authClient.confirm(form).then(reload);
-  console.log('PROPS IN AUTHPROVIDER', props);
+
   return (
     <AuthContext.Provider
       value={{ data, login, logout, register, confirm }}
@@ -57,7 +56,6 @@ function useAuth() {
   if (context === undefined) {
     throw new Error(`useAuth must be used within a AuthProvider`);
   }
-  console.log('AUTH CONTEXT:', context);
   return context;
 }
 export { AuthProvider, useAuth };

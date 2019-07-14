@@ -32,10 +32,11 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
           <Confirm
             confirmText="Save"
             cancelText="Cancel"
+            onCancel={() => {}}
             onClose={() => toggleEditing(false)}
             onConfirm={submitForm}
             open={isEditing}
-            title={`Edit your company with ${company.name[0].payload}`}
+            title={<>`Edit your company with ${company.name[0].payload}`</>}
           >
             <Container>
               <CodeXTextField
@@ -69,13 +70,13 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
   );
 }
 
-EditCompany.propTypes = {
-  company: PropTypes.shape({
-    id: PropTypes.string,
-    role: PropTypes.oneOfType(['string', 'null']),
-    title: PropTypes.oneOfType(['string', 'null']),
-  }),
-};
+// EditCompany.propTypes = {
+//   company: PropTypes.shape({
+//     id: PropTypes.string,
+//     role: PropTypes.PropTypes.string,
+//     title: PropTypes.PropTypes.string,
+//   }),
+// };
 
 export default EditCompany;
 
