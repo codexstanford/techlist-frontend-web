@@ -6,7 +6,8 @@ import apolloLogger from 'apollo-link-logger';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { setContext } from 'apollo-link-context';
-import { BatchHttpLink } from 'apollo-link-batch-http';
+import { createHttpLink } from 'apollo-link-http';
+
 import { getUser, getToken } from './utils/auth-client';
 
 const clientCache = new InMemoryCache({
@@ -16,19 +17,22 @@ const clientCache = new InMemoryCache({
 /* tslint:no-shadow off */
 
 const httpLink = process.browser
-  ? createPersistedQueryLink().concat(
-      new BatchHttpLink({
-        uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
-        fetch: fetch,
-      })
-    )
-  : createPersistedQueryLink().concat(
-      new BatchHttpLink({
-        uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
-        // uri: 'http://localhost:4000',
-        fetch: fetch,
-      })
-    );
+  ? createHttpLink({
+      uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
+      credentials: 'same-origin',
+
+      useGETForQueries: true,
+      includeExtensions: true,
+    })
+  : createHttpLink({
+      uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
+      useGETForQueries: true,
+      credentials: 'same-origin',
+      // uri: 'http://localhost:4000',
+      includeExtensions: true,
+
+      fetch: fetch,
+    });
 
 const asyncAuthLink = setContext(
   (_, { headers }) =>

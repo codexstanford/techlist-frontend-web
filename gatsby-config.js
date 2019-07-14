@@ -56,6 +56,11 @@ module.exports = {
               );
               const client = createHttpLink({
                 uri: config.api.graphql.endpoint,
+                useGETForQueries: true,
+                credentials: 'same-origin',
+                fetchOptions: {
+                  method: 'GET',
+                },
                 headers: {
                   authorization: `Bearer ${token.jwt}`,
                   'apollo-client-name': process.env.GATSBY_APPLICATION_NAME,

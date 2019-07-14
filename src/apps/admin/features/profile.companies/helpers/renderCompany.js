@@ -16,7 +16,7 @@ export function renderCompany({ company, hasDivider = true }) {
   const classes = useStyles();
   return (
     <>
-      <ListItem>
+      <ListItem key={company.id}>
         <CompanyAvatar company={company} />
         <CompanyContent company={company} />
         <CompanyControls company={company} />
