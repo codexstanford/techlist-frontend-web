@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   cover: {
     minWidth: '6rem',
     maxHeight: '6rem',
-    margin: 5,
+    marginLeft: 10,
+    marginTop: 10,
     '@media(max-width: 480px)': {
       flexDirection: 'column',
       maxWidth: '6rem',
