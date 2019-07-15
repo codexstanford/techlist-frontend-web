@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 import { navigate } from '@reach/router';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
+import { useQuery, useMutation } from 'react-apollo-hooks';
+import { GET_COMPANY_TARGET_MARKETS } from '../../graphql/queries';
 
 export function formatCompanyFoundedDate(date) {
   if (date === undefined) {
@@ -22,7 +24,7 @@ export function formatBingNewsPublishedDate(date) {
 }
 
 export function formatCompanyCategories(categories) {
-  if (categories === undefined) {
+  if (categories === undefined || '') {
     return;
   }
   return categories.map(item => {
@@ -51,30 +53,47 @@ export function toTitleCase(str) {
 }
 
 export function formatCompanyTargetMarkets(company) {
-  if (company.targetMarkets === undefined) {
+  if (company.targetMarkets === undefined || company.targetMarkets === '') {
     return null;
   }
-  return company.targetMarkets.map(item => {
+
+  let targetMarkets = company.targetMarkets;
+
+  if (typeof targetMarkets === 'string') {
+    const { data, loading, error } = useQuery(GET_COMPANY_TARGET_MARKETS);
+    const { organizationTargetMarkets } = data;
+
+    organizationTargetMarkets.forEach(item => {
+      if (targetMarkets === item.id) {
+        targetMarkets = [item];
+      }
+    });
+  }
+
+  return targetMarkets.map(item => {
     return (
       <Chip
         color="primary"
         key={item.id}
-        label={toTitleCase(item.name.split('_').join(' '))}
+        label={toTitleCase(item.payload.split('_').join(' '))}
       />
     );
   });
 }
 
 export function formatCompanyOperatingModels(company) {
-  return (
-    company.operatingModels
-      // .filter(item => item.name !== 'UNKNOWN')
-      .map(item => {
-        return (
-          <Chip color="primary" key={item.id} label={toTitleCase(item.name)} />
-        );
-      })
-  );
+  if (company.categories !== undefined) {
+    return company.categories.map(item => {
+      return (
+        <Chip
+          color="primary"
+          key={item.id}
+          label={toTitleCase(item.label ? item.label : item.payload)}
+          style={{ margin: 2 }}
+        />
+      );
+    });
+  }
 }
 
 export function formatCompanyLink(link) {
