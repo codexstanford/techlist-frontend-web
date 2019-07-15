@@ -79,4 +79,7 @@ const FlexLayoutMobile = styled.div`
 
 const TargetMarketsWrapper = styled.div`
   margin-left: 2rem;
+  @media (max-width: 480px) {
+    margin-left: 0;
+  }
 `;
