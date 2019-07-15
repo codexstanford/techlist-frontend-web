@@ -74,18 +74,6 @@ export function CompanyCreatePreview({ values }) {
               `(${new Date(values.yearFounded).getYear() + 1900})`}
           </Typography>
           <Typography
-            variant="subtitle1"
-            component="subtitle1"
-            color="black"
-            style={{
-              letterSpacing: '-.5px',
-              textDecoration: 'none',
-              lineHeight: 1.35,
-            }}
-          >
-            {values.description}
-          </Typography>
-          <Typography
             variant="body2"
             component="body2"
             color="primary"
@@ -96,6 +84,18 @@ export function CompanyCreatePreview({ values }) {
           >
             {values.locationjson.formatted_address &&
               `${values.locationjson.formatted_address}`}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            component="subtitle1"
+            color="black"
+            style={{
+              letterSpacing: '-.5px',
+              textDecoration: 'none',
+              lineHeight: 1.35,
+            }}
+          >
+            {values.description}
           </Typography>
         </CardContent>
       </div>
