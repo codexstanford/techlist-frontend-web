@@ -27,6 +27,7 @@ function CompanyLinksInput(props) {
                   classes={props.classes}
                   styles={{
                     paddingRight: '1rem',
+                    minWidth: '250px',
                     marginTop: 0,
                   }}
                 />
@@ -80,6 +81,7 @@ function CompanyLinksInput(props) {
 
 const Container = styled.div`
   display: flex;
+  flex-grow: 1;
   margin-top: 1rem;
   @media (max-width: 480px) {
     flex-direction: column;
@@ -88,6 +90,7 @@ const Container = styled.div`
 
 const AddressAndButtonsContainer = styled.div`
   display: flex;
+  flex-grow: 2;
   @media (max-width: 480px) {
     display: flex;
     justify-content: space-around;
