@@ -6,7 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import styled from 'styled-components';
-import CompanyContact from '../../../../../templates/company/contact';
+import { CompanyContact } from '../../../../../templates/company/contact';
+import { CompanyIntelligence } from '../../../../../templates/company/intelligence';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -100,8 +101,16 @@ export function CompanyCreatePreview({ values }) {
           >
             {values.description}
           </Typography>
+
+          <CompanyIntelligenceContainer>
+            <CompanyIntelligence company={values} classes={cardClasses} />
+          </CompanyIntelligenceContainer>
           <CompanyContactContainer>
-            <CompanyContact links={values.links} name={values.name} />
+            <CompanyContact
+              links={values.links}
+              name={values.name}
+              classes={cardClasses}
+            />
           </CompanyContactContainer>
         </CardContent>
       </div>
@@ -111,7 +120,18 @@ export function CompanyCreatePreview({ values }) {
 
 const CompanyContactContainer = styled.div`
   margin-top: 10px;
-  max-width: 250px;
 `;
 
+const CompanyIntelligenceContainer = styled.div`
+  margin-top: 10px;
+`;
+
+const FlexLayoutMobile = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`;
 export default CompanyCreatePreview;
