@@ -63,6 +63,8 @@ module.exports = {
                 },
                 headers: {
                   authorization: `Bearer ${token.jwt}`,
+                  Origin: 'http://localhost:8000',
+                  'Content-Type': 'application/json',
                   'apollo-client-name': process.env.GATSBY_APPLICATION_NAME,
                   'apollo-client-version':
                     process.env.GATSBY_APPLICATION_VERSION,
