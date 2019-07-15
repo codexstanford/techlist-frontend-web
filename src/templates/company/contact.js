@@ -21,7 +21,7 @@ export function validateCompanyWebsiteUrl(url) {
   return url;
 }
 
-export default function CompanyContact({ links, name, ...rest }) {
+export function CompanyContact({ classes, links, name, ...rest }) {
   const getIcon = linkType => {
     switch (linkType) {
       case 'UrlTwitter':
@@ -38,7 +38,7 @@ export default function CompanyContact({ links, name, ...rest }) {
   };
 
   return (
-    <Card>
+    <Card classes={classes}>
       <CardContent>
         <Typography component="h3" variant="h6" gutterBottom>
           Company Contacts
@@ -53,12 +53,14 @@ export default function CompanyContact({ links, name, ...rest }) {
                     href={validateCompanyWebsiteUrl(link.payload)}
                     target="_blank"
                   >
-                    <FontAwesomeIcon
-                      size="lg"
-                      icon={faGlobe}
-                      style={{ marginRight: 10 }}
-                    />
-                    {name} Website
+                    <>
+                      <FontAwesomeIcon
+                        size="lg"
+                        icon={faGlobe}
+                        style={{ marginRight: 10 }}
+                      />
+                      {name} Website
+                    </>
                   </Link>
                 }
               />

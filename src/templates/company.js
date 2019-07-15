@@ -248,8 +248,11 @@ class CompanyTemplate extends React.Component {
                       </>
                     )}
                 </Card>
-                {/* <CompanyIntelligence classes={classes} company={company} />
-                <CompanyContact classes={classes} company={company} /> */}
+                <CompanyIntelligence classes={classes} company={organization} />
+                <CompanyContact
+                  links={organization.links}
+                  name={organization.name[0].payload}
+                />
               </Grid>
               <Grid item md={4}>
                 <CompanyNews classes={classes} company={organization} />
@@ -319,6 +322,7 @@ export const pageQuery = graphql`
         description
 
         targetMarkets {
+          id
           payload
         }
         links {
