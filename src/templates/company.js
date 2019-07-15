@@ -59,8 +59,6 @@ class CompanyTemplate extends React.Component {
     } = this.props;
     const { organization } = allTechList;
 
-    console.log(organization);
-
     if (organization === null) {
       return null;
     }

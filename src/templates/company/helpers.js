@@ -76,3 +76,9 @@ export function formatCompanyOperatingModels(company) {
       })
   );
 }
+
+export function formatCompanyLink(link) {
+  return link
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, str => str.toUpperCase());
+}
