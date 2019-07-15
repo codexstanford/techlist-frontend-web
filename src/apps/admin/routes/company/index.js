@@ -9,12 +9,13 @@ import Slide from '@material-ui/core/Slide';
 import styled from 'styled-components';
 import { Container, SectionWrapper } from '../../../../atoms';
 import CreateCompanyNew from '../../features/company.create';
+import Clear from '@material-ui/icons/Clear';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CreateCompanyScreen({
+function CreateCompanyScreen({
   classes,
   user,
   navigate,
@@ -36,6 +37,7 @@ export default function CreateCompanyScreen({
           user={user}
           handleClose={() => onCancel(!open)}
         />
+        <MobileExit onClick={() => onCancel(!open)} />
       </StyledDialogContent>
     </Dialog>
   );
@@ -44,8 +46,22 @@ export default function CreateCompanyScreen({
 const StyledDialogContent = styled(DialogContent)`
   max-height: calc(100vh - 96px);
   @media (max-width: 480px) {
+    position: relative;
     padding: 10px;
     max-height: 100vh;
+  }
+`;
+
+const MobileExit = styled(Clear)`
+  display: none;
+  @media (max-width: 480px) {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    font-weight: 500;
+    font-size: 27px;
+    color: #b1040e; // no theme in place
   }
 `;
 
@@ -62,3 +78,5 @@ const StyledPaper = styled(Paper)`
     border-radius: 0;
   }
 `;
+
+export default CreateCompanyScreen;
