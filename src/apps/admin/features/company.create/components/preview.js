@@ -66,7 +66,7 @@ export function CompanyCreatePreview({ values }) {
         <CardContent>
           <Typography
             variant="h6"
-            color="black"
+            color="textPrimary"
             style={{
               fontWeight: '800',
               letterSpacing: '-.5px',
