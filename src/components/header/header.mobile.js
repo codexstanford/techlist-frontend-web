@@ -119,25 +119,47 @@ const SideLeft = props => {
       </List>
       <Divider />
       <List>
-        <ListItem button component={GatsbyLink} to="/">
+        <ListItem
+          button
+          onClick={() => toggleDrawer(!isDrawerOpen)}
+          component={GatsbyLink}
+          to="/"
+        >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
-        <ListItem button button component={GatsbyLink} to="/about/">
+        <ListItem
+          button
+          onClick={() => toggleDrawer(!isDrawerOpen)}
+          button
+          component={GatsbyLink}
+          to="/about/"
+        >
           <ListItemIcon>
             <InfoIcon />
           </ListItemIcon>
           <ListItemText primary="About" />
         </ListItem>
-        <ListItem button button component={GatsbyLink} to="/companies/">
+        <ListItem
+          button
+          onClick={() => toggleDrawer(!isDrawerOpen)}
+          button
+          component={GatsbyLink}
+          to="/companies/"
+        >
           <ListItemIcon>
             <ListIcon />
           </ListItemIcon>
           <ListItemText primary="Index" />
         </ListItem>
-        <ListItem button component={GatsbyLink} to="/tags/">
+        <ListItem
+          button
+          onClick={() => toggleDrawer(!isDrawerOpen)}
+          component={GatsbyLink}
+          to="/tags/"
+        >
           <ListItemIcon>
             <CategoryIcon />
           </ListItemIcon>
@@ -159,7 +181,12 @@ const SideLeft = props => {
             <ListItemText primary="Get Listed" />
           </ListItem>
         ) : (
-          <ListItem button component={GatsbyLink} to={'/app/login/'}>
+          <ListItem
+            button
+            onClick={() => toggleDrawer(!isDrawerOpen)}
+            component={GatsbyLink}
+            to={'/app/login/'}
+          >
             <ListItemIcon>
               <BuildIcon />
             </ListItemIcon>
@@ -169,7 +196,12 @@ const SideLeft = props => {
 
         {isUserLoggedIn ? (
           <>
-            <ListItem button component={GatsbyLink} to="/app/profile/">
+            <ListItem
+              button
+              onClick={() => toggleDrawer(!isDrawerOpen)}
+              component={GatsbyLink}
+              to="/app/profile/"
+            >
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -179,11 +211,23 @@ const SideLeft = props => {
               <ListItemIcon>
                 <LockOpenIcon />
               </ListItemIcon>
-              <ListItemText primary="Logout" onClick={() => logout()} />
+              <ListItemText
+                primary="Logout"
+                onClick={() => {
+                  logout();
+                  toggleDrawer(!isDrawerOpen);
+                }}
+              />
             </ListItem>
           </>
         ) : (
-          <ListItem button button component={GatsbyLink} to="/app/login/">
+          <ListItem
+            button
+            onClick={() => toggleDrawer(!isDrawerOpen)}
+            button
+            component={GatsbyLink}
+            to="/app/login/"
+          >
             <ListItemIcon>
               <LockIcon />
             </ListItemIcon>
@@ -196,12 +240,3 @@ const SideLeft = props => {
 };
 
 export default MobileNav;
-
-// export default withStyles(theme => ({
-//   list: {
-//     width: 'auto',
-//   },
-//   fullList: {
-//     width: 'auto',
-//   },
-// }))(MobileNav);

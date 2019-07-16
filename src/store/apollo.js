@@ -17,22 +17,26 @@ const clientCache = new InMemoryCache({
 /* tslint:no-shadow off */
 
 const httpLink = process.browser
-  ? createHttpLink({
-      uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
-      credentials: 'same-origin',
+  ? createPersistedQueryLink({ useGETForHashedQueries: true }).concat(
+      createHttpLink({
+        uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
+        credentials: 'include',
 
-      useGETForQueries: true,
-      includeExtensions: true,
-    })
-  : createHttpLink({
-      uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
-      useGETForQueries: true,
-      credentials: 'same-origin',
-      // uri: 'http://localhost:4000',
-      includeExtensions: true,
+        useGETForQueries: true,
+        includeExtensions: true,
+      })
+    )
+  : createPersistedQueryLink({ useGETForHashedQueries: true }).concat(
+      createHttpLink({
+        uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
+        useGETForQueries: true,
+        credentials: 'include',
+        // uri: 'http://localhost:4000',
+        includeExtensions: true,
 
-      fetch: fetch,
-    });
+        fetch: fetch,
+      })
+    );
 
 const asyncAuthLink = setContext(
   (_, { headers }) =>
