@@ -6,20 +6,23 @@ export default theme => ({
     marginBottom: theme.spacing.unit * 4,
   },
   mainFeaturedPostContent: {
-    padding: `${theme.spacing.unit * 6}px`,
+    padding: `${theme.spacing.unit * 2}px`,
+
     [theme.breakpoints.up('md')]: {
-      paddingRight: 0,
+      padding: `${theme.spacing.unit * 6}px`,
     },
   },
   mainFeaturedPostContentSmall: {
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '1.5rem',
+    paddingTop: '12px',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1.2rem',
+      fontWeight: 500,
     },
   },
   mainFeaturedPostContentSmallSub: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       paddingTop: '12px',
-      fontSize: '1rem',
+      fontSize: '.9rem',
     },
   },
   mainGrid: {
