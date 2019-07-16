@@ -55,6 +55,7 @@ export function CreateCompany({
       onSubmit={createCompany}
       initialValues={getInitialValues()}
       validationSchema={ValidationSchema}
+      style={{ width: '100%' }}
     >
       {({
         values,
@@ -78,7 +79,7 @@ export function CreateCompany({
 
         return (
           <>
-            <Form>
+            <Form style={{ width: '100%', alignSelf: 'center' }}>
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
               <FormErrorMessage touched={touched} errors={errors} />

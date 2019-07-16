@@ -30,6 +30,7 @@ function CreateCompanyScreen({
       fullWidth={true}
       onBackdropClick={() => onCancel(!open)}
       PaperComponent={PaperComponent}
+      style={{ padding: 0, overflow: 'auto' }}
     >
       <StyledDialogContent>
         <CreateCompanyNew
@@ -44,26 +45,22 @@ function CreateCompanyScreen({
 }
 
 const StyledDialogContent = styled(DialogContent)`
-  max-height: calc(100vh - 96px);
-  @media (max-width: 480px) {
-    position: relative;
-    padding: 10px;
-    max-height: 100vh;
-  }
-  @media (min-width: 1000px) {
-    width: 800px;
-  }
-  @media (min-width: 1200px) {
-    width: 1000px;
-  }
-  @media (min-width: 1600px) {
-    width: 1400px;
+  position: relative;
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+
+  @media (min-width: 750px) {
+    max-width: 900px;
+    padding: 3rem 3rem;
   }
 `;
 
 const MobileExit = styled(Clear)`
   display: none;
-  @media (max-width: 480px) {
+  @media (max-width: 750px) {
     display: block;
     position: absolute;
     top: 10px;
@@ -79,12 +76,13 @@ const PaperComponent = ({ children, ...props }) => {
 };
 
 const StyledPaper = styled(Paper)`
-  max-width: 100vh;
-  max-height: 90vh;
-  @media (max-width: 480px) {
-    min-width: 100vw;
-    min-height: 100vh;
-    border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  @media (min-width: 750px) {
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: auto;
   }
 `;
 

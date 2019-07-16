@@ -31,7 +31,6 @@ export function MobileNav({ classes, siteTitle, ...props }) {
   const { data, logout } = useUser();
   const { user } = data;
 
-  console.log('USER IN MOBILE', data);
   return (
     <React.Fragment>
       <div

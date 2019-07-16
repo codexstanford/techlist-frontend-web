@@ -4,7 +4,6 @@ import { Router, navigate } from '@reach/router';
 import Login from './routes/auth/login';
 import Create from './routes/auth/createwiz';
 import Profile from './routes/profile/';
-import CreateCompanyScreen from './routes/company';
 import Layout from '../../components/layout';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -37,11 +36,6 @@ function App(props) {
           classes={props.classes}
           logout={logout}
           register={register}
-        />
-        <CreateCompanyScreen
-          path="/app/company/"
-          classes={props.classes}
-          user={data.user}
         />
       </Router>
     </Layout>
