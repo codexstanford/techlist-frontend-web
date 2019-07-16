@@ -13,7 +13,6 @@ export function LandingHero(props) {
   } = props;
 
   const [heroData, ...sidekickData] = data.map(item => item.node);
-  console.log(sidekickData);
 
   return (
     <React.Fragment>
