@@ -139,6 +139,10 @@ const CompanyContactContainer = styled.div`
   max-width: 225px;
   justify-items: center;
   align-items: center;
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(8, 1fr);
+    max-width: 100%;
+  }
 `;
 
 const CompanyIntelligenceContainer = styled.div`
@@ -149,6 +153,11 @@ const CompanyIntelligenceContainer = styled.div`
   grid-row-gap: 10px;
   margin-top: 10px;
   align-items: center;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 100%;
+    grid-column-gap: 10px;
+  }
 `;
 
 export default CompanyCreatePreview;
