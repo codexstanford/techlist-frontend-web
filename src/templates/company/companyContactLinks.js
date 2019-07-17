@@ -17,7 +17,7 @@ export function validateCompanyWebsiteUrl(url) {
 
 export function CompanyContactLinks({ links, name, expanded, ...rest }) {
   return links.map(link => {
-    if (link.type === 'UrlWebsite') {
+    if (link.type === 'UrlWebsite' && link.payload !== '') {
       return (
         <ListItemText
           style={{
@@ -46,7 +46,8 @@ export function CompanyContactLinks({ links, name, expanded, ...rest }) {
           }
         />
       );
-    } else if (link.type) {
+    } else if (link.type && link.payload !== '') {
+      console.log(link);
       return (
         <ListItemText
           style={{

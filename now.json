@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "my-gatsby-project",
+  "name": "stanford-tech-index",
   "build": {
     "env": {
       "ACCESS_KEY": "@access_key",
@@ -44,6 +44,13 @@
       "src": "package.json",
       "use": "@now/static-build",
       "config": { "distDir": "public" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "^/(.*).html",
+      "headers": { "cache-control": "public,max-age=0,must-revalidate" },
+      "dest": "$1.html"
     }
   ]
 }

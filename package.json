@@ -98,7 +98,7 @@
     "build:serve": "yarn build && npx ws -d ./public -o -p 3000 --hostname localhost",
     "now-dev": "gatsby develop -p $PORT",
     "now-build": "gatsby build",
-    "develop": "npx gatsby develop",
+    "develop": "gatsby develop",
     "start": "yarn develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
