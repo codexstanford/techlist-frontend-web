@@ -2,7 +2,6 @@ const Config = require('./config/site');
 const config = Config();
 global.fetch = require('node-fetch');
 const { createHttpLink } = require('apollo-link-http');
-// const { HTTPLinkDataloader } = require('http-link-dataloader');
 const getTemporaryAuthCreds = require('./config/buildAuth');
 const jwt = getTemporaryAuthCreds();
 
@@ -15,6 +14,16 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-material-ui`,
+      options: {
+        stylesProvider: {
+          injectFirst: true,
+        },
+        ...config.theme,
+      },
+    },
+    `gatsby-plugin-styled-components`,
+    {
       resolve: 'gatsby-plugin-robots-txt',
       options: {},
     },
@@ -25,7 +34,7 @@ module.exports = {
         // Optional settings, see https://docs.sentry.io/clients/node/config/#optional-settings
         environment: process.env.NODE_ENV,
         enabled: (() =>
-          ['production', 'stage'].indexOf(process.env.NODE_ENV) !== -1)(),
+          ['production', 'staging'].indexOf(process.env.NODE_ENV) !== -1)(),
       },
     },
 
@@ -35,7 +44,7 @@ module.exports = {
     },
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-styled-components`,
+
     {
       resolve: 'gatsby-source-graphql',
       options: {
@@ -76,12 +85,7 @@ module.exports = {
         },
       },
     },
-    {
-      resolve: `gatsby-plugin-material-ui`,
-      options: {
-        ...config.theme,
-      },
-    },
+
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -113,14 +117,7 @@ module.exports = {
         siteUrl: config.siteMetadata.url,
       },
     },
-    {
-      resolve: `gatsby-plugin-s3`,
-      options: {
-        bucketName: 'my-example-bucket',
-        protocol: config.siteMetadata.protocol,
-        hostname: config.siteMetadata.hostname,
-      },
-    },
+
     'gatsby-plugin-offline',
   ],
 };
