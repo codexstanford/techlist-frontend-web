@@ -7,15 +7,15 @@ import ListItem from '@material-ui/core/ListItem';
 import styled from 'styled-components';
 import Chip from '@material-ui/core/Chip';
 
+import { CompanyCategories } from './companyCategories';
 import {
   formatCompanyFoundedDate,
-  formatCompanyOperatingModels,
   formatCompanyTargetMarkets,
 } from './helpers';
 
 export function CompanyIntelligence({ classes, company, ...props }) {
-  const OperatingModels = formatCompanyOperatingModels(company);
   const TargetMarkets = formatCompanyTargetMarkets(company);
+
   return (
     <Card className={classes.card} style={{ maxWidth: '100%' }}>
       <CardContent>
@@ -26,7 +26,11 @@ export function CompanyIntelligence({ classes, company, ...props }) {
           <ListItemText primary={`Year Founded`} />
           <Chip
             color="primary"
-            label={formatCompanyFoundedDate(company.yearFounded)}
+            label={
+              company.yearFounded
+                ? formatCompanyFoundedDate(company.yearFounded)
+                : 'N/A'
+            }
           />
         </ListItem>
         {TargetMarkets && TargetMarkets.length > 0 ? (
@@ -36,14 +40,13 @@ export function CompanyIntelligence({ classes, company, ...props }) {
             {TargetMarkets[0]}
           </ListItem>
         ) : null}
-        {OperatingModels && OperatingModels.length > 0 ? (
-          <OperatingModelsItem>
-            <OperatingModelsListItemText primary={`Operating Models`} />
-            <OperatingModelsChipsContainer>
-              {OperatingModels}
-            </OperatingModelsChipsContainer>
-          </OperatingModelsItem>
-        ) : null}
+
+        <OperatingModelsItem>
+          <OperatingModelsListItemText primary={`Operating Models`} />
+          <OperatingModelsChipsContainer>
+            <CompanyCategories chip company={company} />
+          </OperatingModelsChipsContainer>
+        </OperatingModelsItem>
       </CardContent>
     </Card>
   );
