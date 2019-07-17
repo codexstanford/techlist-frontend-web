@@ -28,6 +28,9 @@ export default function ProfileCompanies({ user, ...props }) {
   }
 
   const { partyAccount } = data;
+  if (partyAccount === null) {
+    return null;
+  }
   const { admin: companies } = partyAccount;
   return (
     <div>
