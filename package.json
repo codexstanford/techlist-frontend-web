@@ -101,7 +101,7 @@
     "build": "rm -rf public && rm -rf .cache && gatsby build",
     "build:serve": "yarn build && npx ws -d ./public -o -p 3000 --hostname localhost",
     "now-dev": "gatsby develop -p $PORT",
-    "now-build": "yarn && yarn build",
+    "now-build": "yarn && gatsby build",
     "develop": "gatsby develop",
     "start": "yarn develop",
     "serve": "gatsby serve",
