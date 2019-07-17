@@ -18,9 +18,14 @@ export function SecondaryHeader(props) {
               size="small"
               aria-label={section.title}
               className={classes.button}
-              component={props => (
-                <Link to={section.to} component={GatsbyLink} {...props} />
-              )}
+              component={React.forwardRef((props, ref) => (
+                <Link
+                  ref={ref}
+                  to={section.to}
+                  component={GatsbyLink}
+                  {...props}
+                />
+              ))}
             >
               {section.title}
             </Button>

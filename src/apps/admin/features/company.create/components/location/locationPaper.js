@@ -8,11 +8,12 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`,
-    [theme.breakpoints.up(450 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 8,
-    },
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
+      3
+    )}px`,
+    // [theme.breakpoints.up(450 + theme.spacing.unit * 3 * 2)]: {
+    //   marginTop: theme.spacing.unit * 8,
+    // },
   },
 });
 

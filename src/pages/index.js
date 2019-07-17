@@ -32,7 +32,7 @@ const IndexPage = props => {
       <main>
         <LandingHero data={props.data} />
 
-        <Grid container spacing={40} className={classes.mainGrid}>
+        <Grid container spacing={1} className={classes.mainGrid}>
           <Grid item md={12}>
             <Paper className={classes.newsList}>
               <Typography component="h2" variant="h6" gutterBottom>
@@ -67,17 +67,17 @@ const styles = theme => ({
   mainFeaturedPost: {
     backgroundColor: '#544948',
     color: theme.palette.common.white,
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
   mainFeaturedPostContent: {
-    padding: `${theme.spacing.unit * 6}px`,
+    padding: theme.spacing(6),
     [theme.breakpoints.up('md')]: {
       paddingRight: 0,
     },
   },
   mainGrid: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
   card: {
     display: 'flex',
@@ -89,7 +89,7 @@ const styles = theme => ({
     width: 160,
   },
   newsList: {
-    padding: `${theme.spacing.unit * 2}px`,
+    padding: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
       paddingRight: 0,
     },

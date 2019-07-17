@@ -1,13 +1,10 @@
 import React from 'react';
-import deburr from 'lodash/deburr';
 import Downshift from 'downshift';
 import { makeStyles, withTheme } from '@material-ui/styles';
 import { TextField } from 'formik-material-ui';
-import { Formik, Field, Form } from 'formik';
-import Popper from '@material-ui/core/Popper';
+import { Field } from 'formik';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import Chip from '@material-ui/core/Chip';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,

@@ -121,6 +121,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@material-ui/codemod": "^4.0.2",
     "@now/static-build": "^0.7.2",
     "amazon-cognito-identity-js": "^3.0.10",
     "babel-eslint": "^10.0.1",

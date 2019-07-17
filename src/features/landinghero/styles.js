@@ -2,14 +2,14 @@ export default theme => ({
   mainFeaturedPost: {
     backgroundColor: '#544948',
     color: theme.palette.common.white,
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
   mainFeaturedPostContent: {
-    padding: `${theme.spacing.unit * 2}px`,
+    padding: theme.spacing(2),
 
     [theme.breakpoints.up('md')]: {
-      padding: `${theme.spacing.unit * 6}px`,
+      padding: theme.spacing(6),
     },
   },
   mainFeaturedPostContentSmall: {
@@ -26,7 +26,7 @@ export default theme => ({
     },
   },
   mainGrid: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
   card: {
     alignSelf: 'stretch',
