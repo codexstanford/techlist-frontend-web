@@ -172,7 +172,7 @@ class CompanyTemplate extends React.Component {
 
           <StyledMain>
             <div className={classes.appBarSpacer} />
-            <Grid container spacing={16} className={classes.mainGrid}>
+            <Grid container spacing={2} className={classes.mainGrid}>
               <Grid item md={8} xs={12}>
                 <Card className={classes.card}>
                   {organization &&
@@ -203,7 +203,7 @@ class CompanyTemplate extends React.Component {
                     <Typography variant="h6" color="textSecondary">
                       {organization.name[0].payload}
                     </Typography>
-                    <Typography variant="body1" gutterBottom component="h2">
+                    <Typography variant="body2" gutterBottom component="h2">
                       <p>{unescape(organization.description)}</p>
                     </Typography>
                     {organization.categories &&

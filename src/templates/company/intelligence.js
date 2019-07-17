@@ -23,7 +23,15 @@ export function CompanyIntelligence({ classes, company, ...props }) {
           Business Intelligence
         </Typography>
         <ListItem>
-          <ListItemText primary={`Year Founded`} />
+          <ListItemText
+            primary={
+              <>
+                <Typography component="h4" variant="subtitle2">
+                  Founded
+                </Typography>
+              </>
+            }
+          />
           <Chip
             color="primary"
             label={
@@ -35,14 +43,30 @@ export function CompanyIntelligence({ classes, company, ...props }) {
         </ListItem>
         {TargetMarkets && TargetMarkets.length > 0 ? (
           <ListItem>
-            <ListItemText primary={`Target Markets`} />
+            <ListItemText
+              primary={
+                <>
+                  <Typography component="h4" variant="subtitle2">
+                    Target Markets
+                  </Typography>
+                </>
+              }
+            />
 
             {TargetMarkets[0]}
           </ListItem>
         ) : null}
 
         <OperatingModelsItem>
-          <OperatingModelsListItemText primary={`Operating Models`} />
+          <OperatingModelsListItemText
+            primary={
+              <>
+                <Typography component="h4" variant="subtitle2">
+                  Categories
+                </Typography>
+              </>
+            }
+          />
           <OperatingModelsChipsContainer>
             <CompanyCategories chip company={company} />
           </OperatingModelsChipsContainer>

@@ -27,7 +27,6 @@ export function CompanyNews({ classes, company, ...props }) {
         if (data && data.value && data.value.length > 0) {
           setNews(data.value);
         }
-        console.log('NO DATA?', data);
       })
       .catch(err => console.log(err));
   }, [company.name[0].payload]);
@@ -60,11 +59,11 @@ function renderNewsItems(news) {
           <ListItemText
             primary={
               <>
-                <Link href={item.url} target="_blank">
+                <Link href={item.url} variant="subtitle2" target="_blank">
                   {item.name}
                 </Link>
 
-                <Typography variant="caption">
+                <Typography component="h6" variant="caption">
                   {item.provider && item.provider.length > 0
                     ? item.provider[0].name
                     : null}{' '}
@@ -72,7 +71,11 @@ function renderNewsItems(news) {
                 </Typography>
               </>
             }
-            secondary={item.description || ''}
+            secondary={
+              <>
+                <Typography variant="caption">{item.description}</Typography>
+              </>
+            }
           />
         </ListItem>
       );
