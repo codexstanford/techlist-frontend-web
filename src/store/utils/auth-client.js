@@ -41,15 +41,21 @@ function logout() {
   }
 }
 
-function getToken() {
+async function getToken() {
   if (window) {
-    return window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    const session = await Auth.currentSession().catch(err => {
+      console.log(err);
+      logout();
+    });
+    return session.getIdToken().jwtToken || null;
+    // return window.localStorage.getItem(LOCAL_STORAGE_KEY);
   }
   return null;
 }
 
 async function getUser() {
-  const token = getToken();
+  const token = await getToken();
+
   if (!token) {
     return Promise.resolve(null);
   }

@@ -43,8 +43,8 @@ const asyncAuthLink = setContext(
   (_, { headers }) =>
     new Promise((success, fail) => {
       const user = getUser()
-        .then(user => {
-          const token = getToken();
+        .then(async user => {
+          const token = await getToken();
           success({
             headers: {
               ...headers,
