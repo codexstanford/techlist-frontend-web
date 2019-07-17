@@ -22,19 +22,21 @@ export const UserProfileWithGraphQL = props => {
   const { me } = data;
   const { person, id } = me;
 
-  if (person.metadata.isDraft === true) {
-    return (
-      <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
-        {mutation => {
-          return (
-            <CreateProfile createProfile={mutation} user={person} {...props} />
-          );
-        }}
-      </Mutation>
-    );
-  } else if (person.metadata.isDraft === false) {
-    return <UserProfile data={me} me={me} {...props} />;
-  }
+  // if (person.metadata.isDraft === true) {
+  //   return (
+  //     <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
+  //       {mutation => {
+  //         return (
+  //           <CreateProfile createProfile={mutation} user={person} {...props} />
+  //         );
+  //       }}
+  //     </Mutation>
+  //   );
+  // } else if (person.metadata.isDraft === false) {
+  //   return <UserProfile data={me} me={me} {...props} />;
+  // }
+
+  return <UserProfile data={me} me={me} {...props} />;
 };
 
 export default UserProfileWithGraphQL;

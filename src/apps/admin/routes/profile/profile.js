@@ -77,16 +77,16 @@ export function UserProfile({ classes, ...props }) {
       <StyledMain>
         <div className={classes.appBarSpacer} />
         <StyledWrapper>
-          <Card>
-            <CardContent>
-              <ProfileAffiliations person={person} />
-            </CardContent>
-          </Card>
-          <Card>
+          <StyledCard>
             <CardContent>
               <ProfileCompanies user={data} />
             </CardContent>
-          </Card>
+          </StyledCard>
+          <StyledCard>
+            <CardContent>
+              <ProfileAffiliations person={person} />
+            </CardContent>
+          </StyledCard>
         </StyledWrapper>
       </StyledMain>
     </div>
@@ -99,6 +99,19 @@ const StyledWrapper = styled.main`
   display: flex;
   justify-content: space-around;
   @media (min-width: 1080px) {
+    max-width: 100%;
+  }
+  @media (max-width: 960px) {
+    flex-direction: column;
+  }
+`;
+
+const StyledCard = styled(Card)`
+  min-width: 350px;
+  margin-bottom: 10px;
+  @media (max-width: 480px) {
+    flex-direction: column;
+    min-width: 250px;
     max-width: 100%;
   }
 `;
