@@ -12,6 +12,7 @@ require('dotenv').config({
       : '.local'
   }`,
 });
+
 const path = require('path');
 const slugify = require('slugify');
 const crypto = require('crypto');
@@ -21,7 +22,18 @@ const _ = require('lodash');
 const replacePath = path => (path === '/' ? path : path.replace(/\/$/, ''));
 
 exports.onCreateWebpackConfig = ({ stage, actions, loaders, getConfig }) => {
-  const config = getConfig();
+  if (stage === 'build-html') {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /aws-amplify/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    });
+  }
 
   actions.setWebpackConfig({
     resolve: {
@@ -62,17 +74,6 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors);
         }
 
-        // const newRes = await graphql(`
-        //   {
-        //     allTechList {
-        //       organizationCategories {
-        //         id
-        //         payload
-        //       }
-        //     }
-        //   }
-        // `);
-
         const tags = result.data.allTechList.organizationCategories;
 
         result.data.allTechList.organizations.forEach(node => {
@@ -92,22 +93,6 @@ exports.createPages = ({ graphql, actions }) => {
             });
           }
         });
-
-        // result.data.allTechList.companies.forEach(node => {
-        //   createPage({
-        //     path: `/companies/${slugify(node.name)}/`,
-        //     component: companyTemplate,
-        //     context: {
-        //       slug: slugify(node.name),
-        //       id: node.id,
-        //       name: node.name,
-        //       url: node.url,
-        //       description: node.description,
-        //       twitter: node.twitter,
-        //       data: JSON.stringify({ ...node }),
-        //     },
-        //   });
-        // });
 
         tags.forEach(tag => {
           if (tag.payload === '_-' || tag.payload === '----') {
@@ -135,6 +120,7 @@ exports.sourceNodes = async ({
   createContentDigest,
 }) => {
   const { createNode } = actions;
+
   return new Promise((resolve, rej) => {
     fetch(
       `https://api.cognitive.microsoft.com/bing/v7.0/news/search?q=legal+tech&freshness=Week&count=20&mkt=en-US`,
@@ -147,6 +133,7 @@ exports.sourceNodes = async ({
       .then(data => data.json())
       .then(json => {
         const { value: articles } = json;
+
         articles.forEach((item, index) => {
           if (!item.image) {
             return;
@@ -174,18 +161,5 @@ exports.sourceNodes = async ({
         });
         resolve();
       });
-  });
+  }).catch(err => console.log(err));
 };
-
-// exports.onCreatePage = async ({ page, actions }) => {
-//   const { createPage } = actions;
-
-//   // page.matchPath is a special key that's used for matching pages
-//   // only on the client.
-//   if (page.path.match(/^\/app/)) {
-//     page.matchPath = `/app/*`;
-
-//     // Update the page.
-//     createPage(page);
-//   }
-// };
