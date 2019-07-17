@@ -57,6 +57,18 @@ export function CompanyCreatePreview({ values }) {
   const cardClasses = useStyles();
   const { logo } = values;
 
+  const getColumns = () => {
+    if (values.categories) {
+      if (values.categories.length > 12) {
+        return 4;
+      }
+      if (values.categories.length > 6) {
+        return 3;
+      }
+      return 2;
+    }
+  };
+
   return (
     <Card className={cardClasses.card}>
       {logo && (
@@ -102,9 +114,7 @@ export function CompanyCreatePreview({ values }) {
             {values.description}
           </Typography>
 
-          <CompanyIntelligenceContainer
-            colNum={values.categories && values.categories.length > 12 ? 5 : 3}
-          >
+          <CompanyIntelligenceContainer colNum={getColumns()}>
             <CompanyCategories company={values} wrapper={SOMECOMP} />
           </CompanyIntelligenceContainer>
           <CompanyContactContainer>
@@ -135,10 +145,9 @@ const CompanyIntelligenceContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(${props => props.colNum}, 1fr);
   grid-template-rows: auto;
-  grid-column-gap: 20px;
+  grid-column-gap: 15px;
   grid-row-gap: 10px;
   margin-top: 10px;
-  max-width: 225px;
   align-items: center;
 `;
 
