@@ -1,6 +1,6 @@
 import 'stop-runaway-react-effects/hijack';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
@@ -57,14 +57,6 @@ const IndexPage = props => {
               </List>
             </Paper>
           </Grid>
-          {/* <Grid item md={4}>
-            <Paper className={classes.newsList}>
-              <Typography component="h2" variant="h6" gutterBottom>
-                Trending
-              </Typography>
-              <Divider />
-            </Paper>
-          </Grid> */}
         </Grid>
       </main>
     </Layout>
@@ -125,7 +117,6 @@ export const pageQuery = graphql`
       edges {
         node {
           path
-
           context {
             id
             name

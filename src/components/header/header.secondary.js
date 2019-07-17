@@ -2,9 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
-
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 export function SecondaryHeader(props) {

@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-
 import Avatar from '@material-ui/core/Avatar';
-
 import { useUser } from '../../store/user-context';
-import gql from 'graphql-tag';
 import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 import { navigate } from '@reach/router';
 
