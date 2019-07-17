@@ -18,8 +18,7 @@
       "GATSBY_APPLICATION_NAME": "Gatsby-Production-Now",
       "GATSBY_APPLICATION_VERSION": "0.0.1",
       "GATSBY_GRAPHQL_ENDPOINT": "@gatsby_graphql_endpoint",
-      "GATSBY_GRAPHQL_IDE": "playground",
-      "NODE_ENV": "production"
+      "GATSBY_GRAPHQL_IDE": "playground"
     }
   },
   "env": {
