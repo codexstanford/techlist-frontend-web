@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "name": "my-gatsby-project",
+  "build": {
+    "env": {
+      "ACCESS_KEY": "@access_key",
+      "PORT": "8000",
+      "SECRET_KEY": "@secret_key",
+      "REGION": "us-west-2",
+      "CLIENT_ID": "181177ggq1ot45s6t791vposkr",
+      "USERPOOL_ID": "us-west-2_uzyDC8Snl",
+      "USERNAME": "@username",
+      "PASSWORD": "@password",
+      "GATSBY_GOOGLE_MAPS_API_KEY": "@gatsby_google_maps_api_key",
+      "GATSBY_BING_SEARCH_NEWS_API": "https://api.cognitive.microsoft.com/bing/v7.0/news/search",
+      "GATSBY_BING_API_KEY": "@gatsby_bing_api_key",
+      "GATSBY_ENGINE_API_KEY": "@apollo_engine_api_key",
+      "GATSBY_APPLICATION_NAME": "Gatsby-Production-Now",
+      "GATSBY_APPLICATION_VERSION": "0.0.1",
+      "GATSBY_GRAPHQL_ENDPOINT": "@gatsby_graphql_endpoint",
+      "GATSBY_GRAPHQL_IDE": "playground"
+    }
+  },
+  "env": {
+    "ACCESS_KEY": "@access_key",
+    "PORT": "8000",
+    "SECRET_KEY": "@secret_key",
+    "REGION": "us-west-2",
+    "CLIENT_ID": "181177ggq1ot45s6t791vposkr",
+    "USERPOOL_ID": "us-west-2_uzyDC8Snl",
+    "USERNAME": "@username",
+    "PASSWORD": "@password",
+    "GATSBY_GOOGLE_MAPS_API_KEY": "@gatsby_google_maps_api_key",
+    "GATSBY_BING_SEARCH_NEWS_API": "https://api.cognitive.microsoft.com/bing/v7.0/news/search",
+    "GATSBY_BING_API_KEY": "@gatsby_bing_api_key",
+    "GATSBY_ENGINE_API_KEY": "@apollo_engine_api_key",
+    "GATSBY_APPLICATION_NAME": "Gatsby-Production-Now",
+    "GATSBY_APPLICATION_VERSION": "0.0.1",
+    "GATSBY_GRAPHQL_ENDPOINT": "@gatsby_graphql_endpoint",
+    "GATSBY_GRAPHQL_IDE": "playground"
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "public" }
+    }
+  ]
+}

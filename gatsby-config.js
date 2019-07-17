@@ -2,7 +2,7 @@ const Config = require('./config/site');
 const config = Config();
 global.fetch = require('node-fetch');
 const { createHttpLink } = require('apollo-link-http');
-const { HTTPLinkDataloader } = require('http-link-dataloader');
+// const { HTTPLinkDataloader } = require('http-link-dataloader');
 const getTemporaryAuthCreds = require('./config/buildAuth');
 const jwt = getTemporaryAuthCreds();
 
@@ -120,15 +120,6 @@ module.exports = {
         hostname: config.siteMetadata.hostname,
       },
     },
-    {
-      resolve: `gatsby-plugin-offline`,
-      options: {
-        modifyUrlPrefix: {
-          // If `pathPrefix` is configured by user, we should replace
-          // the default prefix with `pathPrefix`.
-          'http://': `https://`,
-        },
-      },
-    },
+    'gatsby-plugin-offline',
   ],
 };
