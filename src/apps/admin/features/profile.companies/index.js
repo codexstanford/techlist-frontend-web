@@ -28,10 +28,6 @@ export default function ProfileCompanies({ user, ...props }) {
   }
 
   const { partyAccount } = data;
-  if (partyAccount === null) {
-    return null;
-  }
-  const { admin: companies } = partyAccount;
   return (
     <div>
       <div>
@@ -49,11 +45,13 @@ export default function ProfileCompanies({ user, ...props }) {
           }
         </Media>
       </div>
-      <div>
-        <div className={classes.root}>
-          <Controller companies={companies} />
+      {partyAccount !== null && (
+        <div>
+          <div className={classes.root}>
+            <Controller companies={partyAccount.admin} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
