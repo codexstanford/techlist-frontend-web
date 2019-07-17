@@ -11,7 +11,7 @@ const isBrowser = typeof window !== `undefined`;
 
 isBrowser &&
   Amplify.configure({
-    auth: {
+    Auth: {
       region: 'us-west-2',
       userPoolId: 'us-west-2_uzyDC8Snl',
       userPoolWebClientId: '181177ggq1ot45s6t791vposkr',

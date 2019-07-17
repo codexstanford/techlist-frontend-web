@@ -7423,10 +7423,10 @@ gatsby-source-filesystem@^2.0.20:
     valid-url "^1.0.9"
     xstate "^3.1.0"
 
-gatsby-source-graphql@^2.0.10:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/gatsby-source-graphql/-/gatsby-source-graphql-2.0.10.tgz#8af34990751ba7c0420ebc4671c154c364a77b8a"
-  integrity sha512-R9OF75UVzB/yzp1T4EfCtkG+matRQiPPgGJTLXtQpwtLKVFscHhvCNCVa1q6ytjDbBhaD+0CXylpzjJX0H+u9A==
+gatsby-source-graphql@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/gatsby-source-graphql/-/gatsby-source-graphql-2.1.2.tgz#a05bde1aac79b9de83bbc45d36532465e8194d8f"
+  integrity sha512-eEJ4/dHt/ayCb5eroMK0DpOpXZ+284e6ujAHFnQizSgzIq9vCxEp/gZaIEDq3eSIiyzJbyLo9HkAF52LBg+sCA==
   dependencies:
     "@babel/runtime" "^7.0.0"
     apollo-link "1.2.1"
@@ -13252,10 +13252,10 @@ prettier-plugin-import-sanity@^0.0.2:
     "@babel/generator" "^7.5.0"
     jscodeshift "^0.6.4"
 
-prettier@^1.16.4:
-  version "1.16.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.4.tgz#73e37e73e018ad2db9c76742e2647e21790c9717"
-  integrity sha512-ZzWuos7TI5CKUeQAtFd6Zhm2s6EpAD/ZLApIhsF9pRvRtM1RFo61dM/4MSRUA0SuLugA/zgrZD8m0BaY46Og7g==
+prettier@^1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
+  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
 
 pretty-bytes@^4.0.2:
   version "4.0.2"
