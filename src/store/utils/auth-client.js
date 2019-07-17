@@ -5,14 +5,18 @@ import fetch from 'node-fetch';
 global.fetch = global.fetch || fetch;
 
 import Auth from '@aws-amplify/auth';
+import Amplify from '@aws-amplify/core';
 
 const isBrowser = typeof window !== `undefined`;
 
-Auth.configure({
-  region: 'us-west-2',
-  userPoolId: 'us-west-2_uzyDC8Snl',
-  userPoolWebClientId: '181177ggq1ot45s6t791vposkr',
-});
+isBrowser &&
+  Amplify.configure({
+    auth: {
+      region: 'us-west-2',
+      userPoolId: 'us-west-2_uzyDC8Snl',
+      userPoolWebClientId: '181177ggq1ot45s6t791vposkr',
+    },
+  });
 
 function handleUserResponse({ signInUserSession, ...user }) {
   const { accessToken, idToken, refreshToken } = signInUserSession;

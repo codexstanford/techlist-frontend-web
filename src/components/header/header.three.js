@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
-import { Auth } from 'aws-amplify';
-// import { isLoggedIn, logout } from '../../services/auth';
+
 import Avatar from '@material-ui/core/Avatar';
-import { Query } from 'react-apollo';
+
 import { useUser } from '../../store/user-context';
 import gql from 'graphql-tag';
 import CreateCompanyScreen from '../../apps/admin/routes/company/index';
@@ -18,16 +15,6 @@ export function HeaderLeft({ sections, classes, ...props }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const { data, logout } = useUser();
   const { user } = data;
-
-  // useEffect(() => {
-  //   Auth.currentAuthenticatedUser()
-  //     .then(data => {
-  //       if (data && data !== 'not authenticated') {
-  //         setUser(data);
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  // }, []);
 
   function getAvatar(user) {
     const { person } = user;
@@ -135,38 +122,3 @@ HeaderLeft.defaultProps = {
 };
 
 export default HeaderLeft;
-
-const GET_CURRENT_USER_QUERY = gql`
-  query GetMe {
-    me {
-      id
-      cognitoId
-      handle
-      person {
-        id
-        affiliations {
-          id
-          role
-          startDate
-          company {
-            id
-            name
-            yearFounded
-            description
-          }
-        }
-        profile {
-          id
-          avatar
-          firstName
-          lastName
-          links {
-            id
-            type
-            url
-          }
-        }
-      }
-    }
-  }
-`;

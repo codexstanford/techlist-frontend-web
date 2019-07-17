@@ -5,6 +5,8 @@
   "version": "0.0.1",
   "author": "Michael Edelman <michael@edel.mn>",
   "dependencies": {
+    "@aws-amplify/auth": "^1.2.26",
+    "@aws-amplify/core": "^1.0.28",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-brands-svg-icons": "^5.8.1",
     "@fortawesome/free-regular-svg-icons": "^5.8.1",
@@ -28,7 +30,6 @@
     "apollo-link-persisted-queries": "^0.2.2",
     "apollo-link-state": "^0.4.2",
     "apollo-link-ws": "^1.0.17",
-    "aws-amplify": "^1.1.22",
     "babel-plugin-styled-components": "^1.10.0",
     "downshift": "^3.2.10",
     "formik": "^1.5.1",
