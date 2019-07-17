@@ -2,36 +2,45 @@ import Amplify, { Auth } from 'aws-amplify';
 import { GraphQLClient } from 'graphql-request';
 import { LOCAL_STORAGE_KEY, GET_USER_QUERY } from './const';
 
-Amplify.configure({
-  Auth: {
-    region: 'us-west-2',
-    userPoolId: 'us-west-2_uzyDC8Snl',
-    userPoolWebClientId: '181177ggq1ot45s6t791vposkr',
-  },
-});
-
 const isBrowser = typeof window !== `undefined`;
+
+isBrowser &&
+  Amplify.configure({
+    Auth: {
+      region: 'us-west-2',
+      userPoolId: 'us-west-2_uzyDC8Snl',
+      userPoolWebClientId: '181177ggq1ot45s6t791vposkr',
+    },
+  });
 
 function handleUserResponse({ signInUserSession, ...user }) {
   const { accessToken, idToken, refreshToken } = signInUserSession;
   const { jwtToken: token } = idToken;
-  window.localStorage.setItem(LOCAL_STORAGE_KEY, token);
+
+  isBrowser && window.localStorage.setItem(LOCAL_STORAGE_KEY, token);
   return user;
 }
 
 function login({ username, password }) {
-  return Auth.signIn(username, password).then(data => {
-    return handleUserResponse(data);
-  });
+  if (isBrowser) {
+    return Auth.signIn(username, password).then(data => {
+      return handleUserResponse(data);
+    });
+  }
 }
 
 function logout() {
-  window.localStorage.removeItem(LOCAL_STORAGE_KEY);
-  return Auth.signOut();
+  isBrowser && window.localStorage.removeItem(LOCAL_STORAGE_KEY);
+  if (isBrowser) {
+    return Auth.signOut();
+  }
 }
 
 function getToken() {
-  return window.localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (window) {
+    return window.localStorage.getItem(LOCAL_STORAGE_KEY);
+  }
+  return null;
 }
 
 async function getUser() {
@@ -54,18 +63,22 @@ async function getUser() {
 }
 
 function register({ email, password, phone: phone_number, username }) {
-  return Auth.signUp({
-    username,
-    password,
-    attributes: {
-      email,
-      phone_number: `+1${phone_number}`,
-    },
-  });
+  if (isBrowser) {
+    return Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,
+        phone_number: `+1${phone_number}`,
+      },
+    });
+  }
 }
 
 function confirm({ username, code }) {
-  return Auth.confirmSignUp(username, code, {});
+  if (isBrowser) {
+    return Auth.confirmSignUp(username, code, {});
+  }
 }
 
 export { login, logout, getToken, register, getUser, confirm };

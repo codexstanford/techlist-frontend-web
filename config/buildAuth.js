@@ -2,15 +2,25 @@ require('dotenv').config();
 global.fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
-const { Config, CognitoIdentityServiceProvider } = require('aws-sdk');
+const AWS = require('aws-sdk');
 
-const ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID;
-const SECRET_KEY = process.env.AWS_SECRET_ACCESS_KEY;
-const REGION = process.env.AWS_REGION;
-const USER_POOL = process.env.AWS_COGNITO_USERPOOL_ID;
-const CLIENT_ID = process.env.AWS_COGNITO_APP_CLIENT_ID;
-const USERNAME = process.env.AWS_DEV_USERNAME;
-const PASSWORD = process.env.AWS_DEV_PASSWORD;
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const SECRET_KEY = process.env.SECRET_KEY;
+const REGION = process.env.REGION;
+const USER_POOL = process.env.USERPOOL_ID;
+const CLIENT_ID = process.env.CLIENT_ID;
+const USERNAME = process.env.USERNAME;
+const PASSWORD = process.env.PASSWORD;
+
+AWS.config.update({
+  region: 'us-west-2',
+  accessKeyId: ACCESS_KEY,
+  secretAccessKey: SECRET_KEY,
+  credentials: {
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_KEY,
+  },
+});
 
 if (ACCESS_KEY === undefined || SECRET_KEY === undefined) {
   throw new Error(
@@ -24,13 +34,7 @@ if (USERNAME === undefined || PASSWORD === undefined) {
   );
 }
 
-Config.region = REGION;
-Config.credentials = {
-  accessKeyId: ACCESS_KEY,
-  secretAccessKey: SECRET_KEY,
-};
-
-const Cognito = new CognitoIdentityServiceProvider({
+const Cognito = new AWS.CognitoIdentityServiceProvider({
   apiVersion: '2016-04-18',
 });
 

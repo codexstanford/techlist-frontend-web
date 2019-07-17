@@ -125,7 +125,7 @@ export const pageQuery = graphql`
       edges {
         node {
           path
-          jsonName
+
           context {
             id
             name

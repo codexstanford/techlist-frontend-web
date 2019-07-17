@@ -24,6 +24,7 @@ const httpLink = process.browser
 
         useGETForQueries: true,
         includeExtensions: true,
+        fetch: fetch,
       })
     )
   : createPersistedQueryLink({ useGETForHashedQueries: true }).concat(
