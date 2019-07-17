@@ -17,6 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { schema } from './index';
 import { navigate } from '@reach/router';
+import Media from 'react-media';
 
 const opts = [
   { value: 'Attorney', label: 'Attorney' },
@@ -32,13 +33,12 @@ const linkOptions = [
   { value: 'Other', label: 'Other' },
 ];
 
-function CreateProfile({ classes, ...props }) {
+function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
 
-  console.log('PROPS ON PROFILE', props);
-  const { id: userId } = props.user;
+  const { id: userId } = user;
 
   const handleSubmitRequest = async (
     values,
@@ -83,7 +83,6 @@ function CreateProfile({ classes, ...props }) {
           },
         })
         .then(data => {
-          console.log('DATA IN PROMISE', data);
           setSubmitting(false);
           // props.user.person.profile = profile;
           navigate('/app/profile/index.js');
@@ -92,13 +91,29 @@ function CreateProfile({ classes, ...props }) {
       console.log(err);
     }
   };
+  const handleEditSubmit = async (
+    values,
+    { setSubmitting, setErrors, setFieldError }
+  ) => {
+    await setSubmitting(true);
+    console.log('submitting form');
+    await setSubmitting(false);
+    handleClose();
+  };
 
   return (
     <Formik
-      onSubmit={handleSubmitRequest}
+      onSubmit={editMode ? handleEditSubmit : handleSubmitRequest}
       initialValues={{
-        firstName: '',
-        lastName: '',
+        firstName:
+          editMode && user.person.name[0].firstName !== ''
+            ? user.person.name[0].firstName
+            : '',
+        lastName:
+          editMode && user.person.name[0].lastName !== ''
+            ? user.person.name[0].lastName
+            : '',
+        username: editMode && user.username !== '' ? user.username : '',
         title: '',
         location: '',
         handle: '',
@@ -118,217 +133,239 @@ function CreateProfile({ classes, ...props }) {
         touched,
       }) => {
         return (
-          <Container className={classes.main}>
-            <Paper className={classes.paper}>
-              <HeaderWrapper>
-                <Typography
-                  variant="h5"
-                  color="primary"
-                  style={{
-                    fontWeight: '700',
-                    letterSpacing: '-.5px',
-                    textDecoration: 'none',
-                  }}
+          <Media query={{ minWidth: 480 }}>
+            {matches => (
+              <Container
+                className={matches ? classes.main : null}
+                style={matches ? {} : { margin: 0 }}
+              >
+                <Paper
+                  className={classes.paper}
+                  style={editMode ? { margin: '16px 0' } : {}}
+                  elevation={editMode ? 0 : 1}
                 >
-                  Create CodeX Profile
-                </Typography>
-              </HeaderWrapper>
-              <Form className={classes.form}>
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <StyledInput
-                      onChange={e => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        console.log(e.target.files);
-
-                        const fileReader = new FileReader();
-                        fileReader.onloadend = e => {
-                          const content = fileReader.result;
-                          setFieldValue('avatar', content);
-                          setImage(content);
-                        };
-                        if (e.target.files.length > 0) {
-                          fileReader.readAsDataURL(e.target.files[0]);
-                        }
-                      }}
-                    />
-                    <label htmlFor="avatar">
-                      <Fab
-                        style={{
-                          margin: 10,
-                          width: 120,
-                          height: 120,
-                        }}
-                      >
-                        <label htmlFor="avatar">
-                          <Avatar
-                            style={{ width: 120, height: 120 }}
-                            src={values.avatar}
-                            imgProps={{
-                              style: { maxWidth: '100%', maxHeight: '100%' },
-                            }}
-                          />
-                        </label>
-                      </Fab>
-                    </label>
-                  </div>
-                  <div>
-                    <Field
-                      name="firstName"
-                      type="text"
-                      label="First Name"
-                      fullWidth
-                      component={TextField}
-                    />
-                    {errors.firstName && touched.firstName ? (
-                      <div>{errors.firstName}</div>
-                    ) : null}
-                  </div>
-
-                  <div>
-                    <Field
-                      name="lastName"
-                      type="text"
-                      label="Last Name"
-                      fullWidth
-                      component={TextField}
-                    />
-                    {errors.lastName && touched.lastName ? (
-                      <div>{errors.lastName}</div>
-                    ) : null}
-                  </div>
-                  <div>
-                    <Field
-                      name="handle"
-                      type="text"
-                      label="Username"
-                      fullWidth
-                      component={TextField}
-                    />
-                    {errors.handle && touched.handle ? (
-                      <div>{errors.handle}</div>
-                    ) : null}
-                  </div>
-                  <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
-                    <Divider variant="middle" />
-                  </div>
-
-                  <div>
-                    <FieldArray
-                      name="links"
-                      render={arrayHelpers => {
-                        return (
-                          <div>
-                            {values.links && values.links.length > 0 ? (
-                              values.links.map((link, index) => {
-                                return (
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      justifyContent: 'space-between',
-                                      alignItems: 'center',
-                                    }}
-                                  >
-                                    <div
-                                      key={index}
-                                      style={{
-                                        display: 'flex',
-                                        flex: 1,
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                      }}
-                                    >
-                                      <Field
-                                        select
-                                        component={props => (
-                                          <TextField {...props} />
-                                        )}
-                                        label="Link"
-                                        name={`links.${index}.type`}
-                                      >
-                                        {linkOptions.map(opt => {
-                                          return (
-                                            <MenuItem
-                                              key={opt.value}
-                                              value={opt.value}
-                                            >
-                                              {opt.label}
-                                            </MenuItem>
-                                          );
-                                        })}
-                                      </Field>
-                                      <Field
-                                        name={`links.${index}.url`}
-                                        label="Url"
-                                        component={TextField}
-                                      />
-                                    </div>
-                                    <div
-                                      style={{
-                                        display: 'flex',
-                                        justifyContent: 'flex-end',
-                                      }}
-                                    >
-                                      <Button
-                                        type="button"
-                                        onClick={() =>
-                                          arrayHelpers.remove(index)
-                                        }
-                                      >
-                                        <DeleteIcon />
-                                      </Button>
-                                      <Button
-                                        type="button"
-                                        onClick={() =>
-                                          arrayHelpers.insert(index, {
-                                            type: '',
-                                            url: '',
-                                            isPublic: true,
-                                          })
-                                        }
-                                      >
-                                        <AddIcon />
-                                      </Button>
-                                    </div>
-                                  </div>
-                                );
-                              })
-                            ) : (
-                              <React.Fragment />
-                            )}
-                          </div>
-                        );
-                      }}
-                    />
-                  </div>
-                  <ButtonWrapper>
-                    <Button
-                      type="submit"
-                      disabled={!isValid}
-                      fullWidth
-                      variant="contained"
+                  <HeaderWrapper>
+                    <Typography
+                      variant="h5"
                       color="primary"
-                      className={classes.submit}
+                      style={{
+                        fontWeight: '700',
+                        letterSpacing: '-.5px',
+                        textDecoration: 'none',
+                      }}
                     >
-                      Create Profile!
-                    </Button>
-                    {isSubmitting && (
-                      <CircularProgress
-                        size={24}
-                        className={classes.buttonProgress}
-                      />
-                    )}
-                  </ButtonWrapper>
-                </div>
-              </Form>
-            </Paper>
-          </Container>
+                      {`${editMode ? 'Edit' : 'Create CodeX'} Profile`}
+                    </Typography>
+                  </HeaderWrapper>
+                  <Form className={classes.form}>
+                    <div>
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <StyledInput
+                          onChange={e => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            console.log(e.target.files);
+
+                            const fileReader = new FileReader();
+                            fileReader.onloadend = e => {
+                              const content = fileReader.result;
+                              setFieldValue('avatar', content);
+                              setImage(content);
+                            };
+                            if (e.target.files.length > 0) {
+                              fileReader.readAsDataURL(e.target.files[0]);
+                            }
+                          }}
+                        />
+                        <label htmlFor="avatar">
+                          <Fab
+                            style={{
+                              margin: 10,
+                              width: 120,
+                              height: 120,
+                            }}
+                          >
+                            <label htmlFor="avatar">
+                              <Avatar
+                                style={{ width: 120, height: 120 }}
+                                src={values.avatar}
+                                imgProps={{
+                                  style: {
+                                    maxWidth: '100%',
+                                    maxHeight: '100%',
+                                  },
+                                }}
+                              />
+                            </label>
+                          </Fab>
+                        </label>
+                      </div>
+                      <div>
+                        <Field
+                          name="firstName"
+                          type="text"
+                          label="First Name"
+                          fullWidth
+                          component={TextField}
+                        />
+                        {errors.firstName && touched.firstName ? (
+                          <div>{errors.firstName}</div>
+                        ) : null}
+                      </div>
+
+                      <div>
+                        <Field
+                          name="lastName"
+                          type="text"
+                          label="Last Name"
+                          fullWidth
+                          component={TextField}
+                        />
+                        {errors.lastName && touched.lastName ? (
+                          <div>{errors.lastName}</div>
+                        ) : null}
+                      </div>
+                      <div>
+                        <Field
+                          name="handle"
+                          type="text"
+                          label="Username"
+                          fullWidth
+                          component={TextField}
+                        />
+                        {errors.handle && touched.handle ? (
+                          <div>{errors.handle}</div>
+                        ) : null}
+                      </div>
+                      <div
+                        style={{ paddingTop: '1rem', paddingBottom: '1rem' }}
+                      >
+                        <Divider variant="middle" />
+                      </div>
+
+                      <div>
+                        <FieldArray
+                          name="links"
+                          render={arrayHelpers => {
+                            return (
+                              <div>
+                                {values.links && values.links.length > 0 ? (
+                                  values.links.map((link, index) => {
+                                    return (
+                                      <div
+                                        style={{
+                                          display: 'flex',
+                                          justifyContent: 'space-between',
+                                          alignItems: 'center',
+                                        }}
+                                      >
+                                        <div
+                                          key={index}
+                                          style={{
+                                            display: 'flex',
+                                            flex: 1,
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                          }}
+                                        >
+                                          <Field
+                                            select
+                                            component={props => (
+                                              <TextField {...props} />
+                                            )}
+                                            label="Link"
+                                            name={`links.${index}.type`}
+                                          >
+                                            {linkOptions.map(opt => {
+                                              return (
+                                                <MenuItem
+                                                  key={opt.value}
+                                                  value={opt.value}
+                                                >
+                                                  {opt.label}
+                                                </MenuItem>
+                                              );
+                                            })}
+                                          </Field>
+                                          <Field
+                                            name={`links.${index}.url`}
+                                            label="Url"
+                                            component={TextField}
+                                          />
+                                        </div>
+                                        <div
+                                          style={{
+                                            display: 'flex',
+                                            justifyContent: 'flex-end',
+                                          }}
+                                        >
+                                          <Button
+                                            type="button"
+                                            onClick={() =>
+                                              arrayHelpers.remove(index)
+                                            }
+                                          >
+                                            <DeleteIcon />
+                                          </Button>
+                                          <Button
+                                            type="button"
+                                            onClick={() =>
+                                              arrayHelpers.insert(index, {
+                                                type: '',
+                                                url: '',
+                                                isPublic: true,
+                                              })
+                                            }
+                                          >
+                                            <AddIcon />
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    );
+                                  })
+                                ) : (
+                                  <React.Fragment />
+                                )}
+                              </div>
+                            );
+                          }}
+                        />
+                      </div>
+                      <ButtonWrapper>
+                        <Button
+                          type="submit"
+                          disabled={!isValid}
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          className={classes.submit}
+                        >
+                          {`${editMode ? 'Update' : 'Create'} Profile!`}
+                        </Button>
+                        {isSubmitting && (
+                          <CircularProgress
+                            size={24}
+                            className={classes.buttonProgress}
+                          />
+                        )}
+                      </ButtonWrapper>
+                    </div>
+                  </Form>
+                </Paper>
+              </Container>
+            )}
+          </Media>
         );
       }}
     </Formik>
   );
 }
+
+CreateProfile.defaultProps = {
+  editMode: false,
+};
 
 export default CreateProfile;
 

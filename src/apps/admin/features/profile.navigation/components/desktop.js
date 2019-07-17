@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
 
 import CreateCompanyScreen from '../../../routes/company';
+import EditProfile from '../../../components/profile.edit';
 
 function DesktopProfileNavigation({
   classes,
@@ -24,6 +25,7 @@ function DesktopProfileNavigation({
   user,
 }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
+  const [showEditProfile, toggleEditProfile] = useState(false);
 
   return (
     <>
@@ -32,6 +34,11 @@ function DesktopProfileNavigation({
         onCancel={toggleCompanyScreen}
         classes={classes}
         user={user}
+      />
+      <EditProfile
+        open={showEditProfile}
+        classes={classes}
+        handleClose={() => toggleEditProfile(!showEditProfile)}
       />
       <Drawer
         variant="permanent"
@@ -65,7 +72,7 @@ function DesktopProfileNavigation({
             </ListItemIcon>
             <ListItemText
               primary="Edit Profile"
-              onClick={() => console.log('edit profile')}
+              onClick={() => toggleEditProfile(!showEditProfile)}
             />
           </ListItem>
           <ListItem button>
