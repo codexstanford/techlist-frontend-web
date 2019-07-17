@@ -10,6 +10,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/Edit';
 import CreateCompanyScreen from '../../../routes/company';
 
 function DesktopProfileNavigation({
@@ -55,6 +56,15 @@ function DesktopProfileNavigation({
             <ListItemText
               primary="Create Company"
               onClick={() => toggleCompanyScreen(!showCompanyScreen)}
+            />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <EditIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Edit Profile"
+              onClick={() => console.log('edit profile')}
             />
           </ListItem>
           <ListItem button>
