@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Link as GatsbyLink } from 'gatsby';
-import { Auth } from 'aws-amplify';
 import { navigate } from '@reach/router';
 import { useAuth } from '../../../../store/auth-context';
 import useCallbackStatus from '../../../../store/utils/useCallbackStatus';
@@ -37,8 +36,6 @@ function Login({ classes, location, ...props }) {
 
   function handleLoginSubmit(values, { setSubmitting, setErrors }) {
     const { email: username, password } = values;
-
-    console.log('USER IN LOGIN FUNCTION', user);
 
     setSubmitting(true);
     const result = run(login({ username, password }));

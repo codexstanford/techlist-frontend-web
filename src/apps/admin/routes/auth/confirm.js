@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
