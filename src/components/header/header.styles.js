@@ -7,10 +7,10 @@ export const styles = theme => ({
     // color: theme.palette.common.white,
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
-    [theme.breakpoints.up(1100 + theme.spacing(3) * 2)]: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+    // [theme.breakpoints.up(1100 + theme.spacing(3) * 2)]: {
+    //   marginLeft: 'auto',
+    //   marginRight: 'auto',
+    // },
   },
   headerAppBar: {
     display: 'flex',

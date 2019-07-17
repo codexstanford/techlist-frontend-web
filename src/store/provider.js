@@ -6,6 +6,7 @@ import { configureApolloClient } from './apollo';
 import { AuthProvider } from './auth-context';
 import { UserProvider } from './user-context';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
@@ -13,7 +14,8 @@ import { ThemeProvider } from '@material-ui/styles';
 
 let theme = createMuiTheme({
   typography: {
-    htmlFontSize: 10,
+    htmlFontSize: 14,
+
     fontFamily: [
       'Source Sans Pro',
       '-apple-system',
@@ -76,8 +78,12 @@ class AppProvider extends Component {
         <UserProvider>
           <Provider value={this.state}>
             <ApolloProvider client={client}>
-              <ApolloHooksProvider client={client} />
-              <ThemeProvider theme={theme}>{this.props.children}</ThemeProvider>
+              <ApolloHooksProvider client={client}>
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  {this.props.children}
+                </ThemeProvider>
+              </ApolloHooksProvider>
             </ApolloProvider>
           </Provider>
         </UserProvider>

@@ -4,6 +4,7 @@ import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 export function SecondaryHeader(props) {
   const { sections, classes } = props;
@@ -18,17 +19,16 @@ export function SecondaryHeader(props) {
               size="small"
               aria-label={section.title}
               className={classes.button}
-              component={React.forwardRef((props, ref) => (
-                <Link
-                  ref={ref}
-                  to={section.to}
-                  component={GatsbyLink}
-                  {...props}
-                />
-              ))}
-            >
-              {section.title}
-            </Button>
+              component={React.forwardRef((props, ref) => {
+                return (
+                  <Link to={section.to} component={GatsbyLink} {...props}>
+                    <Typography ref={ref} variant="button">
+                      {section.title}
+                    </Typography>
+                  </Link>
+                );
+              })}
+            ></Button>
           ))}
       </Toolbar>
     </div>
