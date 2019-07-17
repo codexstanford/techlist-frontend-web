@@ -1,22 +1,17 @@
 import React from 'react';
-
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-
 import CardMedia from '@material-ui/core/CardMedia';
-
 import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import EventIcon from '@material-ui/icons/Event';
 import { withStyles } from '@material-ui/core/styles';
-
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 
@@ -25,7 +20,7 @@ function AboutPage({ classes, ...rest }) {
     <Layout>
       <SEO title="About" />
       <main>
-        <Grid container spacing={40} className={classes.mainGrid}>
+        <Grid container spacing={1} className={classes.mainGrid}>
           <Grid item md={12}>
             <Card className={classes.card}>
               <CardMedia
@@ -112,17 +107,17 @@ function AboutPage({ classes, ...rest }) {
 
 const styles = theme => ({
   mainGrid: {
-    marginTop: theme.spacing.unit * 1,
+    marginTop: theme.spacing(1),
   },
   mainContent: {
-    padding: `${theme.spacing.unit * 1}px`,
+    padding: theme.spacing(1),
     [theme.breakpoints.up('md')]: {
       paddingRight: 0,
     },
   },
   card: {
     minWidth: 350,
-    marginBottom: `${theme.spacing.unit * 1}px`,
+    marginBottom: theme.spacing(1),
   },
   media: {
     height: 0,

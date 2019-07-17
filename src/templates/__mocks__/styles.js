@@ -70,7 +70,7 @@ export const styles = theme => ({
   content: {
     flexGrow: 1,
 
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     height: '100vh',
 
     overflow: 'auto',
@@ -82,16 +82,16 @@ export const styles = theme => ({
     height: 320,
   },
   h5: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   paperRoot: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   card: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
     color: 'black',
     minWidth: 300,
   },

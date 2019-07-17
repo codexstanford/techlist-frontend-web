@@ -19,7 +19,6 @@ module.exports = {
         stylesProvider: {
           injectFirst: true,
         },
-        ...config.theme,
       },
     },
     `gatsby-plugin-styled-components`,

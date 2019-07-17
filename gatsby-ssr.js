@@ -2,14 +2,6 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import AppProvider from 'store/provider';
-// import wrapPageElementWithTransition from 'helpers/wrapPageElement';
-// import { ApolloProvider } from 'react-apollo';
-import { AuthProvider } from './src/store/auth-context';
-import { UserProvider } from './src/store/user-context';
-// import { ApolloProvider } from 'react-apollo';
-// import { configureApolloClient } from './src/store/apollo';
-
-// const client = configureApolloClient();
 
 export const replaceRenderer = ({
   bodyComponent,
@@ -28,9 +20,5 @@ export const replaceRenderer = ({
 };
 
 export const wrapRootElement = ({ element }) => {
-  return (
-    <AuthProvider>
-      <UserProvider>{element}</UserProvider>
-    </AuthProvider>
-  );
+  return <AppProvider>{element}</AppProvider>;
 };

@@ -6,7 +6,7 @@ export function Sidekick(props) {
   const { classes, data } = props;
   return (
     <React.Fragment>
-      <Grid container spacing={40} className={classes.cardGrid}>
+      <Grid container spacing={1} className={classes.cardGrid}>
         {data
           .filter(item => {
             return item.content && item.imageUrl;

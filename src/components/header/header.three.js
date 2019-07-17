@@ -48,9 +48,14 @@ export function HeaderLeft({ sections, classes, ...props }) {
                 key={section.title}
                 aria-label={section.title}
                 color="primary"
-                component={props => (
-                  <Link to={section.to} component={GatsbyLink} {...props} />
-                )}
+                component={React.forwardRef((props, ref) => (
+                  <Link
+                    ref={ref}
+                    to={section.to}
+                    component={GatsbyLink}
+                    {...props}
+                  />
+                ))}
               >
                 {section.title}
               </Button>
@@ -90,9 +95,14 @@ export function HeaderLeft({ sections, classes, ...props }) {
             <Button
               color="primary"
               size="small"
-              component={props => (
-                <Link to="/app/login/" component={GatsbyLink} {...props} />
-              )}
+              component={React.forwardRef((props, ref) => (
+                <Link
+                  ref={ref}
+                  to="/app/login/"
+                  component={GatsbyLink}
+                  {...props}
+                />
+              ))}
               style={{
                 marginLeft: '10px',
               }}
