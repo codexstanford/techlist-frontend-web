@@ -91,7 +91,7 @@ export function CompanyCreatePreview({ values }) {
           </Typography>
           <Typography
             variant="body2"
-            component="body2"
+            component="p"
             color="primary"
             style={{
               letterSpacing: '-.5px',
@@ -103,8 +103,8 @@ export function CompanyCreatePreview({ values }) {
           </Typography>
           <Typography
             variant="subtitle1"
-            component="subtitle1"
-            color="black"
+            component="h6"
+            color="textPrimary"
             style={{
               letterSpacing: '-.5px',
               textDecoration: 'none',
@@ -157,7 +157,7 @@ const SOMECOMP = props => {
   return (
     <Typography
       variant="subtitle1"
-      component="subtitle1"
+      component="h5"
       color="primary"
       style={{
         letterSpacing: '-.5px',

@@ -1,17 +1,18 @@
-import Amplify, { Auth } from 'aws-amplify';
 import { GraphQLClient } from 'graphql-request';
 import { LOCAL_STORAGE_KEY, GET_USER_QUERY } from './const';
 
+import fetch from 'node-fetch';
+global.fetch = global.fetch || fetch;
+
+import Auth from '@aws-amplify/auth';
+
 const isBrowser = typeof window !== `undefined`;
 
-isBrowser &&
-  Amplify.configure({
-    Auth: {
-      region: 'us-west-2',
-      userPoolId: 'us-west-2_uzyDC8Snl',
-      userPoolWebClientId: '181177ggq1ot45s6t791vposkr',
-    },
-  });
+Auth.configure({
+  region: 'us-west-2',
+  userPoolId: 'us-west-2_uzyDC8Snl',
+  userPoolWebClientId: '181177ggq1ot45s6t791vposkr',
+});
 
 function handleUserResponse({ signInUserSession, ...user }) {
   const { accessToken, idToken, refreshToken } = signInUserSession;
