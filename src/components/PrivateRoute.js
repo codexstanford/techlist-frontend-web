@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from '@reach/router';
-import { useUser } from '../store/user-context';
 
-const PrivateRoute = ({ component: Component, location, ...rest }) => {
-  const {
-    data: { user },
-  } = useUser();
-  // console.log('USER IN PRIVATE ROUTE', user);
+const PrivateRoute = ({ component: Component, location, user, ...rest }) => {
+  console.log('REST IN PRIVATE ROUTE', rest);
   if (!user) {
     navigate('/app/login/', {
       state: {
@@ -17,7 +13,7 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
     });
   }
 
-  return <Component location={location} user={user} classes={rest.classes} />;
+  return <Component location={location} user={user} {...rest} />;
 };
 
 PrivateRoute.propTypes = {

@@ -81,28 +81,20 @@ export function HeaderLeft({ sections, classes, ...props }) {
         </React.Fragment>
 
         {user ? (
-          <Link to="/app/profile/" component={GatsbyLink} {...props}>
-            <Avatar
-              src={getAvatar(user)}
-              style={{ marginLeft: 10 }}
-              imgProps={{
-                style: { maxWidth: '100%', maxHeight: '100%' },
-              }}
-            />
-          </Link>
+          <Avatar
+            src={getAvatar(user)}
+            onClick={() => navigate('/app/profile/')}
+            style={{ marginLeft: 10 }}
+            imgProps={{
+              style: { maxWidth: '100%', maxHeight: '100%' },
+            }}
+          />
         ) : (
           <React.Fragment>
             <Button
               color="primary"
               size="small"
-              component={React.forwardRef((props, ref) => (
-                <Link
-                  ref={ref}
-                  to="/app/login/"
-                  component={GatsbyLink}
-                  {...props}
-                />
-              ))}
+              onClick={() => navigate('/app/login/')}
               style={{
                 marginLeft: '10px',
               }}

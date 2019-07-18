@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "stanford-tech-index",
+  "name": "codex",
   "build": {
     "env": {
       "ACCESS_KEY": "@access_key",

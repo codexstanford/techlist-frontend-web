@@ -1,4 +1,3 @@
-import { GraphQLClient } from 'graphql-request';
 import { LOCAL_STORAGE_KEY, GET_USER_QUERY } from './const';
 
 import fetch from 'node-fetch';
@@ -53,24 +52,24 @@ async function getToken() {
   return null;
 }
 
-async function getUser() {
+async function getUser(client) {
   const token = await getToken();
 
   if (!token) {
     return Promise.resolve(null);
   }
 
-  const client = new GraphQLClient(process.env.GATSBY_GRAPHQL_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (client !== undefined) {
+    const { data } = await client
+      .query({ query: GET_USER_QUERY })
+      .catch(err => {
+        logout();
+        console.log(err);
+        return Promise.reject(err);
+      });
 
-  const result = await client.request(GET_USER_QUERY).catch(err => {
-    logout();
-    return Promise.reject(err);
-  });
-  return result;
+    return data;
+  }
 }
 
 function register({ email, password, phone: phone_number, username }) {

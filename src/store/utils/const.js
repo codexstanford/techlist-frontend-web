@@ -1,9 +1,9 @@
-// import gql from 'graphql-tag';
+import gql from 'graphql-tag';
 
 export const LOCAL_STORAGE_KEY = '__LEGAL_TECH__';
 
-export const GET_USER_QUERY = `
-  {
+export const GET_USER_QUERY = gql`
+  query GetMeQuery {
     me {
       __typename
       id
