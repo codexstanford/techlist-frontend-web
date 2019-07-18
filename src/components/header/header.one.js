@@ -5,7 +5,6 @@ import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 
 export function HeaderCenter({ siteTitle, classes, ...props }) {
-  console.log(classes);
   return (
     <div className={classes.wrapper}>
       {siteTitle && (

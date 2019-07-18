@@ -14,6 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import CreateCompanyScreen from '../../../routes/company';
 import EditProfile from '../../../components/profile.edit';
+import CreateAffiliationScreen from '../../../routes/affiliation';
 
 function DesktopProfileNavigation({
   classes,
@@ -25,6 +26,7 @@ function DesktopProfileNavigation({
   user,
 }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
+  const [showAffiliationScreen, toggleAffiliationScreen] = useState(false);
   const [showEditProfile, toggleEditProfile] = useState(false);
 
   return (
@@ -34,6 +36,11 @@ function DesktopProfileNavigation({
         onCancel={toggleCompanyScreen}
         classes={classes}
         user={user}
+      />
+      <CreateAffiliationScreen
+        open={showAffiliationScreen}
+        onCancel={toggleAffiliationScreen}
+        classes={classes}
       />
       <EditProfile
         open={showEditProfile}
@@ -72,7 +79,7 @@ function DesktopProfileNavigation({
             </ListItemIcon>
             <ListItemText
               primary="Create Affiliation"
-              onClick={() => console.log('show affiliation create form')}
+              onClick={() => toggleAffiliationScreen(!showAffiliationScreen)}
             />
           </ListItem>
           <ListItem button>

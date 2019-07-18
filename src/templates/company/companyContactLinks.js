@@ -47,7 +47,6 @@ export function CompanyContactLinks({ links, name, expanded, ...rest }) {
         />
       );
     } else if (link.type && link.payload !== '') {
-      console.log(link);
       return (
         <ListItemText
           style={{
