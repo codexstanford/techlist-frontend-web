@@ -68,6 +68,15 @@ function DesktopProfileNavigation({
           </ListItem>
           <ListItem button>
             <ListItemIcon>
+              <BusinessIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Create Affiliation"
+              onClick={() => console.log('show affiliation create form')}
+            />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
             <ListItemText
