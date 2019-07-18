@@ -57,6 +57,7 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
               id: userId,
             },
             data: {
+              handle,
               person: {
                 update: {
                   metadata: {

@@ -64,7 +64,7 @@ export const GET_CURRENT_USER_QUERY = gql`
 `;
 
 export const GET_USER_QUERY = gql`
-  query GetUserQuery($where: UserWhereUniqueInput!) {
+  query GetUserQuery($where: PartyAccountWhereUniqueInput!) {
     partyAccount(where: $where) {
       id
       cognitoId
@@ -79,38 +79,6 @@ export const GET_COMPANY_TARGET_MARKETS = gql`
     organizationTargetMarkets {
       id
       payload
-    }
-  }
-`;
-
-export const GET_PERSON_QUERY = gql`
-  query GetPerson($where: PersonWhereUniqueInput!) {
-    person(where: $where) {
-      id
-      profile {
-        id
-        firstName
-        lastName
-      }
-    }
-  }
-`;
-
-export const GET_COMPANY_QUERY = gql`
-  query GetCompany($where: CompanyWhereUniqueInput!) {
-    company(where: $where) {
-      id
-      name
-      yearFounded
-      description
-
-      logo
-      affiliations {
-        profile {
-          firstName
-          lastName
-        }
-      }
     }
   }
 `;

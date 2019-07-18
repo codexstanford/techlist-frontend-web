@@ -2,9 +2,9 @@ import gql from 'graphql-tag';
 
 export const DELETE_COMPANY_MUTATION = gql`
   mutation DeleteCompanyMutation(
-    $where: PersonOrganizationCompanyWhereUniqueInput!
+    $where: PersonOrganizationAffiliationWhereUniqueInput!
   ) {
-    deletePersonOrganizationCompany(where: $where) {
+    deletePersonOrganizationAffiliation(where: $where) {
       __typename
       id
     }
