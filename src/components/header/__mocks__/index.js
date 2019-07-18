@@ -9,7 +9,7 @@ export default {
     { title: 'Practice Management', to: '/tags/practice-management' },
     { title: 'Research', to: '/tags/legal-research' },
     { title: 'Education', to: '/tags/legal-education' },
-    { title: 'Dispute Resolution', to: '/tags/online-dispute-resolution' },
+
     { title: 'Discovery', to: '/tags/discovery' },
     { title: 'Analytics', to: '/tags/analytics' },
     { title: 'Compliance', to: '/tags/compliance' },

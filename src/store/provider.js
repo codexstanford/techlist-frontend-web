@@ -75,7 +75,7 @@ class AppProvider extends Component {
   render() {
     return (
       <AuthProvider client={client}>
-        <UserProvider>
+        <UserProvider client={client}>
           <Provider value={this.state}>
             <ApolloProvider client={client}>
               <ApolloHooksProvider client={client}>

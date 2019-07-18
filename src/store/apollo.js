@@ -41,20 +41,14 @@ const httpLink = process.browser
 
 const asyncAuthLink = setContext(
   (_, { headers }) =>
-    new Promise((success, fail) => {
-      const user = getUser()
-        .then(async user => {
-          const token = await getToken();
-          success({
-            headers: {
-              ...headers,
-              authorization: `Bearer ${token}`,
-            },
-          });
-        })
-        .catch(err => {
-          fail(err);
-        });
+    new Promise(async (success, fail) => {
+      const token = await getToken().catch(err => fail(err));
+      success({
+        headers: {
+          ...headers,
+          authorization: `Bearer ${token}`,
+        },
+      });
     })
 );
 
@@ -79,6 +73,7 @@ export function configureApolloClient() {
     cache: clientCache,
     connectToDevTools: true,
     ssrMode: true,
+
     name: process.env.GATSBY_APPLICATION_NAME,
     version: process.env.GATSBY_APPLICATION_VERSION,
   });

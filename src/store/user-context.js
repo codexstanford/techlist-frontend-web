@@ -1,10 +1,14 @@
 import React from 'react';
 import { useAuth } from './auth-context';
+import gql from 'graphql-tag';
+import { GET_USER_QUERY } from './utils/const';
 
 const UserContext = React.createContext(null);
 
 function UserProvider(props) {
-  const user = useAuth();
+  const { client } = props;
+
+  const user = useAuth(client);
 
   return <UserContext.Provider value={user} {...props} />;
 }

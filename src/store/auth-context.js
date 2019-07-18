@@ -7,6 +7,8 @@ import FullPageSpinner from '../atoms/spinner';
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
+  const { client } = props;
+
   const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false);
   const {
     data = { user: null, listItems: [] },
@@ -17,6 +19,7 @@ function AuthProvider(props) {
     reload,
   } = useAsync({
     promiseFn: bootstrapAppData,
+    client,
   });
 
   React.useLayoutEffect(() => {
