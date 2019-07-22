@@ -18,6 +18,21 @@ class CompanySearch extends React.Component {
     selectedItem: [],
   };
 
+  componentDidMount() {
+    if (this.props.initialCompany) {
+      this.props.setValues({ AffiliationCompany: this.props.initialCompany });
+      this.props.setTouched('AffiliationCompany');
+      this.setState(prevState =>
+        this.props.initialCompany
+          ? {
+              inputValue: this.props.initialCompany.name[0].payload,
+              selectedItem: [this.props.initialCompany],
+            }
+          : prevState
+      );
+    }
+  }
+
   handleKeyDown = event => {
     const { inputValue, selectedItem } = this.state;
     if (
