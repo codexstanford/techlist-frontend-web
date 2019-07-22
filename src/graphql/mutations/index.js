@@ -29,10 +29,12 @@ export const UPDATE_PERSON_AFFILIATION = gql`
 export const UPDATE_PERSON = gql`
   mutation UpdatePerson(
     $data: PersonUpdateInput!
-    $where: PersonUpdateUniqueInput!
+    $where: PersonWhereUniqueInput!
   ) {
     updatePerson(where: $where, data: $data) {
-      username
+      avatar {
+        id
+      }
       name {
         id
         firstName
