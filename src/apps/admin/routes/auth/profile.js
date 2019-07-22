@@ -43,8 +43,6 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
 
   const { id: userId } = user;
 
-  console.log('USER ***  ** * ', user);
-
   const { person } = user;
   const { id: personId } = person;
 
@@ -105,7 +103,6 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
     { setSubmitting, setErrors, setFieldError }
   ) => {
     const { firstName, lastName, avatar, title, handle } = values;
-    console.log('values ********', values);
 
     await setSubmitting(true);
     try {
@@ -208,7 +205,6 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
                           onChange={e => {
                             e.stopPropagation();
                             e.preventDefault();
-                            console.log(e.target.files);
 
                             const fileReader = new FileReader();
                             fileReader.onloadend = e => {
