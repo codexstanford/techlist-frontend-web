@@ -114,7 +114,17 @@ function EditAffiliation({
                   style={{ paddingHorizontal: '2px' }}
                 />
               </div>
-
+              <CodeXTextField
+                type="text"
+                name={`role`}
+                errors={errors}
+                touched={touched}
+                value={values.role}
+                label="Role"
+                style={{
+                  flexGrow: 2,
+                }}
+              />
               <CodeXTextField
                 type="text"
                 name={`title`}
