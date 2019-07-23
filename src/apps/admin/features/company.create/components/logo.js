@@ -34,9 +34,9 @@ export function Logo({
           }
         }}
       />
-      <InputLabel htmlFor="avatar">
+      <InputLabel htmlFor="logo">
         <StyledFab>
-          <label htmlFor="avatar">
+          <label htmlFor="logo">
             <Avatar
               style={{
                 minWidth: 250,
@@ -77,7 +77,7 @@ const StyledFab = styled(Fab)`
 
 const StyledInput = styled.input.attrs({
   type: 'file',
-  id: 'avatar',
+  id: 'logo',
   accept: 'image/*',
 })`
   width: 0.1px;
