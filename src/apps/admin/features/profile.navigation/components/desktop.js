@@ -23,7 +23,11 @@ function DesktopProfileNavigation({
   showEditProfile,
   logout,
   user,
+  ...props
 }) {
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       <Drawer
@@ -58,7 +62,7 @@ function DesktopProfileNavigation({
             </ListItemIcon>
             <ListItemText primary="Edit Profile" />
           </ListItem>
-          <ListItem button onClick={() => logout()}>
+          <ListItem button onClick={handleLogout}>
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>

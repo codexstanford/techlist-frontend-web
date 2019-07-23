@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { navigate } from '@reach/router';
 
 const PrivateRoute = ({ component: Component, location, user, ...rest }) => {
-  console.log('REST IN PRIVATE ROUTE', rest);
   if (!user) {
     navigate('/app/login/', {
       state: {
