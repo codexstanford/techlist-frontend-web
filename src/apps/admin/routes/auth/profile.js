@@ -11,6 +11,7 @@ import { TextField, Select } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import { MenuItem } from '@material-ui/core';
+import { useMutation } from 'react-apollo-hooks';
 
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -18,6 +19,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { schema } from './index';
 import { navigate } from '@reach/router';
 import Media from 'react-media';
+import { UPDATE_PERSON } from '../../../../graphql';
 
 const opts = [
   { value: 'Attorney', label: 'Attorney' },
@@ -37,8 +39,12 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
+  const updatePerson = useMutation(UPDATE_PERSON);
 
   const { id: userId } = user;
+
+  const { person } = user;
+  const { id: personId } = person;
 
   const handleSubmitRequest = async (
     values,
@@ -96,8 +102,45 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
+    const { firstName, lastName, avatar, title, handle } = values;
+
     await setSubmitting(true);
-    console.log('submitting form');
+    try {
+      setSubmitting(true);
+      const result = await updatePerson({
+        variables: {
+          where: {
+            id: personId,
+          },
+          data: {
+            name: {
+              update: {
+                where: {
+                  id: person.name[0].id,
+                },
+                data: {
+                  firstName,
+                  lastName,
+                },
+              },
+            },
+            avatar: {
+              update: {
+                where: {
+                  id: person.avatar[0].id,
+                },
+                data: { payload: avatar },
+              },
+              // username: handle,
+            },
+          },
+        },
+      });
+      setSubmitting(false);
+    } catch (error) {
+      console.log(error);
+      setSubmitting(false);
+    }
     await setSubmitting(false);
     handleClose();
   };
@@ -115,12 +158,7 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
             ? user.person.name[0].lastName
             : '',
         username: editMode && user.username !== '' ? user.username : '',
-        title: '',
-        location: '',
-        handle: '',
         avatar: image,
-        links: [],
-        skills: [],
       }}
       validationSchema={schema}
     >
@@ -167,7 +205,6 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
                           onChange={e => {
                             e.stopPropagation();
                             e.preventDefault();
-                            console.log(e.target.files);
 
                             const fileReader = new FileReader();
                             fileReader.onloadend = e => {
