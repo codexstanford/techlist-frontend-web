@@ -42,6 +42,8 @@ export default function SimpleSelect({
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
 
+  console.log('FIELDS IN LINKS SELECT', field);
+
   return (
     <StyledFormControl className={classes.formControl} style={styles}>
       <InputLabel ref={inputLabel} htmlFor={field.name}>
@@ -50,7 +52,12 @@ export default function SimpleSelect({
       <Select
         inputProps={field}
         input={
-          <Input labelwidth={labelWidth} name={field.name} id={field.name} />
+          <Input
+            labelwidth={labelWidth}
+            name={field.name}
+            id={field.name}
+            value={field.value}
+          />
         }
       >
         {options.map(item => {
