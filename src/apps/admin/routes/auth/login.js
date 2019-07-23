@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Link as GatsbyLink } from 'gatsby';
+
 import { navigate } from '@reach/router';
 import { useAuth } from '../../../../store/auth-context';
 import useCallbackStatus from '../../../../store/utils/useCallbackStatus';
@@ -121,7 +121,7 @@ function Login({ classes, location, ...props }) {
               </Form>
               <Typography component="p" variant="subtitle1" align="center">
                 Don't have an account?{' '}
-                <Link component={GatsbyLink} to="/app/create/">
+                <Link component="a" onClick={() => navigate('/app/create/')}>
                   Sign up today!
                 </Link>
               </Typography>
