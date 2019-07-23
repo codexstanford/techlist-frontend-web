@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '6rem',
     marginLeft: '1.5rem',
     marginTop: '1.5rem',
+    marginBottom: '1.5rem',
     marginRight: '.5rem',
     '@media(max-width: 480px)': {
       flexDirection: 'column',
