@@ -79,7 +79,6 @@ const StyledPaper = styled(Paper)`
   width: 100vw;
   height: 100vh;
   border-radius: 0;
-  overflow: scroll;
   @media (min-width: 750px) {
     max-width: 800px;
     max-height: 90vh;

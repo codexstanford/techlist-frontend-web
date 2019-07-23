@@ -25,7 +25,6 @@ function CompanyLinksInput(props) {
                   name={`links.${index}.type`}
                   component={CompanyLinksSelect}
                   classes={props.classes}
-                  initalItem={values.links[index]}
                   styles={{
                     paddingRight: '1rem',
                     minWidth: '250px',
