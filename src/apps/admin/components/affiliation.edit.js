@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Field, Form } from 'formik';
+import { Formik } from 'formik';
 import CodeXTextField from './codex.textinput';
 import styled from 'styled-components';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useMutation } from 'react-apollo-hooks';
 import { UPDATE_PERSON_AFFILIATION } from '../../../graphql/mutations';
 import { StaticQuery, graphql } from 'gatsby';
-import { DownshiftMultiple } from '../features/company.create/components/categories/';
-import Select from './select';
+
 import Confirm from '../../../atoms/confirm';
 
 function EditAffiliation({
@@ -131,20 +130,6 @@ function EditAffiliation({
                   style={{ paddingHorizontal: '2px' }}
                 />
               </div>
-              {/* <div>
-                <Select
-                  name="organization"
-                  options={organizationValuePairs}
-                  setFieldValue={setFieldValue}
-                  label="Company"
-                  {...props}
-                />
-                <DownshiftMultiple
-                  options={organizationValuePairs}
-                  setFieldValue={setFieldValue}
-                  {...props}
-                />
-              </div> */}
 
               <CodeXTextField
                 type="text"

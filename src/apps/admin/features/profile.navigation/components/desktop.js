@@ -12,41 +12,24 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
 
-import CreateCompanyScreen from '../../../routes/company';
-import EditProfile from '../../../components/profile.edit';
-import CreateAffiliationScreen from '../../../routes/affiliation';
-
 function DesktopProfileNavigation({
   classes,
-  MainListItems,
   secondaryListItems,
   isOpen,
   toggleDrawerVisibility,
+  toggleCompanyScreen,
+  toggleEditProfile,
+  showCompanyScreen,
+  showEditProfile,
   logout,
   user,
+  ...props
 }) {
-  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
-  const [showAffiliationScreen, toggleAffiliationScreen] = useState(false);
-  const [showEditProfile, toggleEditProfile] = useState(false);
-
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
-      <CreateCompanyScreen
-        open={showCompanyScreen}
-        onCancel={toggleCompanyScreen}
-        classes={classes}
-        user={user}
-      />
-      <CreateAffiliationScreen
-        open={showAffiliationScreen}
-        onCancel={toggleAffiliationScreen}
-        classes={classes}
-      />
-      <EditProfile
-        open={showEditProfile}
-        classes={classes}
-        handleClose={() => toggleEditProfile(!showEditProfile)}
-      />
       <Drawer
         variant="permanent"
         classes={{
@@ -64,38 +47,26 @@ function DesktopProfileNavigation({
         </div>
         <Divider />
         <List>
-          <ListItem button>
+          <ListItem
+            button
+            onClick={() => toggleCompanyScreen(!showCompanyScreen)}
+          >
             <ListItemIcon>
               <BusinessIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Create Company"
-              onClick={() => toggleCompanyScreen(!showCompanyScreen)}
-            />
+            <ListItemText primary="Create Company" />
           </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <BusinessIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Create Affiliation"
-              onClick={() => toggleAffiliationScreen(!showAffiliationScreen)}
-            />
-          </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => toggleEditProfile(!showEditProfile)}>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Edit Profile"
-              onClick={() => toggleEditProfile(!showEditProfile)}
-            />
+            <ListItemText primary="Edit Profile" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={handleLogout}>
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" onClick={() => logout()} />
+            <ListItemText primary="Logout" />
           </ListItem>
         </List>
         <Divider />

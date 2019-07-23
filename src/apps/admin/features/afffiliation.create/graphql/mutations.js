@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const CREATE_AFFILIATION_MUTATION = gql`
-  mutation CreateAffiliation($data: AffiliationCreateInput!) {
-    createAffiliation(data: $data) {
+  mutation CreateAffiliation($data: PersonOrganizationAffiliationCreateInput!) {
+    createPersonOrganizationAffiliation(data: $data) {
       __typename
       id
       description
@@ -20,11 +20,25 @@ export const CREATE_AFFILIATION_MUTATION = gql`
         }
       }
       person {
+        __typename
         id
-        name {
-          payload
+        affiliation {
+          __typename
+          id
           fromDate
           throughDate
+          title
+          role
+          description
+          organization {
+            id
+            name {
+              payload
+            }
+            logo {
+              payload
+            }
+          }
         }
       }
 

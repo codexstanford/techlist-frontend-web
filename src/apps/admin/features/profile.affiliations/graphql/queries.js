@@ -15,18 +15,22 @@ export const GET_PERSON_AFFILIATIONS_QUERY = gql`
       role
       description
       organization {
+        __typename
         id
         name {
+          __typename
           id
           payload
         }
         description
         logo {
+          __typename
           id
           payload
         }
       }
       metadata {
+        __typename
         isDraft
         isPublic
         isRejected

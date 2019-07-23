@@ -14,8 +14,10 @@ export const GET_USER_QUERY = gql`
       phone_number_verified
       email_verified
       person {
+        __typename
         id
         name {
+          __typename
           id
           firstName
           lastName
@@ -37,6 +39,8 @@ export const GET_USER_QUERY = gql`
           throughDate
         }
         metadata {
+          __typename
+          id
           isDraft
           isPublic
           isRejected
@@ -44,6 +48,7 @@ export const GET_USER_QUERY = gql`
           isPendingReview
         }
         affiliation {
+          __typename
           id
           fromDate
           throughDate

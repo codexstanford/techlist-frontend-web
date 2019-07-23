@@ -56,6 +56,8 @@ export default Layout;
 
 const AppWrapper = styled.div`
   color: white;
+
+  min-height: 100vh;
 `;
 const MainWrapper = styled.main`
   max-width: 1250px;

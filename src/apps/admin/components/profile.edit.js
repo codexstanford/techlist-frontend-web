@@ -16,9 +16,9 @@ import {
   GET_CURRENT_USER_QUERY,
 } from '../../../graphql';
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const EditProfile = ({ open, handleClose, classes, ...props }) => {
   const { data, loading, error } = useQuery(GET_CURRENT_USER_QUERY);
@@ -42,9 +42,9 @@ const EditProfile = ({ open, handleClose, classes, ...props }) => {
       aria-describedby="alert-dialog-slide-description"
       fullWidth={true}
       onBackdropClick={handleClose}
-      style={{ padding: 0, overflow: 'auto' }}
       PaperComponent={PaperComponent}
       PaperProps={{ handleClose: handleClose }}
+      style={{ padding: 0, overflow: 'auto' }}
     >
       <DialogContent>
         <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
@@ -66,14 +66,16 @@ const EditProfile = ({ open, handleClose, classes, ...props }) => {
   );
 };
 
-const PaperComponent = ({ children, handleClose, ...props }) => {
-  return (
-    <StyledPaper>
-      {children}
-      <MobileExit onClick={handleClose} />
-    </StyledPaper>
-  );
-};
+const PaperComponent = React.forwardRef(
+  ({ children, handleClose, ...props }, ref) => {
+    return (
+      <StyledPaper>
+        {children}
+        <MobileExit onClick={handleClose} />
+      </StyledPaper>
+    );
+  }
+);
 
 const StyledPaper = styled(Paper)`
   position: relative;
