@@ -68,8 +68,6 @@ function EditProfile({ open, handleClose, classes, ...props }) {
     await setSubmitting(false);
   };
 
-  console.log('OPEN', me);
-
   return (
     <Formik
       initialValues={{

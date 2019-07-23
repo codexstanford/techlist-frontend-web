@@ -11,7 +11,6 @@ const defaultCreateAffiliationMetadata = {
 export function handleCreateAffiliation(props) {
   const { mutation, user, handleClose, ...rest } = props;
   return async (values, { setSubmitting }) => {
-    console.log('VALS', values);
     try {
       const result = await mutation({
         // Reinstate when mutation is in place on backend
