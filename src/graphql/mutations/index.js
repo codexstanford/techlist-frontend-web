@@ -34,6 +34,7 @@ export const UPDATE_PERSON = gql`
     updatePerson(where: $where, data: $data) {
       avatar {
         id
+        payload
       }
       name {
         id
