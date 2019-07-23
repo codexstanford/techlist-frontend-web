@@ -42,8 +42,6 @@ export default function SimpleSelect({
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
 
-  console.log('FIELDS IN LINKS SELECT', field);
-
   return (
     <StyledFormControl className={classes.formControl} style={styles}>
       <InputLabel ref={inputLabel} htmlFor={field.name}>
