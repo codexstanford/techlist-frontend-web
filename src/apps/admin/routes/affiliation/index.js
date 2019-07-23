@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { Container, SectionWrapper } from '../../../../atoms';
 import CreateAffiliation from '../../features/afffiliation.create';
 import Clear from '@material-ui/icons/Clear';
+import { useUser } from '../../../../store/user-context';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,12 +18,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function CreateAffiliationScreen({
   classes,
-  user,
   navigate,
   open,
   onCancel,
+  initialCompany,
   ...rest
 }) {
+  const { data } = useUser();
+  const { user } = data;
+
   return (
     <Dialog
       open={open !== undefined && open}
@@ -37,6 +41,7 @@ function CreateAffiliationScreen({
           classes={classes}
           user={user}
           handleClose={() => onCancel(!open)}
+          initialCompany={initialCompany}
         />
         <MobileExit onClick={() => onCancel(!open)} />
       </StyledDialogContent>

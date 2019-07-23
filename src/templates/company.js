@@ -25,23 +25,26 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import { formatCompanyCategories } from './company/helpers';
+import CardHeader from '@material-ui/core/CardHeader';
+import styled from 'styled-components';
+import { graphql } from 'gatsby';
 
 import { mainListItems, secondaryListItems } from './__mocks__/listitems';
 import { styles } from './__mocks__/styles';
-import { graphql } from 'gatsby';
-import styled from 'styled-components';
-
 import {
   CompanyLocationMap,
   CompanyIntelligence,
   CompanyNews,
   CompanyContact,
+  CreateAffiliation,
 } from './company/index';
-import CardHeader from '@material-ui/core/CardHeader';
+
+import CreateAffiliationScreen from '../apps/admin/routes/affiliation';
 
 class CompanyTemplate extends React.Component {
   state = {
     open: false,
+    showAffiliationScreen: false,
   };
 
   handleDrawerOpen = () => {
@@ -51,6 +54,11 @@ class CompanyTemplate extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
+  toggleAffiliationScreen = () =>
+    this.setState(() => ({
+      showAffiliationScreen: !this.state.showAffiliationScreen,
+    }));
 
   render() {
     const {
@@ -69,6 +77,12 @@ class CompanyTemplate extends React.Component {
         fullScreen={true}
         shouldShowSearch={false}
       >
+        <CreateAffiliationScreen
+          open={this.state.showAffiliationScreen}
+          onCancel={this.toggleAffiliationScreen}
+          classes={classes}
+          initialCompany={organization}
+        />
         <div className={classes.root}>
           <AppBar
             position="absolute"
@@ -132,6 +146,15 @@ class CompanyTemplate extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="Dashboard" />
                 </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <BusinessIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Create Affiliation"
+                    onClick={this.toggleAffiliationScreen}
+                  />
+                </ListItem>
               </List>
               <Divider />
               <List>{secondaryListItems}</List>
@@ -162,6 +185,15 @@ class CompanyTemplate extends React.Component {
                   <ListItemText
                     primary="Dashboard"
                     onClick={this.handleDrawerClose}
+                  />
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <BusinessIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Create Affiliation"
+                    onClick={this.toggleAffiliationScreen}
                   />
                 </ListItem>
               </List>

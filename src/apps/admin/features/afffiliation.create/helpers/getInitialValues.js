@@ -1,5 +1,5 @@
-export function getInitialValues(props) {
+export function getInitialValues(initialCompany) {
   return {
-    AffiliationCompany: '',
+    AffiliationCompany: initialCompany ? initialCompany.name[0].payload : '',
   };
 }
