@@ -57,23 +57,13 @@ export function CreateAffiliation({
         return (
           <>
             <Form style={{ width: '100%', alignSelf: 'center' }}>
-              <CodeXFormHeader text={`Create Affiliation`} />
-
-              <CompanySearch
-                placeholder="Search…"
-                suggestions={allSitePages ? allSitePages.edges : []}
-                classes={classes}
-                handleBlur={handleBlur}
-                setValues={setValues}
-                setTouched={setTouched}
-                errors={errors}
-                touched={touched}
-                initialCompany={initialCompany}
+              <CodeXFormHeader
+                text={`Create Affiliation with ${initialCompany.name[0].payload}`}
               />
+
               <SectionWrapper>
                 <Button
                   type="submit"
-                  disabled={checkCanFormSubmit(touched, errors)}
                   fullWidth
                   variant="contained"
                   color="primary"

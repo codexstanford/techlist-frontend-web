@@ -16,8 +16,8 @@ const useStyles = makeStyles({
 export function renderAffiliation({ affiliation, hasDivider = true }) {
   const classes = useStyles();
   return (
-    <>
-      <ListItem key={affiliation.id} component="div">
+    <div key={affiliation.id}>
+      <ListItem component="div">
         <AffiliationAvatar affiliation={affiliation} />
         <AffiliationContent affiliation={affiliation} />
         <AffiliationControls affiliation={affiliation} />
@@ -25,6 +25,6 @@ export function renderAffiliation({ affiliation, hasDivider = true }) {
       {hasDivider && (
         <Divider className={classes.divider} variant="fullWidth" />
       )}
-    </>
+    </div>
   );
 }

@@ -45,30 +45,16 @@ export const UPDATE_PERSON = gql`
 `;
 
 export const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($input: UserCreateInput!) {
-    createUser(input: $input) {
+  mutation CreateUser($data: PartyAccountCreateInput!) {
+    createPartyAccount(data: $data) {
       id
-    }
-  }
-`;
-
-export const UPDATE_COMPANY_MUTATION = gql`
-  mutation UpdateCompany(
-    $where: CompanyWhereUniqueInput!
-    $data: CompanyUpdateInput!
-  ) {
-    updateCompany(where: $where, data: $data) {
-      id
-      name
-      yearFounded
-      description
     }
   }
 `;
 
 export const CREATE_PERSON_MUTATION = gql`
-  mutation CreatePerson($input: PersonCreateInput!) {
-    createPerson(input: $input) {
+  mutation CreatePerson($data: PersonCreateInput!) {
+    createPerson(data: $data) {
       id
     }
   }

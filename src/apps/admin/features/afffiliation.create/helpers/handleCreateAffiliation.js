@@ -10,27 +10,31 @@ const defaultCreateAffiliationMetadata = {
 
 export function handleCreateAffiliation(props) {
   const { mutation, user, handleClose, ...rest } = props;
-  return async ({}, { setSubmitting }) => {
+  return async (values, { setSubmitting }) => {
+    console.log('VALS', values);
     try {
-      // const result = await mutation({ // Reinstate when mutation is in place on backend
-      //   variables: {
-      //     data: {
-      //       affiliation: {
-      //         create: {
-      //           fromDate: new Date(),
-      //           person: {
-      //             connect: {
-      //               id: user.person.id,
-      //             },
-      //           },
-      //         },
-      //       },
-      //       metadata: {
-      //         create: defaultCreateAffiliationMetadata,
-      //       },
-      //     },
-      //   },
-      // });
+      const result = await mutation({
+        // Reinstate when mutation is in place on backend
+        variables: {
+          data: {
+            fromDate: new Date(),
+            person: {
+              connect: {
+                id: user.person.id,
+              },
+            },
+            organization: {
+              connect: {
+                id: values.organizationID,
+              },
+            },
+
+            metadata: {
+              create: defaultCreateAffiliationMetadata,
+            },
+          },
+        },
+      });
       setSubmitting(false);
       handleClose();
       navigate('/app/profile/');
