@@ -23,19 +23,21 @@ export function CreateAffiliation({
   handleClose,
   classes,
   allSitePages,
+  initialCompany,
+  user,
   ...props
 }) {
-  // const mutation = useMutation(CREATE_AFFILIATION_MUTATION);
-  // const createAffiliation = handleCreateAffiliation({
-  //   mutation,
-  //   user: props.user,
-  //   handleClose,
-  // });
+  const mutation = useMutation(CREATE_AFFILIATION_MUTATION);
+  const createAffiliation = handleCreateAffiliation({
+    mutation,
+    user: user,
+    handleClose,
+  });
 
   return (
     <Formik
-      onSubmit={() => console.log('submitting Affiliation')}
-      initialValues={getInitialValues()}
+      onSubmit={createAffiliation}
+      initialValues={getInitialValues(initialCompany)}
       validationSchema={ValidationSchema}
       style={{ width: '100%' }}
     >
@@ -49,6 +51,7 @@ export function CreateAffiliation({
         handleChange,
         setFieldError,
         setValues,
+        setTouched,
         ...rest
       }) => {
         return (
@@ -62,8 +65,10 @@ export function CreateAffiliation({
                 classes={classes}
                 handleBlur={handleBlur}
                 setValues={setValues}
+                setTouched={setTouched}
                 errors={errors}
                 touched={touched}
+                initialCompany={initialCompany}
               />
               <SectionWrapper>
                 <Button
