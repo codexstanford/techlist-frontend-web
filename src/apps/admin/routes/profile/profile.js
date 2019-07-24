@@ -8,7 +8,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ProfileNav from '../../features/profile.navigation/';
-import { useUser } from '../../../../store/user-context';
 
 import styled from 'styled-components';
 
@@ -22,8 +21,8 @@ export function UserProfile({ classes, ...props }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const [showAffiliationScreen, toggleAffiliationScreen] = useState(false);
   const [showEditProfile, toggleEditProfile] = useState(false);
-  const { logout } = useUser();
-  const { data } = props;
+
+  const { data, logout } = props;
   const { person, id: partyAccountId } = data;
 
   const bag = {
@@ -85,6 +84,7 @@ export function UserProfile({ classes, ...props }) {
         toggleDrawerVisibility={toggleDrawerVisibility}
         logout={logout}
         user={props.user}
+        {...props}
         {...bag}
       />
 
@@ -145,7 +145,7 @@ const StyledCard = styled(Card)`
 const StyledMain = styled.main`
   flex-grow: 1;
   padding: 8px;
-  height: 100vh;
+
   overflow: auto;
 
   @media (min-width: 480px) {

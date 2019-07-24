@@ -34,20 +34,29 @@ function login({ username, password }) {
 }
 
 function logout() {
-  isBrowser && window.localStorage.removeItem(LOCAL_STORAGE_KEY);
   if (isBrowser) {
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY);
     return Auth.signOut();
   }
+  return Promise.resolve();
 }
 
 async function getToken() {
   if (window) {
-    const session = await Auth.currentSession().catch(err => {
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getIdToken().jwtToken || null;
+      return Promise.resolve()
+        .then(() => {
+          window.localStorage.setItem(LOCAL_STORAGE_KEY, token);
+        })
+        .then(() => {
+          return window.localStorage.getItem(LOCAL_STORAGE_KEY);
+        });
+    } catch (err) {
       console.log(err);
-      logout();
-    });
-    return session.getIdToken().jwtToken || null;
-    // return window.localStorage.getItem(LOCAL_STORAGE_KEY);
+      return null;
+    }
   }
   return null;
 }
@@ -56,9 +65,9 @@ async function getUser(client) {
   const token = await getToken();
 
   if (!token) {
+    client.resetStore();
     return Promise.resolve(null);
   }
-
   if (client !== undefined) {
     const { data } = await client
       .query({ query: GET_USER_QUERY })

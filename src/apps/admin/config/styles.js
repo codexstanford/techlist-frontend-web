@@ -69,8 +69,11 @@ export const styles = theme => ({
 
   root: {
     display: 'flex',
+
     position: 'relative',
     width: '100%',
+    minHeight: '92vh',
+
     alignSelf: 'center',
   },
   button: {

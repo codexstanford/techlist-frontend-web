@@ -1,7 +1,5 @@
 import React from 'react';
 import { useAuth } from './auth-context';
-import gql from 'graphql-tag';
-import { GET_USER_QUERY } from './utils/const';
 
 const UserContext = React.createContext(null);
 

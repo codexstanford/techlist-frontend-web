@@ -23,7 +23,6 @@ import { navigate } from '@reach/router';
 
 import MainSearch from '../search';
 import { useUser } from '../../store/user-context';
-import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
@@ -55,16 +54,14 @@ export function MobileNav({ classes, siteTitle, ...props }) {
         >
           {siteTitle}
         </Typography>
-        <Button onClick={toggleDrawer} color="primary" aria-label="Toggle Menu">
+        <Button
+          onClick={() => toggleDrawer(!isDrawerOpen)}
+          color="primary"
+          aria-label="Toggle Menu"
+        >
           <MenuIcon />
         </Button>
       </div>
-      <CreateCompanyScreen
-        open={showCompanyScreen}
-        onCancel={toggleCompanyScreen}
-        classes={classes}
-        user={user}
-      />
 
       <SwipeableDrawer
         anchor="top"
@@ -182,9 +179,10 @@ const SideLeft = props => {
         ) : (
           <ListItem
             button
-            onClick={() => toggleDrawer(!isDrawerOpen)}
-            component={GatsbyLink}
-            to={'/app/login/'}
+            onClick={() => {
+              toggleDrawer(!isDrawerOpen);
+              navigate('/app/login');
+            }}
           >
             <ListItemIcon>
               <BuildIcon />
@@ -197,35 +195,38 @@ const SideLeft = props => {
           <>
             <ListItem
               button
-              onClick={() => toggleDrawer(!isDrawerOpen)}
-              component={GatsbyLink}
-              to="/app/profile/"
+              onClick={() => {
+                toggleDrawer(!isDrawerOpen);
+                navigate('/app/profile');
+              }}
             >
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>
-            <ListItem button component={GatsbyLink} to="/app/login/">
+            <ListItem
+              button
+              onClick={() => {
+                logout();
+                toggleDrawer(!isDrawerOpen);
+                navigate('/app/login');
+              }}
+            >
               <ListItemIcon>
                 <LockOpenIcon />
               </ListItemIcon>
-              <ListItemText
-                primary="Logout"
-                onClick={() => {
-                  logout();
-                  toggleDrawer(!isDrawerOpen);
-                }}
-              />
+              <ListItemText primary="Logout" />
             </ListItem>
           </>
         ) : (
           <ListItem
             button
-            onClick={() => toggleDrawer(!isDrawerOpen)}
+            onClick={() => {
+              toggleDrawer(!isDrawerOpen);
+              navigate('/app/login/');
+            }}
             button
-            component={GatsbyLink}
-            to="/app/login/"
           >
             <ListItemIcon>
               <LockIcon />
