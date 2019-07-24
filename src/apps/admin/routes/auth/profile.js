@@ -19,7 +19,6 @@ import AddIcon from '@material-ui/icons/Add';
 import { schema } from './index';
 import { navigate } from '@reach/router';
 import Media from 'react-media';
-import { UPDATE_PERSON } from '../../../../graphql';
 
 const opts = [
   { value: 'Attorney', label: 'Attorney' },
@@ -35,16 +34,14 @@ const linkOptions = [
   { value: 'Other', label: 'Other' },
 ];
 
-function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
+function CreateProfile({ classes, handleClose, user, ...props }) {
   const [image, setImage] = useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-  const updatePerson = useMutation(UPDATE_PERSON);
 
   const { id: userId } = user;
 
   const { person } = user;
-  const { id: personId } = person;
 
   const handleSubmitRequest = async (
     values,
@@ -98,66 +95,14 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
       console.log(err);
     }
   };
-  const handleEditSubmit = async (
-    values,
-    { setSubmitting, setErrors, setFieldError }
-  ) => {
-    const { firstName, lastName, avatar, title, handle } = values;
-
-    await setSubmitting(true);
-    try {
-      setSubmitting(true);
-      const result = await updatePerson({
-        variables: {
-          where: {
-            id: personId,
-          },
-          data: {
-            name: {
-              update: {
-                where: {
-                  id: person.name[0].id,
-                },
-                data: {
-                  firstName,
-                  lastName,
-                },
-              },
-            },
-            avatar: {
-              update: {
-                where: {
-                  id: person.avatar[0].id,
-                },
-                data: { payload: avatar },
-              },
-              // username: handle,
-            },
-          },
-        },
-      });
-      setSubmitting(false);
-    } catch (error) {
-      console.log(error);
-      setSubmitting(false);
-    }
-    await setSubmitting(false);
-    handleClose();
-  };
 
   return (
     <Formik
-      onSubmit={editMode ? handleEditSubmit : handleSubmitRequest}
+      onSubmit={handleSubmitRequest}
       initialValues={{
-        firstName:
-          editMode && user.person.name[0].firstName !== ''
-            ? user.person.name[0].firstName
-            : '',
-        lastName:
-          editMode && user.person.name[0].lastName !== ''
-            ? user.person.name[0].lastName
-            : '',
-        username: editMode && user.username !== '' ? user.username : '',
+        firstName: '',
+        lastName: '',
+        username: '',
         avatar: image,
       }}
       validationSchema={schema}
@@ -178,11 +123,7 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
                 className={matches ? classes.main : null}
                 style={matches ? {} : { margin: 0 }}
               >
-                <Paper
-                  className={classes.paper}
-                  style={editMode ? { margin: '16px 0' } : {}}
-                  elevation={editMode ? 0 : 1}
-                >
+                <Paper className={classes.paper}>
                   <HeaderWrapper>
                     <Typography
                       variant="h5"
@@ -193,7 +134,7 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
                         textDecoration: 'none',
                       }}
                     >
-                      {`${editMode ? 'Edit' : 'Create CodeX'} Profile`}
+                      Create CodeX Profile
                     </Typography>
                   </HeaderWrapper>
                   <Form className={classes.form}>
@@ -380,7 +321,7 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
                           color="primary"
                           className={classes.submit}
                         >
-                          {`${editMode ? 'Update' : 'Create'} Profile!`}
+                          Create Profile!
                         </Button>
                         {isSubmitting && (
                           <CircularProgress
@@ -400,10 +341,6 @@ function CreateProfile({ classes, handleClose, editMode, user, ...props }) {
     </Formik>
   );
 }
-
-CreateProfile.defaultProps = {
-  editMode: false,
-};
 
 export default CreateProfile;
 
