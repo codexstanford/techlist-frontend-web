@@ -32,6 +32,7 @@ export default function ProfileAffiliations({ person, ...props }) {
   }
 
   const { personOrganizationAffiliations: affiliations } = data;
+
   return (
     <div>
       <div>

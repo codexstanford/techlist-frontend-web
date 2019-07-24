@@ -13,6 +13,10 @@ export const GET_USER_QUERY = gql`
       phone
       phone_number_verified
       email_verified
+      admin {
+        __typename
+        id
+      }
       person {
         __typename
         id
@@ -27,12 +31,14 @@ export const GET_USER_QUERY = gql`
           throughDate
         }
         email {
+          __typename
           id
           payload
           fromDate
           throughDate
         }
         avatar {
+          __typename
           id
           payload
           fromDate
@@ -56,11 +62,16 @@ export const GET_USER_QUERY = gql`
           role
           description
           organization {
+            __typename
             id
             name {
+              id
+              __typename
               payload
             }
             logo {
+              id
+              __typename
               payload
             }
           }
