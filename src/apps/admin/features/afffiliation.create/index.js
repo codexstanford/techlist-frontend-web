@@ -1,113 +1,186 @@
 import React from 'react';
-import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Formik, Field, Form } from 'formik';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import PropTypes from 'prop-types';
+import { Formik } from 'formik';
+import CodeXTextField from '../../components/codex.textinput';
+import styled from 'styled-components';
+import { useMutation } from 'react-apollo-hooks';
+import { CREATE_AFFILIATION_MUTATION } from './graphql/mutations';
 import { StaticQuery, graphql } from 'gatsby';
+import Confirm from '../../../../atoms/confirm';
 
-import {
-  CodeXFormHeader,
-  handleCreateAffiliation,
-  getInitialValues,
-  checkCanFormSubmit,
-  ValidationSchema,
-  getCurrentErrors,
-  checkForSectionErrors,
-} from './helpers';
-
-import { CREATE_AFFILIATION_MUTATION } from './graphql';
-import { SectionWrapper } from '../../../../atoms';
-import CompanySearch from './components/companySearch';
-
-export function CreateAffiliation({
+function EditAffiliation({
+  affiliation,
+  open,
   handleClose,
-  classes,
-  allSitePages,
+  data,
   initialCompany,
   user,
   ...props
 }) {
-  const mutation = useMutation(CREATE_AFFILIATION_MUTATION);
-  const createAffiliation = handleCreateAffiliation({
-    mutation,
-    user: user,
-    handleClose,
-  });
+  const createAffiliation = useMutation(CREATE_AFFILIATION_MUTATION);
+
+  async function handleSubmit(
+    { fromDate, throughDate, role, description, title, organization },
+    { setSubmitting }
+  ) {
+    try {
+      setSubmitting(true);
+      const result = await createAffiliation({
+        variables: {
+          data: {
+            fromDate,
+            throughDate,
+            role,
+            description,
+            title,
+            organization: { connect: { id: initialCompany.id } },
+            person: { connect: { id: user.person.id } },
+          },
+        },
+      });
+      setSubmitting(false);
+    } catch (error) {
+      console.log(error);
+      setSubmitting(false);
+    }
+  }
+
+  function conformOrganizationData(org) {
+    return {
+      value: org.id,
+      label: org.name[0].payload,
+    };
+  }
 
   return (
     <Formik
-      onSubmit={createAffiliation}
-      initialValues={getInitialValues(initialCompany)}
-      validationSchema={ValidationSchema}
-      style={{ width: '100%' }}
+      initialValues={{
+        fromDate: '',
+        id: '',
+        description: '',
+        throughDate: '',
+        role: '',
+        title: '',
+        organization: initialCompany
+          ? conformOrganizationData(initialCompany)
+          : null,
+      }}
+      onSubmit={handleSubmit}
     >
       {({
-        values,
         isSubmitting,
-        handleBlur,
+        values,
+        setFieldValue,
+        setValues,
+        isValid,
         errors,
         touched,
-        validateField,
-        handleChange,
-        setFieldError,
-        setValues,
-        setTouched,
-        ...rest
+        submitForm,
       }) => {
         return (
-          <>
-            <Form style={{ width: '100%', alignSelf: 'center' }}>
-              <CodeXFormHeader
-                text={`Create Affiliation with ${initialCompany.name[0].payload}`}
+          <Confirm
+            confirmText="Save"
+            cancelText="Cancel"
+            onClose={handleClose}
+            onCancel={() => {}}
+            onConfirm={submitForm}
+            open={open}
+            title={
+              <TitleContainer>
+                {`Create an affiliation with ${initialCompany.name[0].payload}`}
+              </TitleContainer>
+            }
+          >
+            <Container>
+              <div style={{ display: 'flex' }}>
+                <CodeXTextField
+                  name="fromDate"
+                  margin="normal"
+                  type="date"
+                  errors={errors}
+                  touched={touched}
+                  label="Date From"
+                  fullWidth={false}
+                  style={{ paddingHorizontal: '2px', marginRight: '1rem' }}
+                />
+                <CodeXTextField
+                  name="throughDate"
+                  margin="normal"
+                  type="date"
+                  errors={errors}
+                  touched={touched}
+                  label="Date To"
+                  fullWidth={false}
+                  style={{ paddingHorizontal: '2px' }}
+                />
+              </div>
+              <CodeXTextField
+                type="text"
+                name={`role`}
+                errors={errors}
+                touched={touched}
+                value={values.role}
+                label="Role"
+                style={{
+                  flexGrow: 2,
+                }}
               />
-
-              <SectionWrapper>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Create Affiliation
-                </Button>
-                {isSubmitting && (
-                  <CircularProgress
-                    size={24}
-                    className={classes.buttonProgress}
-                  />
-                )}
-              </SectionWrapper>
-            </Form>
-          </>
+              <CodeXTextField
+                type="text"
+                name={`title`}
+                errors={errors}
+                touched={touched}
+                value={values.title}
+                label="Title"
+                style={{
+                  flexGrow: 2,
+                }}
+              />
+              <CodeXTextField
+                type="text"
+                name={`description`}
+                errors={errors}
+                touched={touched}
+                value={values.title}
+                label="Description"
+                multiline={true}
+                style={{
+                  flexGrow: 2,
+                }}
+              />
+            </Container>
+          </Confirm>
         );
       }}
     </Formik>
   );
 }
 
-export default props => (
-  <StaticQuery
-    query={graphql`
-      query CompaniesSearchQuery {
-        allSitePage {
-          edges {
-            node {
-              path
-              context {
-                id
-                name
-                slug
-                url
-                twitter
-                description
-                data
-              }
-            }
-          }
-        }
-      }
-    `}
-    render={data => <CreateAffiliation allSitePages={data} {...props} />}
-  />
-);
+EditAffiliation.propTypes = {
+  affiliation: PropTypes.shape({
+    id: PropTypes.string,
+    fromDate: PropTypes.string,
+    throughDate: PropTypes.string,
+    role: PropTypes.PropTypes.string,
+    title: PropTypes.PropTypes.string,
+    organization: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.arrayOf(
+        PropTypes.shape({
+          payload: PropTypes.string,
+        })
+      ),
+    }),
+  }),
+};
+
+export default EditAffiliation;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TitleContainer = styled.div`
+  text-align: center;
+`;
