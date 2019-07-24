@@ -23,6 +23,7 @@ import { navigate } from '@reach/router';
 
 import MainSearch from '../search';
 import { useUser } from '../../store/user-context';
+import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
@@ -32,6 +33,12 @@ export function MobileNav({ classes, siteTitle, ...props }) {
 
   return (
     <React.Fragment>
+      <CreateCompanyScreen
+        open={showCompanyScreen}
+        onCancel={toggleCompanyScreen}
+        classes={classes}
+        user={user}
+      />
       <div
         style={{
           display: 'flex',
