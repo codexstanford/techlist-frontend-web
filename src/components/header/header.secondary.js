@@ -1,41 +1,14 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { Link as GatsbyLink } from 'gatsby';
-import Link from '@material-ui/core/Link';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
-export function SecondaryHeader(props) {
-  const { sections, classes } = props;
-  return (
-    <div className={classes.sectionDesktop}>
-      <Toolbar variant="dense" className={classes.toolbarSecondary}>
-        {sections &&
-          sections.map(section => (
-            <Button
-              key={section.title}
-              color="primary"
-              size="small"
-              aria-label={section.title}
-              className={classes.button}
-              component={React.forwardRef((props, ref) => {
-                return (
-                  <Link to={section.to} component={GatsbyLink} {...props}>
-                    <Typography ref={ref} variant="button">
-                      {section.title}
-                    </Typography>
-                  </Link>
-                );
-              })}
-            ></Button>
-          ))}
-      </Toolbar>
-    </div>
-  );
-}
+const AdapterLink = React.forwardRef((props, ref) => (
+  <GatsbyLink innerRef={ref} {...props} />
+));
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   toolbarSecondary: {
     justifyContent: 'space-between',
   },
@@ -47,6 +20,31 @@ const styles = theme => ({
       justifyContent: 'center',
     },
   },
-});
+}));
 
-export default withStyles(styles)(SecondaryHeader);
+export function SecondaryHeader(props) {
+  const classes = useStyles();
+  const { sections } = props;
+  return (
+    <div className={classes.sectionDesktop}>
+      <Toolbar variant="dense" className={classes.toolbarSecondary}>
+        {sections &&
+          sections.map(section => (
+            <Button
+              key={section.title}
+              color="primary"
+              size="small"
+              to={section.to}
+              aria-label={section.title}
+              className={classes.button}
+              component={AdapterLink}
+            >
+              {section.title}
+            </Button>
+          ))}
+      </Toolbar>
+    </div>
+  );
+}
+
+export default SecondaryHeader;
