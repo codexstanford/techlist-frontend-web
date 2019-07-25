@@ -1,13 +1,9 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Paper from '@material-ui/core/Paper';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import styled from 'styled-components';
-import { Container, SectionWrapper } from '../../../../atoms';
 import CreateCompanyNew from '../../features/company.create';
 import Clear from '@material-ui/icons/Clear';
 
@@ -28,7 +24,7 @@ function CreateCompanyScreen({
       open={open !== undefined && open}
       TransitionComponent={Transition}
       fullWidth={true}
-      onBackdropClick={() => onCancel(!open)}
+      onBackdropClick={onCancel}
       PaperComponent={PaperComponent}
       style={{ padding: 0, overflow: 'auto' }}
     >
@@ -36,9 +32,9 @@ function CreateCompanyScreen({
         <CreateCompanyNew
           classes={classes}
           user={user}
-          handleClose={() => onCancel(!open)}
+          handleClose={onCancel}
         />
-        <MobileExit onClick={() => onCancel(!open)} />
+        <MobileExit onClick={onCancel} />
       </StyledDialogContent>
     </Dialog>
   );

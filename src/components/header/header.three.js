@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { useUser } from '../../store/user-context';
-import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 import { navigate } from '@reach/router';
+import { CreateCompanyModalContext } from '../../store/modal-context';
 
 export function HeaderLeft({ sections, classes, ...props }) {
-  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
+  const { showModal } = useContext(CreateCompanyModalContext);
   const { data, logout } = useUser();
   const { user } = data;
 
@@ -61,11 +61,7 @@ export function HeaderLeft({ sections, classes, ...props }) {
             variant="outlined"
             size="small"
             aria-label="Get Listed"
-            onClick={() =>
-              user
-                ? toggleCompanyScreen(!showCompanyScreen)
-                : navigate('/app/login/')
-            }
+            onClick={() => (user ? showModal() : navigate('/app/login/'))}
             style={{
               marginLeft: '10px',
             }}

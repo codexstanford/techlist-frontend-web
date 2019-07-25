@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -10,7 +10,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import BusinessIcon from '@material-ui/icons/Business';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import CreateCompanyScreen from '../../../routes/company';
+import { CreateCompanyModalContext } from '../../../../../store/modal-context';
 
 function DesktopProfileNavigation({
   classes,
@@ -22,16 +22,10 @@ function DesktopProfileNavigation({
   logout,
   user,
 }) {
-  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
+  const { showModal } = useContext(CreateCompanyModalContext);
 
   return (
     <>
-      <CreateCompanyScreen
-        open={showCompanyScreen}
-        onCancel={toggleCompanyScreen}
-        classes={classes}
-        user={user}
-      />
       <Drawer
         variant="temporary"
         classes={{
@@ -53,10 +47,7 @@ function DesktopProfileNavigation({
             <ListItemIcon>
               <BusinessIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Create Company"
-              onClick={() => toggleCompanyScreen(!showCompanyScreen)}
-            />
+            <ListItemText primary="Create Company" onClick={showModal} />
           </ListItem>
           <ListItem button>
             <ListItemIcon>

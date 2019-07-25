@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link as GatsbyLink } from 'gatsby';
 
 import Typography from '@material-ui/core/Typography';
@@ -23,10 +23,10 @@ import { navigate } from '@reach/router';
 
 import MainSearch from '../search';
 import { useUser } from '../../store/user-context';
+import { CreateCompanyModalContext } from '../../store/modal-context';
 
 export function MobileNav({ classes, siteTitle, ...props }) {
   const [isDrawerOpen, toggleDrawer] = React.useState(false);
-  const [showCompanyScreen, toggleCompanyScreen] = React.useState(false);
   const { data, logout } = useUser();
   const { user } = data;
 
@@ -78,8 +78,6 @@ export function MobileNav({ classes, siteTitle, ...props }) {
           <SideLeft
             classes={classes}
             {...props}
-            showCompanyScreen={showCompanyScreen}
-            toggleCompanyScreen={toggleCompanyScreen}
             isDrawerOpen={isDrawerOpen}
             toggleDrawer={toggleDrawer}
           />
@@ -90,6 +88,7 @@ export function MobileNav({ classes, siteTitle, ...props }) {
 }
 
 const SideLeft = props => {
+  const { showModal } = useContext(CreateCompanyModalContext);
   const { data, logout } = useUser();
   const { user } = data;
   const {
@@ -166,9 +165,7 @@ const SideLeft = props => {
             button
             onClick={() => {
               toggleDrawer(!isDrawerOpen);
-              isUserLoggedIn
-                ? toggleCompanyScreen(!showCompanyScreen)
-                : navigate('/app/login/');
+              isUserLoggedIn ? showModal() : navigate('/app/login/');
             }}
           >
             <ListItemIcon>

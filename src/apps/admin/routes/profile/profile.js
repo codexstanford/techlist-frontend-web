@@ -7,30 +7,23 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import ProfileNav from '../../features/profile.navigation/';
-
 import styled from 'styled-components';
 
+import ProfileNav from '../../features/profile.navigation/';
 import ProfileAffiliations from '../../features/profile.affiliations';
 import ProfileCompanies from '../../features/profile.companies';
-import CreateCompanyScreen from '../company';
 import EditProfile from '../../components/profile.edit';
 
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState();
-  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
-  const [showAffiliationScreen, toggleAffiliationScreen] = useState(false);
   const [showEditProfile, toggleEditProfile] = useState(false);
 
   const { data, logout } = props;
   const { person, id: partyAccountId } = data;
 
   const bag = {
-    showAffiliationScreen,
-    toggleCompanyScreen,
     showEditProfile,
     toggleEditProfile,
-    showCompanyScreen,
   };
 
   React.useEffect(() => {
@@ -87,7 +80,6 @@ export function UserProfile({ classes, ...props }) {
         {...props}
         {...bag}
       />
-
       <StyledMain>
         <div className={classes.appBarSpacer} />
         <StyledWrapper>
@@ -103,13 +95,6 @@ export function UserProfile({ classes, ...props }) {
           </StyledCard>
         </StyledWrapper>
       </StyledMain>
-      <CreateCompanyScreen
-        open={showCompanyScreen}
-        onCancel={toggleCompanyScreen}
-        classes={classes}
-        user={props.user}
-      />
-
       <EditProfile
         open={showEditProfile}
         classes={classes}
@@ -145,9 +130,7 @@ const StyledCard = styled(Card)`
 const StyledMain = styled.main`
   flex-grow: 1;
   padding: 8px;
-
   overflow: auto;
-
   @media (min-width: 480px) {
     padding: 24px;
   }
