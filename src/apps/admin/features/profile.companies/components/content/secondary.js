@@ -4,12 +4,20 @@ import { formatDateString } from '../../helpers';
 function renderCompanySecondaryContent({ company }) {
   return (
     <div>
-      <span>{`${company.title}`}</span>
-      <br />
-      <span>{`${formatDateString(company.fromDate)} to ${formatDateString(
-        company.throughDate
-      )} `}</span>
-      <p>{`${company.description}`}</p>
+      {company.title && (
+        <>
+          <span>{`${company.title}`}</span>
+          <br />
+        </>
+      )}
+      {
+        <span>{`${
+          company.yearFounded !== null
+            ? formatDateString(company.yearFounded)
+            : 'N/A'
+        }`}</span>
+      }
+      <p>{company.description && `${company.description}`}</p>
     </div>
   );
 }

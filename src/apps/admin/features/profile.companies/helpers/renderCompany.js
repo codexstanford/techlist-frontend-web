@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import styled from 'styled-components';
 
 import CompanyControls from '../components/controls';
 import { CompanyAvatar, CompanyContent } from '../components';
@@ -10,15 +11,21 @@ const useStyles = makeStyles({
   divider: {
     color: 'black',
   },
+  listItem: {
+    diplay: 'flex',
+    justifyContent: 'space-between',
+  },
 });
 
 export function renderCompany({ company, hasDivider = true }) {
   const classes = useStyles();
   return (
     <>
-      <ListItem key={company.id} component="div">
-        <CompanyAvatar company={company} />
-        <CompanyContent company={company} />
+      <ListItem key={company.id} component="div" className={classes.listItem}>
+        <AvatarAndContentContainer>
+          <CompanyAvatar company={company} />
+          <CompanyContent company={company} />
+        </AvatarAndContentContainer>
         <CompanyControls company={company} />
       </ListItem>
       {hasDivider && (
@@ -27,3 +34,8 @@ export function renderCompany({ company, hasDivider = true }) {
     </>
   );
 }
+
+const AvatarAndContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;

@@ -133,8 +133,9 @@ const StyledWrapper = styled.main`
 `;
 
 const StyledCard = styled(Card)`
-  min-width: 350px;
+  min-width: 35%;
   margin-bottom: 10px;
+  height: 100%;
   @media (max-width: 480px) {
     flex-direction: column;
     min-width: 250px;
@@ -145,9 +146,7 @@ const StyledCard = styled(Card)`
 const StyledMain = styled.main`
   flex-grow: 1;
   padding: 8px;
-
   overflow: auto;
-
   @media (min-width: 480px) {
     padding: 24px;
   }

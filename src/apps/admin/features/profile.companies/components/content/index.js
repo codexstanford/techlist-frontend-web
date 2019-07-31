@@ -17,8 +17,12 @@ export function CompanyContent({ company, ...props }) {
     <>
       <ListItem
         className={classes.listItem}
-        primary={renderPrimaryContent({ company })}
-        secondary={renderSecondaryContent({ company })}
+        component={() => (
+          <div>
+            {renderPrimaryContent({ company })}
+            {renderSecondaryContent({ company })}
+          </div>
+        )}
       />
     </>
   );

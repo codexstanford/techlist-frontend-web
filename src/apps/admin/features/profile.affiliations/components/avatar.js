@@ -17,6 +17,7 @@ const useStyles = makeStyles({
   },
   listItem: {
     alignSelf: 'flex-start',
+    marginRight: '.5rem',
   },
 });
 
@@ -27,7 +28,7 @@ export function AffiliationAvatar({ affiliation }) {
   const classes = useStyles();
   return (
     <ListItemAvatar className={classes.listItem}>
-      {logo && logo.length > 0 ? (
+      {logo && logo.length > 0 && logo[0].payload ? (
         <Avatar src={logo[0].payload} className={classes.iconAvatar} />
       ) : (
         <Avatar className={classes.letterAvatar}>{firstInitial}</Avatar>

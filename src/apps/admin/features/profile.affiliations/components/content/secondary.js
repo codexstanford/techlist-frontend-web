@@ -4,12 +4,16 @@ import { formatDateString } from '../../helpers';
 function renderAffiliationSecondaryContent({ affiliation }) {
   return (
     <div>
-      <span>{`${affiliation.title}`}</span>
-      <br />
+      {affiliation.title && (
+        <>
+          <span>{`${affiliation.title}`}</span> <br />
+        </>
+      )}
+
       <span>{`${formatDateString(affiliation.fromDate)} to ${formatDateString(
         affiliation.throughDate
       )} `}</span>
-      {`${affiliation.description}`}
+      {affiliation.description && `${affiliation.description}`}
     </div>
   );
 }
