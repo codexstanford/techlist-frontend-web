@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Downshift from 'downshift';
-import Chip from '@material-ui/core/Chip';
 import { navigate } from 'gatsby';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
@@ -33,18 +32,10 @@ class MainSearch extends React.Component {
   };
 
   handleChange = item => {
-    let { selectedItem } = this.state;
-
-    // if (selectedItem.indexOf(item) === -1) {
-    //   selectedItem = [...selectedItem, item.name];
-    // }
-    console.log('jjfnfkjnf ITEM jskdjhbd', item);
-
     if (item.type === 'company') {
       return this.setState(
         {
           inputValue: '',
-          // selectedItem,
         },
 
         navigate(`/companies/${slugify(item.name)}`)
@@ -53,7 +44,6 @@ class MainSearch extends React.Component {
       return this.setState(
         {
           inputValue: '',
-          // selectedItem,
         },
 
         navigate(`/profiles/${slugify(item.name)}`)

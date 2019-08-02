@@ -11,7 +11,6 @@ export function renderSuggestion({
   const isHighlighted = highlightedIndex === index;
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
 
-  console.log('suggestion', suggestion);
   return (
     <MenuItem
       {...itemProps}
