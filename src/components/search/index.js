@@ -7,6 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { StaticQuery, graphql } from 'gatsby';
 import slugify from 'slugify';
 import { renderInput, renderSuggestion, getSuggestions } from './helpers';
+import users from '../../mocks/users';
 
 class MainSearch extends React.Component {
   state = {
@@ -37,14 +38,27 @@ class MainSearch extends React.Component {
     // if (selectedItem.indexOf(item) === -1) {
     //   selectedItem = [...selectedItem, item.name];
     // }
+    console.log('jjfnfkjnf ITEM jskdjhbd', item);
 
-    this.setState(
-      {
-        inputValue: '',
-        // selectedItem,
-      },
-      navigate(`/companies/${slugify(item)}`)
-    );
+    if (item.type === 'company') {
+      return this.setState(
+        {
+          inputValue: '',
+          // selectedItem,
+        },
+
+        navigate(`/companies/${slugify(item.name)}`)
+      );
+    } else {
+      return this.setState(
+        {
+          inputValue: '',
+          // selectedItem,
+        },
+
+        navigate(`/profiles/${slugify(item.name)}`)
+      );
+    }
   };
 
   handleDelete = item => () => {
@@ -62,6 +76,7 @@ class MainSearch extends React.Component {
     } = data;
 
     const { selectedItem, inputValue } = this.state;
+
     return (
       <Downshift
         id="main-search"
@@ -95,13 +110,21 @@ class MainSearch extends React.Component {
                 <Paper className={classes.paper} square>
                   {getSuggestions({
                     value: inputValue2,
-                    data: companies,
+                    data: [...companies, ...users],
                   }).map((suggestion, index) =>
                     renderSuggestion({
                       suggestion,
                       index,
                       itemProps: getItemProps({
-                        item: suggestion.name[0].payload,
+                        item: suggestion.person
+                          ? {
+                              type: 'person',
+                              name: `${suggestion.person.name[0].firstName.toLowerCase()}${suggestion.person.name[0].lastName.toLowerCase()}`,
+                            }
+                          : {
+                              type: 'company',
+                              name: suggestion.name[0].payload,
+                            },
                       }),
                       highlightedIndex,
                       selectedItem: selectedItem2,
@@ -117,21 +140,23 @@ class MainSearch extends React.Component {
   }
 }
 
-export default props => (
-  <StaticQuery
-    query={graphql`
-      query SearchListQuery {
-        allTechList {
-          organizations {
-            id
-            name {
+export default props => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query SearchListQuery {
+          allTechList {
+            organizations {
               id
-              payload
+              name {
+                id
+                payload
+              }
             }
           }
         }
-      }
-    `}
-    render={data => <MainSearch data={data} {...props} />}
-  />
-);
+      `}
+      render={data => <MainSearch data={data} {...props} />}
+    />
+  );
+};
