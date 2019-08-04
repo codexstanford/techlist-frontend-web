@@ -5,12 +5,16 @@ import { Provider } from './createContext';
 import { configureApolloClient } from './apollo';
 import { AuthProvider } from './auth-context';
 import { UserProvider } from './user-context';
+
+import { CreateCompanyModalContext } from './modal-context';
+
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
 import { ThemeProvider } from '@material-ui/styles';
+import { UseModal } from './useModal';
 
 let theme = createMuiTheme({
   typography: {
@@ -80,8 +84,11 @@ class AppProvider extends Component {
             <ApolloProvider client={client}>
               <ApolloHooksProvider client={client}>
                 <ThemeProvider theme={theme}>
-                  <CssBaseline />
-                  {this.props.children}
+                  <CreateCompanyModalContext.Provider value={this.state}>
+                    <UseModal modal="createCompany" />
+                    <CssBaseline />
+                    {this.props.children}
+                  </CreateCompanyModalContext.Provider>
                 </ThemeProvider>
               </ApolloHooksProvider>
             </ApolloProvider>

@@ -9,7 +9,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { styles } from './config/styles';
 
-import { useUser, UserProvider } from '../../store/user-context';
+import { useUser } from '../../store/user-context';
+import { UseModal } from '../../store/useModal';
 
 function App(props) {
   const { login, data, logout, register, getUser } = useUser();

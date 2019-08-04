@@ -7,30 +7,23 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import ProfileNav from '../../features/profile.navigation/';
-
 import styled from 'styled-components';
 
+import ProfileNav from '../../features/profile.navigation/';
 import ProfileAffiliations from '../../features/profile.affiliations';
 import ProfileCompanies from '../../features/profile.companies';
-import CreateCompanyScreen from '../company';
 import EditProfile from '../../components/profile.edit';
 
 export function UserProfile({ classes, ...props }) {
   const [isOpen, toggleDrawerVisibility] = React.useState();
-  const [showCompanyScreen, toggleCompanyScreen] = useState(false);
-  const [showAffiliationScreen, toggleAffiliationScreen] = useState(false);
   const [showEditProfile, toggleEditProfile] = useState(false);
 
   const { data, logout } = props;
   const { person, id: partyAccountId, admin } = data;
   const { affiliation } = person;
   const bag = {
-    showAffiliationScreen,
-    toggleCompanyScreen,
     showEditProfile,
     toggleEditProfile,
-    showCompanyScreen,
   };
 
   React.useEffect(() => {
@@ -87,7 +80,6 @@ export function UserProfile({ classes, ...props }) {
         {...props}
         {...bag}
       />
-
       <StyledMain>
         <div className={classes.appBarSpacer} />
         {admin && admin.length > 0 && <ProfileCompanies user={data} />}
@@ -95,13 +87,6 @@ export function UserProfile({ classes, ...props }) {
           <ProfileAffiliations person={person} />
         )}
       </StyledMain>
-      <CreateCompanyScreen
-        open={showCompanyScreen}
-        onCancel={toggleCompanyScreen}
-        classes={classes}
-        user={props.user}
-      />
-
       <EditProfile
         open={showEditProfile}
         classes={classes}
