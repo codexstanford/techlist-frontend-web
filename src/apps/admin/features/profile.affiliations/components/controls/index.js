@@ -1,10 +1,4 @@
 import React from 'react';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import EditAffiliation from '../../../../components/affiliation.edit';
 import { makeStyles } from '@material-ui/styles';
 
 import { EditAffiliationControl } from './edit';
@@ -12,7 +6,10 @@ import { DeleteAffiliationControl } from './delete';
 
 const useStyles = makeStyles(theme => ({
   listItem: {
+    display: 'flex',
+    justifyContent: 'flex-end',
     alignSelf: 'flex-start',
+    flexGrow: 1,
   },
 }));
 

@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/styles';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   iconAvatar: {
-    margin: 10,
+    margin: theme.spacing(1),
     width: 60,
     height: 60,
   },
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     alignSelf: 'flex-start',
     marginRight: '.5rem',
   },
-});
+}));
 
 export function AffiliationAvatar({ affiliation }) {
   const { organization } = affiliation;
@@ -27,12 +27,12 @@ export function AffiliationAvatar({ affiliation }) {
   const firstInitial = name[0].payload.slice(0, 1);
   const classes = useStyles();
   return (
-    <ListItemAvatar className={classes.listItem}>
-      {logo && logo.length > 0 && logo[0].payload ? (
+    <>
+      {logo && logo.length > 0 ? (
         <Avatar src={logo[0].payload} className={classes.iconAvatar} />
       ) : (
         <Avatar className={classes.letterAvatar}>{firstInitial}</Avatar>
       )}
-    </ListItemAvatar>
+    </>
   );
 }

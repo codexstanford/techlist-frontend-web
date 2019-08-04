@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import styled from 'styled-components';
 
@@ -11,9 +10,9 @@ const useStyles = makeStyles({
   divider: {
     color: 'black',
   },
-  listItem: {
+  wrapper: {
     display: 'flex',
-    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
@@ -21,14 +20,11 @@ export function renderAffiliation({ affiliation, hasDivider = true }) {
   const classes = useStyles();
   console.log('affiliation', affiliation);
   return (
-    <div key={affiliation.id}>
-      <ListItem className={classes.listItem} component="div">
-        <AvatarAndContentContainer>
-          <AffiliationAvatar affiliation={affiliation} />
-          <AffiliationContent affiliation={affiliation} />
-        </AvatarAndContentContainer>
-        <AffiliationControls affiliation={affiliation} />
-      </ListItem>
+    <div key={affiliation.id} className={classes.wrapper}>
+      <AffiliationAvatar affiliation={affiliation} />
+      <AffiliationContent affiliation={affiliation} />
+      <AffiliationControls affiliation={affiliation} />
+
       {hasDivider && (
         <Divider className={classes.divider} variant="fullWidth" />
       )}

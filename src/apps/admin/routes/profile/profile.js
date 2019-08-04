@@ -23,8 +23,8 @@ export function UserProfile({ classes, ...props }) {
   const [showEditProfile, toggleEditProfile] = useState(false);
 
   const { data, logout } = props;
-  const { person, id: partyAccountId } = data;
-
+  const { person, id: partyAccountId, admin } = data;
+  const { affiliation } = person;
   const bag = {
     showAffiliationScreen,
     toggleCompanyScreen,
@@ -90,18 +90,10 @@ export function UserProfile({ classes, ...props }) {
 
       <StyledMain>
         <div className={classes.appBarSpacer} />
-        <StyledWrapper>
-          <StyledCard>
-            <CardContent>
-              <ProfileCompanies user={data} />
-            </CardContent>
-          </StyledCard>
-          <StyledCard>
-            <CardContent>
-              <ProfileAffiliations person={person} />
-            </CardContent>
-          </StyledCard>
-        </StyledWrapper>
+        {admin && admin.length > 0 && <ProfileCompanies user={data} />}
+        {affiliation && affiliation.length > 0 && (
+          <ProfileAffiliations person={person} />
+        )}
       </StyledMain>
       <CreateCompanyScreen
         open={showCompanyScreen}
