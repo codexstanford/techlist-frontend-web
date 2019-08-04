@@ -49,14 +49,15 @@ function EditProfile({ open, handleClose, classes, ...props }) {
                 },
               },
             },
-            avatar: {
-              update: {
-                where: {
-                  id: me.person.avatar[0].id,
-                },
-                data: { payload: avatar, fromDate: new Date() },
-              },
-            },
+            avatar:
+              avatar !== ''
+                ? {
+                    create: {
+                      payload: avatar,
+                      fromDate: new Date(),
+                    },
+                  }
+                : null,
           },
         },
       });
@@ -68,10 +69,12 @@ function EditProfile({ open, handleClose, classes, ...props }) {
     await setSubmitting(false);
   };
 
+  const { avatar } = me.person;
+
   return (
     <Formik
       initialValues={{
-        avatar: me.person.avatar[0].payload,
+        avatar: avatar && avatar.length > 0 ? avatar[0].payload : '',
         firstName: me.person.name[0].firstName,
         lastName: me.person.name[0].lastName,
         handle: me.handle,

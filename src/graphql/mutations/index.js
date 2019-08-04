@@ -32,12 +32,17 @@ export const UPDATE_PERSON = gql`
     $where: PersonWhereUniqueInput!
   ) {
     updatePerson(where: $where, data: $data) {
+      id
+      __typename
+
       avatar {
         id
+        __typename
         payload
       }
       name {
         id
+        __typename
         firstName
         lastName
       }
@@ -48,6 +53,7 @@ export const UPDATE_PERSON = gql`
 export const CREATE_USER_MUTATION = gql`
   mutation CreateUser($data: PartyAccountCreateInput!) {
     createPartyAccount(data: $data) {
+      __typename
       id
     }
   }
@@ -56,6 +62,7 @@ export const CREATE_USER_MUTATION = gql`
 export const CREATE_PERSON_MUTATION = gql`
   mutation CreatePerson($data: PersonCreateInput!) {
     createPerson(data: $data) {
+      __typename
       id
     }
   }
@@ -67,6 +74,7 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
     $where: PartyAccountWhereUniqueInput!
   ) {
     updatePartyAccount(where: $where, data: $data) {
+      __typename
       id
       createdAt
       name
@@ -76,8 +84,10 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
       email_verified
       person {
         id
+        __typename
         name {
           id
+          __typename
           firstName
           lastName
           middleInitial
@@ -86,18 +96,22 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
           throughDate
         }
         email {
+          __typename
           id
           payload
           fromDate
           throughDate
         }
         avatar {
+          __typename
           id
           payload
           fromDate
           throughDate
         }
         metadata {
+          id
+          __typename
           isDraft
           isPublic
           isRejected
@@ -106,6 +120,7 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
         }
         affiliation {
           id
+          __typename
           fromDate
           throughDate
           title
@@ -113,10 +128,15 @@ export const UPDATE_CURRENT_USER_MUTATION = gql`
           description
           organization {
             id
+            __typename
             name {
+              id
+              __typename
               payload
             }
             logo {
+              id
+              __typename
               payload
             }
           }

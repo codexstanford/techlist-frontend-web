@@ -3,34 +3,14 @@ import PropTypes from 'prop-types';
 import { Link as GatsbyLink } from 'gatsby';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
 import { useUser } from '../../store/user-context';
-import CreateCompanyScreen from '../../apps/admin/routes/company/index';
 import { navigate } from '@reach/router';
+import renderAvatar from './helpers/renderAvatar';
 
 export function HeaderLeft({ sections, classes, ...props }) {
   const [showCompanyScreen, toggleCompanyScreen] = useState(false);
   const { data, logout } = useUser();
   const { user } = data;
-
-  function getAvatar(user) {
-    const { person } = user;
-    if (!person) {
-      return 'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg';
-    }
-
-    const { profile } = person;
-    if (!profile) {
-      return 'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg';
-    }
-
-    const { avatar } = profile;
-    if (!avatar) {
-      return 'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg';
-    }
-
-    return avatar;
-  }
 
   return (
     <React.Fragment>
@@ -75,14 +55,7 @@ export function HeaderLeft({ sections, classes, ...props }) {
         </React.Fragment>
 
         {user ? (
-          <Avatar
-            src={getAvatar(user)}
-            onClick={() => navigate('/app/profile/')}
-            style={{ marginLeft: 10 }}
-            imgProps={{
-              style: { maxWidth: '100%', maxHeight: '100%' },
-            }}
-          />
+          renderAvatar(user)
         ) : (
           <React.Fragment>
             <Button
