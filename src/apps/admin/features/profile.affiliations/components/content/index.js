@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import renderPrimaryContent from './primary';
 import renderSecondaryContent from './secondary';
+import styled from 'styled-components';
 
 const useStyles = makeStyles(() => ({
   listItem: {

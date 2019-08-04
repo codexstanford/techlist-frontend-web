@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   listItem: {
     alignSelf: 'flex-start',
+    marginRight: '.5rem',
   },
 }));
 
