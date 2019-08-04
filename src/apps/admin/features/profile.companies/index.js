@@ -12,6 +12,12 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 600,
     backgroundColor: 'white',
   },
+  card: {
+    minWidth: `300px`,
+    marginBottom: theme.spacing(1),
+  },
+  main: {},
+  wrapper: {},
 }));
 
 export default function ProfileCompanies({ user, ...props }) {
@@ -28,30 +34,34 @@ export default function ProfileCompanies({ user, ...props }) {
   }
 
   const { partyAccount } = data;
-  return (
-    <div>
+  if (partyAccount && partyAccount.admin && partyAccount.admin.length > 0) {
+    return (
       <div>
-        <Media query={{ minWidth: 480 }}>
-          {matches =>
-            matches ? (
-              <Typography variant="h6" component="h6" color="primary">
-                Companies{' '}
-              </Typography>
-            ) : (
-              <Typography variant="h6" component="h6" color="primary">
-                Companies{' '}
-              </Typography>
-            )
-          }
-        </Media>
-      </div>
-      {partyAccount !== null && (
         <div>
-          <div className={classes.root}>
-            <Controller companies={partyAccount.admin} />
-          </div>
+          <Media query={{ minWidth: 480 }}>
+            {matches =>
+              matches ? (
+                <Typography variant="h6" component="h6" color="primary">
+                  Companies{' '}
+                </Typography>
+              ) : (
+                <Typography variant="h6" component="h6" color="primary">
+                  Companies{' '}
+                </Typography>
+              )
+            }
+          </Media>
         </div>
-      )}
-    </div>
-  );
+        {partyAccount !== null && (
+          <div>
+            <div className={classes.root}>
+              <Controller companies={partyAccount.admin} />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  } else {
+    return null;
+  }
 }

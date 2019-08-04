@@ -6,12 +6,10 @@ import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import { steps } from '../../../../helpers/enums';
-import { TextField, Select } from 'formik-material-ui';
+import { TextField } from 'formik-material-ui';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import { MenuItem } from '@material-ui/core';
-import { useMutation } from 'react-apollo-hooks';
 
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -20,12 +18,12 @@ import { schema } from './index';
 import { navigate } from '@reach/router';
 import Media from 'react-media';
 
-const opts = [
-  { value: 'Attorney', label: 'Attorney' },
-  { value: 'Developer', label: 'Developer' },
-  { value: 'Academic', label: 'Academic' },
-  { value: 'Product Desginer', label: 'Product Desginer' },
-];
+// const opts = [
+//   { value: 'Attorney', label: 'Attorney' },
+//   { value: 'Developer', label: 'Developer' },
+//   { value: 'Academic', label: 'Academic' },
+//   { value: 'Product Desginer', label: 'Product Desginer' },
+// ];
 
 const linkOptions = [
   { value: 'LinkedIn', label: 'LinkedIn' },
@@ -35,9 +33,7 @@ const linkOptions = [
 ];
 
 function CreateProfile({ classes, handleClose, user, ...props }) {
-  const [image, setImage] = useState(
-    'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
-  );
+  const [image, setImage] = useState('');
 
   const { id: userId } = user;
 
@@ -68,12 +64,15 @@ function CreateProfile({ classes, handleClose, user, ...props }) {
                       isDraft: false,
                     },
                   },
-                  avatar: {
-                    create: {
-                      payload: avatar,
-                      fromDate: new Date(),
-                    },
-                  },
+                  avatar:
+                    avatar !== ''
+                      ? {
+                          create: {
+                            payload: avatar,
+                            fromDate: new Date(),
+                          },
+                        }
+                      : null,
                   name: {
                     create: {
                       firstName,

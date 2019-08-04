@@ -1,5 +1,22 @@
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(theme => ({
+  companyName: {
+    fontWeight: 500,
+  },
+}));
+
 function renderAffiliationPrimaryContent({ affiliation }) {
-  return `${affiliation.organization.name[0].payload}`;
+  const classes = useStyles();
+  return (
+    <>
+      <Typography variant="subtitle" className={classes.companyName}>
+        {affiliation.organization.name[0].payload}
+      </Typography>
+    </>
+  );
 }
 
 export default renderAffiliationPrimaryContent;

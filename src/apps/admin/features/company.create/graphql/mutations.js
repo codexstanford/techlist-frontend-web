@@ -11,6 +11,7 @@ export const CREATE_COMPANY_MUTATION = gql`
         throughDate
       }
       description
+      yearFounded
       location {
         __typename
         id

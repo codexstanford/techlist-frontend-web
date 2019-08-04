@@ -14,6 +14,7 @@ export function handleCreateCompany(props) {
     {
       name,
       description,
+      yearFounded,
       location,
       locationjson,
       links,
@@ -53,6 +54,7 @@ export function handleCreateCompany(props) {
               },
             },
             description,
+            yearFounded,
             location: {
               create: {
                 formatted_address,

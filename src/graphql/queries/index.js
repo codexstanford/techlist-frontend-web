@@ -11,9 +11,15 @@ export const GET_CURRENT_USER_QUERY = gql`
       phone
       phone_number_verified
       email_verified
+      admin {
+        __typename
+        id
+      }
       person {
+        __typename
         id
         name {
+          __typename
           id
           firstName
           lastName
@@ -23,18 +29,22 @@ export const GET_CURRENT_USER_QUERY = gql`
           throughDate
         }
         email {
+          __typename
           id
           payload
           fromDate
           throughDate
         }
         avatar {
+          __typename
           id
           payload
           fromDate
           throughDate
         }
         metadata {
+          __typename
+          id
           isDraft
           isPublic
           isRejected
@@ -42,6 +52,7 @@ export const GET_CURRENT_USER_QUERY = gql`
           isPendingReview
         }
         affiliation {
+          __typename
           id
           fromDate
           throughDate
@@ -49,11 +60,16 @@ export const GET_CURRENT_USER_QUERY = gql`
           role
           description
           organization {
+            __typename
             id
             name {
+              id
+              __typename
               payload
             }
             logo {
+              id
+              __typename
               payload
             }
           }
