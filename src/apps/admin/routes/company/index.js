@@ -20,13 +20,12 @@ function CreateCompanyScreen({
   ...rest
 }) {
   return (
-    <Dialog
+    <StyledDialog
       open={open !== undefined && open}
       TransitionComponent={Transition}
       fullWidth={true}
       onBackdropClick={onCancel}
       PaperComponent={PaperComponent}
-      style={{ padding: 0, overflow: 'auto' }}
     >
       <StyledDialogContent>
         <CreateCompanyNew
@@ -36,13 +35,21 @@ function CreateCompanyScreen({
         />
         <MobileExit onClick={onCancel} />
       </StyledDialogContent>
-    </Dialog>
+    </StyledDialog>
   );
 }
 
+const StyledDialog = styled(Dialog)`
+  padding: 0;
+  overflow: auto;
+  margin: 0 16px;
+  @media (max-width: 750px) {
+    margin: 0;
+  }
+`;
+
 const StyledDialogContent = styled(DialogContent)`
   position: relative;
-
   width: 100%;
   display: flex;
   justify-content: center;
