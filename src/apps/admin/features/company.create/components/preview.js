@@ -71,7 +71,15 @@ export function CompanyCreatePreview({ values }) {
     }
   };
 
-  if (logo || name || description || Object.keys(locationjson).length > 0) {
+  console.log('values', values);
+
+  if (
+    logo ||
+    name ||
+    description ||
+    Object.keys(locationjson).length > 0 ||
+    links.length > 0
+  ) {
     return (
       <Card className={cardClasses.card}>
         {logo && (
