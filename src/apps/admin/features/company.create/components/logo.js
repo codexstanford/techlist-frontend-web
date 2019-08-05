@@ -67,6 +67,7 @@ const InputLabel = styled.label`
   display: flex;
   justify-content: center;
   min-width: 250px;
+  min-height: 200px;
 `;
 
 const StyledFab = styled(Fab)`
