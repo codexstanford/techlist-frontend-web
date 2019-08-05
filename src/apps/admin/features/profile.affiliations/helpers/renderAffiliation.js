@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 export function renderAffiliation({ affiliation, hasDivider = true }) {
   const classes = useStyles();
-  console.log('affiliation', affiliation);
+
   return (
     <div key={affiliation.id} className={classes.wrapper}>
       <AffiliationAvatar affiliation={affiliation} />

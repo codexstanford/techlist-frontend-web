@@ -50,7 +50,12 @@ export default function SimpleSelect({
       <Select
         inputProps={field}
         input={
-          <Input labelwidth={labelWidth} name={field.name} id={field.name} />
+          <Input
+            labelwidth={labelWidth}
+            name={field.name}
+            id={field.name}
+            value={field.value}
+          />
         }
       >
         {options.map(item => {
