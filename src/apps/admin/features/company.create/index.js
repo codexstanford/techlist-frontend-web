@@ -79,7 +79,9 @@ export function CreateCompany({
 
         return (
           <>
-            <Form style={{ width: '100%', alignSelf: 'center' }}>
+            <Form
+              style={{ width: '100%', alignSelf: 'center', padding: '2rem' }}
+            >
               <CodeXFormHeader text={`Create Company Profile`} />
               <Preview values={values} />
               <FormErrorMessage touched={touched} errors={errors} />
