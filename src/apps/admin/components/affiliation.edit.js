@@ -99,12 +99,7 @@ function EditAffiliation({
             onCancel={() => {}}
             onConfirm={submitForm}
             open={isEditing}
-            title={
-              <>
-                `Edit your affiliation with $
-                {affiliation.organization.name[0].payload}`
-              </>
-            }
+            title={`Edit your affiliation with ${affiliation.organization.name[0].payload}`}
           >
             <Container>
               <div style={{ display: 'flex' }}>
