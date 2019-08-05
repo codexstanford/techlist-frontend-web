@@ -85,6 +85,7 @@ export function CreateCompany({
               <FormErrorMessage touched={touched} errors={errors} />
 
               <CodeXExpansionPanel
+                defaultExpanded={true}
                 title="Basics"
                 error={checkForSectionErrors(touched, errors, [
                   'name',
