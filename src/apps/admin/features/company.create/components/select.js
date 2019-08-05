@@ -67,6 +67,6 @@ export default function SimpleSelect({
 
 const StyledFormControl = styled(FormControl)`
   padding-right: 1rem;
-  min-width: 150px;
+  min-width: 175px;
   margin-top: 15px;
 `;
