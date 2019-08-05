@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 
 export function CompanyCreatePreview({ values }) {
   const cardClasses = useStyles();
-  const { logo } = values;
+  const { logo, yearFounded, name, locationjson, description, links } = values;
 
   const getColumns = () => {
     if (values.categories) {
@@ -71,65 +71,67 @@ export function CompanyCreatePreview({ values }) {
     }
   };
 
-  return (
-    <Card className={cardClasses.card}>
-      {logo && (
-        <CardMedia className={cardClasses.cover} image={logo} title={'test'} />
-      )}
-      <div className={cardClasses.details}>
-        <CardContent>
-          <Typography
-            variant="h6"
-            color="textPrimary"
-            style={{
-              fontWeight: '800',
-              letterSpacing: '-.5px',
-              textDecoration: 'none',
-            }}
-          >
-            {values.name}{' '}
-            {values.name &&
-              `(${new Date(values.yearFounded).getYear() + 1900})`}
-          </Typography>
-          <Typography
-            variant="body2"
-            component="p"
-            color="primary"
-            style={{
-              letterSpacing: '-.5px',
-              textDecoration: 'none',
-            }}
-          >
-            {values.locationjson.formatted_address &&
-              `${values.locationjson.formatted_address}`}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            component="h6"
-            color="textPrimary"
-            style={{
-              letterSpacing: '-.5px',
-              textDecoration: 'none',
-              lineHeight: 1.35,
-            }}
-          >
-            {values.description}
-          </Typography>
+  if (logo || name || description || Object.keys(locationjson).length > 0) {
+    return (
+      <Card className={cardClasses.card}>
+        {logo && (
+          <CardMedia
+            className={cardClasses.cover}
+            image={logo}
+            title={'test'}
+          />
+        )}
+        <div className={cardClasses.details}>
+          <CardContent>
+            <Typography
+              variant="h6"
+              color="textPrimary"
+              style={{
+                fontWeight: '800',
+                letterSpacing: '-.5px',
+                textDecoration: 'none',
+              }}
+            >
+              {name} {name && `(${new Date(yearFounded).getYear() + 1900})`}
+            </Typography>
+            <Typography
+              variant="body2"
+              component="p"
+              color="primary"
+              style={{
+                letterSpacing: '-.5px',
+                textDecoration: 'none',
+              }}
+            >
+              {locationjson.formatted_address &&
+                `${locationjson.formatted_address}`}
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              component="h6"
+              color="textPrimary"
+              style={{
+                letterSpacing: '-.5px',
+                textDecoration: 'none',
+                lineHeight: 1.35,
+              }}
+            >
+              {description}
+            </Typography>
 
-          <CompanyIntelligenceContainer colNum={getColumns()}>
-            <CompanyCategories company={values} wrapper={SOMECOMP} />
-          </CompanyIntelligenceContainer>
-          <CompanyContactContainer>
-            <CompanyContactLinks
-              links={values.links}
-              name={values.name}
-              expanded={false}
-            />
-          </CompanyContactContainer>
-        </CardContent>
-      </div>
-    </Card>
-  );
+            <CompanyIntelligenceContainer colNum={getColumns()}>
+              <CompanyCategories company={values} wrapper={SOMECOMP} />
+            </CompanyIntelligenceContainer>
+            <CompanyContactContainer>
+              <CompanyContactLinks links={links} name={name} expanded={false} />
+            </CompanyContactContainer>
+          </CardContent>
+        </div>
+      </Card>
+    );
+  } else {
+    return null;
+  }
 }
 
 const CompanyContactContainer = styled.div`
