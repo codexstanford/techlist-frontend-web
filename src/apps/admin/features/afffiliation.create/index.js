@@ -55,10 +55,10 @@ function EditAffiliation({
   return (
     <Formik
       initialValues={{
-        fromDate: '',
+        fromDate: 'xxxx-XX-xx',
         id: '',
         description: '',
-        throughDate: '',
+        throughDate: 'xxxx-XX-xx',
         role: '',
         title: '',
         organization: initialCompany
