@@ -3,6 +3,7 @@ import CodeXTextField from '../../../components/codex.textinput';
 import CompanyTargetMarketSelect from './select';
 import { Field } from 'formik';
 import styled from 'styled-components';
+import formatCategory from './categories/helpers/formatCategory';
 
 export function Basics({
   errors,
@@ -58,7 +59,7 @@ export function Basics({
               targetMarkets.organizationTargetMarkets.length > 0
                 ? targetMarkets.organizationTargetMarkets.map(t => ({
                     type: t.id,
-                    niceName: t.payload,
+                    niceName: formatCategory(t.payload),
                   }))
                 : []
             }
