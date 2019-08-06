@@ -72,7 +72,7 @@ function EditAffiliation({
         throughDate:
           affiliation.throughDate !== null
             ? affiliation.throughDate.split('T')[0]
-            : null,
+            : '',
         role: affiliation.role,
         title: affiliation.title,
         organization: affiliation.organization
@@ -123,6 +123,7 @@ function EditAffiliation({
                   label="Date To"
                   fullWidth={false}
                   style={{ paddingHorizontal: '2px' }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
 

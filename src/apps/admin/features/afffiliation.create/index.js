@@ -55,10 +55,10 @@ function EditAffiliation({
   return (
     <Formik
       initialValues={{
-        fromDate: 'xxxx-XX-xx',
+        fromDate: '',
         id: '',
         description: '',
-        throughDate: 'xxxx-XX-xx',
+        throughDate: '',
         role: '',
         title: '',
         organization: initialCompany
@@ -102,6 +102,7 @@ function EditAffiliation({
                   label="Date From"
                   fullWidth={false}
                   style={{ paddingHorizontal: '2px', marginRight: '1rem' }}
+                  InputLabelProps={{ shrink: true }}
                 />
                 <CodeXTextField
                   name="throughDate"
@@ -112,6 +113,7 @@ function EditAffiliation({
                   label="Date To"
                   fullWidth={false}
                   style={{ paddingHorizontal: '2px' }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <CodeXTextField
