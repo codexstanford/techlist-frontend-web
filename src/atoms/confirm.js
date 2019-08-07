@@ -29,6 +29,8 @@ export function Confirm({
   title = 'Are you sure?',
   toggle = () => {},
   subtitle = 'Confirm that you really want to do this',
+  disableSave = false,
+  errors,
   ...props
 }) {
   const [isOpen, setOpen] = React.useState(false);
@@ -37,8 +39,14 @@ export function Confirm({
     callAll(onCancel(), setOpen(false), onClose());
   }
 
-  function handleConfirm() {
-    callAll(onConfirm(), setOpen(false), onClose());
+  async function handleConfirm() {
+    const result = await onConfirm();
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    } else {
+      callAll(setOpen(false), onClose());
+    }
   }
 
   React.useEffect(() => {
@@ -67,7 +75,7 @@ export function Confirm({
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleConfirm} color="primary">
+        <Button onClick={handleConfirm} color="primary" disabled={disableSave}>
           {confirmText}
         </Button>
         <Button onClick={handleCancel} color="primary" autoFocus>
