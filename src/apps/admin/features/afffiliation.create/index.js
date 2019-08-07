@@ -7,6 +7,7 @@ import { useMutation } from 'react-apollo-hooks';
 import { CREATE_AFFILIATION_MUTATION } from './graphql/mutations';
 import { StaticQuery, graphql } from 'gatsby';
 import Confirm from '../../../../atoms/confirm';
+import { checkCanFormSubmit, validationSchema } from './helpers';
 
 function EditAffiliation({
   affiliation,
@@ -66,6 +67,7 @@ function EditAffiliation({
           : null,
       }}
       onSubmit={handleSubmit}
+      validationSchema={validationSchema}
     >
       {({
         isSubmitting,
@@ -82,9 +84,11 @@ function EditAffiliation({
             confirmText="Save"
             cancelText="Cancel"
             onClose={handleClose}
+            errors={errors}
             onCancel={() => {}}
             onConfirm={submitForm}
             open={open}
+            disableSave={checkCanFormSubmit(touched, errors)}
             title={
               <TitleContainer>
                 {`Create an affiliation with ${initialCompany.name[0].payload}`}
