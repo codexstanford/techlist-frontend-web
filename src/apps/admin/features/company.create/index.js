@@ -83,7 +83,7 @@ export function CreateCompany({
           <>
             <StyledForm>
               <CodeXFormHeader text={`Create Company Profile`} />
-              <Preview values={values} />
+              <Preview values={values} touched={touched} />
               <FormErrorMessage touched={touched} errors={errors} />
 
               <CodeXExpansionPanel

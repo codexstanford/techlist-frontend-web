@@ -7,6 +7,7 @@ export const GET_USER_ADMIN_COMPANIES = gql`
       admin {
         id
         yearFounded
+        description
         name {
           id
           payload

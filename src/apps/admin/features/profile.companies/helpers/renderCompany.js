@@ -28,6 +28,10 @@ export function renderCompany({ company, hasDivider = true }) {
         </AvatarAndContentContainer>
         <CompanyControls company={company} />
       </ListItem>
+      <p style={{ padding: '0 28px' }}>
+        {company.description && `${company.description}`}
+      </p>
+
       {hasDivider && (
         <Divider className={classes.divider} variant="fullWidth" />
       )}
