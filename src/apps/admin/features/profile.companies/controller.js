@@ -34,7 +34,9 @@ export default function CompaniesListController({ companies, ...props }) {
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
           <ExpansionPanelDetails>
             <List className={classes.root}>
-              {rest.map(company => renderCompany({ company }))}
+              {rest.map(company => {
+                renderCompany({ company });
+              })}
             </List>
           </ExpansionPanelDetails>
         </ExpansionPanel>

@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function CompanyCreatePreview({ values }) {
+export function CompanyCreatePreview({ values, touched }) {
   const cardClasses = useStyles();
   const { logo, yearFounded, name, locationjson, description, links } = values;
 
@@ -71,14 +71,12 @@ export function CompanyCreatePreview({ values }) {
     }
   };
 
-  console.log('values', values);
-
   if (
     logo ||
     name ||
     description ||
     Object.keys(locationjson).length > 0 ||
-    links.length > 0
+    Object.keys(touched).length > 0
   ) {
     return (
       <Card className={cardClasses.card}>
