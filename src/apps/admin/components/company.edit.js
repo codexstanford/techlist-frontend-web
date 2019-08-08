@@ -22,8 +22,8 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
       initialValues={{
         id: company.id,
         description: company.description,
-        role: company.role,
-        title: company.title,
+        name: company.name[0].payload,
+        dateFounded: company.yearFounded && company.yearFounded.slice(0, 10),
       }}
       onSubmit={handleSubmit}
     >
@@ -36,26 +36,36 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
             onClose={() => toggleEditing(false)}
             onConfirm={submitForm}
             open={isEditing}
-            title={<>`Edit your company with ${company.name[0].payload}`</>}
+            title={`Edit your company ${company.name[0].payload}`}
           >
             <Container>
               <CodeXTextField
                 type="text"
-                name={`title`}
+                name={`name`}
                 errors={errors}
                 touched={touched}
-                value={values.title}
-                label="Title"
+                value={values.name}
+                label="Name"
                 style={{
                   flexGrow: 2,
                 }}
+              />
+              <CodeXTextField
+                name="dateFounded"
+                margin="normal"
+                type="date"
+                errors={errors}
+                touched={touched}
+                label="Date Founded"
+                fullWidth={false}
+                InputLabelProps={{ shrink: true }}
               />
               <CodeXTextField
                 type="text"
                 name={`description`}
                 errors={errors}
                 touched={touched}
-                value={values.title}
+                value={values.description}
                 label="Description"
                 multiline={true}
                 style={{

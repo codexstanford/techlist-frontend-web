@@ -17,7 +17,6 @@ function renderCompanySecondaryContent({ company }) {
             : 'N/A'
         }`}</span>
       }
-      <p>{company.description && `${company.description}`}</p>
     </div>
   );
 }
