@@ -32,7 +32,7 @@ export function Confirm({
   toggle = () => {},
   subtitle = 'Confirm that you really want to do this',
   disableSave = false,
-  errors,
+  errors = {},
   ...props
 }) {
   const [isOpen, setOpen] = React.useState(false);
