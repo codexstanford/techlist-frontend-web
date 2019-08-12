@@ -6,7 +6,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import { StaticQuery, graphql } from 'gatsby';
 import slugify from 'slugify';
 import { renderInput, renderSuggestion, getSuggestions } from './helpers';
-import users from '../../mocks/users';
 
 class MainSearch extends React.Component {
   state = {
@@ -62,7 +61,7 @@ class MainSearch extends React.Component {
   render() {
     const { classes, data } = this.props;
     const {
-      allTechList: { organizations: companies },
+      allTechList: { organizations: companies, partyAccounts: users },
     } = data;
 
     const { selectedItem, inputValue } = this.state;
@@ -141,6 +140,64 @@ export default props => {
               name {
                 id
                 payload
+              }
+            }
+            partyAccounts {
+              id
+              cognitoId
+              createdAt
+              name
+              email
+              phone
+              phone_number_verified
+              email_verified
+              person {
+                id
+                name {
+                  id
+                  firstName
+                  lastName
+                  middleInitial
+                  suffix
+                  fromDate
+                  throughDate
+                }
+                email {
+                  id
+                  payload
+                  fromDate
+                  throughDate
+                }
+                avatar {
+                  id
+                  payload
+                  fromDate
+                  throughDate
+                }
+                metadata {
+                  isDraft
+                  isPublic
+                  isRejected
+                  isApproved
+                  isPendingReview
+                }
+                affiliation {
+                  id
+                  fromDate
+                  throughDate
+                  title
+                  role
+                  description
+                  organization {
+                    id
+                    name {
+                      payload
+                    }
+                    logo {
+                      payload
+                    }
+                  }
+                }
               }
             }
           }
