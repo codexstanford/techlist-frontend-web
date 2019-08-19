@@ -49,11 +49,11 @@ exports.createPages = ({ graphql, actions }) => {
     graphql(`
       {
         allTechList {
-          organizationCategories {
+          organizationCategories(first: 10) {
             id
             payload
           }
-          organizations {
+          organizations(first: 10) {
             id
             name {
               id

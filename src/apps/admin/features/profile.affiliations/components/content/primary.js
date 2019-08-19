@@ -13,7 +13,9 @@ function renderAffiliationPrimaryContent({ affiliation }) {
   return (
     <>
       <Typography variant="subtitle" className={classes.companyName}>
-        {affiliation.organization.name[0].payload}
+        {affiliation.organization &&
+          affiliation.organization.name &&
+          affiliation.organization.name[0].payload}
       </Typography>
     </>
   );

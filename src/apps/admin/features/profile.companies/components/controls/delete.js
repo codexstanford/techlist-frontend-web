@@ -2,6 +2,8 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Confirm from '../../../../../../atoms/confirm';
+import { useMutation } from 'react-apollo-hooks';
+import { DELETE_COMPANY_MUTATION } from '../../graphql';
 
 export function DeleteCompanyControl({ company, ...props }) {
   const [isDeleting, toggleDelete] = React.useState(false);
@@ -20,16 +22,16 @@ export function DeleteCompanyControl({ company, ...props }) {
 }
 
 function DeleteCompany({ isDeleting, toggleDelete, company, ...props }) {
-  const deleteCompany = () =>
-    console.log(
-      'Company to delete',
-      `{ id: ${company.id}, name: ${company.name[0].payload} }`
-    );
+  const deleteCompany = useMutation(DELETE_COMPANY_MUTATION);
+
+  // console.log('deleteCompany', deleteCompany);
 
   return (
     <Confirm
       open={isDeleting}
-      onConfirm={deleteCompany}
+      onConfirm={() =>
+        deleteCompany({ variables: { where: { id: company.id } } })
+      }
       onClose={() => toggleDelete(false)}
       onCancel={() => {}}
     >

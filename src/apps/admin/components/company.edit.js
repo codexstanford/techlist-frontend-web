@@ -4,12 +4,32 @@ import { Formik } from 'formik';
 import CodeXTextField from './codex.textinput';
 import styled from 'styled-components';
 import Confirm from '../../../atoms/confirm';
+import { UPDATE_COMPANY_MUATATION } from '../features/profile.companies/graphql';
+import { useMutation } from 'react-apollo-hooks';
 
 function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
-  async function handleSubmit({ role, description, title }, { setSubmitting }) {
+  const deleteCompany = useMutation(UPDATE_COMPANY_MUATATION);
+
+  console.log('company ****', company);
+
+  async function handleSubmit({ description, name }, { setSubmitting }) {
     try {
       setSubmitting(true);
       console.log('submitted');
+      deleteCompany({
+        variables: {
+          where: { id: company.id },
+          data: {
+            name: {
+              update: {
+                where: { id: company.name[0].id },
+                data: { fromDate: new Date().toISOString(), payload: name },
+              },
+            },
+            description,
+          },
+        },
+      });
       setSubmitting(false);
     } catch (error) {
       console.log(error);
@@ -23,7 +43,7 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
         id: company.id,
         description: company.description,
         role: company.role,
-        title: company.title,
+        name: company.name[0].payload,
       }}
       onSubmit={handleSubmit}
     >
@@ -41,11 +61,11 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
             <Container>
               <CodeXTextField
                 type="text"
-                name={`title`}
+                name={`name`}
                 errors={errors}
                 touched={touched}
-                value={values.title}
-                label="Title"
+                value={values.name}
+                label="Name"
                 style={{
                   flexGrow: 2,
                 }}
@@ -55,7 +75,7 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
                 name={`description`}
                 errors={errors}
                 touched={touched}
-                value={values.title}
+                value={values.description}
                 label="Description"
                 multiline={true}
                 style={{
