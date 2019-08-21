@@ -5,7 +5,7 @@ export const UPDATE_PERSON_AFFILIATION = gql`
     $data: PersonOrganizationAffiliationUpdateInput!
     $where: PersonOrganizationAffiliationWhereUniqueInput!
   ) {
-    updatePersonOrganizationAffiliation(where: $where, data: $data) {
+    updateAffiliation(where: $where, data: $data) {
       __typename
       id
       fromDate
