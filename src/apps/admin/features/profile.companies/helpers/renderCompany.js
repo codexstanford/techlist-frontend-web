@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import CompanyControls from '../components/controls';
 import { CompanyAvatar, CompanyContent } from '../components';
+import truncateText from '../../../../../helpers/truncateText';
 
 const useStyles = makeStyles({
   divider: {
@@ -29,7 +30,11 @@ export function renderCompany({ company, hasDivider = true }) {
         <CompanyControls company={company} />
       </ListItem>
       <p style={{ padding: '0 28px' }}>
-        {company.description && `${company.description}`}
+        {company.description &&
+          truncateText(company.description, 125, {
+            truncated: <span>...m</span>,
+            expanded: <button>beep</button>,
+          })}
       </p>
 
       {hasDivider && (

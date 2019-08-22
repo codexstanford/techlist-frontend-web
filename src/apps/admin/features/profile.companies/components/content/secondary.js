@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDateString } from '../../helpers';
+import truncateText from '../../../../../../helpers/truncateText';
 
 function renderCompanySecondaryContent({ company }) {
   return (
