@@ -5,6 +5,7 @@
  */
 
 // You can delete this file if you're not using it
+
 require('dotenv').config({
   path: `.env${
     process.env.NODE_ENV === 'production' || process.env.LOCAL !== true
@@ -45,6 +46,8 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
   const companyTemplate = path.resolve('src/templates/company.js');
   const tagTemplate = path.resolve('src/templates/tags.js');
+  const profileTemplate = path.resolve('src/templates/profile.js');
+
   return new Promise((resolve, reject) => {
     graphql(`
       {
@@ -64,6 +67,64 @@ exports.createPages = ({ graphql, actions }) => {
               payload
             }
             description
+          }
+          partyAccounts {
+            id
+            cognitoId
+            createdAt
+            name
+            email
+            phone
+            phone_number_verified
+            email_verified
+            person {
+              id
+              name {
+                id
+                firstName
+                lastName
+                middleInitial
+                suffix
+                fromDate
+                throughDate
+              }
+              email {
+                id
+                payload
+                fromDate
+                throughDate
+              }
+              avatar {
+                id
+                payload
+                fromDate
+                throughDate
+              }
+              metadata {
+                isDraft
+                isPublic
+                isRejected
+                isApproved
+                isPendingReview
+              }
+              affiliation {
+                id
+                fromDate
+                throughDate
+                title
+                role
+                description
+                organization {
+                  id
+                  name {
+                    payload
+                  }
+                  logo {
+                    payload
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -105,6 +166,18 @@ exports.createPages = ({ graphql, actions }) => {
               id: tag.id,
             },
           });
+        });
+
+        result.data.allTechList.partyAccounts.forEach(user => {
+          if (user && user.person && user.person.name.length > 0) {
+            createPage({
+              path: `/profiles/${user.person.name[0].firstName.toLowerCase()}${user.person.name[0].lastName.toLowerCase()}/`,
+              component: profileTemplate,
+              context: {
+                user: user,
+              },
+            });
+          }
         });
 
         resolve();

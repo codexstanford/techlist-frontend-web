@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Downshift from 'downshift';
-import Chip from '@material-ui/core/Chip';
 import { navigate } from 'gatsby';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
@@ -32,19 +31,23 @@ class MainSearch extends React.Component {
   };
 
   handleChange = item => {
-    let { selectedItem } = this.state;
+    if (item.type === 'company') {
+      return this.setState(
+        {
+          inputValue: '',
+        },
 
-    // if (selectedItem.indexOf(item) === -1) {
-    //   selectedItem = [...selectedItem, item.name];
-    // }
+        navigate(`/companies/${slugify(item.name)}`)
+      );
+    } else {
+      return this.setState(
+        {
+          inputValue: '',
+        },
 
-    this.setState(
-      {
-        inputValue: '',
-        // selectedItem,
-      },
-      navigate(`/companies/${slugify(item)}`)
-    );
+        navigate(`/profiles/${slugify(item.name)}`)
+      );
+    }
   };
 
   handleDelete = item => () => {
@@ -58,10 +61,11 @@ class MainSearch extends React.Component {
   render() {
     const { classes, data } = this.props;
     const {
-      allTechList: { organizations: companies },
+      allTechList: { organizations: companies, partyAccounts: users },
     } = data;
 
     const { selectedItem, inputValue } = this.state;
+
     return (
       <Downshift
         id="main-search"
@@ -95,13 +99,21 @@ class MainSearch extends React.Component {
                 <Paper className={classes.paper} square>
                   {getSuggestions({
                     value: inputValue2,
-                    data: companies,
+                    data: [...companies, ...users],
                   }).map((suggestion, index) =>
                     renderSuggestion({
                       suggestion,
                       index,
                       itemProps: getItemProps({
-                        item: suggestion.name[0].payload,
+                        item: suggestion.person
+                          ? {
+                              type: 'person',
+                              name: `${suggestion.person.name[0].firstName.toLowerCase()}${suggestion.person.name[0].lastName.toLowerCase()}`,
+                            }
+                          : {
+                              type: 'company',
+                              name: suggestion.name[0].payload,
+                            },
                       }),
                       highlightedIndex,
                       selectedItem: selectedItem2,
@@ -117,21 +129,81 @@ class MainSearch extends React.Component {
   }
 }
 
-export default props => (
-  <StaticQuery
-    query={graphql`
-      query SearchListQuery {
-        allTechList {
-          organizations {
-            id
-            name {
+export default props => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query SearchListQuery {
+          allTechList {
+            organizations {
               id
-              payload
+              name {
+                id
+                payload
+              }
+            }
+            partyAccounts {
+              id
+              cognitoId
+              createdAt
+              name
+              email
+              phone
+              phone_number_verified
+              email_verified
+              person {
+                id
+                name {
+                  id
+                  firstName
+                  lastName
+                  middleInitial
+                  suffix
+                  fromDate
+                  throughDate
+                }
+                email {
+                  id
+                  payload
+                  fromDate
+                  throughDate
+                }
+                avatar {
+                  id
+                  payload
+                  fromDate
+                  throughDate
+                }
+                metadata {
+                  isDraft
+                  isPublic
+                  isRejected
+                  isApproved
+                  isPendingReview
+                }
+                affiliation {
+                  id
+                  fromDate
+                  throughDate
+                  title
+                  role
+                  description
+                  organization {
+                    id
+                    name {
+                      payload
+                    }
+                    logo {
+                      payload
+                    }
+                  }
+                }
+              }
             }
           }
         }
-      }
-    `}
-    render={data => <MainSearch data={data} {...props} />}
-  />
-);
+      `}
+      render={data => <MainSearch data={data} {...props} />}
+    />
+  );
+};
