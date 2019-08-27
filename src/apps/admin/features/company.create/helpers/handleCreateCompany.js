@@ -31,7 +31,7 @@ export function handleCreateCompany(props) {
         variables: {
           data: {
             categories: {
-              connect: categories.map(cat => ({ id: cat.value })),
+              connect: categories && categories.map(cat => ({ id: cat.value })),
             },
             logo: {
               create: {

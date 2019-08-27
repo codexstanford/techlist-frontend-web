@@ -23,21 +23,25 @@ const useStyles = makeStyles(theme => ({
 
 export default function AffiliationsListController({ affiliations, ...props }) {
   const classes = useStyles();
-  const [first, second, ...rest] = affiliations;
-  return (
-    <>
-      {first && renderAffiliation({ affiliation: first, hasDivider: false })}
-      {second && renderAffiliation({ affiliation: second, hasDivider: false })}
-      {rest && rest.length > 0 ? (
-        <ExpansionPanel className={classes.expansionPanel}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
-          <ExpansionPanelDetails>
-            <List className={classes.root}>
-              {rest.map(affiliation => renderAffiliation({ affiliation }))}
-            </List>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ) : null}
-    </>
-  );
+  if (affiliations) {
+    const [first, second, ...rest] = affiliations;
+
+    return (
+      <>
+        {first && renderAffiliation({ affiliation: first, hasDivider: false })}
+        {second &&
+          renderAffiliation({ affiliation: second, hasDivider: false })}
+        {rest && rest.length > 0 ? (
+          <ExpansionPanel className={classes.expansionPanel}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
+            <ExpansionPanelDetails>
+              <List className={classes.root}>
+                {rest.map(affiliation => renderAffiliation({ affiliation }))}
+              </List>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ) : null}
+      </>
+    );
+  }
 }

@@ -16,6 +16,7 @@ export const GET_USER_ADMIN_COMPANIES = gql`
           id
           payload
         }
+        description
         metadata {
           id
           isDraft

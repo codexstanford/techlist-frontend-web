@@ -4,7 +4,7 @@ export const DELETE_AFFILIATION_MUTATION = gql`
   mutation DeleteAffiliationMutation(
     $where: PersonOrganizationAffiliationWhereUniqueInput!
   ) {
-    deletePersonOrganizationAffiliation(where: $where) {
+    deleteAffiliation(where: $where) {
       __typename
       id
       createdAt
@@ -40,3 +40,5 @@ export const DELETE_AFFILIATION_MUTATION = gql`
     }
   }
 `;
+
+// PersonOrganizationAffiliationUpdateManyWithoutOrganizationInput

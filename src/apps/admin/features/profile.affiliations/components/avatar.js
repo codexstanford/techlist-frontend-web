@@ -24,12 +24,12 @@ const useStyles = makeStyles(theme => ({
 export function AffiliationAvatar({ affiliation }) {
   const { organization } = affiliation;
   const { logo, name } = organization;
-  const firstInitial = name[0].payload.slice(0, 1);
+  const firstInitial = name && name[0].payload.slice(0, 1);
   const classes = useStyles();
   return (
     <>
       {logo && logo.length > 0 ? (
-        <Avatar src={logo[0].payload} className={classes.iconAvatar} />
+        <Avatar src={logo && logo[0].payload} className={classes.iconAvatar} />
       ) : (
         <Avatar className={classes.letterAvatar}>{firstInitial}</Avatar>
       )}
