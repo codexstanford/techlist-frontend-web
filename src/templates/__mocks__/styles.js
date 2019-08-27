@@ -100,4 +100,7 @@ export const styles = theme => ({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
+  link: {
+    color: theme.palette.common.white,
+  },
 });

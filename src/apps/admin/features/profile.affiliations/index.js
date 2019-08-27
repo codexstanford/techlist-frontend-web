@@ -13,8 +13,6 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     width: '100%',
     maxWidth: 600,
-    backgroundColor: 'white',
-    display: 'flex',
     justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
       minWidth: '100%',

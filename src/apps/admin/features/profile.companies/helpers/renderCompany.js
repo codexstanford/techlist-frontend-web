@@ -30,11 +30,7 @@ export function renderCompany({ company, hasDivider = true }) {
         <CompanyControls company={company} />
       </ListItem>
       <p style={{ padding: '0 28px' }}>
-        {company.description &&
-          truncateText(company.description, 125, {
-            truncated: <span>...m</span>,
-            expanded: <button>beep</button>,
-          })}
+        {company.description && truncateText(company.description, 125)}
       </p>
 
       {hasDivider && (
