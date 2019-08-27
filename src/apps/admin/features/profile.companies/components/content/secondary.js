@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDateString } from '../../helpers';
+import truncateText from '../../../../../../helpers/truncateText';
 
 function renderCompanySecondaryContent({ company }) {
   return (
@@ -17,7 +18,6 @@ function renderCompanySecondaryContent({ company }) {
             : 'N/A'
         }`}</span>
       }
-      <p>{company.description && `${company.description}`}</p>
     </div>
   );
 }

@@ -16,6 +16,7 @@ export function CodeXFormHeader({
         fontWeight: { weight },
         letterSpacing: '-.5px',
         textDecoration: 'none',
+        marginBottom: '2rem',
       }}
     >
       {text}

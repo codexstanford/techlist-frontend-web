@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 export function CodeXExpansionPanel({
   children,
+  defaultExpanded,
   expandIcon,
   title,
   titleColor,
@@ -20,6 +21,7 @@ export function CodeXExpansionPanel({
 }) {
   return (
     <ExpansionPanel
+      defaultExpanded={defaultExpanded}
       style={error ? { border: '1px solid red', ...style } : style}
     >
       <ExpansionPanelSummary expandIcon={expandIcon}>

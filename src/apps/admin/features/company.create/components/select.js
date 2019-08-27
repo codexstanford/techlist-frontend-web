@@ -50,7 +50,12 @@ export default function SimpleSelect({
       <Select
         inputProps={field}
         input={
-          <Input labelwidth={labelWidth} name={field.name} id={field.name} />
+          <Input
+            labelwidth={labelWidth}
+            name={field.name}
+            id={field.name}
+            value={field.value}
+          />
         }
       >
         {options.map(item => {
@@ -67,6 +72,6 @@ export default function SimpleSelect({
 
 const StyledFormControl = styled(FormControl)`
   padding-right: 1rem;
-  min-width: 150px;
+  min-width: 175px;
   margin-top: 15px;
 `;

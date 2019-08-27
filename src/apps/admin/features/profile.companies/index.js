@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Media from 'react-media';
 import { GET_USER_ADMIN_COMPANIES } from './graphql';
 import { useQuery } from 'react-apollo-hooks';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,11 +15,21 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'white',
   },
   card: {
+    width: '100%',
     minWidth: `300px`,
-    marginBottom: theme.spacing(1),
   },
-  main: {},
-  wrapper: {},
+  wrapper: {
+    width: '100%',
+    maxWidth: 600,
+    backgroundColor: 'white',
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '100%',
+      maxWidth: '100vw',
+    },
+  },
 }));
 
 export default function ProfileCompanies({ user, ...props }) {
@@ -36,29 +48,35 @@ export default function ProfileCompanies({ user, ...props }) {
   const { partyAccount } = data;
   if (partyAccount && partyAccount.admin && partyAccount.admin.length > 0) {
     return (
-      <div>
-        <div>
-          <Media query={{ minWidth: 480 }}>
-            {matches =>
-              matches ? (
-                <Typography variant="h6" component="h6" color="primary">
-                  Companies{' '}
-                </Typography>
-              ) : (
-                <Typography variant="h6" component="h6" color="primary">
-                  Companies{' '}
-                </Typography>
-              )
-            }
-          </Media>
-        </div>
-        {partyAccount !== null && (
-          <div>
-            <div className={classes.root}>
-              <Controller companies={partyAccount.admin} />
+      <div className={classes.wrapper}>
+        <Card className={classes.card}>
+          <CardContent>
+            <div>
+              <div>
+                <Media query={{ minWidth: 480 }}>
+                  {matches =>
+                    matches ? (
+                      <Typography variant="h6" component="h6" color="primary">
+                        Companies{' '}
+                      </Typography>
+                    ) : (
+                      <Typography variant="h6" component="h6" color="primary">
+                        Companies{' '}
+                      </Typography>
+                    )
+                  }
+                </Media>
+              </div>
+              {partyAccount !== null && (
+                <div>
+                  <div className={classes.root}>
+                    <Controller companies={partyAccount.admin} />
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
+          </CardContent>
+        </Card>
       </div>
     );
   } else {

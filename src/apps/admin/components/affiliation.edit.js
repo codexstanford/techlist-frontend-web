@@ -72,7 +72,7 @@ function EditAffiliation({
         throughDate:
           affiliation.throughDate !== null
             ? affiliation.throughDate.split('T')[0]
-            : null,
+            : '',
         role: affiliation.role,
         title: affiliation.title,
         organization: affiliation.organization
@@ -99,12 +99,7 @@ function EditAffiliation({
             onCancel={() => {}}
             onConfirm={submitForm}
             open={isEditing}
-            title={
-              <>
-                `Edit your affiliation with $
-                {affiliation.organization.name[0].payload}`
-              </>
-            }
+            title={`Edit your affiliation with ${affiliation.organization.name[0].payload}`}
           >
             <Container>
               <div style={{ display: 'flex' }}>
@@ -128,6 +123,7 @@ function EditAffiliation({
                   label="Date To"
                   fullWidth={false}
                   style={{ paddingHorizontal: '2px' }}
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
 

@@ -4,6 +4,8 @@ import { Formik, Field, Form } from 'formik';
 import { CREATE_COMPANY_MUTATION, GET_COMPANY_TARGET_MARKETS } from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import styled from 'styled-components';
+
 import {
   CodeXExpansionPanel,
   CodeXFormHeader,
@@ -79,12 +81,13 @@ export function CreateCompany({
 
         return (
           <>
-            <Form style={{ width: '100%', alignSelf: 'center' }}>
+            <StyledForm>
               <CodeXFormHeader text={`Create Company Profile`} />
-              <Preview values={values} />
+              <Preview values={values} touched={touched} />
               <FormErrorMessage touched={touched} errors={errors} />
 
               <CodeXExpansionPanel
+                defaultExpanded={true}
                 title="Basics"
                 error={checkForSectionErrors(touched, errors, [
                   'name',
@@ -143,12 +146,22 @@ export function CreateCompany({
                   />
                 )}
               </SectionWrapper>
-            </Form>
+            </StyledForm>
           </>
         );
       }}
     </Formik>
   );
 }
+
+const StyledForm = styled(Form)`
+  width: 100%;
+  align-self: center;
+  padding: 2rem;
+
+  @media (max-width: 600px) {
+    padding: 2rem 0;
+  }
+`;
 
 export default CreateCompany;

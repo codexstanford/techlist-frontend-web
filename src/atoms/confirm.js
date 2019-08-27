@@ -8,6 +8,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import Paper from '@material-ui/core/Paper';
+import styled from 'styled-components';
 
 const callAll = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args));
 
@@ -29,6 +31,8 @@ export function Confirm({
   title = 'Are you sure?',
   toggle = () => {},
   subtitle = 'Confirm that you really want to do this',
+  disableSave = false,
+  errors = {},
   ...props
 }) {
   const [isOpen, setOpen] = React.useState(false);
@@ -37,8 +41,14 @@ export function Confirm({
     callAll(onCancel(), setOpen(false), onClose());
   }
 
-  function handleConfirm() {
-    callAll(onConfirm(), setOpen(false), onClose());
+  async function handleConfirm() {
+    const result = await onConfirm();
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    } else {
+      callAll(setOpen(false), onClose());
+    }
   }
 
   React.useEffect(() => {
@@ -55,9 +65,10 @@ export function Confirm({
       TransitionProps={{ direction }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      PaperComponent={DialogPaper}
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-      <DialogContent>
+      <StyledDialogContent>
         {props.children ? (
           props.children
         ) : (
@@ -65,9 +76,9 @@ export function Confirm({
             {subtitle}
           </DialogContentText>
         )}
-      </DialogContent>
+      </StyledDialogContent>
       <DialogActions>
-        <Button onClick={handleConfirm} color="primary">
+        <Button onClick={handleConfirm} color="primary" disabled={disableSave}>
           {confirmText}
         </Button>
         <Button onClick={handleCancel} color="primary" autoFocus>
@@ -77,6 +88,22 @@ export function Confirm({
     </Dialog>
   );
 }
+
+const StyledDialogContent = styled(DialogContent)`
+  @media (min-width: 600px) {
+    min-width: 500px;
+    max-width: 100%;
+  }
+  @media (max-width: 600px) {
+    min-width: 400px;
+    max-width: 100%;
+  }
+  @media (max-width: 480px) {
+    min-width: 100vw;
+    max-height: 100vh;
+    overflow: scroll;
+  }
+`;
 
 Confirm.propTypes = {
   open: PropTypes.bool,
@@ -91,3 +118,17 @@ Confirm.propTypes = {
 };
 
 export default Confirm;
+
+const DialogPaper = ({ children }) => {
+  return <StyledPaper square>{children}</StyledPaper>;
+};
+
+const StyledPaper = styled(Paper)`
+  margin: 48px;
+  @media (max-width: 480px) {
+    margin: 0;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: scroll;
+  }
+`;

@@ -9,7 +9,7 @@ export default function CodeXTextField({
   component = TextField,
   errors,
   touched,
-  value,
+  InputLabelProps,
   ...rest
 }) {
   return (
@@ -20,8 +20,7 @@ export default function CodeXTextField({
         label={label || name}
         component={component}
         fullWidth={false}
-        InputLabelProps={{}}
-        value={value}
+        InputLabelProps={InputLabelProps}
         {...rest}
       />
       {/* {fieldErrors && isTouched ? <div>{fieldErrors}</div> : null} */}
