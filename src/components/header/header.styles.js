@@ -4,18 +4,15 @@ export const styles = theme => ({
   layout: {
     display: 'flex',
     justifyContent: 'space-between',
-    // color: theme.palette.common.white,
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
-    // [theme.breakpoints.up(1100 + theme.spacing(3) * 2)]: {
-    //   marginLeft: 'auto',
-    //   marginRight: 'auto',
-    // },
   },
   headerAppBar: {
     display: 'flex',
     alignItems: 'space-between',
     flexDirection: 'column',
+    zIndex: 1300,
+    boxShadow: 'none',
   },
   toolbarMain: {
     borderBottom: `1px solid ${theme.palette.grey[300]}`,

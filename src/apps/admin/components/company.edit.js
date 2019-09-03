@@ -10,12 +10,9 @@ import { useMutation } from 'react-apollo-hooks';
 function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
   const deleteCompany = useMutation(UPDATE_COMPANY_MUATATION);
 
-  console.log('company ****', company);
-
   async function handleSubmit({ description, name }, { setSubmitting }) {
     try {
       setSubmitting(true);
-      console.log('submitted');
       deleteCompany({
         variables: {
           where: { id: company.id },

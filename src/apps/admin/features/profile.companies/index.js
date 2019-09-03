@@ -21,8 +21,6 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     width: '100%',
     maxWidth: 600,
-    backgroundColor: 'white',
-    display: 'flex',
     justifyContent: 'space-between',
     marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {

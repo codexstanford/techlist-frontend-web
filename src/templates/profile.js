@@ -12,6 +12,8 @@ import ProfileAffiliations from '../apps/admin/features/profile.affiliations';
 import ProfileCompanies from '../apps/admin/features/profile.companies';
 import { styles } from './__mocks__/styles';
 import Layout from '../components/layout';
+import Link from '@material-ui/core/Link';
+import Avatar from '@material-ui/core/Avatar';
 
 export function ProfileTemplate({ classes, pageContext, ...props }) {
   const { user } = pageContext;
@@ -29,6 +31,12 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
       <div className={classes.root}>
         <AppBar position="absolute" className={classNames(classes.appBar)}>
           <StyledToolbar disableGutters={true} className={classes.toolbar}>
+            <StyledAvatar>
+              <img
+                src={person.avatar[0].payload}
+                style={{ height: '100%', width: '100%' }}
+              />
+            </StyledAvatar>
             <Typography
               component="h1"
               variant="h6"
@@ -39,21 +47,21 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
               {displayName ? displayName.firstName : ''}{' '}
               {displayName ? displayName.lastName : ''}{' '}
             </Typography>
+            <Link
+              className={classes.link}
+              href={`mailto:${person.email[0].payload}`}
+              target="_blank"
+            >
+              {person.email[0].payload}
+            </Link>
           </StyledToolbar>
         </AppBar>
         <StyledMain>
           <div className={classes.appBarSpacer} />
           <StyledWrapper>
-            <StyledCard>
-              <CardContent>
-                <ProfileCompanies user={user} />
-              </CardContent>
-            </StyledCard>
-            <StyledCard>
-              <CardContent>
-                <ProfileAffiliations person={person} />
-              </CardContent>
-            </StyledCard>
+            <ProfileCompanies user={user} />
+
+            <ProfileAffiliations person={person} />
           </StyledWrapper>
         </StyledMain>
       </div>
@@ -74,25 +82,18 @@ const StyledWrapper = styled.main`
   }
 `;
 
-const StyledCard = styled(Card)`
-  min-width: 350px;
-  margin-bottom: 10px;
-  @media (max-width: 480px) {
-    flex-direction: column;
-    min-width: 250px;
-    max-width: 100%;
-  }
+const StyledAvatar = styled(Avatar)`
+  height: 50px;
+  width: 50px;
+  margin-left: 24px;
 `;
 
 const StyledMain = styled.main`
   flex-grow: 1;
-  padding: 8px;
   overflow: auto;
-
-  @media (min-width: 480px) {
-    padding: 24px;
-  }
+  padding: 1rem;
 `;
+
 const StyledToolbar = styled(Toolbar)`
   text-align: center;
 `;
