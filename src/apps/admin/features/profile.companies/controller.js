@@ -11,13 +11,11 @@ import { renderCompany } from './helpers';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    maxWidth: 600,
     backgroundColor: 'white',
   },
   expansionPanel: {
     boxShadow: 'none',
     width: '100%',
-    maxWidth: 600,
   },
 }));
 

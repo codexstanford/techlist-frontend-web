@@ -55,7 +55,7 @@ export default function ProfileAffiliations({ person, style, ...props }) {
                     Affiliations{' '}
                   </Typography>
                 ) : (
-                  <Typography variant="subtitle" component="h6" color="primary">
+                  <Typography variant="h6" component="h6" color="primary">
                     Affiliations{' '}
                   </Typography>
                 )
