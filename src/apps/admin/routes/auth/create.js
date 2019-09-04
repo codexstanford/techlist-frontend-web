@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -22,10 +22,23 @@ function CreateAccount({ classes, ...props }) {
 
   const { setStep, activeStep: step } = props;
 
+  let phoneNumber = '';
+  const formatShit = value => {
+    var x = value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    phoneNumber = !x[2]
+      ? x[1]
+      : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+
+    console.log('phoneNumber', phoneNumber);
+
+    return phoneNumber;
+  };
+
   const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
+    console.log('values', values);
     setSubmitting(true);
     const { email, password, phone } = values;
     const username = email;
@@ -118,11 +131,14 @@ function CreateAccount({ classes, ...props }) {
               </div>
               <div>
                 <Field
+                  id="phone"
                   name="phone"
                   type="phone"
                   label="Phone"
+                  placeholder="4063489765"
                   fullWidth
                   component={TextField}
+                  value={formatShit(values.phone)}
                 />
               </div>
               <div>
