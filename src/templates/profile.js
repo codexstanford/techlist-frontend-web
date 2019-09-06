@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
-import EmailIcon from '@material-ui/icons/email';
+import EmailIcon from '@material-ui/icons/Email';
 import ProfileAffiliations from '../apps/admin/features/profile.affiliations';
 import ProfileCompanies from '../apps/admin/features/profile.companies';
 import { styles } from './__mocks__/styles';
