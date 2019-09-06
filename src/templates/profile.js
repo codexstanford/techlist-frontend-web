@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
-
+import EmailIcon from '@material-ui/icons/email';
 import ProfileAffiliations from '../apps/admin/features/profile.affiliations';
 import ProfileCompanies from '../apps/admin/features/profile.companies';
 import { styles } from './__mocks__/styles';
@@ -31,28 +31,31 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
       <div className={classes.root}>
         <AppBar position="absolute" className={classNames(classes.appBar)}>
           <StyledToolbar disableGutters={true} className={classes.toolbar}>
-            <StyledAvatar>
-              <img
-                src={person.avatar[0].payload}
-                style={{ height: '100%', width: '100%' }}
-              />
-            </StyledAvatar>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              {displayName ? displayName.firstName : ''}{' '}
-              {displayName ? displayName.lastName : ''}{' '}
-            </Typography>
+            <AvatarAndNameToolbarContainer>
+              <StyledAvatar>
+                <img
+                  src={person.avatar[0].payload}
+                  style={{ height: '100%', width: '100%' }}
+                />
+              </StyledAvatar>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                {displayName ? displayName.firstName : ''}{' '}
+                {displayName ? displayName.lastName : ''}{' '}
+              </Typography>
+            </AvatarAndNameToolbarContainer>
+
             <Link
               className={classes.link}
               href={`mailto:${person.email[0].payload}`}
               target="_blank"
             >
-              {person.email[0].payload}
+              <EmailIcon />
             </Link>
           </StyledToolbar>
         </AppBar>
@@ -93,7 +96,8 @@ const Spacer = styled.div`
 const StyledAvatar = styled(Avatar)`
   height: 50px;
   width: 50px;
-  margin-left: 24px;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const StyledMain = styled.main`
@@ -103,5 +107,12 @@ const StyledMain = styled.main`
 `;
 
 const StyledToolbar = styled(Toolbar)`
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AvatarAndNameToolbarContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
