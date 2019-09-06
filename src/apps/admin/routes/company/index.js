@@ -8,7 +8,14 @@ import CreateCompanyNew from '../../features/company.create';
 import Clear from '@material-ui/icons/Clear';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return (
+    <Slide
+      direction="up"
+      ref={ref}
+      timeout={{ enter: 10000, exit: 10000 }}
+      {...props}
+    />
+  );
 });
 
 function CreateCompanyScreen({
@@ -41,7 +48,6 @@ function CreateCompanyScreen({
 
 const StyledDialog = styled(Dialog)`
   padding: 0;
-  overflow: auto;
   margin: 0 16px;
   @media (max-width: 750px) {
     margin: 0;
@@ -86,6 +92,9 @@ const StyledPaper = styled(Paper)`
     max-width: 800px;
     max-height: 90vh;
     overflow: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 0;
   }
 `;
 
