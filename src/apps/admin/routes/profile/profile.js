@@ -83,6 +83,7 @@ export function UserProfile({ classes, ...props }) {
       <StyledMain>
         <div className={classes.appBarSpacer} />
         {admin && admin.length > 0 && <ProfileCompanies user={data} />}
+        <Spacer />
         {affiliation && affiliation.length > 0 && (
           <ProfileAffiliations person={person} />
         )}
@@ -97,6 +98,13 @@ export function UserProfile({ classes, ...props }) {
 }
 
 export default UserProfile;
+
+const Spacer = styled.div`
+  min-width: 1rem;
+  @media (max-width: 960px) {
+    display: none;
+  }
+`;
 
 const StyledWrapper = styled.main`
   display: flex;

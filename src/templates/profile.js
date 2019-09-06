@@ -60,6 +60,7 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
           <div className={classes.appBarSpacer} />
           <StyledWrapper>
             <ProfileCompanies user={user} />
+            <Spacer />
 
             <ProfileAffiliations person={person} />
           </StyledWrapper>
@@ -71,7 +72,7 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
 
 export default withStyles(styles)(ProfileTemplate);
 
-const StyledWrapper = styled.main`
+const StyledWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   @media (min-width: 1080px) {
@@ -79,6 +80,13 @@ const StyledWrapper = styled.main`
   }
   @media (max-width: 960px) {
     flex-direction: column;
+  }
+`;
+
+const Spacer = styled.div`
+  min-width: 1rem;
+  @media (max-width: 960px) {
+    display: none;
   }
 `;
 
