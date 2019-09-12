@@ -82,7 +82,6 @@ async function getUser(client) {
 }
 
 function register({ email, password, phone: phone_number, username }) {
-  console.log('phone number in auth register', phone_number);
   if (isBrowser) {
     return Auth.signUp({
       username,

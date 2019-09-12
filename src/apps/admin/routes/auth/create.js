@@ -31,12 +31,9 @@ function CreateAccount({ classes, ...props }) {
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
-    // setSubmitting(true);
     const { email, password, phone } = values;
-    const formatted = formatPhoneNumber(phone); // temporary because value is not what is shown in input, adds 1+ country code
-    console.log('PHONE FORMATTED SUBMITTING', formatted);
-    const unformatted = unformatPhoneNumber(formatted); // reverts to being numbers only
-    console.log('PHONE UNFORMATTED SUBMITTING', unformatted);
+
+    const formattedForDBPhoneNumber = unformatPhoneNumber(phone);
 
     const username = email;
 
@@ -44,7 +41,7 @@ function CreateAccount({ classes, ...props }) {
       const result = await register({
         email,
         password,
-        phone: unformatted,
+        phone: formattedForDBPhoneNumber,
         username,
       });
 
@@ -108,7 +105,6 @@ function CreateAccount({ classes, ...props }) {
         handleChange,
         handleBlur,
       }) => {
-        console.log('PHONE VALUE', values.phone);
         return (
           <Container className={classes.main}>
             <HeaderWrapper>
@@ -139,19 +135,22 @@ function CreateAccount({ classes, ...props }) {
                 <Field
                   name="phone"
                   render={({ field }) => (
-                    console.log('field', field.value),
-                    (
-                      <MuiTextField
-                        {...field}
-                        fullWidth
-                        id="phone"
-                        label="Phone"
-                        placeholder={'(___) ___-____'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={formatPhoneNumber(field.value, setFieldValue)}
-                      />
-                    )
+                    <MuiTextField
+                      {...field}
+                      fullWidth
+                      id="phone"
+                      label="Phone"
+                      placeholder={'(___) ___-____'}
+                      onChange={e => {
+                        handleChange(e);
+                        setFieldValue(
+                          'phone',
+                          formatPhoneNumber(e.target.value)
+                        );
+                      }}
+                      onBlur={handleBlur}
+                      value={field.value}
+                    />
                   )}
                 />
               </div>

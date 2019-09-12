@@ -9,15 +9,23 @@ export const formatPhoneNumber = (value, setFieldValue) => {
   if (match) {
     var intlCode =
       match[1] || value.length === 10 || value.length === 11 ? '+1 ' : '';
-    if (setFieldValue) {
-      // setFieldValue(
-      //   'phone',
-      //   [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('')
-      // );
-    }
+    // if (setFieldValue) {
+    //   // setTimeout(() => {
+    //     return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join();
+    //   // }, 1000);
+    //   // setTimeout(() => {
+    //   //   setFieldValue(
+    //   //     'phone',
+    //   //     [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('')
+    //   //   );
+    //   // }, 500);
+    // }
     return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
   }
   return cleaned;
 };
 
-export const unformatPhoneNumber = value => value.replace(/\D/g, '');
+export const unformatPhoneNumber = value => {
+  const cleanedValue = value.replace(/[\D]/g, '');
+  return `+${cleanedValue}`;
+};
