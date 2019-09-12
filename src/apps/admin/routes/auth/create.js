@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Typography from '@material-ui/core/Typography';
+import { default as MuiTextField } from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
@@ -15,6 +16,10 @@ import { navigate } from '@reach/router';
 import { SectionWrapper } from '../../../../atoms';
 
 import { useUser } from '../../../../store/user-context';
+import {
+  formatPhoneNumber,
+  unformatPhoneNumber,
+} from '../../../../helpers/formatPhoneNumber';
 
 function CreateAccount({ classes, ...props }) {
   const { data, register, confirm } = useUser();
@@ -22,39 +27,31 @@ function CreateAccount({ classes, ...props }) {
 
   const { setStep, activeStep: step } = props;
 
-  let phoneNumber = '';
-  const formatShit = value => {
-    var x = value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-    phoneNumber = !x[2]
-      ? x[1]
-      : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-
-    console.log('phoneNumber', phoneNumber);
-
-    return phoneNumber;
-  };
-
   const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
-    console.log('values', values);
-    setSubmitting(true);
+    // setSubmitting(true);
     const { email, password, phone } = values;
+    const formatted = formatPhoneNumber(phone); // temporary because value is not what is shown in input, adds 1+ country code
+    console.log('PHONE FORMATTED SUBMITTING', formatted);
+    const unformatted = unformatPhoneNumber(formatted); // reverts to being numbers only
+    console.log('PHONE UNFORMATTED SUBMITTING', unformatted);
+
     const username = email;
+
     try {
       const result = await register({
         email,
         password,
-        phone,
+        phone: unformatted,
         username,
       });
 
-      console.log('REGISTER RESULT:', result);
       setSubmitting(false);
       setShowConfirm(true);
     } catch (error) {
-      console.log('****ERROR INSIDE CREATE HERE******', error);
+      console.log('****ERROR INSIDE CREATE USER HERE******', error);
       if (error.code === 'UsernameExistsException') {
         setFieldError(
           'email',
@@ -102,7 +99,16 @@ function CreateAccount({ classes, ...props }) {
       }}
       validate={validateCreateAccountForm}
     >
-      {({ submitForm, isSubmitting, values, setFieldValue, isValid }) => {
+      {({
+        submitForm,
+        isSubmitting,
+        values,
+        setFieldValue,
+        isValid,
+        handleChange,
+        handleBlur,
+      }) => {
+        console.log('PHONE VALUE', values.phone);
         return (
           <Container className={classes.main}>
             <HeaderWrapper>
@@ -131,14 +137,22 @@ function CreateAccount({ classes, ...props }) {
               </div>
               <div>
                 <Field
-                  id="phone"
                   name="phone"
-                  type="phone"
-                  label="Phone"
-                  placeholder="4063489765"
-                  fullWidth
-                  component={TextField}
-                  value={formatShit(values.phone)}
+                  render={({ field }) => (
+                    console.log('field', field.value),
+                    (
+                      <MuiTextField
+                        {...field}
+                        fullWidth
+                        id="phone"
+                        label="Phone"
+                        placeholder={'(___) ___-____'}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={formatPhoneNumber(field.value, setFieldValue)}
+                      />
+                    )
+                  )}
                 />
               </div>
               <div>
