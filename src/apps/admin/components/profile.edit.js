@@ -51,12 +51,24 @@ function EditProfile({ open, handleClose, classes, ...props }) {
             },
             avatar:
               avatar !== ''
-                ? {
-                    create: {
-                      payload: avatar,
-                      fromDate: new Date(),
-                    },
-                  }
+                ? me.person.avatar[0]
+                  ? {
+                      update: {
+                        data: {
+                          payload: avatar,
+                          fromDate: new Date(),
+                        },
+                        where: {
+                          id: me.person.avatar[0].id,
+                        },
+                      },
+                    }
+                  : {
+                      create: {
+                        payload: avatar,
+                        fromDate: new Date(),
+                      },
+                    }
                 : null,
           },
         },
