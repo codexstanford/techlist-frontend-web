@@ -10,9 +10,7 @@ import {
 } from '../../../../graphql';
 
 export const UserProfileWithGraphQL = props => {
-  const [loadingState, toggleLoadingState] = useState(true);
-
-  let { data, loading, error, refetch } = useQuery(GET_CURRENT_USER_QUERY);
+  const { data, loading, error, refetch } = useQuery(GET_CURRENT_USER_QUERY);
   if (loading) {
     return null;
   }
