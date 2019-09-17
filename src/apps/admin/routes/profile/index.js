@@ -10,9 +10,9 @@ import {
 } from '../../../../graphql';
 
 export const UserProfileWithGraphQL = props => {
-  const [show, toggleShow] = useState(false);
+  const [loadingState, toggleLoadingState] = useState(true);
 
-  const { data, loading, error } = useQuery(GET_CURRENT_USER_QUERY);
+  let { data, loading, error, refetch } = useQuery(GET_CURRENT_USER_QUERY);
   if (loading) {
     return null;
   }
@@ -21,26 +21,34 @@ export const UserProfileWithGraphQL = props => {
     return null;
   }
 
-  console.log('LOADING RESOURCES', data);
-
   const { me } = data;
 
-  const { person, id } = me;
-
-  if (person.metadata.isDraft === true) {
-    return (
-      <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
-        {mutation => {
-          return (
-            <CreateProfile createProfile={mutation} user={person} {...props} />
-          );
-        }}
-      </Mutation>
-    );
-  } else if (person.metadata.isDraft === false) {
-    return <UserProfile data={me} me={me} {...props} />;
+  while (me === 'undefined' || me === undefined) {
+    refetch();
+    return null;
   }
-  return null;
+
+  if (typeof me !== 'undefined') {
+    const { person } = me;
+
+    if (person.metadata.isDraft === true) {
+      return (
+        <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
+          {mutation => {
+            return (
+              <CreateProfile
+                createProfile={mutation}
+                user={person}
+                {...props}
+              />
+            );
+          }}
+        </Mutation>
+      );
+    } else if (person.metadata.isDraft === false) {
+      return <UserProfile data={me} me={me} {...props} />;
+    }
+  }
 };
 
 export default UserProfileWithGraphQL;
