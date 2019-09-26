@@ -52,11 +52,11 @@ exports.createPages = ({ graphql, actions }) => {
     graphql(`
       {
         allTechList {
-          organizationCategories {
+          organizationCategories(first: 1) {
             id
             payload
           }
-          organizations {
+          organizations(first: 1) {
             id
             name {
               id
@@ -68,7 +68,7 @@ exports.createPages = ({ graphql, actions }) => {
             }
             description
           }
-          partyAccounts {
+          partyAccounts(first: 1) {
             id
             cognitoId
             createdAt

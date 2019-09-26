@@ -12,7 +12,7 @@ function renderAffiliationPrimaryContent({ affiliation }) {
   const classes = useStyles();
   return (
     <>
-      <Typography variant="subtitle" className={classes.companyName}>
+      <Typography variant="subtitle2" className={classes.companyName}>
         {affiliation.organization &&
           affiliation.organization.name &&
           affiliation.organization.name[0].payload}
