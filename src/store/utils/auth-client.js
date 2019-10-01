@@ -88,7 +88,7 @@ function register({ email, password, phone: phone_number, username }) {
       password,
       attributes: {
         email,
-        phone_number: `+1${phone_number}`,
+        phone_number,
       },
     });
   }
