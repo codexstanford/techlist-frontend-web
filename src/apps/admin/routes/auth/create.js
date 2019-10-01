@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Typography from '@material-ui/core/Typography';
+import { default as MuiTextField } from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { validateCreateAccountForm } from '../../helpers';
@@ -15,6 +16,10 @@ import { navigate } from '@reach/router';
 import { SectionWrapper } from '../../../../atoms';
 
 import { useUser } from '../../../../store/user-context';
+import {
+  formatPhoneNumber,
+  unformatPhoneNumber,
+} from '../../../../helpers/formatPhoneNumber';
 
 function CreateAccount({ classes, ...props }) {
   const { data, register, confirm } = useUser();
@@ -26,22 +31,24 @@ function CreateAccount({ classes, ...props }) {
     values,
     { setSubmitting, setErrors, setFieldError }
   ) => {
-    setSubmitting(true);
     const { email, password, phone } = values;
+
+    const formattedForDBPhoneNumber = unformatPhoneNumber(phone);
+
     const username = email;
+
     try {
       const result = await register({
         email,
         password,
-        phone,
+        phone: formattedForDBPhoneNumber,
         username,
       });
 
-      console.log('REGISTER RESULT:', result);
       setSubmitting(false);
       setShowConfirm(true);
     } catch (error) {
-      console.log('****ERROR INSIDE CREATE HERE******', error);
+      console.log('****ERROR INSIDE CREATE USER HERE******', error);
       if (error.code === 'UsernameExistsException') {
         setFieldError(
           'email',
@@ -89,7 +96,15 @@ function CreateAccount({ classes, ...props }) {
       }}
       validate={validateCreateAccountForm}
     >
-      {({ submitForm, isSubmitting, values, setFieldValue, isValid }) => {
+      {({
+        submitForm,
+        isSubmitting,
+        values,
+        setFieldValue,
+        isValid,
+        handleChange,
+        handleBlur,
+      }) => {
         return (
           <Container className={classes.main}>
             <HeaderWrapper>
@@ -119,10 +134,24 @@ function CreateAccount({ classes, ...props }) {
               <div>
                 <Field
                   name="phone"
-                  type="phone"
-                  label="Phone"
-                  fullWidth
-                  component={TextField}
+                  render={({ field }) => (
+                    <MuiTextField
+                      {...field}
+                      fullWidth
+                      id="phone"
+                      label="Phone"
+                      placeholder={'(___) ___-____'}
+                      onChange={e => {
+                        handleChange(e);
+                        setFieldValue(
+                          'phone',
+                          formatPhoneNumber(e.target.value)
+                        );
+                      }}
+                      onBlur={handleBlur}
+                      value={field.value}
+                    />
+                  )}
                 />
               </div>
               <div>

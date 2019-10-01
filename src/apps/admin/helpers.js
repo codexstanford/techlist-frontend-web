@@ -12,6 +12,10 @@ export const validateCreateAccountForm = values => {
     errors.password = 'Must be at least 8 characters long.';
   }
 
+  if (!values.phone) {
+    errors.phone = 'Required.';
+  }
+
   if (!values.confirm) {
     errors.confirm = 'Required';
   } else if (values.confirm !== values.password) {

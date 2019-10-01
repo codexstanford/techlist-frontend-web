@@ -42,6 +42,15 @@ export const GET_CURRENT_USER_QUERY = gql`
           fromDate
           throughDate
         }
+        phone {
+          __typename
+          id
+          payload
+          fromDate
+          throughDate
+          isPublic
+          isPrimary
+        }
         metadata {
           __typename
           id
