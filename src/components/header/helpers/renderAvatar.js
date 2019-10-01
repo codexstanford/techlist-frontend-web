@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { navigate } from '@reach/router';
+import PersonIcon from '@material-ui/icons/Person';
 
 function renderAvatar(user) {
   const { person } = user;
@@ -33,7 +34,17 @@ function renderAvatar(user) {
       </Avatar>
     );
   }
-  return null;
+  return (
+    <Avatar
+      onClick={() => navigate('/app/profile/')}
+      style={{ marginLeft: 10 }}
+      imgProps={{
+        style: { maxWidth: '100%', maxHeight: '100%' },
+      }}
+    >
+      <PersonIcon />
+    </Avatar>
+  );
 }
 
 export default renderAvatar;

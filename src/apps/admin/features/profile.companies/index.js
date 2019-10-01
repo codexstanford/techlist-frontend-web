@@ -43,40 +43,38 @@ export default function ProfileCompanies({ user, ...props }) {
   }
 
   const { partyAccount } = data;
-  if (partyAccount && partyAccount.admin && partyAccount.admin.length > 0) {
-    return (
-      <div className={classes.wrapper}>
-        <Card className={classes.card}>
-          <CardContent>
+  return (
+    <div className={classes.wrapper}>
+      <Card className={classes.card}>
+        <CardContent>
+          <div>
             <div>
-              <div>
-                <Media query={{ minWidth: 480 }}>
-                  {matches =>
-                    matches ? (
-                      <Typography variant="h6" component="h6" color="primary">
-                        Companies{' '}
-                      </Typography>
-                    ) : (
-                      <Typography variant="h6" component="h6" color="primary">
-                        Companies{' '}
-                      </Typography>
-                    )
-                  }
-                </Media>
-              </div>
-              {partyAccount !== null && (
+              <Media query={{ minWidth: 480 }}>
+                {matches =>
+                  matches ? (
+                    <Typography variant="h6" component="h6" color="primary">
+                      Companies{' '}
+                    </Typography>
+                  ) : (
+                    <Typography variant="h6" component="h6" color="primary">
+                      Companies{' '}
+                    </Typography>
+                  )
+                }
+              </Media>
+            </div>
+            {partyAccount &&
+              partyAccount.admin &&
+              partyAccount.admin.length > 0 && (
                 <div>
                   <div className={classes.root}>
                     <Controller companies={partyAccount.admin} />
                   </div>
                 </div>
               )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  } else {
-    return null;
-  }
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

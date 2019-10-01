@@ -72,6 +72,7 @@ class MainSearch extends React.Component {
         inputValue={inputValue}
         onChange={this.handleChange}
         selectedItem={selectedItem}
+        itemToString={item => (item ? item.payload : '')}
       >
         {({
           getInputProps,

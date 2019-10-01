@@ -8,12 +8,12 @@ import { UPDATE_COMPANY_MUATATION } from '../features/profile.companies/graphql'
 import { useMutation } from 'react-apollo-hooks';
 
 function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
-  const deleteCompany = useMutation(UPDATE_COMPANY_MUATATION);
+  const updateCompany = useMutation(UPDATE_COMPANY_MUATATION);
 
   async function handleSubmit({ description, name }, { setSubmitting }) {
     try {
       setSubmitting(true);
-      deleteCompany({
+      updateCompany({
         variables: {
           where: { id: company.id },
           data: {
@@ -41,7 +41,9 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
         description: company.description,
         role: company.role,
         name: company.name[0].payload,
-        dateFounded: company.yearFounded && company.yearFounded.slice(0, 10),
+        dateFounded: company.yearFounded
+          ? company.yearFounded.slice(0, 10)
+          : '',
       }}
       onSubmit={handleSubmit}
     >

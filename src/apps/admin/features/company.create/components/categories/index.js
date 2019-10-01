@@ -191,6 +191,11 @@ export const Categories = props => (
         }
       }
     `}
-    render={data => <IntegrationDownshift data={data} {...props} />}
+    render={({ data, loading }) => {
+      if (loading) {
+        return null;
+      }
+      return <IntegrationDownshift data={data} {...props} />;
+    }}
   />
 );

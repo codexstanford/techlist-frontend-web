@@ -1,37 +1,28 @@
 import React from 'react';
 import renderPrimaryContent from './primary';
 import renderSecondaryContent from './secondary';
-import ListItem from '@material-ui/core/ListItem';
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/styles';
 import truncateText from '../../../../../../helpers/truncateText';
 
-const useStyles = makeStyles(() => ({
-  listItem: {
-    minWidth: '300px',
-  },
-}));
-
 export function CompanyContent({ company, ...props }) {
-  const classes = useStyles();
-
   return (
-    <ListItem
-      className={classes.listItem}
-      component={() => (
-        <Wrapper>
-          <ContentWrapper>
-            {renderPrimaryContent({ company })}
-            {renderSecondaryContent({ company })}
-          </ContentWrapper>
-          <CompanyDescription>
-            {company.description && truncateText(company.description, 125)}
-          </CompanyDescription>
-        </Wrapper>
-      )}
-    />
+    <Container>
+      <Wrapper>
+        <ContentWrapper>
+          {renderPrimaryContent({ company })}
+          {renderSecondaryContent({ company })}
+        </ContentWrapper>
+        <CompanyDescription>
+          {company.description && truncateText(company.description, 125)}
+        </CompanyDescription>
+      </Wrapper>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  min-width: 300px;
+`;
 
 const Wrapper = styled.div`
   display: flex;
