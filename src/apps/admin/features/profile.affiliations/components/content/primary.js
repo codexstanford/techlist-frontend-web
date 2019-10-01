@@ -1,6 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
+import Link from '@material-ui/core/Link';
+import { navigate } from 'gatsby';
+import slugify from 'slugify';
 
 const useStyles = makeStyles(theme => ({
   companyName: {
@@ -11,13 +14,18 @@ const useStyles = makeStyles(theme => ({
 function renderAffiliationPrimaryContent({ affiliation }) {
   const classes = useStyles();
   return (
-    <>
+    <Link
+      onClick={() =>
+        navigate(
+          `/companies/${slugify(affiliation.organization.name[0].payload)}`
+        )
+      }
+      target="_blank"
+    >
       <Typography variant="subtitle" className={classes.companyName}>
-        {affiliation.organization &&
-          affiliation.organization.name &&
-          affiliation.organization.name[0].payload}
+        {affiliation.organization.name[0].payload}
       </Typography>
-    </>
+    </Link>
   );
 }
 

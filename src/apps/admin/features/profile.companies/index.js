@@ -11,7 +11,6 @@ import CardContent from '@material-ui/core/CardContent';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    maxWidth: 600,
     backgroundColor: 'white',
   },
   card: {

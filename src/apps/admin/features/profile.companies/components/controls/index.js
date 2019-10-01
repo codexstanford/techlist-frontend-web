@@ -13,6 +13,7 @@ import { DeleteCompanyControl } from './delete';
 const useStyles = makeStyles(theme => ({
   listItem: {
     alignSelf: 'flex-start',
+    minWidth: 103,
   },
 }));
 

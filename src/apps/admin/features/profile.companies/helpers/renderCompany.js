@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   listItem: {
     diplay: 'flex',
     justifyContent: 'space-between',
+    padding: 0,
   },
 });
 
@@ -29,9 +30,9 @@ export function renderCompany({ company, hasDivider = true }) {
         </AvatarAndContentContainer>
         <CompanyControls company={company} />
       </ListItem>
-      <p style={{ padding: '0 28px' }}>
+      <CompanyDescription>
         {company.description && truncateText(company.description, 125)}
-      </p>
+      </CompanyDescription>
 
       {hasDivider && (
         <Divider className={classes.divider} variant="fullWidth" />
@@ -43,4 +44,14 @@ export function renderCompany({ company, hasDivider = true }) {
 const AvatarAndContentContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const CompanyDescription = styled.p`
+  padding: 0 14px;
+  @media (max-width: 960px) {
+    display: none;
+  }
+  @media (max-width: 800px) {
+    display: block;
+  }
 `;

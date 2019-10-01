@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
-
+import EmailIcon from '@material-ui/icons/Email';
 import ProfileAffiliations from '../apps/admin/features/profile.affiliations';
 import ProfileCompanies from '../apps/admin/features/profile.companies';
 import { styles } from './__mocks__/styles';
@@ -31,28 +31,31 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
       <div className={classes.root}>
         <AppBar position="absolute" className={classNames(classes.appBar)}>
           <StyledToolbar disableGutters={true} className={classes.toolbar}>
-            <StyledAvatar>
-              <img
-                src={person.avatar[0].payload}
-                style={{ height: '100%', width: '100%' }}
-              />
-            </StyledAvatar>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              {displayName ? displayName.firstName : ''}{' '}
-              {displayName ? displayName.lastName : ''}{' '}
-            </Typography>
+            <AvatarAndNameToolbarContainer>
+              <StyledAvatar>
+                <img
+                  src={person.avatar[0].payload}
+                  style={{ height: '100%', width: '100%' }}
+                />
+              </StyledAvatar>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                {displayName ? displayName.firstName : ''}{' '}
+                {displayName ? displayName.lastName : ''}{' '}
+              </Typography>
+            </AvatarAndNameToolbarContainer>
+
             <Link
               className={classes.link}
               href={`mailto:${person.email[0].payload}`}
               target="_blank"
             >
-              {person.email[0].payload}
+              <EmailIcon />
             </Link>
           </StyledToolbar>
         </AppBar>
@@ -60,6 +63,7 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
           <div className={classes.appBarSpacer} />
           <StyledWrapper>
             <ProfileCompanies user={user} />
+            <Spacer />
 
             <ProfileAffiliations person={person} />
           </StyledWrapper>
@@ -71,7 +75,7 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
 
 export default withStyles(styles)(ProfileTemplate);
 
-const StyledWrapper = styled.main`
+const StyledWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   @media (min-width: 1080px) {
@@ -82,10 +86,18 @@ const StyledWrapper = styled.main`
   }
 `;
 
+const Spacer = styled.div`
+  min-width: 1rem;
+  @media (max-width: 960px) {
+    display: none;
+  }
+`;
+
 const StyledAvatar = styled(Avatar)`
   height: 50px;
   width: 50px;
-  margin-left: 24px;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const StyledMain = styled.main`
@@ -95,5 +107,12 @@ const StyledMain = styled.main`
 `;
 
 const StyledToolbar = styled(Toolbar)`
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AvatarAndNameToolbarContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
