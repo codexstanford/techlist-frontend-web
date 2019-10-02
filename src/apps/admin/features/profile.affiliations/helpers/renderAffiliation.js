@@ -18,18 +18,20 @@ const useStyles = makeStyles({
 
 export function renderAffiliation({ affiliation, hasDivider = true }) {
   const classes = useStyles();
+  if (affiliation.organization !== null) {
+    return (
+      <div key={affiliation.id} className={classes.wrapper}>
+        <AffiliationAvatar affiliation={affiliation} />
+        <AffiliationContent affiliation={affiliation} />
+        <AffiliationControls affiliation={affiliation} />
 
-  return (
-    <div key={affiliation.id} className={classes.wrapper}>
-      <AffiliationAvatar affiliation={affiliation} />
-      <AffiliationContent affiliation={affiliation} />
-      <AffiliationControls affiliation={affiliation} />
-
-      {hasDivider && (
-        <Divider className={classes.divider} variant="fullWidth" />
-      )}
-    </div>
-  );
+        {hasDivider && (
+          <Divider className={classes.divider} variant="fullWidth" />
+        )}
+      </div>
+    );
+  }
+  return null;
 }
 
 const AvatarAndContentContainer = styled.div`
