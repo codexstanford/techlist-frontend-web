@@ -16,6 +16,13 @@ const useStyles = makeStyles(theme => ({
 export function DeleteAffiliationControl({ affiliation, ...props }) {
   const [isDeleting, toggleDelete] = React.useState(false);
   const classes = useStyles();
+
+  React.useEffect(() => {
+    return () => {
+      return null;
+    };
+  });
+
   return (
     <>
       <IconButton
@@ -46,12 +53,17 @@ function DeleteAffiliation({
       where: { id: affiliation.id },
     },
   });
+
+  if (isDeleting === false) {
+    return null;
+  }
   return (
     <Confirm
       open={isDeleting}
-      onConfirm={deleteAffiliation}
-      onClose={() => toggleDelete(false)}
-      onCancel={() => {}}
+      onConfirm={() => {
+        deleteAffiliation();
+      }}
+      onCancel={() => null}
     >
       Test
     </Confirm>
