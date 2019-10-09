@@ -16,14 +16,14 @@ const useStyles = makeStyles({
   },
 });
 
-export function renderAffiliation({ affiliation, hasDivider = true }) {
+export function renderAffiliation({ affiliation, refetch, hasDivider = true }) {
   const classes = useStyles();
   if (affiliation.organization !== null) {
     return (
       <div key={affiliation.id} className={classes.wrapper}>
         <AffiliationAvatar affiliation={affiliation} />
         <AffiliationContent affiliation={affiliation} />
-        <AffiliationControls affiliation={affiliation} />
+        <AffiliationControls affiliation={affiliation} refetch={refetch} />
 
         {hasDivider && (
           <Divider className={classes.divider} variant="fullWidth" />

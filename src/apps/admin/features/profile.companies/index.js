@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Controller from './controller';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +7,7 @@ import { GET_USER_ADMIN_COMPANIES } from './graphql';
 import { useQuery } from 'react-apollo-hooks';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import { CreateCompanyModalContext } from '../../../../store/modal-context';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,13 +32,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfileCompanies({ user, ...props }) {
   const classes = useStyles();
+  const { open } = useContext(CreateCompanyModalContext);
 
-  const { loading, error, data } = useQuery(GET_USER_ADMIN_COMPANIES, {
+  const { loading, error, data, refetch } = useQuery(GET_USER_ADMIN_COMPANIES, {
     variables: {
       where: { id: user.id },
       orderBy: 'fromDate_DESC',
     },
   });
+
+  useEffect(() => {
+    console.log('gotta refetch', open);
+    refetch();
+  }, [open]);
+
   if (loading) {
     return null;
   }

@@ -13,12 +13,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function AfilliationControls({ affiliation, ...props }) {
+export function AfilliationControls({ affiliation, refetch, ...props }) {
   const classes = useStyles();
   return (
     <div className={classes.listItem}>
       <EditAffiliationControl affiliation={affiliation} />
-      <DeleteAffiliationControl affiliation={affiliation} />
+      <DeleteAffiliationControl affiliation={affiliation} refetch={refetch} />
     </div>
   );
 }

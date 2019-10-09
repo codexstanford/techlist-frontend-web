@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import List from '@material-ui/core/List';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -19,22 +19,39 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function AffiliationsListController({ affiliations, ...props }) {
+export default function AffiliationsListController({
+  affiliations,
+  first,
+  second,
+  rest,
+  refetch,
+  ...props
+}) {
   const classes = useStyles();
-  if (affiliations) {
-    const [first, second, ...rest] = affiliations;
 
+  if (affiliations) {
     return (
       <>
-        {first && renderAffiliation({ affiliation: first, hasDivider: false })}
+        {first &&
+          renderAffiliation({
+            affiliation: first,
+            refetch,
+            hasDivider: false,
+          })}
         {second &&
-          renderAffiliation({ affiliation: second, hasDivider: false })}
+          renderAffiliation({
+            affiliation: second,
+            refetch,
+            hasDivider: false,
+          })}
         {rest && rest.length > 0 ? (
           <ExpansionPanel className={classes.expansionPanel}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
             <ExpansionPanelDetails>
               <List className={classes.root}>
-                {rest.map(affiliation => renderAffiliation({ affiliation }))}
+                {rest.map(affiliation =>
+                  renderAffiliation({ affiliation, refetch })
+                )}
               </List>
             </ExpansionPanelDetails>
           </ExpansionPanel>

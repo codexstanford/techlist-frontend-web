@@ -15,7 +15,7 @@ import ProfileCompanies from '../../features/profile.companies';
 import EditProfile from '../../components/profile.edit';
 
 export function UserProfile({ classes, ...props }) {
-  const [isOpen, toggleDrawerVisibility] = React.useState();
+  const [isOpen, toggleDrawerVisibility] = useState();
   const [showEditProfile, toggleEditProfile] = useState(false);
 
   const { data, logout } = props;
@@ -82,11 +82,10 @@ export function UserProfile({ classes, ...props }) {
       />
       <StyledMain>
         <div className={classes.appBarSpacer} />
-        {admin && admin.length > 0 && <ProfileCompanies user={data} />}
+        <ProfileCompanies user={data} />
         <Spacer />
-        {affiliation && affiliation.length > 0 && (
-          <ProfileAffiliations person={person} />
-        )}
+
+        <ProfileAffiliations person={person} />
       </StyledMain>
       <EditProfile
         open={showEditProfile}
