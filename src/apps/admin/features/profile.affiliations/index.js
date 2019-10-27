@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Controller from './controller';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 import { GET_PERSON_AFFILIATIONS_QUERY } from './graphql';
 import { useQuery } from 'react-apollo-hooks';
+import { CreateCompanyModalContext } from '../../../../store/modal-context';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -26,22 +27,44 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfileAffiliations({ person, style, ...props }) {
   const classes = useStyles();
+  const { open } = useContext(CreateCompanyModalContext);
 
-  const { loading, error, data } = useQuery(GET_PERSON_AFFILIATIONS_QUERY, {
-    variables: {
-      where: {
-        person: {
-          id: person.id,
+  const { loading, error, data, refetch } = useQuery(
+    GET_PERSON_AFFILIATIONS_QUERY,
+    {
+      variables: {
+        where: {
+          person: {
+            id: person.id,
+          },
         },
+        orderBy: 'fromDate_DESC',
       },
-      orderBy: 'fromDate_DESC',
-    },
-  });
+    }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [open]);
+
   if (loading) {
     return null;
   }
 
   const { personOrganizationAffiliations: affiliations } = data;
+
+  const newAffiliations = [];
+
+  affiliations.map(affiliation => {
+    if (affiliation.organization !== null) {
+      newAffiliations.push(affiliation);
+    }
+  });
+  console.log('DATA', data);
+
+  console.log('newAffiliations', newAffiliations);
+
+  const [first, second, ...rest] = newAffiliations;
 
   return (
     <div className={classes.wrapper}>
@@ -61,7 +84,15 @@ export default function ProfileAffiliations({ person, style, ...props }) {
                 )
               }
             </Media>
-            <Controller affiliations={affiliations} />
+            {affiliations && (
+              <Controller
+                affiliations={newAffiliations}
+                first={first}
+                second={second}
+                rest={rest}
+                refetch={refetch}
+              />
+            )}
           </div>
         </CardContent>
       </Card>

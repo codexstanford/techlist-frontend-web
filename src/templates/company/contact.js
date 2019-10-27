@@ -8,7 +8,7 @@ import { CompanyContactLinks } from './companyContactLinks';
 export function CompanyContact({ classes, links, name, ...rest }) {
   return (
     <Card classes={classes}>
-      <CardContent>
+      <CardContent key={'1239829'}>
         <Typography component="h3" variant="h6" gutterBottom>
           Company Contacts
         </Typography>

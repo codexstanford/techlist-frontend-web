@@ -67,17 +67,17 @@ function EditAffiliation({
     <Formik
       initialValues={{
         fromDate: affiliation.fromDate.split('T')[0],
-        id: affiliation.id,
-        description: affiliation.description,
+        id: affiliation.id || '',
+        description: affiliation.description || '',
         throughDate:
           affiliation.throughDate !== null
             ? affiliation.throughDate.split('T')[0]
             : '',
-        role: affiliation.role,
-        title: affiliation.title,
+        role: affiliation.role || '',
+        title: affiliation.title || '',
         organization: affiliation.organization
           ? conformOrganizationData(affiliation.organization)
-          : null,
+          : '',
       }}
       onSubmit={handleSubmit}
     >

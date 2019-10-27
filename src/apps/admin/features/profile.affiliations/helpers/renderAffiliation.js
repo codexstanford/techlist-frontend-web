@@ -16,20 +16,22 @@ const useStyles = makeStyles({
   },
 });
 
-export function renderAffiliation({ affiliation, hasDivider = true }) {
+export function renderAffiliation({ affiliation, refetch, hasDivider = true }) {
   const classes = useStyles();
+  if (affiliation.organization !== null) {
+    return (
+      <div key={affiliation.id} className={classes.wrapper}>
+        <AffiliationAvatar affiliation={affiliation} />
+        <AffiliationContent affiliation={affiliation} />
+        <AffiliationControls affiliation={affiliation} refetch={refetch} />
 
-  return (
-    <div key={affiliation.id} className={classes.wrapper}>
-      <AffiliationAvatar affiliation={affiliation} />
-      <AffiliationContent affiliation={affiliation} />
-      <AffiliationControls affiliation={affiliation} />
-
-      {hasDivider && (
-        <Divider className={classes.divider} variant="fullWidth" />
-      )}
-    </div>
-  );
+        {hasDivider && (
+          <Divider className={classes.divider} variant="fullWidth" />
+        )}
+      </div>
+    );
+  }
+  return null;
 }
 
 const AvatarAndContentContainer = styled.div`

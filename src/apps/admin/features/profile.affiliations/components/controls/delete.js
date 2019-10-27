@@ -13,14 +13,14 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5),
   },
 }));
-export function DeleteAffiliationControl({ affiliation, ...props }) {
+export function DeleteAffiliationControl({ affiliation, refetch, ...props }) {
   const [isDeleting, toggleDelete] = React.useState(false);
   const classes = useStyles();
+
   return (
     <>
       <IconButton
         size="small"
-        // color="primary"
         onClick={() => toggleDelete(!isDeleting)}
         className={classes.icon}
       >
@@ -30,6 +30,7 @@ export function DeleteAffiliationControl({ affiliation, ...props }) {
         affiliation={affiliation}
         isDeleting={isDeleting}
         toggleDelete={toggleDelete}
+        refetch={refetch}
       />
     </>
   );
@@ -39,6 +40,7 @@ function DeleteAffiliation({
   isDeleting,
   toggleDelete,
   affiliation,
+  refetch,
   ...props
 }) {
   const deleteAffiliation = useMutation(DELETE_AFFILIATION_MUTATION, {
@@ -46,12 +48,18 @@ function DeleteAffiliation({
       where: { id: affiliation.id },
     },
   });
+
+  if (isDeleting === false) {
+    return null;
+  }
   return (
     <Confirm
       open={isDeleting}
-      onConfirm={deleteAffiliation}
-      onClose={() => toggleDelete(false)}
-      onCancel={() => {}}
+      onConfirm={() => {
+        deleteAffiliation();
+        refetch();
+      }}
+      onCancel={() => null}
     >
       Test
     </Confirm>

@@ -20,8 +20,8 @@ import {
   Logo,
   Location,
   Links,
-  Categories,
 } from '../../features/company.create/components/';
+import Categories from '../../features/company.create/components/categories/index.js';
 import Preview from './components/preview';
 import FormErrorMessage from './components/formErrorMessage';
 
@@ -51,6 +51,8 @@ export function CreateCompany({
   const [image, setImage] = React.useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
+
+  console.log('**** TARGET MARKETS', data);
 
   return (
     <Formik

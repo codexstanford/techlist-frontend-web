@@ -14,7 +14,7 @@ export function renderSuggestion({
   return (
     <MenuItem
       {...itemProps}
-      key={suggestion.name}
+      key={suggestion.name[0].id}
       selected={isHighlighted}
       component="div"
       style={{

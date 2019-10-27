@@ -21,6 +21,7 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
 
   const { name } = person;
   const displayName = name[0];
+  console.log('person', person);
 
   return (
     <Layout
@@ -33,10 +34,14 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
           <StyledToolbar disableGutters={true} className={classes.toolbar}>
             <AvatarAndNameToolbarContainer>
               <StyledAvatar>
-                <img
-                  src={person.avatar[0].payload}
-                  style={{ height: '100%', width: '100%' }}
-                />
+                {person.avatar.length > 0 ? (
+                  <img
+                    src={person.avatar[0].payload}
+                    style={{ height: '100%', width: '100%' }}
+                  />
+                ) : (
+                  `${displayName.firstName[0] + displayName.lastName[0]}`
+                )}
               </StyledAvatar>
               <Typography
                 component="h1"

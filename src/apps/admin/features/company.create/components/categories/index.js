@@ -4,9 +4,10 @@ import Downshift from 'downshift';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
-import { StaticQuery, graphql } from 'gatsby';
 import { renderInput, renderSuggestion, getSuggestions } from './helpers';
 import formatCategory from './helpers/formatCategory';
+import { useQuery } from 'react-apollo-hooks';
+import gql from 'graphql-tag';
 
 export function DownshiftMultiple(props) {
   const { classes, options, setFieldValue, handleBlur } = props;
@@ -162,7 +163,7 @@ function IntegrationDownshift(props) {
 
   const { setFieldValue, handleBlur } = props;
 
-  const { organizationCategories } = props.data.allTechList;
+  const { organizationCategories } = props.data;
 
   return (
     <div className={classes.root}>
@@ -179,18 +180,26 @@ function IntegrationDownshift(props) {
   );
 }
 
-export const Categories = props => (
-  <StaticQuery
-    query={graphql`
-      query CategoryDropdownListQuery {
-        allTechList {
-          organizationCategories {
-            id
-            payload
-          }
-        }
+const Categories = props => {
+  const ORGANIZATION_CATEGORIES = gql`
+    {
+      organizationCategories {
+        id
+        payload
       }
-    `}
-    render={data => <IntegrationDownshift data={data} {...props} />}
-  />
-);
+    }
+  `;
+
+  const { data, error, loading } = useQuery(ORGANIZATION_CATEGORIES);
+
+  if (loading) {
+    return null;
+  }
+
+  if (error) {
+    return `ERROR! ${error}`;
+  }
+  return <IntegrationDownshift data={data} {...props} />;
+};
+
+export default Categories;

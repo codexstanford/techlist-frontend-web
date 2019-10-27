@@ -22,7 +22,7 @@ function renderAffiliationPrimaryContent({ affiliation }) {
       }
       target="_blank"
     >
-      <Typography variant="subtitle" className={classes.companyName}>
+      <Typography variant="subtitle2" className={classes.companyName}>
         {affiliation.organization.name[0].payload}
       </Typography>
     </Link>

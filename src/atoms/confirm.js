@@ -113,8 +113,8 @@ Confirm.propTypes = {
   cancelText: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   onClose: PropTypes.func,
-  title: PropTypes.element,
-  subtitle: PropTypes.element,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  subtitle: PropTypes.string,
 };
 
 export default Confirm;

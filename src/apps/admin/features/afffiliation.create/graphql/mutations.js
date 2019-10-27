@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const CREATE_AFFILIATION_MUTATION = gql`
   mutation CreateAffiliation($data: PersonOrganizationAffiliationCreateInput!) {
-    createPersonOrganizationAffiliation(data: $data) {
+    createAffiliation(data: $data) {
       __typename
       id
       description
