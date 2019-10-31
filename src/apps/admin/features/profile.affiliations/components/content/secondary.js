@@ -1,29 +1,22 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles';
+import styled from 'styled-components';
+
 import { formatDateString } from '../../helpers';
-const useStyles = makeStyles(theme => ({
-  subtitle1: {
-    fontSize: '12px',
-  },
-}));
 
 function renderAffiliationSecondaryContent({ affiliation }) {
-  const classes = useStyles();
   return (
     <>
-      <Typography
-        variant="subtitle1"
-        className={classes.subtitle1}
-      >{`${affiliation.title}`}</Typography>
-      <Typography
-        variant="subtitle1"
-        className={classes.subtitle1}
-      >{`${formatDateString(affiliation.fromDate)} to ${formatDateString(
-        affiliation.throughDate
-      )} `}</Typography>
+      <StyledSubtitle1 variant="subtitle1">{`${affiliation.title}`}</StyledSubtitle1>
+      <StyledSubtitle1 variant="subtitle1">{`${formatDateString(
+        affiliation.fromDate
+      )} to ${formatDateString(affiliation.throughDate)} `}</StyledSubtitle1>
     </>
   );
 }
+
+const StyledSubtitle1 = styled(Typography)`
+  font-size: 12px;
+`;
 
 export default renderAffiliationSecondaryContent;

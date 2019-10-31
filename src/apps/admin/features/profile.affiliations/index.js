@@ -55,14 +55,13 @@ export default function ProfileAffiliations({ person, style, ...props }) {
 
   const newAffiliations = [];
 
-  affiliations.map(affiliation => {
-    if (affiliation.organization !== null) {
-      newAffiliations.push(affiliation);
-    }
-  });
-  console.log('DATA', data);
-
-  console.log('newAffiliations', newAffiliations);
+  if (affiliations) {
+    affiliations.map(affiliation => {
+      if (affiliation.organization !== null) {
+        newAffiliations.push(affiliation);
+      }
+    });
+  }
 
   const [first, second, ...rest] = newAffiliations;
 

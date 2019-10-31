@@ -182,7 +182,7 @@ function IntegrationDownshift(props) {
 
 const Categories = props => {
   const ORGANIZATION_CATEGORIES = gql`
-    {
+    query GetOrganizationCategories {
       organizationCategories {
         id
         payload

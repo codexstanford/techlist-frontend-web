@@ -3,9 +3,15 @@ import gql from 'graphql-tag';
 export const CREATE_COMPANY_MUTATION = gql`
   mutation CreateCompany($data: OrganizationCreateInput!) {
     createOrganization(data: $data) {
-      __typename
       id
+      logo {
+        id
+        payload
+        fromDate
+        throughDate
+      }
       name {
+        id
         payload
         fromDate
         throughDate
@@ -13,17 +19,14 @@ export const CREATE_COMPANY_MUTATION = gql`
       description
       yearFounded
       location {
-        __typename
         id
         formatted_address
         geometry
       }
       affiliation {
-        __typename
         id
         fromDate
         person {
-          __typename
           id
         }
       }
@@ -34,6 +37,7 @@ export const CREATE_COMPANY_MUTATION = gql`
         }
       }
       metadata {
+        id
         isDraft
         isPublic
         isRejected

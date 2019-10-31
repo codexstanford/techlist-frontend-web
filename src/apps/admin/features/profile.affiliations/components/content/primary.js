@@ -1,18 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles';
 import Link from '@material-ui/core/Link';
 import { navigate } from 'gatsby';
 import slugify from 'slugify';
-
-const useStyles = makeStyles(theme => ({
-  companyName: {
-    fontWeight: 500,
-  },
-}));
+import styled from 'styled-components';
 
 function renderAffiliationPrimaryContent({ affiliation }) {
-  const classes = useStyles();
   return (
     <Link
       onClick={() =>
@@ -22,11 +15,14 @@ function renderAffiliationPrimaryContent({ affiliation }) {
       }
       target="_blank"
     >
-      <Typography variant="subtitle2" className={classes.companyName}>
+      <CompanyName variant="subtitle2">
         {affiliation.organization.name[0].payload}
-      </Typography>
+      </CompanyName>
     </Link>
   );
 }
 
+const CompanyName = styled(Typography)`
+  font-weight: 500;
+`;
 export default renderAffiliationPrimaryContent;

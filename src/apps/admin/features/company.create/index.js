@@ -1,7 +1,11 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import { Formik, Field, Form } from 'formik';
-import { CREATE_COMPANY_MUTATION, GET_COMPANY_TARGET_MARKETS } from './graphql';
+import {
+  CREATE_COMPANY_MUTATION,
+  GET_COMPANY_TARGET_MARKETS,
+  GET_USER_ADMIN_COMPANIES,
+} from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
@@ -38,12 +42,50 @@ export function CreateCompany({
   handleCompanyCreate,
   handleClose,
   classes,
+  user,
   ...props
 }) {
-  const mutation = useMutation(CREATE_COMPANY_MUTATION);
+  console.log('props', props);
+  const mutation = useMutation(CREATE_COMPANY_MUTATION, {
+    update(
+      client,
+      {
+        data: { createOrganization },
+      }
+    ) {
+      try {
+        const { partyAccount } = client.readQuery({
+          query: GET_USER_ADMIN_COMPANIES,
+
+          variables: {
+            where: { id: user.id },
+            orderBy: 'fromDate_DESC',
+          },
+        });
+
+        const updatedData = partyAccount.admin.concat([createOrganization]);
+
+        client.writeQuery({
+          query: GET_USER_ADMIN_COMPANIES,
+          data: {
+            partyAccount: {
+              id: user.id,
+              admin: updatedData,
+              __typename: createOrganization['__typename'],
+            },
+          },
+        });
+      } catch (error) {
+        console.log(
+          `ERROR updating cache for CREATE_COMPANY_MUTATION in company.create/index.js ${error}`
+        );
+        return error;
+      }
+    },
+  });
   const createCompany = handleCreateCompany({
     mutation,
-    user: props.user,
+    user: user,
     handleClose,
   });
 

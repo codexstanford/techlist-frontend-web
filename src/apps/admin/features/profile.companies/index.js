@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfileCompanies({ user, ...props }) {
   const classes = useStyles();
-  const { open } = useContext(CreateCompanyModalContext);
 
   const { loading, error, data, refetch } = useQuery(GET_USER_ADMIN_COMPANIES, {
     variables: {
@@ -42,15 +41,15 @@ export default function ProfileCompanies({ user, ...props }) {
   });
 
   useEffect(() => {
-    console.log('gotta refetch', open);
     refetch();
-  }, [open]);
+  }, []);
 
   if (loading) {
     return null;
   }
 
   const { partyAccount } = data;
+
   return (
     <div className={classes.wrapper}>
       <Card className={classes.card}>
@@ -71,15 +70,21 @@ export default function ProfileCompanies({ user, ...props }) {
                 }
               </Media>
             </div>
-            {partyAccount &&
-              partyAccount.admin &&
-              partyAccount.admin.length > 0 && (
-                <div>
-                  <div className={classes.root}>
-                    <Controller companies={partyAccount.admin} />
-                  </div>
-                </div>
-              )}
+
+            <div>
+              <div className={classes.root}>
+                <Controller
+                  companies={
+                    partyAccount &&
+                    partyAccount.admin &&
+                    partyAccount.admin.length > 0
+                      ? partyAccount.admin
+                      : []
+                  }
+                  user={user}
+                />
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

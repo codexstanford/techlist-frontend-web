@@ -32,6 +32,7 @@ function AuthProvider(props) {
     if (isPending) {
       return <FullPageSpinner />;
     }
+
     if (isRejected) {
       return (
         <div css={{ color: 'red' }}>

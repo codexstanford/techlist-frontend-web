@@ -211,7 +211,8 @@ class CompanyTemplate extends React.Component {
                   organization.logo &&
                   organization.logo.length > 0 &&
                   organization.logo[0].payload !==
-                    'http://via.placeholder.com/640x360' ? (
+                    'http://via.placeholder.com/640x360' &&
+                  organization.logo[0].payload !== '' ? (
                     <CardMedia
                       className={classes.media}
                       image={organization.logo[0].payload}

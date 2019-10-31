@@ -11,12 +11,19 @@ export const CREATE_AFFILIATION_MUTATION = gql`
       throughDate
       title
       updatedAt
+      createdAt
       organization {
         id
         name {
+          id
           payload
           fromDate
           throughDate
+        }
+        description
+        logo {
+          id
+          payload
         }
       }
       person {
@@ -33,9 +40,12 @@ export const CREATE_AFFILIATION_MUTATION = gql`
           organization {
             id
             name {
+              id
               payload
             }
+            description
             logo {
+              id
               payload
             }
           }
@@ -43,6 +53,7 @@ export const CREATE_AFFILIATION_MUTATION = gql`
       }
 
       metadata {
+        id
         isDraft
         isPublic
         isRejected

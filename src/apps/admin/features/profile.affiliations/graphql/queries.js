@@ -31,6 +31,7 @@ export const GET_PERSON_AFFILIATIONS_QUERY = gql`
       }
       metadata {
         __typename
+        id
         isDraft
         isPublic
         isRejected

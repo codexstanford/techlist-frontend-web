@@ -24,7 +24,7 @@ function EditAffiliation({
   React.useEffect(() => {
     const conformedOrgs = organizations.map(org => ({
       value: org.id,
-      label: org.name[0].payload,
+      label: org.name && org.name[0].payload,
     }));
     setOrganizationValuePairs(conformedOrgs);
   }, [organizations]);
@@ -95,7 +95,7 @@ function EditAffiliation({
           <Confirm
             confirmText="Save"
             cancelText="Cancel"
-            onClose={() => toggleEditing(false)}
+            onClose={toggleEditing}
             onCancel={() => {}}
             onConfirm={submitForm}
             open={isEditing}

@@ -2,7 +2,7 @@ import React from 'react';
 import renderPrimaryContent from './primary';
 import renderSecondaryContent from './secondary';
 import styled from 'styled-components';
-import truncateText from '../../../../../../helpers/truncateText';
+import TruncateText from '../../../../../../helpers/truncateText';
 
 export function CompanyContent({ company, ...props }) {
   return (
@@ -13,7 +13,9 @@ export function CompanyContent({ company, ...props }) {
           {renderSecondaryContent({ company })}
         </ContentWrapper>
         <CompanyDescription>
-          {company.description && truncateText(company.description, 125)}
+          {company.description && (
+            <TruncateText str={company.description} length={125} />
+          )}
         </CompanyDescription>
       </Wrapper>
     </Container>
