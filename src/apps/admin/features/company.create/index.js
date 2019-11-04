@@ -5,6 +5,7 @@ import {
   CREATE_COMPANY_MUTATION,
   GET_COMPANY_TARGET_MARKETS,
   GET_USER_ADMIN_COMPANIES,
+  GET_PERSON_AFFILIATIONS_QUERY,
 } from './graphql';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -45,8 +46,20 @@ export function CreateCompany({
   user,
   ...props
 }) {
-  console.log('props', props);
   const mutation = useMutation(CREATE_COMPANY_MUTATION, {
+    refetchQueries: [
+      {
+        query: GET_PERSON_AFFILIATIONS_QUERY,
+        variables: {
+          where: {
+            person: {
+              id: user.person.id,
+            },
+          },
+          orderBy: 'fromDate_DESC',
+        },
+      },
+    ],
     update(
       client,
       {
@@ -93,8 +106,6 @@ export function CreateCompany({
   const [image, setImage] = React.useState(
     'https://upload.wikimedia.org/wikipedia/commons/2/24/Missing_avatar.svg'
   );
-
-  console.log('**** TARGET MARKETS', data);
 
   return (
     <Formik

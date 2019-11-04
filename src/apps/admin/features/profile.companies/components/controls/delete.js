@@ -6,6 +6,7 @@ import { useMutation } from 'react-apollo-hooks';
 import {
   DELETE_COMPANY_MUTATION,
   GET_USER_ADMIN_COMPANIES,
+  GET_PERSON_AFFILIATIONS_QUERY,
 } from '../../graphql';
 
 export class DeleteCompanyControl extends React.Component {
@@ -39,6 +40,19 @@ export class DeleteCompanyControl extends React.Component {
 function DeleteCompany({ isDeleting, toggleDelete, company, user, ...props }) {
   const deleteCompany = useMutation(DELETE_COMPANY_MUTATION, {
     variables: { where: { id: company.id } },
+    refetchQueries: [
+      {
+        query: GET_PERSON_AFFILIATIONS_QUERY,
+        variables: {
+          where: {
+            person: {
+              id: user.person.id,
+            },
+          },
+          orderBy: 'fromDate_DESC',
+        },
+      },
+    ],
     update(client) {
       try {
         const { partyAccount } = client.readQuery({

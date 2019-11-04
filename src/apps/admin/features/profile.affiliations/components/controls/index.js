@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import EditAffiliationControl from './edit';
 import DeleteAffiliationControl from './delete';
 
-export function AfilliationControls({ affiliation, refetch, ...props }) {
+export function AfilliationControls({ affiliation, person, ...props }) {
   return (
     <StyledListItem>
       <EditAffiliationControl affiliation={affiliation} />
-      <DeleteAffiliationControl affiliation={affiliation} refetch={refetch} />
+      <DeleteAffiliationControl affiliation={affiliation} person={person} />
     </StyledListItem>
   );
 }

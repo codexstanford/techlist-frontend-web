@@ -6,7 +6,10 @@ import { withTheme } from '@material-ui/styles';
 
 import Confirm from '../../../../../../atoms/confirm';
 
-import { DELETE_AFFILIATION_MUTATION } from '../../graphql';
+import {
+  DELETE_AFFILIATION_MUTATION,
+  GET_PERSON_AFFILIATIONS_QUERY,
+} from '../../graphql';
 
 class DeleteAffiliationControl extends Component {
   constructor(props) {
@@ -21,7 +24,7 @@ class DeleteAffiliationControl extends Component {
   };
 
   render() {
-    const { affiliation, refetch, theme } = this.props;
+    const { affiliation, person, theme } = this.props;
     const { isDeleting } = this.state;
     return (
       <>
@@ -35,18 +38,49 @@ class DeleteAffiliationControl extends Component {
         <DeleteAffiliation
           affiliation={affiliation}
           isDeleting={isDeleting}
-          toggleDelete={this.toggleDelete}
-          refetch={refetch}
+          person={person}
         />
       </>
     );
   }
 }
 
-function DeleteAffiliation({ isDeleting, affiliation, refetch, ...props }) {
+function DeleteAffiliation({ isDeleting, affiliation, person, ...props }) {
   const deleteAffiliation = useMutation(DELETE_AFFILIATION_MUTATION, {
     variables: {
       where: { id: affiliation.id },
+    },
+    update(client) {
+      if (client.data.data.ROOT_QUERY.personOrganizationAffiliations) {
+        try {
+          const {
+            personOrganizationAffiliations: affiliations,
+          } = client.readQuery({
+            query: GET_PERSON_AFFILIATIONS_QUERY,
+
+            variables: {
+              where: { id: person.id },
+              orderBy: 'fromDate_DESC',
+            },
+          });
+
+          const updatedData = affiliations.filter(
+            item => item.id !== affiliation.id
+          );
+
+          client.writeQuery({
+            query: GET_PERSON_AFFILIATIONS_QUERY,
+            data: {
+              personOrganizationAffiliations: updatedData,
+            },
+          });
+        } catch (error) {
+          console.log(
+            `ERROR during cache update for DELETE_AFFILIATION_MUTATION in profile.affiliations/components/controls/delete.js ${error}`
+          );
+          return error;
+        }
+      }
     },
   });
 
@@ -56,10 +90,7 @@ function DeleteAffiliation({ isDeleting, affiliation, refetch, ...props }) {
   return (
     <Confirm
       open={isDeleting}
-      onConfirm={() => {
-        deleteAffiliation();
-        refetch();
-      }}
+      onConfirm={deleteAffiliation}
       onCancel={() => null}
     >
       Test

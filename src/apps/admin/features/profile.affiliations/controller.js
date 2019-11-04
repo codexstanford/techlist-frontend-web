@@ -13,7 +13,7 @@ export default function AffiliationsListController({
   first,
   second,
   rest,
-  refetch,
+  person,
   ...props
 }) {
   if (affiliations) {
@@ -22,13 +22,13 @@ export default function AffiliationsListController({
         {first &&
           renderAffiliation({
             affiliation: first,
-            refetch,
+            person,
             hasDivider: false,
           })}
         {second &&
           renderAffiliation({
             affiliation: second,
-            refetch,
+            person,
             hasDivider: false,
           })}
         {rest && rest.length > 0 ? (
@@ -37,7 +37,7 @@ export default function AffiliationsListController({
             <ExpansionPanelDetails>
               <StyledList>
                 {rest.map(affiliation =>
-                  renderAffiliation({ affiliation, refetch })
+                  renderAffiliation({ affiliation, person })
                 )}
               </StyledList>
             </ExpansionPanelDetails>

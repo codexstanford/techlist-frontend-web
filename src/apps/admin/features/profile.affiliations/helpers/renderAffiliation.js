@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import AffiliationControls from '../components/controls';
 import { AffiliationAvatar, AffiliationContent } from '../components';
 
-export function renderAffiliation({ affiliation, refetch, hasDivider = true }) {
+export function renderAffiliation({ affiliation, person, hasDivider = true }) {
   if (affiliation.organization !== null) {
     return (
       <StyledWrapper key={affiliation.id}>
         <AffiliationAvatar affiliation={affiliation} />
         <AffiliationContent affiliation={affiliation} />
-        <AffiliationControls affiliation={affiliation} refetch={refetch} />
+        <AffiliationControls affiliation={affiliation} person={person} />
 
         {hasDivider && <StyledDivider variant="fullWidth" />}
       </StyledWrapper>
