@@ -48,7 +48,6 @@ function CreateAccount({ classes, ...props }) {
       setSubmitting(false);
       setShowConfirm(true);
     } catch (error) {
-      console.log('****ERROR INSIDE CREATE USER HERE******', error);
       if (error.code === 'UsernameExistsException') {
         setFieldError(
           'email',

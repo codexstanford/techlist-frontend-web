@@ -41,7 +41,6 @@ function Login({ classes, location, ...props }) {
     const result = run(login({ username, password }));
     result
       .catch(errors => {
-        console.log('Settings Errors', errors);
         setErrors(errors);
       })
       .finally(() => {

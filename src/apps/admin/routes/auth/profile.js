@@ -18,13 +18,6 @@ import { schema } from './index';
 import { navigate } from '@reach/router';
 import Media from 'react-media';
 
-// const opts = [
-//   { value: 'Attorney', label: 'Attorney' },
-//   { value: 'Developer', label: 'Developer' },
-//   { value: 'Academic', label: 'Academic' },
-//   { value: 'Product Desginer', label: 'Product Desginer' },
-// ];
-
 const linkOptions = [
   { value: 'LinkedIn', label: 'LinkedIn' },
   { value: 'Twitter', label: 'Twitter' },
@@ -37,8 +30,6 @@ function CreateProfile({ classes, handleClose, user, ...props }) {
 
   const { id: userId } = user;
 
-  const { person } = user;
-
   const handleSubmitRequest = async (
     values,
     { setSubmitting, setErrors, setFieldError }
@@ -48,9 +39,6 @@ function CreateProfile({ classes, handleClose, user, ...props }) {
     try {
       const profile = await props
         .createProfile({
-          update: (cache, { data: { updatePartyAccount } }) => {
-            // console.log('UPDATE USER IN COMPANY', updatePartyAccount);
-          },
           variables: {
             where: {
               id: userId,
@@ -64,15 +52,12 @@ function CreateProfile({ classes, handleClose, user, ...props }) {
                       isDraft: false,
                     },
                   },
-                  avatar:
-                    avatar !== ''
-                      ? {
-                          create: {
-                            payload: avatar,
-                            fromDate: new Date(),
-                          },
-                        }
-                      : null,
+                  avatar: {
+                    create: {
+                      payload: avatar,
+                      fromDate: new Date(),
+                    },
+                  },
                   name: {
                     create: {
                       firstName,
@@ -87,7 +72,6 @@ function CreateProfile({ classes, handleClose, user, ...props }) {
         })
         .then(data => {
           setSubmitting(false);
-          // props.user.person.profile = profile;
           navigate('/app/profile/index.js');
         });
     } catch (err) {

@@ -53,6 +53,7 @@ function EditAffiliation({
     } catch (error) {
       console.log(error);
       setSubmitting(false);
+      return error;
     }
   }
 
