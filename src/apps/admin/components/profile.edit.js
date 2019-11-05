@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 import CodeXTextField from './codex.textinput';
 import styled from 'styled-components';
-import { Mutation } from 'react-apollo';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import Fab from '@material-ui/core/Fab';
 import Avatar from '@material-ui/core/Avatar';
@@ -49,27 +48,17 @@ function EditProfile({ open, handleClose, classes, ...props }) {
                 },
               },
             },
-            avatar:
-              avatar !== ''
-                ? me.person.avatar[0]
-                  ? {
-                      update: {
-                        data: {
-                          payload: avatar,
-                          fromDate: new Date(),
-                        },
-                        where: {
-                          id: me.person.avatar[0].id,
-                        },
-                      },
-                    }
-                  : {
-                      create: {
-                        payload: avatar,
-                        fromDate: new Date(),
-                      },
-                    }
-                : null,
+            avatar: {
+              update: {
+                where: {
+                  id: me.person.avatar[0].id,
+                },
+                data: {
+                  payload: avatar,
+                  fromDate: new Date(),
+                },
+              },
+            },
           },
         },
       });

@@ -1,118 +1,140 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import callAll from './callAll';
 import styled from 'styled-components';
 
-const truncateText = (str, length = null, ending = null) => {
-  const [show, toggleShow] = useState(false);
-  let spacingToRemove = 3;
-  const defaultEnding = {
-    truncated: (
-      <DefaultButton show={show} onClick={() => toggleShow(!show)}>
-        ...
-      </DefaultButton>
-    ),
-    expanded: (
-      <DefaultButton show={show} onClick={() => toggleShow(!show)}>
-        see less
-      </DefaultButton>
-    ),
-  };
+let spacingToRemove = 3;
 
-  if (length == null) {
-    length = 150;
+class TruncateText extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: props.show || false,
+      ending: props.ending || null,
+    };
   }
 
-  if (ending !== null) {
-    const { truncated, expanded } = ending;
+  toggleShow = () => {
+    this.setState({ show: !this.state.show });
+  };
 
-    let finalTruncated = truncated;
-    let finalExpanded = expanded;
+  defaultEnding = () => {
+    return {
+      truncated: <DefaultButton onClick={this.toggleShow}>...</DefaultButton>,
+      expanded: (
+        <ExpandedButton onClick={this.toggleShow}>see less</ExpandedButton>
+      ),
+    };
+  };
 
-    if (truncated && expanded) {
-      switch (typeof finalTruncated) {
-        case 'string':
-          spacingToRemove = finalTruncated.length;
-          finalTruncated = (
-            <DefaultButton show={show} onClick={() => toggleShow(!show)}>
-              {finalTruncated}
-            </DefaultButton>
-          );
-          break;
-        case 'object':
-          spacingToRemove = finalTruncated.props.children.length;
-          finalTruncated = React.cloneElement(finalTruncated, {
-            onClick: finalTruncated.props.onClick
-              ? callAll(finalTruncated.props.onClick(), () => toggleShow(!show))
-              : () => toggleShow(!show),
-            style: {
-              ...finalTruncated.props.style,
-              display: 'inline-block',
-              cursor: 'pointer',
-            },
-          });
-          break;
-      }
-
-      switch (typeof expanded) {
-        case 'string':
-          finalExpanded = (
-            <DefaultButton show={show} onClick={() => toggleShow(!show)}>
-              {finalExpanded}
-            </DefaultButton>
-          );
-          break;
-        case 'object':
-          finalExpanded = React.cloneElement(finalExpanded, {
-            onClick: finalExpanded.props.onClick
-              ? callAll(finalExpanded.props.onClick(), () => toggleShow(!show))
-              : () => toggleShow(!show),
-            style: {
-              ...finalExpanded.props.style,
-              display: 'inline-block',
-              cursor: 'pointer',
-            },
-          });
-          break;
-      }
-
-      ending = { truncated: finalTruncated, expanded: finalExpanded };
-    } else {
-      ending = defaultEnding;
+  componentDidMount() {
+    if (this.state.ending === null) {
+      this.setState({ ending: this.defaultEnding() });
     }
   }
 
-  if (ending === null) {
-    ending = defaultEnding;
-  }
+  render() {
+    const { str, length } = this.props;
+    const { show } = this.state;
 
-  if (str.length <= length) {
-    return <p>{str.substring(0)}</p>;
-  } else if (show) {
-    return (
-      <>
-        {str.substring(0)}
-        {ending.expanded}
-      </>
-    );
-  } else if (!show && str.length > length) {
-    return (
-      <>
-        {str.substring(0, length - spacingToRemove).trim()}
-        {ending.truncated}
-      </>
-    );
+    if (length === null) {
+      length = 150;
+    }
+
+    if (this.state.ending !== null) {
+      const { truncated, expanded } = this.state.ending;
+
+      let finalTruncated = truncated;
+      let finalExpanded = expanded;
+
+      if (truncated && expanded) {
+        switch (typeof finalTruncated) {
+          case 'string':
+            spacingToRemove = finalTruncated.length;
+            finalTruncated = (
+              <DefaultButton show={show} onClick={this.toggleShow}>
+                {finalTruncated}
+              </DefaultButton>
+            );
+            break;
+          case 'object':
+            spacingToRemove = finalTruncated.props.children.length;
+            finalTruncated = React.cloneElement(finalTruncated, {
+              onClick: finalTruncated.props.onClick
+                ? () => callAll(finalTruncated.props.onClick(), this.toggleShow)
+                : this.toggleShow,
+              style: {
+                ...finalTruncated.props.style,
+                display: 'inline-block',
+                cursor: 'pointer',
+              },
+            });
+            break;
+        }
+
+        switch (typeof expanded) {
+          case 'string':
+            finalExpanded = (
+              <ExpandedButton onClick={this.toggleShow}>
+                {finalExpanded}
+              </ExpandedButton>
+            );
+            break;
+          case 'object':
+            finalExpanded = React.cloneElement(finalExpanded, {
+              onClick: finalExpanded.props.onClick
+                ? () => callAll(finalExpanded.props.onClick(), this.toggleShow)
+                : this.toggleShow,
+              style: {
+                ...finalExpanded.props.style,
+                display: 'inline-block',
+                cursor: 'pointer',
+              },
+            });
+            break;
+        }
+      }
+
+      if (str.length <= length) {
+        return <p>{str.substring(0)}</p>;
+      } else if (show) {
+        return (
+          <>
+            {str.substring(0)}
+            {this.state.ending.expanded}
+          </>
+        );
+      } else if (!show && str.length > length) {
+        return (
+          <>
+            {str.substring(0, length - spacingToRemove).trim()}
+            {this.state.ending.truncated}
+          </>
+        );
+      }
+    } else {
+      return null;
+    }
   }
-};
+}
 
 const DefaultButton = styled.button`
   display: inline-block;
   border: none;
   background-color: inherit;
-  padding: ${props => (props.show ? ' 0 5px' : 0)};
+  padding: 0;
   font-size: 16px;
   cursor: pointer;
   color: gray;
   outline: none;
 `;
 
-export default truncateText;
+const ExpandedButton = styled(DefaultButton)`
+  padding: 0 5px;
+`;
+
+TruncateText.defaultProps = {
+  length: null,
+  ending: null,
+};
+
+export default TruncateText;

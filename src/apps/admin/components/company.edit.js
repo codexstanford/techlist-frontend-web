@@ -31,6 +31,7 @@ function EditCompany({ company, isEditing, toggleEditing, data, ...props }) {
     } catch (error) {
       console.log(error);
       setSubmitting(false);
+      return error;
     }
   }
 

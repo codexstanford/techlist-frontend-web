@@ -21,7 +21,6 @@ export function ProfileTemplate({ classes, pageContext, ...props }) {
 
   const { name } = person;
   const displayName = name[0];
-  console.log('person', person);
 
   return (
     <Layout

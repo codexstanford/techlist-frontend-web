@@ -62,8 +62,6 @@ const Container = styled.div`
 `;
 
 function getStepContent({ step, props, hoist }) {
-  console.log('STEP', step);
-  console.log('PROPS', props);
   switch (step) {
     case 0:
       return <CreateAccount activeStep={step} {...props} />;
@@ -78,8 +76,6 @@ function getStepContent({ step, props, hoist }) {
               console.log('Error Case 1', error);
               return null;
             }
-            console.log('PROPS Case 1', props);
-            console.log('DATA Case 1', data);
             return (
               <Mutation mutation={UPDATE_CURRENT_USER_MUTATION}>
                 {mutation => {

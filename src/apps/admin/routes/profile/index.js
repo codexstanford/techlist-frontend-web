@@ -10,6 +10,8 @@ import {
 } from '../../../../graphql';
 
 export const UserProfileWithGraphQL = props => {
+  const [toggle, toggleState] = React.useState(false);
+
   const { data, loading, error, refetch } = useQuery(GET_CURRENT_USER_QUERY);
   if (loading) {
     return null;
@@ -20,6 +22,7 @@ export const UserProfileWithGraphQL = props => {
   }
 
   const { me } = data;
+  const { person, id } = me;
 
   while (me === 'undefined' || me === undefined) {
     refetch();

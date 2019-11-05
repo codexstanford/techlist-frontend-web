@@ -4,8 +4,10 @@ import { Formik } from 'formik';
 import CodeXTextField from '../../components/codex.textinput';
 import styled from 'styled-components';
 import { useMutation } from 'react-apollo-hooks';
-import { CREATE_AFFILIATION_MUTATION } from './graphql/mutations';
-import { StaticQuery, graphql } from 'gatsby';
+import {
+  CREATE_AFFILIATION_MUTATION,
+  GET_PERSON_AFFILIATIONS_QUERY,
+} from './graphql';
 import Confirm from '../../../../atoms/confirm';
 import { checkCanFormSubmit, validationSchema } from './helpers';
 
@@ -18,7 +20,51 @@ function EditAffiliation({
   user,
   ...props
 }) {
-  const createAffiliation = useMutation(CREATE_AFFILIATION_MUTATION);
+  const createAffiliation = useMutation(CREATE_AFFILIATION_MUTATION, {
+    update(
+      client,
+      {
+        data: { createAffiliation },
+      }
+    ) {
+      if (client.data.data.ROOT_QUERY.personOrganizationAffiliations) {
+        try {
+          const {
+            personOrganizationAffiliations: affiliations,
+          } = client.readQuery({
+            query: GET_PERSON_AFFILIATIONS_QUERY,
+
+            variables: {
+              where: {
+                person: {
+                  id: user.person.id,
+                },
+              },
+              orderBy: 'fromDate_DESC',
+            },
+          });
+
+          const updatedData = affiliations.concat([createAffiliation]);
+
+          client.writeQuery({
+            query: GET_PERSON_AFFILIATIONS_QUERY,
+            data: {
+              personOrganizationAffiliations: updatedData,
+            },
+          });
+        } catch (error) {
+          console.log(
+            `ERROR updating cache for CREATE_AFFILIATION_MUTATION in affiliation.create/index.js ${error}`
+          );
+          return error;
+        }
+      } else {
+        console.log(
+          'personOrganizationAffiliations query has not been called yet, not updating the cache'
+        );
+      }
+    },
+  });
 
   async function handleSubmit(
     { fromDate, throughDate, role, description, title, organization },

@@ -12,7 +12,6 @@ export const AvatarWithPicker = props => {
         onChange={e => {
           e.stopPropagation();
           e.preventDefault();
-          console.log(e.target.files);
 
           const fileReader = new FileReader();
           fileReader.onloadend = e => {

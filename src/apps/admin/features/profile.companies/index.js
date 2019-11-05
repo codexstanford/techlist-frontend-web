@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Controller from './controller';
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +7,6 @@ import { GET_USER_ADMIN_COMPANIES } from './graphql';
 import { useQuery } from 'react-apollo-hooks';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { CreateCompanyModalContext } from '../../../../store/modal-context';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfileCompanies({ user, ...props }) {
   const classes = useStyles();
-  const { open } = useContext(CreateCompanyModalContext);
 
   const { loading, error, data, refetch } = useQuery(GET_USER_ADMIN_COMPANIES, {
     variables: {
@@ -42,15 +40,15 @@ export default function ProfileCompanies({ user, ...props }) {
   });
 
   useEffect(() => {
-    console.log('gotta refetch', open);
     refetch();
-  }, [open]);
+  }, []);
 
   if (loading) {
     return null;
   }
 
   const { partyAccount } = data;
+
   return (
     <div className={classes.wrapper}>
       <Card className={classes.card}>
@@ -71,15 +69,21 @@ export default function ProfileCompanies({ user, ...props }) {
                 }
               </Media>
             </div>
-            {partyAccount &&
-              partyAccount.admin &&
-              partyAccount.admin.length > 0 && (
-                <div>
-                  <div className={classes.root}>
-                    <Controller companies={partyAccount.admin} />
-                  </div>
-                </div>
-              )}
+
+            <div>
+              <div className={classes.root}>
+                <Controller
+                  companies={
+                    partyAccount &&
+                    partyAccount.admin &&
+                    partyAccount.admin.length > 0
+                      ? partyAccount.admin
+                      : []
+                  }
+                  user={user}
+                />
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

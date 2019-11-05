@@ -55,7 +55,6 @@ const Tags = ({ pageContext, data, classes, ...rest }) => {
                 description: item.description,
               }))
               .map(item => {
-                // console.log(item);
                 return item;
               });
           }}

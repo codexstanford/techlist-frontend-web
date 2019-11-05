@@ -1,42 +1,29 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import styled from 'styled-components';
 
 import CompanyControls from '../components/controls';
 import { CompanyAvatar, CompanyContent } from '../components';
-import truncateText from '../../../../../helpers/truncateText';
+import TruncateText from '../../../../../helpers/truncateText';
+import styled from 'styled-components';
 
-const useStyles = makeStyles({
-  divider: {
-    color: 'black',
-  },
-  listItem: {
-    diplay: 'flex',
-    justifyContent: 'space-between',
-    padding: 0,
-  },
-});
-
-export function renderCompany({ company, hasDivider = true }) {
-  const classes = useStyles();
+export function renderCompany({ company, user, hasDivider = true }) {
   return (
     <>
-      <ListItem key={company.id} component="div" className={classes.listItem}>
+      <StyledListItem key={company.id} component="div">
         <AvatarAndContentContainer>
           <CompanyAvatar company={company} />
           <CompanyContent company={company} />
         </AvatarAndContentContainer>
-        <CompanyControls company={company} />
-      </ListItem>
+        <CompanyControls company={company} user={user} />
+      </StyledListItem>
       <CompanyDescription>
-        {company.description && truncateText(company.description, 125)}
+        {company.description && (
+          <TruncateText str={company.description} length={125} />
+        )}
       </CompanyDescription>
 
-      {hasDivider && (
-        <Divider className={classes.divider} variant="fullWidth" />
-      )}
+      {hasDivider && <StyledDivider variant="fullWidth" />}
     </>
   );
 }
@@ -55,3 +42,13 @@ const CompanyDescription = styled.p`
     display: block;
   }
 `;
+
+const StyledDivider = styled(Divider)({
+  color: 'black',
+});
+
+const StyledListItem = styled(ListItem)({
+  diplay: 'flex',
+  justifyContent: 'space-between',
+  padding: 0,
+});

@@ -19,22 +19,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CompaniesListController({ companies, ...props }) {
+export default function CompaniesListController({ companies, user, ...props }) {
   const classes = useStyles();
+
   const [first, second, ...rest] = companies;
 
   return (
     <>
-      {first && renderCompany({ company: first, hasDivider: false })}
-      {second && renderCompany({ company: second, hasDivider: false })}
+      {first && renderCompany({ company: first, user, hasDivider: false })}
+      {second && renderCompany({ company: second, user, hasDivider: false })}
       {rest && rest.length > 0 ? (
         <ExpansionPanel className={classes.expansionPanel}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
           <ExpansionPanelDetails>
             <List className={classes.root}>
-              {rest.map(company => {
-                renderCompany({ company });
-              })}
+              {rest.map(company => renderCompany({ company, user }))}
             </List>
           </ExpansionPanelDetails>
         </ExpansionPanel>

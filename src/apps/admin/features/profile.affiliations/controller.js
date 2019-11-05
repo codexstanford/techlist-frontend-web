@@ -1,62 +1,59 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import List from '@material-ui/core/List';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import styled from 'styled-components';
 
 import { renderAffiliation } from './helpers';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: 'white',
-  },
-  expansionPanel: {
-    boxShadow: 'none',
-    width: '100%',
-  },
-}));
 
 export default function AffiliationsListController({
   affiliations,
   first,
   second,
   rest,
-  refetch,
+  person,
   ...props
 }) {
-  const classes = useStyles();
-
   if (affiliations) {
     return (
       <>
         {first &&
           renderAffiliation({
             affiliation: first,
-            refetch,
+            person,
             hasDivider: false,
           })}
         {second &&
           renderAffiliation({
             affiliation: second,
-            refetch,
+            person,
             hasDivider: false,
           })}
         {rest && rest.length > 0 ? (
-          <ExpansionPanel className={classes.expansionPanel}>
+          <StyledExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
             <ExpansionPanelDetails>
-              <List className={classes.root}>
+              <StyledList>
                 {rest.map(affiliation =>
-                  renderAffiliation({ affiliation, refetch })
+                  renderAffiliation({ affiliation, person })
                 )}
-              </List>
+              </StyledList>
             </ExpansionPanelDetails>
-          </ExpansionPanel>
+          </StyledExpansionPanel>
         ) : null}
       </>
     );
   }
 }
+
+const StyledList = styled(List)`
+  width: 100%;
+  backgroundcolor: white;
+`;
+
+const StyledExpansionPanel = styled(ExpansionPanel)`
+  box-shadow: none;
+  width: 100%;
+`;

@@ -1,26 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
+import styled from 'styled-components';
 
-import { EditAffiliationControl } from './edit';
-import { DeleteAffiliationControl } from './delete';
+import EditAffiliationControl from './edit';
+import DeleteAffiliationControl from './delete';
 
-const useStyles = makeStyles(theme => ({
-  listItem: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignSelf: 'flex-start',
-    flexGrow: 1,
-  },
-}));
-
-export function AfilliationControls({ affiliation, refetch, ...props }) {
-  const classes = useStyles();
+export function AfilliationControls({ affiliation, person, ...props }) {
   return (
-    <div className={classes.listItem}>
+    <StyledListItem>
       <EditAffiliationControl affiliation={affiliation} />
-      <DeleteAffiliationControl affiliation={affiliation} refetch={refetch} />
-    </div>
+      <DeleteAffiliationControl affiliation={affiliation} person={person} />
+    </StyledListItem>
   );
 }
+
+const StyledListItem = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-self: flex-start;
+  flex-grow: 1;
+`;
 
 export default AfilliationControls;
