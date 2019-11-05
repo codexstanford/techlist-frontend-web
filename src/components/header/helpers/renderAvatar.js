@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
 import { navigate } from '@reach/router';
 import PersonIcon from '@material-ui/icons/Person';
 
@@ -34,6 +35,7 @@ function renderAvatar(user) {
       </Avatar>
     );
   }
+
   return (
     <Avatar
       onClick={() => navigate('/app/profile/')}
