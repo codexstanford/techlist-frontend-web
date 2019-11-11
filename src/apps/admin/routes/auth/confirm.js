@@ -6,9 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import Link from '@material-ui/core/Link';
 import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import Auth from '@aws-amplify/auth';
+import styled from 'styled-components';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -95,6 +97,15 @@ class AlertDialogSlide extends React.Component {
                   Submit
                 </Button>
               </DialogActions>
+              <WrongNumber>
+                Wrong number?{' '}
+                <div>
+                  Contact us at{' '}
+                  <Link href="mailto:support@me.com" target="_blank">
+                    support@me.com.
+                  </Link>
+                </div>
+              </WrongNumber>
             </Dialog>
           );
         }}
@@ -102,5 +113,13 @@ class AlertDialogSlide extends React.Component {
     );
   }
 }
+
+const WrongNumber = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1em;
+  align-self: center;
+`;
 
 export default AlertDialogSlide;

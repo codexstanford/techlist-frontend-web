@@ -9,13 +9,17 @@ import styled from 'styled-components';
 
 export function renderCompany({ company, user, hasDivider = true }) {
   return (
-    <>
+    <CompanyContainer isPendingReview={company.metadata.isPendingReview}>
       <StyledListItem key={company.id} component="div">
         <AvatarAndContentContainer>
           <CompanyAvatar company={company} />
           <CompanyContent company={company} />
         </AvatarAndContentContainer>
-        <CompanyControls company={company} user={user} />
+        {company.metadata.isPendingReview ? (
+          <Pending>Pending </Pending>
+        ) : (
+          <CompanyControls company={company} user={user} />
+        )}
       </StyledListItem>
       <CompanyDescription>
         {company.description && (
@@ -24,7 +28,7 @@ export function renderCompany({ company, user, hasDivider = true }) {
       </CompanyDescription>
 
       {hasDivider && <StyledDivider variant="fullWidth" />}
-    </>
+    </CompanyContainer>
   );
 }
 
@@ -43,6 +47,16 @@ const CompanyDescription = styled.p`
   }
 `;
 
+const CompanyContainer = styled.div(props =>
+  props.isPendingReview
+    ? {
+        opacity: 0.8,
+        pointerEvents: 'none',
+        backgroundColor: '#DCDCDC',
+      }
+    : {}
+);
+
 const StyledDivider = styled(Divider)({
   color: 'black',
 });
@@ -52,3 +66,8 @@ const StyledListItem = styled(ListItem)({
   justifyContent: 'space-between',
   padding: 0,
 });
+
+const Pending = styled.span`
+  padding: 1em;
+  align-self: flex-start;
+`;
